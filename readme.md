@@ -1,1 +1,1 @@
-# react-seed
+# react-seed## webpack基于Vue官方webpack配置文件,适配react## Features
