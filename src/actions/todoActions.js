@@ -5,9 +5,23 @@
 
 import Types from '../constants/Todo'
 
-const addTodo = (todo) => {
+export const addTodo = (text) => {
     return {
         type: Types.ADD_TODO,
-        payload: todo
+        text
+    }
+}
+
+export const completeTodo = (index) => {
+    return {
+        type: Types.COMPLETE_TODO,
+        index
+    }
+}
+
+export const setVisibilityFilter = (filter) => {
+    return {
+        type: Types.SET_VISIBILITY_FILTER,
+        filter
     }
 }
