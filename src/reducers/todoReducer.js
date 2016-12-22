@@ -31,8 +31,6 @@ const completeTodo = (state, action) => {
     return state.set('todos', todos);
 }
 
-console.log(Types.SHOW_ALL)
-
 export const INITIAL_STATE = fromJS({
     todos: [],
     visibilityFilter: Types.SHOW_ALL

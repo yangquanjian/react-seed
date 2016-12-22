@@ -3,6 +3,7 @@
  * @author yankun01
  */
 
+import './css/main.less'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';

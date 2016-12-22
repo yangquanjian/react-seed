@@ -15,7 +15,7 @@ module.exports = {
     filename: '[name].js'
   },
   resolve: {
-    extensions: ['', '.js'],
+    extensions: ['', '.js', '.less', '.css'],
     fallback: [path.join(__dirname, '../node_modules')],
     alias: {
       'src': path.resolve(__dirname, '../src'),
@@ -28,12 +28,12 @@ module.exports = {
   },
   module: {
     preLoaders: [
-      {
-        test: /\.js$/,
-        loader: 'fecs-loader',
-        include: projectRoot,
-        exclude: /node_modules/
-      }
+      //{
+      //  test: /\.js$/,
+      //  loader: 'fecs-loader',
+      //  include: projectRoot,
+      //  exclude: /node_modules/
+      //}
     ],
     loaders: [
       {

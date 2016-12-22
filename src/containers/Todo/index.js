@@ -67,7 +67,6 @@ const selectTodos = (todos, filter) => {
 
 const mapStateToProps = (state) => {
     let todo = state.get('todo').toJS();
-    console.log(todo)
     return {
         visibleTodos: selectTodos(todo.todos, todo.visibilityFilter),
         visibilityFilter: todo.visibilityFilter
