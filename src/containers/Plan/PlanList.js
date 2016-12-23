@@ -81,7 +81,10 @@ class PlanList extends Component {
     render() {
         return (
             <div>
-                <Table columns={columns} dataSource={data} />
+                <Table
+                    columns={columns}
+                    dataSource={data}
+                />
             </div>
         )
     }

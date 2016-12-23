@@ -5,6 +5,7 @@
 
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {autobind} from 'core-decorators'
 import * as listActions from '../../actions/listActions'
 
 /**
@@ -41,10 +42,18 @@ export default (childState = noop, childAction = noop) => ComposedComponent => {
             getListData(entityName);
         }
 
+        @autobind
+        _handleSearch() {
+
+        }
+
         render() {
             return (
                 <div className="parent">
-                    <ComposedComponent {...this.props} />
+                    <ComposedComponent
+                        onSearch={this._handleSearch}
+                        {...this.props}
+                    />
                 </div>
             )
         }
