@@ -6,6 +6,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Actions} from '../../actions/globalActions'
+import TabBar from '../../components/tab-bar'
 
 class App extends Component  {
 
@@ -13,16 +14,18 @@ class App extends Component  {
         children: React.PropTypes.node,
     }
 
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
+    }
+
     componentDidMount() {
     }
 
     render() {
         return (
-            <div>
-                <header>Baidu Mobile DSP</header>
-                {React.Children.toArray(this.props.children)}
-                <footer>All Rights received Baidu</footer>
-            </div>
+            <TabBar />
         )
     }
 }
