@@ -14,7 +14,7 @@ import configureStore from './store';
 
 // Set up the router, wrapping all Routes in the App component
 import App from './containers/App';
-import Todo from './containers/Todo';
+import Home from './containers/Home';
 import createRoutes from './routes';
 
 // Import CSS reset and Global Styles
@@ -49,7 +49,7 @@ const history = syncHistoryWithStore(browserHistory, store, {
 const rootRoute = {
     path: '/',
     component: App,
-    indexRoute: { component: Todo },
+    indexRoute: { component: Home },
     childRoutes: createRoutes(store),
 };
 

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { TabBar } from 'antd-mobile';
+import { Link } from 'react-router';
 
 export default class MyTabBar extends Component {
 
@@ -14,7 +15,7 @@ export default class MyTabBar extends Component {
     }
 
     renderContent(content) {
-        return <p>{ content }</p>
+        return <Link to="/product">产品列表</Link>
     }
 
     render() {

@@ -4,18 +4,26 @@
  * @author yankun01
  */
 import { NotFoundPage } from './containers/NotFoundPage';
-import PlanList from './containers/Plan/PlanList';
+import tabConfig from './config/tabConfig'
+import MessageList from './containers/Message/List';
 
 export default function createRoutes(store) {
-    return [
+    return tabConfig.map(
+        item => {
+            return {
+                path: '/' + item.key,
+                component: item.component
+            }
+        }
+    ).concat([
         {
-            path: '/planList',
-            component: PlanList
+            path: '/message',
+            component: MessageList
         },
         {
             path: '*',
             name: 'notfound',
             component: NotFoundPage
         },
-    ];
+    ]);
 }

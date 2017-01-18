@@ -49,12 +49,10 @@ export default (childState = noop, childAction = noop) => ComposedComponent => {
 
         render() {
             return (
-                <div className="parent">
-                    <ComposedComponent
-                        onSearch={this._handleSearch}
-                        {...this.props}
-                    />
-                </div>
+                <ComposedComponent
+                    onSearch={this._handleSearch}
+                    {...this.props}
+                />
             )
         }
     }
