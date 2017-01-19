@@ -3,38 +3,32 @@
  * @author maoquan
  */
 
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import { ListView } from 'antd-mobile';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class CustomList extends Component {
 
-    static propTypes = {
+  static propTypes = {
+  }
 
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    constructor(props) {
-        super(props);
-    }
+  componentDidMount() {
+  }
 
-    componentDidMount() {
-    }
-
-    render() {
-        return (
-            <p>消息中心</p>
-        );
-    }
+  render() {
+    return (
+      <p>消息中心</p>
+    );
+  }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-    };
-}
+const mapStateToProps = (state, ownProps) => ({
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-    };
-}
+const mapDispatchToProps = dispatch => ({
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomList)
+export default connect(mapStateToProps, mapDispatchToProps)(CustomList);

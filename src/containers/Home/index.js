@@ -3,41 +3,28 @@
  * @author maoquan
  */
 
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {Link} from 'react-router'
+import React, { Component } from 'react';
+import { Link } from 'react-router';
 
-class Home extends Component {
+export default class Home extends Component {
 
-    static propTypes = {
+  static propTypes = {
 
-    }
+  }
 
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    componentDidMount() {
-    }
+  componentDidMount() {
+  }
 
-    render() {
-        return (
-            <div>
-                <p>首页</p>
-                <p><Link to="/message">消息中心</Link></p>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <p>首页</p>
+        <p><Link to="/message">消息中心</Link></p>
+      </div>
+    );
+  }
 }
-
-const mapStateToProps = (state, ownProps) => {
-    return {
-    };
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)

@@ -1,61 +1,45 @@
 /**
  * @file actions/listActions.js
- * @author yankun01
+ * @author maoquan
  */
 
-import Types from '../constants/List'
+import Types from '../constants/List';
 
-export const getListData = (entity) => {
-    return {
-        type: Types.GET_LIST_DATA,
-        payload: { entity }
-    }
-}
+export const getListData = entity => ({
+  type: Types.GET_LIST_DATA,
+  payload: { entity },
+});
 
-export const getListDataRequest = () => {
-    return {
-        type: Types.GET_LIST_DATA_REQUEST
-    }
-}
+export const getListDataRequest = () => ({
+  type: Types.GET_LIST_DATA_REQUEST,
+});
 
-export const getListDataRequestSuccess = ({entity, data}) => {
-    return {
-        type: Types.GET_LIST_DATA_REQUEST_SUCCESS,
-        entity,
-        data
-    }
-}
+export const getListDataRequestSuccess = ({ entity, data }) => ({
+  type: Types.GET_LIST_DATA_REQUEST_SUCCESS,
+  entity,
+  data,
+});
 
-export const getListDataRequestFailure = (error) => {
-    return {
-        type: Types.GET_LIST_DATA_REQUEST_FAILURE,
-        payload: error
-    }
-}
+export const getListDataRequestFailure = error => ({
+  type: Types.GET_LIST_DATA_REQUEST_FAILURE,
+  payload: error,
+});
 
-export const getListItemData = (entity, id) => {
-    return {
-        type: Types.GET_LIST_ITEM_DATA,
-        payload: { entity, id }
-    }
-}
+export const getListItemData = (entity, id) => ({
+  type: Types.GET_LIST_ITEM_DATA,
+  payload: { entity, id },
+});
 
-export const getListItemDataRequest = () => {
-    return {
-        type: Types.GET_LIST_ITEM_DATA_REQUEST
-    }
-}
+export const getListItemDataRequest = () => ({
+  type: Types.GET_LIST_ITEM_DATA_REQUEST,
+});
 
-export const getListItemDataRequestSuccess = (response) => {
-    return {
-        type: Types.GET_LIST_ITEM_DATA_REQUEST_SUCCESS,
-        payload: response
-    }
-}
+export const getListItemDataRequestSuccess = response => ({
+  type: Types.GET_LIST_ITEM_DATA_REQUEST_SUCCESS,
+  payload: response,
+});
 
-export const getListItemDataRequestFailure = (error) => {
-    return {
-        type: Types.GET_LIST_ITEM_DATA_REQUEST_FAILURE,
-        payload: error
-    }
-}
+export const getListItemDataRequestFailure = error => ({
+  type: Types.GET_LIST_ITEM_DATA_REQUEST_FAILURE,
+  payload: error,
+});

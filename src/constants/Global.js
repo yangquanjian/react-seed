@@ -3,8 +3,8 @@
  * @author yankun01
  */
 
-import { createTypes } from 'reduxsauce'
+import { createTypes } from 'reduxsauce';
 
 export default createTypes(`
-    SET_CURRENT_USER
-`)
+  SET_CURRENT_USER
+`);

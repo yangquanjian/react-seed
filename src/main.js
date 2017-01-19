@@ -1,24 +1,23 @@
 /**
  * @file app.js
- * @author yankun01
+ * @author maoquan
  */
 
-import './css/main.less'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { useScroll } from 'react-router-scroll';
-import configureStore from './store';
+// Import CSS reset and Global Styles
+import 'sanitize.css/sanitize.css';
 
+import configureStore from './store';
+import './css/main.less';
 // Set up the router, wrapping all Routes in the App component
 import App from './containers/App';
 import Home from './containers/Home';
 import createRoutes from './routes';
-
-// Import CSS reset and Global Styles
-import 'sanitize.css/sanitize.css';
 
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router
@@ -28,42 +27,42 @@ const initialState = {};
 const store = configureStore(initialState, browserHistory);
 
 const selectLocationState = () => {
-    let prevRoutingState;
-    let prevRoutingStateJS;
+  let prevRoutingState;
+  let prevRoutingStateJS;
 
-    return (state) => {
-        const routingState = state.get('route'); // or state.route
+  return (state) => {
+    const routingState = state.get('route'); // or state.route
 
-        if (!routingState.equals(prevRoutingState)) {
-            prevRoutingState = routingState;
-            prevRoutingStateJS = routingState.toJS();
-        }
+    if (!routingState.equals(prevRoutingState)) {
+      prevRoutingState = routingState;
+      prevRoutingStateJS = routingState.toJS();
+    }
 
-        return prevRoutingStateJS;
-    };
+    return prevRoutingStateJS;
+  };
 };
 const history = syncHistoryWithStore(browserHistory, store, {
-    selectLocationState: selectLocationState(),
+  selectLocationState: selectLocationState(),
 });
 
 const rootRoute = {
-    path: '/',
-    component: App,
-    indexRoute: { component: Home },
-    childRoutes: createRoutes(store),
+  path: '/',
+  component: App,
+  indexRoute: { component: Home },
+  childRoutes: createRoutes(store),
 };
 
 ReactDOM.render(
-    <Provider store={store}>
-        <Router
-            history={history}
-            routes={rootRoute}
-            render={
-                // Scroll to top when going to a new page, imitating default browser
-                // behaviour
-                applyRouterMiddleware(useScroll())
-            }
-        />
-    </Provider>,
-    document.getElementById('app')
+  <Provider store={store}>
+    <Router
+      history={history}
+      routes={rootRoute}
+      render={
+        // Scroll to top when going to a new page, imitating default browser
+        // behaviour
+        applyRouterMiddleware(useScroll())
+      }
+    />
+  </Provider>,
+  document.getElementById('app'),
 );

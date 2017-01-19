@@ -1,15 +1,16 @@
 /**
 * @file Base/ConnectedBaseComponent
-* @author yankun01
+* @author maoquan
 */
 
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 /**
  * 返回一个空对象的空函数
  *
  */
-const noop = () => ({})
+const noop = () => ({});
 
 /**
  * 合并多个`mapStateToProps`或`mapDispatchToProps`中返回的对象
@@ -20,12 +21,12 @@ const noop = () => ({})
  *
  * @return {Object}
  */
-const combineProps = (...args) => props => {
-    return args.reduce(
-        (combinedProps, prop) => Object.assign(combinedProps, prop(props)),
-        {}
-    )
-}
+const combineProps = (...args) => props => (
+  args.reduce(
+    (combinedProps, prop) => Object.assign(combinedProps, prop(props)),
+    {} // eslint-disable-line
+  )
+);
 
 /**
  * 需要传给`BaseComponent`的state
@@ -34,7 +35,7 @@ const combineProps = (...args) => props => {
  *
  * @return {Object}
  */
-const baseState = state => ({})
+const baseState = state => ({}); // eslint-disable-line
 
 /**
  * 需要传给`BaseComponent`的function
@@ -43,19 +44,18 @@ const baseState = state => ({})
  *
  * @return {Object}
  */
-const baseAction = dispatch => ({})
+const baseAction = dispatch => ({}); // eslint-disable-line
 
-export default (childState = noop, childAction = noop) => ComposedComponent => {
-    // eg. 如果在子组件中定义了`mapDispatchToProps`和`mapStateToProps`
-    // 把子组件中的`mapDispatchToProps`或`mapStateToProps`内的方法，覆盖基类的重名方法
-    const combinedProps = combineProps(baseState, childState)
-    const combinedDispatch = combineProps(baseAction, childAction)
+export default (childState = noop, childAction = noop) => (ComposedComponent) => {
+  // eg. 如果在子组件中定义了`mapDispatchToProps`和`mapStateToProps`
+  // 把子组件中的`mapDispatchToProps`或`mapStateToProps`内的方法，覆盖基类的重名方法
+  const combinedProps = combineProps(baseState, childState);
+  const combinedDispatch = combineProps(baseAction, childAction);
 
-    class DecoratedComponent extends Component {
-        render() {
-            return <ComposedComponent {...this.props} />
-        }
+  class DecoratedComponent extends Component {
+    render() {
+      return <ComposedComponent {...this.props} />;
     }
-
-    return connect(combinedProps, combinedDispatch)(DecoratedComponent);
-}
+  }
+  return connect(combinedProps, combinedDispatch)(DecoratedComponent);
+};
