@@ -28,12 +28,12 @@ module.exports = {
   },
   module: {
     preLoaders: [
-      {
-        test: /\.js$/,
-        loader: 'eslint-loader',
-        include: projectRoot,
-        exclude: /node_modules/
-      }
+      // {
+      //   test: /\.js$/,
+      //   loader: 'eslint-loader',
+      //   include: projectRoot,
+      //   exclude: /node_modules/
+      // }
     ],
     loaders: [
       {

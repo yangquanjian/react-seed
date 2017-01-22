@@ -15,7 +15,7 @@ class App extends Component {
 
   static propTypes = {
     children: PropTypes.node.isRequired,
-    router: PropTypes.Object.isRequired,
+    router: PropTypes.object.isRequired,
   }
 
   static defaultProps = {

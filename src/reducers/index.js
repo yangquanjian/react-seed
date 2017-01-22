@@ -10,7 +10,7 @@ import { combineReducers } from 'redux-immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 import todoReducer from './todoReducer';
-import listReducer from './listReducer';
+import productReducer from './productReducer';
 
 /*
  * routeReducer
@@ -49,7 +49,7 @@ export default function createReducer(asyncReducers) {
   return combineReducers({
     route: routeReducer,
     todo: todoReducer,
-    list: listReducer,
+    product: productReducer,
     ...asyncReducers,
   });
 }

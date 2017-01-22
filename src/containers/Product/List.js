@@ -1,47 +1,29 @@
 /**
- * @file Product/ProductList.js
+ * @file Product/List.js
  * @author maoquan
  */
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { PureComponent, PropTypes } from 'react';
+import { autobind } from 'core-decorators';
 import { ListView } from 'antd-mobile';
 
-const data = [
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
-    title: '相约酒店',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-    title: '麦当劳邀您过周末',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-    title: '食惠周',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-];
-let index = data.length - 1;
+import { productList } from '../../actions/productActions';
+import { connect } from '../../decorators/connect';
 
-const NUM_ROWS = 20;
-let pageIndex = 0;
+const mapStateToProps = state => ({
+  list: state.product.list,
+});
 
-const genData = (pIndex = 0) => {
-  const dataBlob = {};
-  for (let i = 0; i < NUM_ROWS; i++) {
-    const ii = (pIndex * NUM_ROWS) + i;
-    dataBlob[`${ii}`] = `row - ${ii}`;
-  }
-  return dataBlob;
-};
+const mapDispatchToProps = dispatch => ({
+  getList: query => (dispatch(productList.load(query))),
 
-export default class ProductList extends Component {
+});
+
+@connect(mapStateToProps, mapDispatchToProps)
+export default class ProductList extends PureComponent {
 
   static propTypes = {
-
+    getList: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -50,33 +32,52 @@ export default class ProductList extends Component {
     const dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
     });
-    this.rData = genData();
     this.state = {
-      dataSource: dataSource.cloneWithRows(this.rData),
+      dataSource,
       isLoading: false,
     };
   }
 
   componentDidMount() {
+    this.props.getList();
     // you can scroll to the specified position
     // this.refs.lv.refs.listview.scrollTo(0, 200);
   }
 
+  @autobind
   onEndReached(event) {
     // load new data
     console.log('reach end', event);
     this.setState({ isLoading: true });
-    setTimeout(() => {
-      this.rData = { ...this.rData, ...genData(++pageIndex) };
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(this.rData),
-        isLoading: false,
-      });
-    }, 1000);
+    this.props.getList();
   }
 
-  render() {
-    const separator = (sectionID, rowID) => (
+  renderRow(rowData, sectionID, rowID) {
+    const obj = rowData;
+    return (
+      <div
+        key={rowID}
+        style={{
+          padding: '0.08rem 0.16rem',
+          backgroundColor: 'white',
+        }}
+      >
+        <h3 style={{ padding: 2, marginBottom: '0.08rem', borderBottom: '1px solid #F6F6F6' }}>
+          {obj.title}
+        </h3>
+        <div style={{ display: 'flex' }}>
+          <img style={{ height: '1.28rem', marginRight: '0.08rem' }} src={obj.img} alt={obj.title} />
+          <div style={{ display: 'inline-block' }}>
+            <p>{obj.des}</p>
+            <p><span style={{ fontSize: '1.6em', color: '#FF6E27' }}>{rowID}</span>元/任务</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  renderSeparator(sectionID, rowID) {
+    return (
       <div
         key={`${sectionID}-${rowID}`}
         style={{
@@ -87,32 +88,9 @@ export default class ProductList extends Component {
         }}
       />
     );
-    const row = (rowData, sectionID, rowID) => {
-      if (index < 0) {
-        index = data.length - 1;
-      }
-      const obj = data[index--];
-      return (
-        <div
-          key={rowID}
-          style={{
-            padding: '0.08rem 0.16rem',
-            backgroundColor: 'white',
-          }}
-        >
-          <h3 style={{ padding: 2, marginBottom: '0.08rem', borderBottom: '1px solid #F6F6F6' }}>
-            {obj.title}
-          </h3>
-          <div style={{ display: 'flex' }}>
-            <img style={{ height: '1.28rem', marginRight: '0.08rem' }} src={obj.img} alt={obj.title} />
-            <div style={{ display: 'inline-block' }}>
-              <p>{obj.des}</p>
-              <p><span style={{ fontSize: '1.6em', color: '#FF6E27' }}>{rowID}</span>元/任务</p>
-            </div>
-          </div>
-        </div>
-      );
-    };
+  }
+
+  render() {
     return (
       <ListView
         dataSource={this.state.dataSource}
@@ -122,8 +100,8 @@ export default class ProductList extends Component {
             {this.state.isLoading ? '加载中...' : '加载完毕'}
           </div>
         }
-        renderRow={row}
-        renderSeparator={separator}
+        renderRow={this.renderRow}
+        renderSeparator={this.renderSeparator}
         className="am-list"
         pageSize={4}
         scrollRenderAheadDistance={500}
