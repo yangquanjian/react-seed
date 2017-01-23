@@ -6,5 +6,5 @@ export default {
   /**
    * 获取产品列表
    */
-  getProductList: api.get('/products'),
-}
+  getProductList: () => api.get('/product/list'),
+};

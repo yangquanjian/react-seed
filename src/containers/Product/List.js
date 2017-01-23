@@ -7,12 +7,15 @@ import React, { PureComponent, PropTypes } from 'react';
 import { autobind } from 'core-decorators';
 import { ListView } from 'antd-mobile';
 
+import connect from '../../decorators/connect';
 import { productList } from '../../actions/productActions';
-import { connect } from '../../decorators/connect';
+import { dataSource, prepareDataSource } from '../../utils/listView';
 
-const mapStateToProps = state => ({
-  list: state.product.list,
-});
+const mapStateToProps = state => {
+  return {
+    list: state.getIn(['product', 'list']),
+  }
+};
 
 const mapDispatchToProps = dispatch => ({
   getList: query => (dispatch(productList.load(query))),
@@ -29,11 +32,7 @@ export default class ProductList extends PureComponent {
   constructor(props) {
     super(props);
 
-    const dataSource = new ListView.DataSource({
-      rowHasChanged: (row1, row2) => row1 !== row2,
-    });
     this.state = {
-      dataSource,
       isLoading: false,
     };
   }
@@ -42,6 +41,17 @@ export default class ProductList extends PureComponent {
     this.props.getList();
     // you can scroll to the specified position
     // this.refs.lv.refs.listview.scrollTo(0, 200);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { list } = nextProps;
+    if (list !== this.props.list) {
+      this.setState({
+        list,
+        dataSource: prepareDataSource(list),
+        isLoading: false,
+      });
+    }
   }
 
   @autobind
@@ -53,7 +63,6 @@ export default class ProductList extends PureComponent {
   }
 
   renderRow(rowData, sectionID, rowID) {
-    const obj = rowData;
     return (
       <div
         key={rowID}
@@ -63,12 +72,12 @@ export default class ProductList extends PureComponent {
         }}
       >
         <h3 style={{ padding: 2, marginBottom: '0.08rem', borderBottom: '1px solid #F6F6F6' }}>
-          {obj.title}
+          {rowData.title}
         </h3>
         <div style={{ display: 'flex' }}>
-          <img style={{ height: '1.28rem', marginRight: '0.08rem' }} src={obj.img} alt={obj.title} />
+          <img style={{ height: '1.28rem', marginRight: '0.08rem' }} src={rowData.img} alt={rowData.title} />
           <div style={{ display: 'inline-block' }}>
-            <p>{obj.des}</p>
+            <p>{rowData.des}</p>
             <p><span style={{ fontSize: '1.6em', color: '#FF6E27' }}>{rowID}</span>元/任务</p>
           </div>
         </div>
@@ -91,25 +100,29 @@ export default class ProductList extends PureComponent {
   }
 
   render() {
+    const { dataSource, isLoading } = this.state;
+    if (!dataSource) {
+      return null;
+    }
     return (
       <ListView
-        dataSource={this.state.dataSource}
-        renderHeader={() => <span>header</span>}
+        dataSource={ dataSource }
+        renderHeader={ () => <span>header</span> }
         renderFooter={
           () => <div style={{ padding: 30, textAlign: 'center' }}>
-            {this.state.isLoading ? '加载中...' : '加载完毕'}
+            { isLoading ? '加载中...' : '加载完毕' }
           </div>
         }
-        renderRow={this.renderRow}
-        renderSeparator={this.renderSeparator}
+        renderRow={ this.renderRow }
+        renderSeparator={ this.renderSeparator }
         className="am-list"
-        pageSize={4}
-        scrollRenderAheadDistance={500}
-        scrollEventThrottle={20}
+        pageSize={ 4 }
+        scrollRenderAheadDistance={ 500 }
+        scrollEventThrottle={ 20 }
         onScroll={() => { console.log('scroll'); }}
         useBodyScroll
-        onEndReached={this.onEndReached}
-        onEndReachedThreshold={10}
+        onEndReached={ this.onEndReached }
+        onEndReachedThreshold={ 10 }
       />
     );
   }

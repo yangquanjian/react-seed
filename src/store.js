@@ -7,10 +7,14 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
+import createLogger from 'redux-logger';
+
 import createReducer from './reducers';
 import sagas from './sagas';
 
+const isDevelopment = process.env.NODE_ENV !== 'production';
 const sagaMiddleware = createSagaMiddleware();
+const logger = createLogger();
 
 export default function configureStore(initialState = {}, history) {
   // Create the store with two middlewares
@@ -21,6 +25,10 @@ export default function configureStore(initialState = {}, history) {
     routerMiddleware(history),
   ];
 
+  if (isDevelopment) {
+    middlewares.push(logger);
+  }
+
   const enhancers = [
     applyMiddleware(...middlewares),
   ];
@@ -28,7 +36,7 @@ export default function configureStore(initialState = {}, history) {
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
   /* eslint-disable no-underscore-dangle */
   const composeEnhancers
-    = process.env.NODE_ENV !== 'production'
+    = isDevelopment
     && typeof window === 'object'
     && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;

@@ -1,25 +1,25 @@
 /**
- * @file reducers/listReducer.js
- * @author yankun01
+ * @file reducers/productReducer.js
+ * @author maoquan(maoquan@htsc.com)
  */
 
 import { fromJS } from 'immutable';
 import { createReducer } from 'reduxsauce';
-import Types from '../constants/Product';
+import Constants from '../constants/Product';
 
 const updateList = (state, action) => {
   const { response } = action;
-  return state.set('list', response);
+  return state.set('list', response.data);
 };
 
 const INITIAL_STATE = fromJS({
-  list: {},
+  list: [],
   detail: {
   },
 });
 
 const ACTION_HANDLERS = {
-  [Types.GET_PRODUCT_LIST_SUCCESS]: updateList,
+  [Constants.GET_PRODUCT_LIST_SUCCESS]: updateList,
 };
 
 export default createReducer(INITIAL_STATE, ACTION_HANDLERS);
