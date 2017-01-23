@@ -9,7 +9,7 @@ import Constants from '../constants/Product';
 
 const updateList = (state, action) => {
   const { response } = action;
-  return state.set('list', response.data);
+  return state.update('list', list => list.concat(response.data));
 };
 
 const INITIAL_STATE = fromJS({

@@ -1,12 +1,14 @@
 import { take, put, call, fork } from 'redux-saga/effects';
 import { productList } from '../actions/productActions';
 import Constants from '../constants/Product';
+import { delay } from '../utils/sagaEffects';
 
 export default (api) => {
   function* getProductList() {
     yield put(productList.request());
     try {
       const response = yield call(api.getProductList);
+      yield delay(1000);
       yield put(productList.success(response));
     } catch (e) {
       yield put(productList.failure(e));

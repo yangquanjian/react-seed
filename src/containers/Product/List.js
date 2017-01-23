@@ -19,7 +19,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   getList: query => (dispatch(productList.load(query))),
-
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -39,15 +38,12 @@ export default class ProductList extends PureComponent {
 
   componentDidMount() {
     this.props.getList();
-    // you can scroll to the specified position
-    // this.refs.lv.refs.listview.scrollTo(0, 200);
   }
 
   componentWillReceiveProps(nextProps) {
     const { list } = nextProps;
     if (list !== this.props.list) {
       this.setState({
-        list,
         dataSource: prepareDataSource(list),
         isLoading: false,
       });
@@ -58,8 +54,16 @@ export default class ProductList extends PureComponent {
   onEndReached(event) {
     // load new data
     console.log('reach end', event);
-    this.setState({ isLoading: true });
-    this.props.getList();
+    const { isLoading } = this.state;
+    if (!isLoading) {
+      this.setState({ isLoading: true }, this.props.getList);
+    }
+  }
+
+  renderHeader() {
+    return (
+      <span>Header</span>
+    )
   }
 
   renderRow(rowData, sectionID, rowID) {
@@ -99,31 +103,39 @@ export default class ProductList extends PureComponent {
     );
   }
 
+  @autobind
+  renderFooter(...args) {
+    const { isLoading } = this.state;
+    return (
+      <div style={{ padding: 30, textAlign: 'center' }}>
+        { isLoading ? '加载中...' : '加载完毕' }
+      </div>
+    );
+  }
+
   render() {
     const { dataSource, isLoading } = this.state;
     if (!dataSource) {
       return null;
     }
     return (
-      <ListView
-        dataSource={ dataSource }
-        renderHeader={ () => <span>header</span> }
-        renderFooter={
-          () => <div style={{ padding: 30, textAlign: 'center' }}>
-            { isLoading ? '加载中...' : '加载完毕' }
-          </div>
-        }
-        renderRow={ this.renderRow }
-        renderSeparator={ this.renderSeparator }
-        className="am-list"
-        pageSize={ 4 }
-        scrollRenderAheadDistance={ 500 }
-        scrollEventThrottle={ 20 }
-        onScroll={() => { console.log('scroll'); }}
-        useBodyScroll
-        onEndReached={ this.onEndReached }
-        onEndReachedThreshold={ 10 }
-      />
+      <div className="list-container">
+        <ListView
+          className="am-list"
+          dataSource={ dataSource }
+          renderHeader={ this.renderHeader }
+          renderFooter={ this.renderFooter }
+          renderRow={ this.renderRow }
+          renderSeparator={ this.renderSeparator }
+          pageSize={ 4 }
+          scrollRenderAheadDistance={ 500 }
+          scrollEventThrottle={ 20 }
+          onScroll={() => { console.log('scroll'); }}
+          useBodyScroll
+          onEndReached={ this.onEndReached }
+          onEndReachedThreshold={ 10 }
+        />
+      </div>
     );
   }
 }

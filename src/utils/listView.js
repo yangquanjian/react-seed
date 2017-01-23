@@ -19,10 +19,12 @@ export const dataSource = new ListView.DataSource({
 /**
  * 根据列表数据，生成ListView可用的dataSource
  *
- * @param {Array|Object} listData 列表数据
- * @param {string=} sectionTitle section标题
+ * @param {Array|Object} data 列表数据
+ *
+ * @return {ListView.DataSource}
  */
-export const prepareDataSource = (listData) => {
+export const prepareDataSource = (data) => {
+  const listData = _.isFunction(data.toJS) ? data.toJS() : data;
   const sectionIDs = ['s0'];
   const rowIDs = [];
   let dataBlob = {
