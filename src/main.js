@@ -9,6 +9,8 @@ import { Provider } from 'react-redux';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { useScroll } from 'react-router-scroll';
+// https://github.com/amfe/lib-flexible
+import '../dep/flexible/flexible-0.3.2';
 // Import CSS reset and Global Styles
 import 'sanitize.css/sanitize.css';
 

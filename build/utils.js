@@ -1,6 +1,7 @@
 var path = require('path')
 var config = require('../config')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var theme = require('../src/theme/antd-config')
 
 exports.assetsPath = function (_path) {
   var assetsSubDirectory = process.env.NODE_ENV === 'production'
@@ -22,7 +23,13 @@ exports.cssLoaders = function (options) {
         loader = loader + '-loader'
         extraParamChar = '?'
       }
-      return loader + (options.sourceMap ? extraParamChar + 'sourceMap' : '')
+      return loader
+        + (
+          // 如果参数已经是接收对象参数，就不要加query了，
+          // 如: less-loader?{"modifyVars":{"@tab-bar-height":"200px"}}
+          options.sourceMap && !/\{.+?\}/.test(loader)
+            ? extraParamChar + 'sourceMap' : ''
+        )
     }).join('!')
 
     // Extract CSS when that option is specified
@@ -34,10 +41,13 @@ exports.cssLoaders = function (options) {
     }
   }
 
+  let lessModifyVars = '"modifyVars":' + JSON.stringify(theme);
+  let lessSourceMap = '"sourceMap":' + JSON.stringify(!!options.sourceMap);
+
   return {
     css: generateLoaders(['css']),
     postcss: generateLoaders(['css']),
-    less: generateLoaders(['css', 'less']),
+    less: generateLoaders(['css', 'less?{' + lessModifyVars + ',' + lessSourceMap + '}']),
     sass: generateLoaders(['css', 'sass?indentedSyntax']),
     scss: generateLoaders(['css', 'sass']),
     stylus: generateLoaders(['css', 'stylus']),
