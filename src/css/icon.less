@@ -1,19 +1,16 @@
-// font-face
-
-@iconfont-url: "../../assets/font/iconfont";
 @font-face {
   font-family: 'iconfont';
   src: url('@{iconfont-url}.eot'); /* IE9*/
   src: url('@{iconfont-url}.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('@{iconfont-url}.woff') format('woff'), /* chrome、firefox */
-  url('@{iconfont-url}.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-  url('@{iconfont-url}.svg#iconfont') format('svg'); /* iOS 4.1- */
+    url('@{iconfont-url}.woff') format('woff'), /* chrome、firefox */
+    url('@{iconfont-url}.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('@{iconfont-url}.svg#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
-  font-family:"iconfont" !important;
-  font-size:32px;
-  font-style:normal;
+  font-family: "iconfont" !important;
+  .px2rem(font-size, 40);
+  font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
