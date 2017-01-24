@@ -5,11 +5,10 @@
 
 import React, { Component, PropTypes } from 'react';
 import { TabBar } from 'antd-mobile';
+import Icon from 'components/Icon';
 import { withRouter } from 'react-router';
 
 import tabConfig from '../../config/tabConfig';
-import icon from '../../components/tab-bar/images/zhifubao.png';
-import iconSelected from '../../components/tab-bar/images/zhifubao_sel.png';
 
 class App extends Component {
 
@@ -39,6 +38,19 @@ class App extends Component {
     router.push(`/${key}`);
   }
 
+  renderIcon(icon, isSelected) {
+    const iconMap = {
+      mission: 'mission',
+      product: 'chanpin',
+      customer: 'kehu',
+      mine: 'wode',
+    }
+    return <Icon
+      className={ isSelected ? 'am-icon' : 'am-icon-selected' }
+      type={ iconMap[icon] }
+    />
+  }
+
   render() {
     const { children } = this.props;
     let findTabItem = false;
@@ -62,10 +74,9 @@ class App extends Component {
         <TabBar.Item
           key={item.key}
           title={item.label}
-          icon={icon}
-          selectedIcon={iconSelected}
+          icon={ this.renderIcon(item.key, false) }
+          selectedIcon={ this.renderIcon(item.key, true) }
           selected={activeKey === item.key}
-          badge={1}
           onPress={() => {
             this.onChange(item);
           }}

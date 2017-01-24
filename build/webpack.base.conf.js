@@ -69,3 +69,4 @@ module.exports = {
     ]
   }
 }
+console.log(utils.assetsPath('fonts/[name].[hash:7].[ext]'))

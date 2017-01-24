@@ -5,8 +5,8 @@ import Home from '../containers/Home';
 
 const tabConfig = [
   {
-    key: 'home',
-    label: '首页',
+    key: 'mission',
+    label: '任务',
     component: Home,
   },
   {
@@ -20,8 +20,8 @@ const tabConfig = [
     component: CustomerList,
   },
   {
-    key: 'report',
-    label: '报表',
+    key: 'mine',
+    label: '我的',
     component: ReportList,
   },
 ];
