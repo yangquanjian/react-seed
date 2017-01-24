@@ -11,36 +11,36 @@
 .page-enter-active,
 .page-reverse-enter,
 .page-reverse-enter-active {
-  transition: left .5s ease-in;
+  transition: transform .5s ease-in;
 }
 
 // PUSH过场
 .page-enter {
-  left: 100%;
+  transform: translateX(100vw);
   &.page-enter-active {
-    left: 0;
+    transform: translateX(0vw);
   }
 }
 
 .page-leave {
-  left: 0;
+  transform: translateX(0vw);
   &.page-leave-active {
-    left: -100%;
+    transform: translateX(-100vw);
   }
 }
 
 // POP过场
 .page-reverse-enter {
-  left: -100%;
+  transform: translateX(-100vw);
   &.page-reverse-enter-active {
-    left: 0;
+    transform: translateX(0vw);
   }
 }
 
 .page-reverse-leave {
-  left: 0;
+  transform: translateX(0vw);
   &.page-reverse-leave-active {
-    left: 100%;
+    transform: translateX(100vw);
   }
 }
 

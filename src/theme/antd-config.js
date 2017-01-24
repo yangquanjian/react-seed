@@ -11,7 +11,7 @@ module.exports = Object.assign(
   {},
   prefixMap,
   {
-    '@tab-bar-height': px2rem(150),
+    '@tab-bar-height': px2rem(120),
 
     '@font-size-icontext': px2rem(30),
     '@font-size-caption-sm': px2rem(36),
