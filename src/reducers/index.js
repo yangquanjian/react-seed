@@ -2,14 +2,13 @@
  * @file reducers/index.js
  *  Combine all reducers in this file and export the combined reducers.
  *  If we were to do this in store.js, reducers wouldn't be hot reloadable.
- * @author yankun01
+ * @author maoquan(maoquan@htsc.com)
  */
 
 import { fromJS } from 'immutable';
 import { combineReducers } from 'redux-immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
-import todoReducer from './todoReducer';
 import productReducer from './productReducer';
 
 /*
@@ -48,7 +47,6 @@ function routeReducer(state = routeInitialState, action) {
 export default function createReducer(asyncReducers) {
   return combineReducers({
     route: routeReducer,
-    todo: todoReducer,
     product: productReducer,
     ...asyncReducers,
   });

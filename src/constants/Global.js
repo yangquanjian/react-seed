@@ -1,6 +1,6 @@
 /**
  * @file constants/Global.js
- * @author yankun01
+ * @author maoquan(maoquan@htsc.com)
  */
 
 import { createTypes } from 'reduxsauce';

@@ -1,6 +1,6 @@
 /**
  * @file actions/globalActions.js
- * @author yankun01
+ * @author maoquan(maoquan@htsc.com)
  */
 
 import Types from '../constants/Global';

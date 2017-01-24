@@ -1,7 +1,7 @@
 /**
  * @file routes.js
  *  路由配置
- * @author yankun01
+ * @author maoquan(maoquan@htsc.com)
  */
 import { NotFoundPage } from './containers/NotFoundPage';
 import tabConfig from './config/tabConfig';

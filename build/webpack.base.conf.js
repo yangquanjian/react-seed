@@ -19,7 +19,7 @@ module.exports = {
     fallback: [path.join(__dirname, '../node_modules')],
     alias: {
       'src': path.resolve(__dirname, '../src'),
-      'assets': path.resolve(__dirname, '../src/assets'),
+      'static': path.resolve(__dirname, '../src/static'),
       'components': path.resolve(__dirname, '../src/components')
     }
   },
@@ -69,4 +69,3 @@ module.exports = {
     ]
   }
 }
-console.log(utils.assetsPath('fonts/[name].[hash:7].[ext]'))

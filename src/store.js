@@ -1,6 +1,6 @@
 /**
  * @file store.js
- * @author yankun01
+ * @author maoquan(maoquan@htsc.com)
  */
 
 import { createStore, applyMiddleware, compose } from 'redux';
