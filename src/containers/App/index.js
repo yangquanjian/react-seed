@@ -7,6 +7,7 @@ import React, { Component, PropTypes } from 'react';
 import { TabBar } from 'antd-mobile';
 import Icon from 'components/Icon';
 import { withRouter } from 'react-router';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 import tabConfig from '../../config/tabConfig';
 
@@ -52,7 +53,8 @@ class App extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, location } = this.props;
+    const { action, pathname } = location;
     let findTabItem = false;
     let activeKey;
     if (children) {
@@ -85,17 +87,28 @@ class App extends Component {
         </TabBar.Item>
       ),
     );
-    return findTabItem ? (
+    const main = findTabItem ? (
       <TabBar
         unselectedTintColor="#949494"
         tintColor="#33A3F4"
         barTintColor="white"
       >
-        {tabs}
+          {tabs}
       </TabBar>
     ) : (
-      <div>{children}</div>
+      <div
+        className="xx"
+        key={ pathname }
+      >{children}</div>
     );
+    return <ReactCSSTransitionGroup
+      component="section"
+      transitionName={ action === 'POP' ? 'page-reverse' : 'page' }
+      transitionEnterTimeout={ 500 }
+      transitionLeaveTimeout={ 500 }
+    >
+      { main }
+    </ReactCSSTransitionGroup>
   }
 }
 
