@@ -1,6 +1,6 @@
 /**
- * @file Custom/CustomList.js
- * @author maoquan
+ * @file custom/index.js
+ * @author maoquan(maoquan@htsc.com)
  */
 
 import React, { Component } from 'react';
@@ -9,10 +9,6 @@ export default class CustomList extends Component {
 
   static propTypes = {
 
-  }
-
-  constructor(props) {
-    super(props);
   }
 
   componentDidMount() {

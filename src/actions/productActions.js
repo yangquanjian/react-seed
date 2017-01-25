@@ -6,6 +6,8 @@
 import action from '../utils/createAction';
 import Constants from '../constants/Product';
 
+export default {};
+
 export const productList = {
   load: () => action(Constants.GET_PRODUCT_LIST),
   request: () => action(Constants.GET_PRODUCT_LIST_REQUEST),

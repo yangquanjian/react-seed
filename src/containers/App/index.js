@@ -7,6 +7,7 @@ import React, { Component, PropTypes } from 'react';
 import { TabBar } from 'antd-mobile';
 import { withRouter } from 'react-router';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { autobind } from 'core-decorators';
 
 import Icon from '../../components/Icon';
 import tabConfig from '../../config/tabConfig';
@@ -49,46 +50,45 @@ class App extends Component {
     };
     return (
       <Icon
-        className={isSelected ? 'am-icon' : 'am-icon-selected'}
+        className={isSelected ? '' : 'icon-selected'}
         type={iconMap[icon]}
       />
+    );
+  }
+
+  @autobind
+  renderTabBarItem(item) {
+    return (
+      <TabBar.Item
+        key={item.key}
+        title={item.label}
+        icon={this.renderIcon(item.key, false)}
+        selectedIcon={this.renderIcon(item.key, true)}
+        selected={item.isSelected}
+        onPress={() => {
+          this.onChange(item);
+        }}
+      >
+        {item.component}
+      </TabBar.Item>
     );
   }
 
   render() {
     const { children, location } = this.props;
     const { action, pathname } = location;
+    // tabbar内渲染 or 独立页面
     let findTabItem = false;
-    let activeKey;
-    if (children) {
-      tabConfig.forEach(
-        (item) => {
-          const { component } = item;
-          if (component === children.type
-            || component.type === children.type) {
-            // better immutable
-            findTabItem = true;
-            item.component = children;
-            activeKey = item.key;
-          }
-        },
-      );
-    }
     const tabs = tabConfig.map(
-      item => (
-        <TabBar.Item
-          key={item.key}
-          title={item.label}
-          icon={this.renderIcon(item.key, false)}
-          selectedIcon={this.renderIcon(item.key, true)}
-          selected={activeKey === item.key}
-          onPress={() => {
-            this.onChange(item);
-          }}
-        >
-          {item.component}
-        </TabBar.Item>
-      ),
+      (item) => {
+        const { component } = item;
+        if (component === children.type
+          || component.type === children.type) {
+          findTabItem = true;
+          return this.renderTabBarItem({ ...item, component: children, isSelected: true });
+        }
+        return this.renderTabBarItem(item);
+      },
     );
     const main = findTabItem ? (
       <TabBar
@@ -100,7 +100,7 @@ class App extends Component {
       </TabBar>
     ) : (
       <div
-        className="xx"
+        className="page-container"
         key={pathname}
       >{children}</div>
     );

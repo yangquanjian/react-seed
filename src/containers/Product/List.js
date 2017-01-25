@@ -50,9 +50,7 @@ export default class ProductList extends PureComponent {
   }
 
   @autobind
-  onEndReached(event) {
-    // load new data
-    console.log('reach end', event);
+  onEndReached() {
     const { isLoading } = this.state;
     if (!isLoading) {
       this.setState({ isLoading: true }, this.props.getList);
@@ -129,7 +127,6 @@ export default class ProductList extends PureComponent {
           pageSize={4}
           scrollRenderAheadDistance={500}
           scrollEventThrottle={20}
-          onScroll={() => { console.log('scroll'); }}
           useBodyScroll
           onEndReached={this.onEndReached}
           onEndReachedThreshold={10}

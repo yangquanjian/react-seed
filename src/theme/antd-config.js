@@ -23,5 +23,5 @@ module.exports = Object.assign(
     '@font-size-display-md': px2rem(63),
     '@font-size-display-lg': px2rem(72),
     '@font-size-display-xl': px2rem(90),
-  }
+  } // eslint-disable-line
 );
