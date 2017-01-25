@@ -7,7 +7,10 @@ import Types from '../constants/Global';
 
 export default {};
 
-export const setCurrentUser = user => ({
-  type: Types.SET_CURRENT_USER,
-  payload: user,
+export const showLoading = () => ({
+  type: Types.SHOW_LOADING,
+});
+
+export const hideLoading = () => ({
+  type: Types.HIDE_LOADING,
 });

@@ -4,7 +4,8 @@
 */
 
 import React, { Component, PropTypes } from 'react';
-import { TabBar } from 'antd-mobile';
+import connect from '../../decorators/connect';
+import { TabBar, ActivityIndicator } from 'antd-mobile';
 import { withRouter } from 'react-router';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { autobind } from 'core-decorators';
@@ -12,6 +13,11 @@ import { autobind } from 'core-decorators';
 import Icon from '../../components/Icon';
 import tabConfig from '../../config/tabConfig';
 
+const mapStateToProps = state => ({
+  loading: state.getIn(['global', 'loading']),
+});
+
+@connect(mapStateToProps)
 class App extends Component {
 
   static propTypes = {
@@ -75,7 +81,7 @@ class App extends Component {
   }
 
   render() {
-    const { children, location } = this.props;
+    const { children, location, loading } = this.props;
     const { action, pathname } = location;
     // tabbar内渲染 or 独立页面
     let findTabItem = false;
@@ -105,14 +111,17 @@ class App extends Component {
       >{children}</div>
     );
     return (
-      <ReactCSSTransitionGroup
-        component="section"
-        transitionName={action === 'POP' ? 'page-reverse' : 'page'}
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={500}
-      >
-        {main}
-      </ReactCSSTransitionGroup>
+      <div className="page-wrapper">
+        <ReactCSSTransitionGroup
+          component="section"
+          transitionName={action === 'POP' ? 'page-reverse' : 'page'}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+        >
+          {main}
+        </ReactCSSTransitionGroup>
+        <ActivityIndicator toast animating={loading} text="正在加载" />
+      </div>
     );
   }
 }

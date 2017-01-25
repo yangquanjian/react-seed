@@ -6,5 +6,6 @@
 import { createTypes } from 'reduxsauce';
 
 export default createTypes(`
-  SET_CURRENT_USER
+  SHOW_LOADING
+  HIDE_LOADING
 `);
