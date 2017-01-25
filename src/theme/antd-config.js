@@ -1,11 +1,11 @@
-var prefixMap = require('./antd-prefix');
+const prefixMap = require('./antd-prefix');
 
-var baseREM = 75;
+const baseREM = 75;
 
 /**
  * px是750px设计稿上取到的元素尺寸
  */
-const px2rem = px => (`${px / baseREM}rem`)
+const px2rem = px => (`${px / baseREM}rem`);
 
 module.exports = Object.assign(
   {},

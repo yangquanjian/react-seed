@@ -5,8 +5,8 @@
 import React, { PropTypes } from 'react';
 
 export default function Icon(props) {
-  const { type, className = '' } = props;
-  return <i {...props} className={ `${className} iconfont icon-${type}`.trim() } />;
+  const { type, className } = props;
+  return <i {...props} className={`${className} iconfont icon-${type}`.trim()} />;
 }
 
 Icon.propTypes = {
@@ -17,5 +17,7 @@ Icon.propTypes = {
 };
 
 Icon.defaultProps = {
-  onClick: (e) => void 0,
+  className: '',
+  title: '',
+  onClick: () => undefined,
 };

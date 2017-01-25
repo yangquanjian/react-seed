@@ -1,5 +1,5 @@
 /**
- * @file Product/List.js
+ * @file product/List.js
  * @author maoquan
  */
 
@@ -9,13 +9,11 @@ import { ListView } from 'antd-mobile';
 
 import connect from '../../decorators/connect';
 import { productList } from '../../actions/productActions';
-import { dataSource, prepareDataSource } from '../../utils/listView';
+import { prepareDataSource } from '../../utils/listView';
 
-const mapStateToProps = state => {
-  return {
-    list: state.getIn(['product', 'list']),
-  }
-};
+const mapStateToProps = state => ({
+  list: state.getIn(['product', 'list']),
+});
 
 const mapDispatchToProps = dispatch => ({
   getList: query => (dispatch(productList.load(query))),
@@ -25,6 +23,7 @@ const mapDispatchToProps = dispatch => ({
 export default class ProductList extends PureComponent {
 
   static propTypes = {
+    list: PropTypes.object.isRequired,
     getList: PropTypes.func.isRequired,
   }
 
@@ -63,7 +62,7 @@ export default class ProductList extends PureComponent {
   renderHeader() {
     return (
       <span>Header</span>
-    )
+    );
   }
 
   renderRow(rowData, sectionID, rowID) {
@@ -104,7 +103,7 @@ export default class ProductList extends PureComponent {
   }
 
   @autobind
-  renderFooter(...args) {
+  renderFooter() {
     const { isLoading } = this.state;
     return (
       <div style={{ padding: 30, textAlign: 'center' }}>
@@ -114,7 +113,7 @@ export default class ProductList extends PureComponent {
   }
 
   render() {
-    const { dataSource, isLoading } = this.state;
+    const { dataSource } = this.state;
     if (!dataSource) {
       return null;
     }
@@ -122,18 +121,18 @@ export default class ProductList extends PureComponent {
       <div className="list-container">
         <ListView
           className="am-list"
-          dataSource={ dataSource }
-          renderHeader={ this.renderHeader }
-          renderFooter={ this.renderFooter }
-          renderRow={ this.renderRow }
-          renderSeparator={ this.renderSeparator }
-          pageSize={ 4 }
-          scrollRenderAheadDistance={ 500 }
-          scrollEventThrottle={ 20 }
+          dataSource={dataSource}
+          renderHeader={this.renderHeader}
+          renderFooter={this.renderFooter}
+          renderRow={this.renderRow}
+          renderSeparator={this.renderSeparator}
+          pageSize={4}
+          scrollRenderAheadDistance={500}
+          scrollEventThrottle={20}
           onScroll={() => { console.log('scroll'); }}
           useBodyScroll
-          onEndReached={ this.onEndReached }
-          onEndReachedThreshold={ 10 }
+          onEndReached={this.onEndReached}
+          onEndReachedThreshold={10}
         />
       </div>
     );

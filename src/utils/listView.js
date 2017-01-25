@@ -6,7 +6,7 @@ export const dataSource = new ListView.DataSource({
     return data[sectionID];
   },
   getRowData(data, sectionID, rowID) {
-    return data[sectionID + '-' + rowID];
+    return data[`${sectionID}-${rowID}`];
   },
   rowHasChanged(r1, r2) {
     return r1 !== r2;
@@ -14,7 +14,7 @@ export const dataSource = new ListView.DataSource({
   sectionHeaderHasChanged(s1, s2) {
     return s1 !== s2;
   },
-})
+});
 
 /**
  * 根据列表数据，生成ListView可用的dataSource
@@ -27,22 +27,21 @@ export const prepareDataSource = (data) => {
   const listData = _.isFunction(data.toJS) ? data.toJS() : data;
   const sectionIDs = ['s0'];
   const rowIDs = [];
-  let dataBlob = {
+  const dataBlob = {
     s0: {},
   };
   if (!_.isEmpty(listData)) {
     rowIDs.push(
       listData.map(
         (item, index) => {
-          let rowID = `s0-r${index}`
+          const rowID = `s0-r${index}`;
           dataBlob[rowID] = item;
           return `r${index}`;
-        }
-      )
-    )
-  }
-  else {
+        },
+      ),
+    );
+  } else {
     rowIDs.push([]);
   }
-  return dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs)
-}
+  return dataSource.cloneWithRowsAndSections(dataBlob, sectionIDs, rowIDs);
+};

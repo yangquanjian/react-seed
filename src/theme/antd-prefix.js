@@ -37,5 +37,5 @@ module.exports = {
   '@textareaPrefixCls': 'am-textarea',
   '@toastPrefixCls': 'am-toast',
   '@whitespacePrefixCls': 'am-whitespace',
-  '@wingblankPrefixCls': 'am-wingblank'
-}
+  '@wingblankPrefixCls': 'am-wingblank',
+};

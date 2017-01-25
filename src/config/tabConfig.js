@@ -1,13 +1,13 @@
-import ProductList from '../containers/Product/List';
-import CustomerList from '../containers/Customer/List';
-import ReportList from '../containers/Report/List';
-import Home from '../containers/Home';
+import ProductList from '../containers/product/List';
+import CustomerList from '../containers/customer/List';
+import Mission from '../containers/mission';
+import Profile from '../containers/profile';
 
 const tabConfig = [
   {
     key: 'mission',
     label: '任务',
-    component: Home,
+    component: Mission,
   },
   {
     key: 'product',
@@ -22,7 +22,7 @@ const tabConfig = [
   {
     key: 'mine',
     label: '我的',
-    component: ReportList,
+    component: Profile,
   },
 ];
 

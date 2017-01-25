@@ -3,9 +3,9 @@
  *  路由配置
  * @author maoquan(maoquan@htsc.com)
  */
-import { NotFoundPage } from './containers/NotFoundPage';
+import { NotFoundPage } from './containers/error';
 import tabConfig from './config/tabConfig';
-import MessageList from './containers/Message/List';
+import Message from './containers/message';
 
 export default function createRoutes(store) { // eslint-disable-line
   return tabConfig.map(
@@ -16,7 +16,7 @@ export default function createRoutes(store) { // eslint-disable-line
   ).concat([
     {
       path: '/message',
-      component: MessageList,
+      component: Message,
     },
     {
       path: '*',

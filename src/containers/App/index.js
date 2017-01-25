@@ -1,14 +1,14 @@
 /**
-* @file App/index.js
-* @author maoquan
+* @file app/index.js
+* @author maoquan(maoquan@htsc.com)
 */
 
 import React, { Component, PropTypes } from 'react';
 import { TabBar } from 'antd-mobile';
-import Icon from 'components/Icon';
 import { withRouter } from 'react-router';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
+import Icon from '../../components/Icon';
 import tabConfig from '../../config/tabConfig';
 
 class App extends Component {
@@ -16,6 +16,7 @@ class App extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     router: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -45,11 +46,13 @@ class App extends Component {
       product: 'chanpin',
       customer: 'kehu',
       mine: 'wode',
-    }
-    return <Icon
-      className={ isSelected ? 'am-icon' : 'am-icon-selected' }
-      type={ iconMap[icon] }
-    />
+    };
+    return (
+      <Icon
+        className={isSelected ? 'am-icon' : 'am-icon-selected'}
+        type={iconMap[icon]}
+      />
+    );
   }
 
   render() {
@@ -76,8 +79,8 @@ class App extends Component {
         <TabBar.Item
           key={item.key}
           title={item.label}
-          icon={ this.renderIcon(item.key, false) }
-          selectedIcon={ this.renderIcon(item.key, true) }
+          icon={this.renderIcon(item.key, false)}
+          selectedIcon={this.renderIcon(item.key, true)}
           selected={activeKey === item.key}
           onPress={() => {
             this.onChange(item);
@@ -93,22 +96,24 @@ class App extends Component {
         tintColor="#33A3F4"
         barTintColor="white"
       >
-          {tabs}
+        {tabs}
       </TabBar>
     ) : (
       <div
         className="xx"
-        key={ pathname }
+        key={pathname}
       >{children}</div>
     );
-    return <ReactCSSTransitionGroup
-      component="section"
-      transitionName={ action === 'POP' ? 'page-reverse' : 'page' }
-      transitionEnterTimeout={ 500 }
-      transitionLeaveTimeout={ 500 }
-    >
-      { main }
-    </ReactCSSTransitionGroup>
+    return (
+      <ReactCSSTransitionGroup
+        component="section"
+        transitionName={action === 'POP' ? 'page-reverse' : 'page'}
+        transitionEnterTimeout={500}
+        transitionLeaveTimeout={500}
+      >
+        {main}
+      </ReactCSSTransitionGroup>
+    );
   }
 }
 

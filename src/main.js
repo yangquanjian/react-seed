@@ -9,16 +9,16 @@ import { Provider } from 'react-redux';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { useScroll } from 'react-router-scroll';
-// https://github.com/amfe/lib-flexible
-import '../dep/flexible/flexible-0.3.2';
 // Import CSS reset and Global Styles
 import 'sanitize.css/sanitize.css';
 
-import configureStore from './store';
+// https://github.com/amfe/lib-flexible
+import '../dep/flexible/flexible-0.3.2';
 import './css/main.less';
-// Set up the router, wrapping all Routes in the App component
-import App from './containers/App';
-import Home from './containers/Home';
+
+import configureStore from './store';
+import App from './containers/app';
+import Mission from './containers/mission';
 import createRoutes from './routes';
 
 // Create redux store with history
@@ -50,7 +50,7 @@ const history = syncHistoryWithStore(browserHistory, store, {
 const rootRoute = {
   path: '/',
   component: App,
-  indexRoute: { component: Home },
+  indexRoute: { component: Mission },
   childRoutes: createRoutes(store),
 };
 
