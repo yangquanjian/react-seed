@@ -5,7 +5,7 @@ import { delay } from '../utils/sagaEffects';
 
 export default () => {
 
-  // 显示Loading，同时设定超时时间
+  // 显示Loading，同时设定超时隐藏
   function *showSafety() {
     yield put(showLoading())
     yield delay(20000)

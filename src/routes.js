@@ -5,7 +5,6 @@
  */
 import { NotFoundPage } from './containers/error';
 import tabConfig from './config/tabConfig';
-import Message from './containers/message';
 
 export default function createRoutes(store) { // eslint-disable-line
   return tabConfig.map(
@@ -14,10 +13,6 @@ export default function createRoutes(store) { // eslint-disable-line
       component: item.component,
     }),
   ).concat([
-    {
-      path: '/message',
-      component: Message,
-    },
     {
       path: '*',
       name: 'notfound',

@@ -7,9 +7,9 @@ import React, { Component, PropTypes } from 'react';
 import connect from '../../decorators/connect';
 import { TabBar, ActivityIndicator } from 'antd-mobile';
 import { withRouter } from 'react-router';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { autobind } from 'core-decorators';
 
+import TabPane from './TabPane';
 import Icon from '../../components/Icon';
 import tabConfig from '../../config/tabConfig';
 
@@ -47,12 +47,12 @@ class App extends Component {
     router.push(`/${key}`);
   }
 
-  renderIcon(icon, isSelected) {
+  renderIcon(icon, isSelected = false) {
     const iconMap = {
       mission: 'mission',
       product: 'chanpin',
       customer: 'kehu',
-      mine: 'wode',
+      profile: 'wode',
     };
     return (
       <Icon
@@ -75,7 +75,7 @@ class App extends Component {
           this.onChange(item);
         }}
       >
-        {item.component}
+        { item.component }
       </TabBar.Item>
     );
   }
@@ -87,13 +87,11 @@ class App extends Component {
     let findTabItem = false;
     const tabs = tabConfig.map(
       (item) => {
-        const { component } = item;
-        if (component === children.type
-          || component.type === children.type) {
+        if (pathname.slice(1).startsWith(item.key)) {
           findTabItem = true;
           return this.renderTabBarItem({ ...item, component: children, isSelected: true });
         }
-        return this.renderTabBarItem(item);
+        return this.renderTabBarItem({ ...item, component: TabPane });
       },
     );
     const main = findTabItem ? (
@@ -107,19 +105,11 @@ class App extends Component {
     ) : (
       <div
         className="page-container"
-        key={pathname}
       >{children}</div>
     );
     return (
       <div className="page-wrapper">
-        <ReactCSSTransitionGroup
-          component="section"
-          transitionName={action === 'POP' ? 'page-reverse' : 'page'}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
-        >
-          {main}
-        </ReactCSSTransitionGroup>
+        {main}
         <ActivityIndicator toast animating={loading} text="正在加载" />
       </div>
     );

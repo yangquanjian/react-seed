@@ -1,24 +1,24 @@
 /**
- * @file mission/index.js
+ * @file mission/Home.js
  * @author maoquan(maoquan@htsc.com)
  */
 
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-export default function Mission(props) {
+export default function MissionHome(props) {
   return (
     <div>
       <p>{ props.title }</p>
-      <p><Link to="/message">消息中心</Link></p>
+      <p><Link to="/mission/1">任务详情</Link></p>
     </div>
   );
 }
 
-Mission.propTypes = {
+MissionHome.propTypes = {
   title: PropTypes.string,
 };
 
-Mission.defaultProps = {
-  title: '首页',
+MissionHome.defaultProps = {
+  title: '任务默认首页',
 };

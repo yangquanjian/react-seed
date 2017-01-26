@@ -1,18 +1,18 @@
 /**
- * @file message/index.js
+ * @file mission/Detail.js
  * @author maoquan(maoquan@htsc.com)
  */
 
 import React, { PropTypes } from 'react';
 
-export default function Message(props) {
+export default function MissionDetail(props) {
   return <p>{ props.title }</p>;
 }
 
-Message.propTypes = {
+MissionDetail.propTypes = {
   title: PropTypes.string,
 };
 
-Message.defaultProps = {
-  title: '消息中心',
+MissionDetail.defaultProps = {
+  title: '任务详情',
 };

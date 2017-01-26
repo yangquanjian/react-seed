@@ -1,6 +1,6 @@
 /**
  * @file connect decorator
- * @author maoquan
+ * @author maoquan(maoquan@htsc.com)
  */
 
 import { connect } from 'react-redux';
