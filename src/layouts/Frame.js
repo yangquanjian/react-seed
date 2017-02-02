@@ -10,7 +10,7 @@ import { withRouter } from 'react-router';
 import { autobind } from 'core-decorators';
 
 import TabPane from './TabPane';
-import Icon from '../components/Icon';
+import Icon from '../components/common/Icon';
 import tabConfig from '../config/tabConfig';
 
 import '../css/main.less';
