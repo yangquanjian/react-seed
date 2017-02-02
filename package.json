@@ -25,6 +25,7 @@
     "react": "^15.1.0",
     "react-addons-css-transition-group": "^15.4.2",
     "react-dom": "^15.4.1",
+    "react-immutable-proptypes": "^2.1.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.5.1",
     "react-router-redux": "^4.0.5",

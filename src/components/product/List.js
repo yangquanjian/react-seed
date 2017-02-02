@@ -6,6 +6,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
 import { ListView } from 'antd-mobile';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { prepareDataSource } from '../../utils/listView';
 import ListItem from './ListItem';
@@ -14,7 +15,7 @@ import './list.less';
 export default class ProductList extends PureComponent {
 
   static propTypes = {
-    list: PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    list: ImmutablePropTypes.list.isRequired,
     getList: PropTypes.func.isRequired,
     push: PropTypes.func,
   }
