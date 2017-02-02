@@ -103,6 +103,6 @@
     "npm": ">= 3.0.0"
   },
   "pre-commit": [
-    "eslint"
+    "lint"
   ]
 }

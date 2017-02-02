@@ -11,7 +11,7 @@ export default () => {
   }
 
   function* watchRequest() {
-    while (true) {
+    while (true) { // eslint-disable-line
       const action = yield take('*');
       if (/_SUCCESS$/.test(action.type) || /_FAILURE$/.test(action.type)) {
         yield put(hideLoading());
