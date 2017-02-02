@@ -2,11 +2,11 @@
 
 ## 目录说明
 
-[目录说明](./docs/dev.md#文件目录结构)
+[目录说明](./docs/catelog.md)
 
 ## 开发步骤
 
-[开发步骤](./docs/dev.md#开发步骤)
+[开发步骤](./docs/dev.md)
 
 ## react学习资源
 
