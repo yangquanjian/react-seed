@@ -7,7 +7,7 @@ var env = process.env.NODE_ENV
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: './src/app.js'
   },
   output: {
     path: config.build.assetsRoot,

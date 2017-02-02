@@ -10,7 +10,7 @@ import createSagaMiddleware from 'redux-saga';
 import createLogger from 'redux-logger';
 
 import createReducer from './reducers';
-import sagas from './sagas';
+import sagas from '../sagas';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const sagaMiddleware = createSagaMiddleware();

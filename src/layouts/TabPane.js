@@ -18,13 +18,15 @@ export default function TabPane(props) {
       transitionLeaveTimeout={500}
     >
       {React.cloneElement(children, {
-        key: pathname
+        key: pathname,
       })}
     </ReactCSSTransitionGroup>
   );
 }
 
 TabPane.propTypes = {
+  location: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 TabPane.defaultProps = {

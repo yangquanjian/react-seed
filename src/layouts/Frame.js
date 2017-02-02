@@ -1,29 +1,32 @@
 /**
-* @file app/index.js
+* @file layouts/Frame.js
 * @author maoquan(maoquan@htsc.com)
 */
 
 import React, { Component, PropTypes } from 'react';
-import connect from '../../decorators/connect';
+import { connect } from 'react-redux';
 import { TabBar, ActivityIndicator } from 'antd-mobile';
 import { withRouter } from 'react-router';
 import { autobind } from 'core-decorators';
 
 import TabPane from './TabPane';
-import Icon from '../../components/Icon';
-import tabConfig from '../../config/tabConfig';
+import Icon from '../components/Icon';
+import tabConfig from '../config/tabConfig';
+
+import '../css/main.less';
 
 const mapStateToProps = state => ({
   loading: state.getIn(['global', 'loading']),
 });
 
 @connect(mapStateToProps)
-class App extends Component {
+class Frame extends Component {
 
   static propTypes = {
     children: PropTypes.node.isRequired,
     router: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -82,7 +85,7 @@ class App extends Component {
 
   render() {
     const { children, location, loading } = this.props;
-    const { action, pathname } = location;
+    const { pathname } = location;
     // tabbar内渲染 or 独立页面
     let findTabItem = false;
     const tabs = tabConfig.map(
@@ -116,4 +119,4 @@ class App extends Component {
   }
 }
 
-export default withRouter(App);
+export default withRouter(Frame);

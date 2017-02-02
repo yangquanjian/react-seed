@@ -1,23 +1,22 @@
 import { take, put, call, fork } from 'redux-saga/effects';
-import { productList } from '../actions/productActions';
-import Constants from '../constants/Product';
+import { actions as homeActions, constants as homeConstants } from '../views/product/HomeRedux';
 import { delay } from '../utils/sagaEffects';
 
 export default (api) => {
   function* getProductList() {
-    yield put(productList.request());
+    yield put(homeActions.list.request());
     try {
       const response = yield call(api.getProductList);
       yield delay(1000);
-      yield put(productList.success(response));
+      yield put(homeActions.list.success(response));
     } catch (e) {
-      yield put(productList.failure(e));
+      yield put(homeActions.list.failure(e));
     }
   }
 
   function* watchGetProductList() {
     while (true) { // eslint-disable-line
-      yield take(Constants.GET_PRODUCT_LIST);
+      yield take(homeConstants.list.LOAD);
       yield call(getProductList);
     }
   }

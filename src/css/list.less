@@ -1,8 +1,16 @@
-.list-container {
+/** 如果当期页面有tabbar，要把高度减去tabbar height */
+.list-over-tabbar {
   height: 100%;
   .@{listPrefixCls} {
     &-footer {
-      padding-bottom: @tab-bar-height
+      padding-bottom: @tab-bar-height;
     }
   }
+}
+
+.@{listPrefixCls} {
+    &-footer > div {
+      .px2rem(padding, 30);
+      text-align: center;
+    }
 }

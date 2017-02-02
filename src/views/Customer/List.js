@@ -1,5 +1,5 @@
 /**
- * @file custom/index.js
+ * @file custom/List.js
  * @author maoquan(maoquan@htsc.com)
  */
 

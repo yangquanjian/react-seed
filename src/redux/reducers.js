@@ -9,8 +9,8 @@ import { fromJS } from 'immutable';
 import { combineReducers } from 'redux-immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
-import globalReducer from './globalReducer';
-import productReducer from './productReducer';
+import globalReducer from './global';
+import productHome from '../views/product/HomeRedux';
 
 /*
  * routeReducer
@@ -49,7 +49,7 @@ export default function createReducer(asyncReducers) {
   return combineReducers({
     route: routeReducer,
     global: globalReducer,
-    product: productReducer,
+    productHome,
     ...asyncReducers,
   });
 }
