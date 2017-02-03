@@ -1,4 +1,4 @@
-# react-seed
+# 移动CRM web
 
 ## 开发环境
 
