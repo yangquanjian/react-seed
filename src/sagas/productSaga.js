@@ -1,3 +1,8 @@
+/**
+ * @file sagas/productSaga.js
+ * @author maoquan(maoquan@htsc.com)
+ */
+
 import { take, call, fork } from 'redux-saga/effects';
 import { actions as homeActions, constants as homeConstants } from '../views/product/HomeRedux';
 import { createFetchGenerator } from '../utils/createSagas';

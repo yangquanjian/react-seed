@@ -1,5 +1,5 @@
 /**
- * @file index.js
+ * @file routes/index.js
  * @author maoquan(maoquan@htsc.com)
  */
 

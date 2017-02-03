@@ -1,3 +1,8 @@
+/**
+ * @file sagas/globalSaga.js
+ * @author maoquan(maoquan@htsc.com)
+ */
+
 import { take, put, fork } from 'redux-saga/effects';
 import { showLoading, hideLoading } from '../redux/global';
 import { delay } from '../utils/sagaEffects';

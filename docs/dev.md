@@ -187,33 +187,25 @@ export default class ProductList extends PureComponent {
   3. props全部从父组件中获取；
   4. 样式文件（list.less）直接在js中引入，webpack中的css-loader会自动处理;
 
+我们知道，ProductList组件最终会被view组件(views/product/Home.js)引用，作为页面的一部分，同时，ProductList组件应向view组件提供一份配置，比如如何获取list数据,页面上该组件有哪些交互等，以便view组件将合适的props传递给ProductList组件。
 
-新建ListRedux文件，该文件是ProductList的redux配置文件，父组件根据该配置文件拿到数据和相关action并填充给ProductList组件，ListRedux主要代码：
+上述组件配置文件就是ListRedux文件，ListRedux主要代码：
 
 ```
 import { fromJS } from 'immutable';
-import { createReducer, createTypes } from 'reduxsauce';
-import createAction from '../../utils/createAction';
+import { createReducer } from 'reduxsauce';
+import { createRequestActions } from '../../utils/createAction';
+import { createRequestConstants } from '../../utils/createConstants';
 
 /**
  * constants
  */
-export const constants = createTypes(`
-  LOAD
-  REQUEST
-  SUCCESS
-  FAILURE
-`, { prefix: 'GET_PRODUCT_LIST_' });
+export const constants = createRequestConstants('GET_PRODUCT_LIST_');
 
 /**
  * actions
  */
-export const actions = {
-  load: () => createAction(constants.LOAD),
-  request: () => createAction(constants.REQUEST),
-  success: response => createAction(constants.SUCCESS, { response }),
-  failure: error => createAction(constants.FAILURE, { error }),
-};
+export const actions = createRequestActions(constants);
 
 /**
  * reducers
@@ -234,6 +226,12 @@ const ACTION_HANDLERS = {
 export default createReducer(INITIAL_STATE, ACTION_HANDLERS);
 ```
 
+上述代码中，主要包括三种类型的数据：
+
+  * constants: 主要包括请求过程中用到的action名称, 如XXX_LOAD, XXX_REQUEST, XXX_SUCCESS, XXX_FAILURE
+  * actions: 请求数据用到的action函数，{ Load, request, success, failure }
+  * reducer: 接收redux派发出来的action，并改变store数据
+
 从上面代码中，我们定义了actions.load来获取列表数据，但是actions.load只是一个action，并没有真的发起ajax请求和后端交互，这个工作是由`redux-saga`来完成的，`redex-saga`通过监听`constants.LOAD`这个action，并发起ajax请求，获取数据后再dispatch`constants.SUCCESS` action通知 reducer来更新列表数据(updateList),从而触发组件渲染。
 
 ### 4. 创建saga处理异步请求
@@ -241,21 +239,13 @@ export default createReducer(INITIAL_STATE, ACTION_HANDLERS);
 在src/sagas中新建productSaga.js,用于处理所有理财产品相关的异步请求：
 
 ```
-import { take, put, call, fork } from 'redux-saga/effects';
+import { take, call, fork } from 'redux-saga/effects';
 import { actions as homeActions, constants as homeConstants } from '../views/product/HomeRedux';
-import { delay } from '../utils/sagaEffects';
+import { createFetchGenerator } from '../utils/createSagas';
 
 export default (api) => {
-  function* getProductList() {
-    yield put(homeActions.list.request());
-    try {
-      const response = yield call(api.getProductList);
-      yield delay(1000);
-      yield put(homeActions.list.success(response));
-    } catch (e) {
-      yield put(homeActions.list.failure(e));
-    }
-  }
+  // 获取客户详情
+  const getProductList = createFetchGenerator(homeActions.list, api.getProductList);
 
   function* watchGetProductList() {
     while (true) { // eslint-disable-line
@@ -271,6 +261,8 @@ export default (api) => {
   return watcher;
 };
 ```
+
+其中，`createFetchGenerator`是一个通用的生成异步获取数据函数的函数， 具体参考[utils/createSagas](src/utils/createSagas)
 
 并将此saga添加到sagas/index.js中以便在应用启动时生效：
 

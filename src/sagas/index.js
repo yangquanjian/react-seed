@@ -1,3 +1,8 @@
+/**
+ * @file sagas/index.js
+ * @author maoquan(maoquan@htsc.com)
+ */
+
 import { fork } from 'redux-saga/effects';
 import globalSaga from './globalSaga';
 import productSaga from './productSaga';

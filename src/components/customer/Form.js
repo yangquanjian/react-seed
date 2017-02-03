@@ -14,7 +14,6 @@ import {
   WingBlank,
 } from 'antd-mobile';
 import { createForm } from 'rc-form';
-
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 @createForm()
