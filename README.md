@@ -1,12 +1,45 @@
 # react-seed
 
+## 开发环境
+
+windows下推荐安装终端环境：[cmder.net](http://cmder.net/)
+
+安装nodejs: https://nodejs.org/en/
+
+### 启动项目
+
+进入项目目录,运行
+
+```
+npm install
+npm run dev
+```
+
+即可进行开发
+
+### 项目打包
+
+```
+npm run build
+```
+
+### 代码检查
+
+```
+npm run lint
+```
+
+### git commit hook
+
+git commit时会运行lint进行代码静态检查，代码检查通过才可以正常commit
+
 ## 目录说明
 
-[目录说明](./docs/catelog.md)
+[目录说明](docs/catelog.md)
 
 ## 开发步骤
 
-[开发步骤](./docs/dev.md)
+[开发步骤](docs/dev.md)
 
 ## react学习资源
 
