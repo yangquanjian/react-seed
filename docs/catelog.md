@@ -34,7 +34,6 @@
 
   ▸ css/						这里放通用的样式文件，比如`通用mixin` `全局调色板` `通用列表样式` 等	
 
-​			
   ▸ layouts/					布局文件，如TabBar、NavBar、Footer、Header等
 
   ▸ redux/					redux相关文件，如创建store、所有reducer汇总等
