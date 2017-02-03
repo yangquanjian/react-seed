@@ -229,7 +229,7 @@ export default createReducer(INITIAL_STATE, ACTION_HANDLERS);
 上述代码中，主要包括三种类型的数据：
 
   * constants: 主要包括请求过程中用到的action名称, 如XXX_LOAD, XXX_REQUEST, XXX_SUCCESS, XXX_FAILURE
-  * actions: 请求数据用到的action函数，{ Load, request, success, failure }
+  * actions: 请求数据用到的action函数，{ load, request, success, failure }
   * reducer: 接收redux派发出来的action，并改变store数据
 
 从上面代码中，我们定义了actions.load来获取列表数据，但是actions.load只是一个action，并没有真的发起ajax请求和后端交互，这个工作是由`redux-saga`来完成的，`redex-saga`通过监听`constants.LOAD`这个action，并发起ajax请求，获取数据后再dispatch`constants.SUCCESS` action通知 reducer来更新列表数据(updateList),从而触发组件渲染。
@@ -262,7 +262,7 @@ export default (api) => {
 };
 ```
 
-其中，`createFetchGenerator`是一个通用的生成异步获取数据函数的函数， 具体参考[utils/createSagas](src/utils/createSagas)
+其中，`createFetchGenerator`是一个通用的生成异步获取数据函数的函数， 具体参考[utils/createSagas](../src/utils/createSagas.js)
 
 并将此saga添加到sagas/index.js中以便在应用启动时生效：
 
