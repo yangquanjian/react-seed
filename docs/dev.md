@@ -40,6 +40,8 @@
 
 参考[mockup/product/list.js](../mockup/product/list.js)
 
+mockup文件建好后，即可通过 http://localhost:8080/api/product/list 访问到该文件
+
 同时将该接口添加到[src/api/index.js](../src/api/index.js)中
 
 ```
@@ -55,9 +57,9 @@ export default {
 };
 ```
 
-### 2. 添加view文件 
+### 2. 添加view组件 
 
-因产品列表是产品tab上的首页，在../src/views/product/ 下新建一个Home的view文件，主要代码：
+一个view组件对应一个页面入口，因产品列表是产品tab上的首页，在../src/views/product/ 下新建一个Home的view文件，主要代码：
 
 ```
 import React, { PureComponent } from 'react';
@@ -75,7 +77,7 @@ export default class ProductHome extends PureComponent {
 }
 ```
 
-从上面代码，我们看到view组件是一个容器组件，主要用于组织其他子组件（ProductList）,view组件还要一个重要任务是连接redux，向子组件传递所有必要的属性(props),这个后面讲到。
+从上面代码，我们看到view组件是一个容器组件，主要用于组织其他子组件（ProductList等）,view组件还要一个重要任务是连接redux，向子组件传递所有必要的属性(props),这个后面讲到。
 
 别忘了将view组件添加到路由配置中：
 
@@ -94,8 +96,6 @@ import ProductHome from '../views/product/Home';
   </Router>
 
 ```
-
-
 
 ### 3. 添加子组件
 
@@ -188,7 +188,7 @@ export default class ProductList extends PureComponent {
 4. 样式文件（list.less）直接在js中引入，webpack中的css-loader会自动处理;
 
 
-新建ListRedux文件，该文件为ProductList的redux配置文件，父组件根据该配置文件拿到数据和相关action并填充给ProductList组件，ListRedux主要代码：
+新建ListRedux文件，该文件是ProductList的redux配置文件，父组件根据该配置文件拿到数据和相关action并填充给ProductList组件，ListRedux主要代码：
 
 ```
 import { fromJS } from 'immutable';
@@ -233,7 +233,8 @@ const ACTION_HANDLERS = {
 
 export default createReducer(INITIAL_STATE, ACTION_HANDLERS);
 ```
-从上面代码中，我们定义了actions.load来获取列表数据，但是actions.load只是一个action，并没有真的发起ajax请求和后端交互，这个工作是由`redux-saga`来完成的，saga通过监听`constants.LOAD`这个action，并发起ajax请求，获取数据后再dispatch`constants.SUCCESS` action来通知 reducer来更新列表数据(updateList)。
+
+从上面代码中，我们定义了actions.load来获取列表数据，但是actions.load只是一个action，并没有真的发起ajax请求和后端交互，这个工作是由`redux-saga`来完成的，`redex-saga`通过监听`constants.LOAD`这个action，并发起ajax请求，获取数据后再dispatch`constants.SUCCESS` action通知 reducer来更新列表数据(updateList),从而触发组件渲染。
 
 ### 4. 创建saga处理异步请求
 
@@ -285,7 +286,7 @@ export default function* root() {
 
 ### 5. view组件连接redux
 
-view文件夹新建product/HomeRedux.js用于连接redux,HomeRedux同时需import 子组件ProductList的redux配置，具体代码：
+在views/product/Home.js所在目录下新建HomeRedux.js用于连接redux,HomeRedux同时需import 子组件ProductList的redux配置，具体代码：
 
 ```
 import { combineReducers } from 'redux-immutable';
@@ -320,10 +321,6 @@ export default function createReducer(asyncReducers) {
 }
 
 ```
-
-
-
-
 
 最后，我们再回到views/product/Home.js，添加连接redux的相关代码：
 
