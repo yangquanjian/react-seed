@@ -29,6 +29,8 @@ npm run build
 npm run lint
 ```
 
+javascript规范主要参考[airbnb规范](https://github.com/airbnb/javascript)
+
 ### git commit hook
 
 git commit时会运行lint进行代码静态检查，代码检查通过才可以正常commit
