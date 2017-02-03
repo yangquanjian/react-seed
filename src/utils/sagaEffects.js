@@ -1,3 +1,8 @@
+/**
+ * @file utils/sagaEffects.js
+ * @author maoquan(maoquan@htsc.com)
+ */
+
 export default {};
 
 /**

@@ -12,7 +12,7 @@ import Frame from '../layouts/Frame';
 import TabPane from '../layouts/TabPane';
 
 import ProductHome from '../views/product/Home';
-import CustomerList from '../views/customer/List';
+import CustomerHome from '../views/customer/Home';
 import MissionHome from '../views/mission/Home';
 import MissionDetail from '../views/mission/Detail';
 import Profile from '../views/profile';
@@ -33,7 +33,7 @@ const routes = history => (
         <Route path=":id" component={MissionDetail} />
       </Route>
       <Route path="product" components={ProductHome} />
-      <Route path="customer" components={CustomerList} />
+      <Route path="customer" components={CustomerHome} />
       <Route path="profile" components={Profile} />
     </Route>
   </Router>

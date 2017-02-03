@@ -1,3 +1,8 @@
+/**
+ * @file utils/request
+ * @author maoquan(maoquan@htsc.com)
+ */
+
 import 'whatwg-fetch';
 
 /**

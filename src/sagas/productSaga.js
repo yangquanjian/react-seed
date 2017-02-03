@@ -1,18 +1,10 @@
-import { take, put, call, fork } from 'redux-saga/effects';
+import { take, call, fork } from 'redux-saga/effects';
 import { actions as homeActions, constants as homeConstants } from '../views/product/HomeRedux';
-import { delay } from '../utils/sagaEffects';
+import { createFetchGenerator } from '../utils/createSagas';
 
 export default (api) => {
-  function* getProductList() {
-    yield put(homeActions.list.request());
-    try {
-      const response = yield call(api.getProductList);
-      yield delay(1000);
-      yield put(homeActions.list.success(response));
-    } catch (e) {
-      yield put(homeActions.list.failure(e));
-    }
-  }
+  // 获取客户详情
+  const getProductList = createFetchGenerator(homeActions.list, api.getProductList);
 
   function* watchGetProductList() {
     while (true) { // eslint-disable-line

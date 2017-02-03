@@ -1,3 +1,8 @@
+/**
+ * @file utils/listView
+ * @author maoquan(maoquan@htsc.com)
+ */
+
 import _ from 'lodash';
 import { ListView } from 'antd-mobile';
 

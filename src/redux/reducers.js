@@ -11,6 +11,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 
 import globalReducer from './global';
 import productHome from '../views/product/HomeRedux';
+import customerHome from '../views/customer/HomeRedux';
 
 /*
  * routeReducer
@@ -50,6 +51,7 @@ export default function createReducer(asyncReducers) {
     route: routeReducer,
     global: globalReducer,
     productHome,
+    customerHome,
     ...asyncReducers,
   });
 }
