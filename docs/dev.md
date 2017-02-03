@@ -182,10 +182,10 @@ export default class ProductList extends PureComponent {
 ```
 
 这里主要注意以下几点：
-1. 组件尽可能拆分成较细粒度，这里我们将List每一行的渲染单独拆成一个ListItem的组件，ListItem的代码不贴了，可参考[这里](../src/components/product/ListItem.js)；
-2. PropTypes必须要声明，这个可以增强代码可读性以及可维护性；
-3. props全部从父组件中获取；
-4. 样式文件（list.less）直接在js中引入，webpack中的css-loader会自动处理;
+  1. 组件尽可能拆分成较细粒度，这里我们将List每一行的渲染单独拆成一个ListItem的组件，ListItem的代码不贴了，可参考[这里](../src/components/product/ListItem.js)；
+  2. PropTypes必须要声明，这个可以增强代码可读性以及可维护性；
+  3. props全部从父组件中获取；
+  4. 样式文件（list.less）直接在js中引入，webpack中的css-loader会自动处理;
 
 
 新建ListRedux文件，该文件是ProductList的redux配置文件，父组件根据该配置文件拿到数据和相关action并填充给ProductList组件，ListRedux主要代码：
