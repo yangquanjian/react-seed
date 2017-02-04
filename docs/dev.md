@@ -118,6 +118,7 @@ export default class ProductList extends PureComponent {
   static propTypes = {
     list: ImmutablePropTypes.list.isRequired,
     getList: PropTypes.func.isRequired,
+    categoryId: PropTypes.string.isRequired,
     push: PropTypes.func,
   }
 
@@ -134,7 +135,7 @@ export default class ProductList extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.getList();
+    this.getList();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -147,12 +148,54 @@ export default class ProductList extends PureComponent {
     }
   }
 
+  @autobind
+  onEndReached() {
+    const { isLoading } = this.state;
+    if (!isLoading) {
+      this.setState({ isLoading: true }, this.getList);
+    }
+  }
+
+  /**
+   * 根据产品分类id获取产品列表
+   */
+  @autobind
+  getList() {
+    const { categoryId, getList } = this.props;
+    getList(categoryId);
+  }
+
+  renderHeader() {
+    return (
+      <span>Header</span>
+    );
+  }
+
   renderRow(rowData, sectionID, rowID) {
     return (
       <ListItem
         key={`${sectionID}-${rowID}`}
         {...rowData}
       />
+    );
+  }
+
+  renderSeparator(sectionID, rowID) {
+    return (
+      <div
+        key={`${sectionID}-${rowID}`}
+        className="list-separator"
+      />
+    );
+  }
+
+  @autobind
+  renderFooter() {
+    const { isLoading } = this.state;
+    return (
+      <div>
+        { isLoading ? '加载中...' : '加载完毕' }
+      </div>
     );
   }
 
@@ -211,8 +254,8 @@ export const constants = createTypes(`
 const getProductList =
   categoryId => createAction(constants.GET_PRODUCT_LIST, { categoryId });
 
+// 获取理财产品列表这个异步过程用到的辅助action
 const productListConstants = createRequestConstants(constants.GET_PRODUCT_LIST);
-
 const productList = createRequestActions(productListConstants);
 
 export const actions = { getProductList, productList };
@@ -239,10 +282,10 @@ export default createReducer(INITIAL_STATE, ACTION_HANDLERS);
 上述代码中，主要包括三种类型的数据(export出去的对象)：
 
   * constants: 在saga中用到，用于监听异步action请求
-  * actions: 请求数据用到的action函数，getProductList, 以及处理异步过程的{ request, success, failure }
+  * actions: 请求数据用到的action函数getProductList, 以及处理异步过程的productList: { request, success, failure }
   * reducer: 接收redux派发出来的action，并改变store数据
 
-从上面代码中，我们定义了getProductList来获取列表数据，但是getProductList只是一个action，并没有真的发起ajax请求和后端交互，这个工作是由`redux-saga`来完成的，`redex-saga`通过监听getProductList函数disoatch出来的action，发起ajax请求，获取数据后再dispatch`productList.SUCCESS` action通知 reducer来更新列表数据(updateList),从而触发组件渲染。
+从上面代码中，我们定义了getProductList来获取列表数据，但是getProductList只是一个action，并没有真的发起ajax请求和后端交互，这个工作是由`redux-saga`来完成的，`redex-saga`通过监听getProductList函数dispatch出来的action，发起ajax请求，获取数据后再dispatch`productList.SUCCESS` action通知 reducer来更新列表数据(updateList),从而触发组件渲染。
 
 ### 4. 创建saga处理异步请求
 
