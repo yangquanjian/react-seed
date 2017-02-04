@@ -20,13 +20,16 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 export default class CustomerForm extends PureComponent {
 
   static propTypes = {
+    id: PropTypes.string,
     data: ImmutablePropTypes.map.isRequired,
     getData: PropTypes.func.isRequired,
+    saveData: PropTypes.func.isRequired,
     form: PropTypes.object.isRequired,
     push: PropTypes.func,
   }
 
   static defaultProps = {
+    id: undefined,
     push: () => {},
   }
 
@@ -39,7 +42,8 @@ export default class CustomerForm extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.getData();
+    const { getData, id } = this.props;
+    getData(id);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -60,10 +64,13 @@ export default class CustomerForm extends PureComponent {
 
   @autobind
   handleSubmit() {
-    // const { form } = this.props;
-    // form.validateFields((error, value) => {
-    //   console.log(error, value);
-    // });
+    const { form, saveData } = this.props;
+    form.validateFields((error, value) => {
+      if (error) {
+        // 显示错误
+      }
+      saveData(value);
+    });
   }
 
   render() {

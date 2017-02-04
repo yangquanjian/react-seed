@@ -1,5 +1,5 @@
 /**
- * @file customer/HomeRedux.js
+ * @file customer/DetailRedux.js
  * @author maoquan(maoquan@htsc.com)
  */
 

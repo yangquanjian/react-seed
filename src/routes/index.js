@@ -13,6 +13,7 @@ import TabPane from '../layouts/TabPane';
 
 import ProductHome from '../views/product/Home';
 import CustomerHome from '../views/customer/Home';
+import CustomerDetail from '../views/customer/Detail';
 import MissionHome from '../views/mission/Home';
 import MissionDetail from '../views/mission/Detail';
 import Profile from '../views/profile';
@@ -33,7 +34,10 @@ const routes = history => (
         <Route path=":id" component={MissionDetail} />
       </Route>
       <Route path="product" components={ProductHome} />
-      <Route path="customer" components={CustomerHome} />
+      <Route path="customer" component={TabPane}>
+        <IndexRoute component={CustomerHome} />
+        <Route path=":id" component={CustomerDetail} />
+      </Route>
       <Route path="profile" components={Profile} />
     </Route>
   </Router>

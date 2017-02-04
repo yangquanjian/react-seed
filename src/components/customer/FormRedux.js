@@ -4,19 +4,33 @@
  */
 
 import { fromJS } from 'immutable';
-import { createReducer } from 'reduxsauce';
-import { createRequestActions } from '../../utils/createAction';
+import { createReducer, createTypes } from 'reduxsauce';
+import createAction, { createRequestActions } from '../../utils/createAction';
 import { createRequestConstants } from '../../utils/createConstants';
 
 /**
  * constants
+ * export出去是为了在saga中使用此constant捕获异步action
  */
-export const constants = createRequestConstants('GET_CUSTOMER_');
+export const constants = createTypes(`
+  GET_CUSTOMER
+  SAVE_CUSTOMER
+`);
 
-/**
- * actions
- */
-export const actions = createRequestActions(constants);
+// 获取客户详情
+export const getCustomer = id => createAction(constants.GET_CUSTOMER, { id });
+// 保存客户详情
+export const saveCustomer = data => createAction(constants.SAVE_CUSTOMER, { data });
+
+const customerConstants = createRequestConstants(constants.GET_CUSTOMER);
+const saveConstants = createRequestConstants(constants.SAVE_CUSTOMER);
+
+export const customer = createRequestActions(customerConstants);
+export const save = createRequestActions(saveConstants);
+
+
+// 导出actions
+export const actions = { getCustomer, saveCustomer, customer, save };
 
 /**
  * reducers
@@ -31,7 +45,7 @@ const update = (state, action) => {
 };
 
 const ACTION_HANDLERS = {
-  [constants.SUCCESS]: update,
+  [customerConstants.SUCCESS]: update,
 };
 
 export default createReducer(INITIAL_STATE, ACTION_HANDLERS);

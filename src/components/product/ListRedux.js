@@ -1,17 +1,27 @@
 import { fromJS } from 'immutable';
-import { createReducer } from 'reduxsauce';
-import { createRequestActions } from '../../utils/createAction';
+import { createReducer, createTypes } from 'reduxsauce';
+import createAction, { createRequestActions } from '../../utils/createAction';
 import { createRequestConstants } from '../../utils/createConstants';
 
 /**
  * constants
  */
-export const constants = createRequestConstants('GET_PRODUCT_LIST_');
+export const constants = createTypes(`
+  GET_PRODUCT_LIST
+`);
 
 /**
  * actions
  */
-export const actions = createRequestActions(constants);
+// 获取理财产品列表
+export const getProductList =
+  categoryId => createAction(constants.GET_PRODUCT_LIST, { categoryId });
+
+const productListConstants = createRequestConstants(constants.GET_PRODUCT_LIST);
+
+export const productList = createRequestActions(productListConstants);
+
+export const actions = { getProductList, productList };
 
 /**
  * reducers
@@ -26,7 +36,7 @@ const updateList = (state, action) => {
 };
 
 const ACTION_HANDLERS = {
-  [constants.SUCCESS]: updateList,
+  [productListConstants.SUCCESS]: updateList,
 };
 
 export default createReducer(INITIAL_STATE, ACTION_HANDLERS);

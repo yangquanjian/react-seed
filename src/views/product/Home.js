@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getList: actions.list.load,
+  getList: actions.list.getProductList,
   push,
 };
 
@@ -25,7 +25,10 @@ export default class ProductHome extends PureComponent {
     return (
       <div>
         <h1>产品首页</h1>
-        <ProductList {...this.props} />
+        <ProductList
+          categoryId={'c12'}
+          {...this.props}
+        />
       </div>
     );
   }

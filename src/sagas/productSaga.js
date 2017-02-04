@@ -9,12 +9,12 @@ import { createFetchGenerator } from '../utils/createSagas';
 
 export default (api) => {
   // 获取客户详情
-  const getProductList = createFetchGenerator(homeActions.list, api.getProductList);
+  const getProductList = createFetchGenerator(homeActions.list.productList, api.getProductList);
 
   function* watchGetProductList() {
     while (true) { // eslint-disable-line
-      yield take(homeConstants.list.LOAD);
-      yield call(getProductList);
+      const { categoryId } = yield take(homeConstants.list.GET_PRODUCT_LIST);
+      yield call(getProductList, { categoryId });
     }
   }
 

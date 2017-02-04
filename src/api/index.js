@@ -6,9 +6,13 @@ export default {
   /**
    * 获取产品列表
    */
-  getProductList: () => api.get('/product/list'),
+  getProductList: ({ categoryId }) => api.get('/product/list', { categoryId }),
   /**
    * 获取客户详细信息
    */
-  getCustomer: () => api.get('/customer/detail'),
+  getCustomer: ({ id }) => api.get('/customer/detail', { id }),
+  /**
+   * 保存客户信息
+   */
+  saveCustomer: ({ data }) => api.post('/customer/save', data),
 };

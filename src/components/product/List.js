@@ -17,6 +17,7 @@ export default class ProductList extends PureComponent {
   static propTypes = {
     list: ImmutablePropTypes.list.isRequired,
     getList: PropTypes.func.isRequired,
+    categoryId: PropTypes.string.isRequired,
     push: PropTypes.func,
   }
 
@@ -33,7 +34,7 @@ export default class ProductList extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.getList();
+    this.getList();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -50,8 +51,17 @@ export default class ProductList extends PureComponent {
   onEndReached() {
     const { isLoading } = this.state;
     if (!isLoading) {
-      this.setState({ isLoading: true }, this.props.getList);
+      this.setState({ isLoading: true }, this.getList);
     }
+  }
+
+  /**
+   * 根据产品分类id获取产品列表
+   */
+  @autobind
+  getList() {
+    const { categoryId, getList } = this.props;
+    getList(categoryId);
   }
 
   renderHeader() {
