@@ -193,19 +193,29 @@ export default class ProductList extends PureComponent {
 
 ```
 import { fromJS } from 'immutable';
-import { createReducer } from 'reduxsauce';
-import { createRequestActions } from '../../utils/createAction';
+import { createReducer, createTypes } from 'reduxsauce';
+import createAction, { createRequestActions } from '../../utils/createAction';
 import { createRequestConstants } from '../../utils/createConstants';
 
 /**
  * constants
  */
-export const constants = createRequestConstants('GET_PRODUCT_LIST_');
+export const constants = createTypes(`
+  GET_PRODUCT_LIST
+`);
 
 /**
  * actions
  */
-export const actions = createRequestActions(constants);
+// 获取理财产品列表
+const getProductList =
+  categoryId => createAction(constants.GET_PRODUCT_LIST, { categoryId });
+
+const productListConstants = createRequestConstants(constants.GET_PRODUCT_LIST);
+
+const productList = createRequestActions(productListConstants);
+
+export const actions = { getProductList, productList };
 
 /**
  * reducers
@@ -220,19 +230,19 @@ const updateList = (state, action) => {
 };
 
 const ACTION_HANDLERS = {
-  [constants.SUCCESS]: updateList,
+  [productListConstants.SUCCESS]: updateList,
 };
 
 export default createReducer(INITIAL_STATE, ACTION_HANDLERS);
 ```
 
-上述代码中，主要包括三种类型的数据：
+上述代码中，主要包括三种类型的数据(export出去的对象)：
 
-  * constants: 主要包括请求过程中用到的action名称, 如XXX_LOAD, XXX_REQUEST, XXX_SUCCESS, XXX_FAILURE
-  * actions: 请求数据用到的action函数，{ load, request, success, failure }
+  * constants: 在saga中用到，用于监听异步action请求
+  * actions: 请求数据用到的action函数，getProductList, 以及处理异步过程的{ request, success, failure }
   * reducer: 接收redux派发出来的action，并改变store数据
 
-从上面代码中，我们定义了actions.load来获取列表数据，但是actions.load只是一个action，并没有真的发起ajax请求和后端交互，这个工作是由`redux-saga`来完成的，`redex-saga`通过监听`constants.LOAD`这个action，并发起ajax请求，获取数据后再dispatch`constants.SUCCESS` action通知 reducer来更新列表数据(updateList),从而触发组件渲染。
+从上面代码中，我们定义了getProductList来获取列表数据，但是getProductList只是一个action，并没有真的发起ajax请求和后端交互，这个工作是由`redux-saga`来完成的，`redex-saga`通过监听getProductList函数disoatch出来的action，发起ajax请求，获取数据后再dispatch`productList.SUCCESS` action通知 reducer来更新列表数据(updateList),从而触发组件渲染。
 
 ### 4. 创建saga处理异步请求
 
@@ -245,12 +255,12 @@ import { createFetchGenerator } from '../utils/createSagas';
 
 export default (api) => {
   // 获取客户详情
-  const getProductList = createFetchGenerator(homeActions.list, api.getProductList);
+  const getProductList = createFetchGenerator(homeActions.list.productList, api.getProductList);
 
   function* watchGetProductList() {
     while (true) { // eslint-disable-line
-      yield take(homeConstants.list.LOAD);
-      yield call(getProductList);
+      const { categoryId } = yield take(homeConstants.list.GET_PRODUCT_LIST);
+      yield call(getProductList, { categoryId });
     }
   }
 
@@ -329,7 +339,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getList: actions.list.load,
+  getList: actions.list.getProductList,
   push,
 };
 
@@ -339,7 +349,10 @@ export default class ProductHome extends PureComponent {
     return (
       <div>
         <h1>产品首页</h1>
-        <ProductList {...this.props} />
+        <ProductList
+          categoryId={'c12'}
+          {...this.props}
+        />
       </div>
     );
   }

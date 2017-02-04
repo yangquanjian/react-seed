@@ -14,12 +14,12 @@ export const constants = createTypes(`
  * actions
  */
 // 获取理财产品列表
-export const getProductList =
+const getProductList =
   categoryId => createAction(constants.GET_PRODUCT_LIST, { categoryId });
 
+// 获取理财产品列表这个异步过程用到的辅助action
 const productListConstants = createRequestConstants(constants.GET_PRODUCT_LIST);
-
-export const productList = createRequestActions(productListConstants);
+const productList = createRequestActions(productListConstants);
 
 export const actions = { getProductList, productList };
 

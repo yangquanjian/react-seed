@@ -18,15 +18,15 @@ export const constants = createTypes(`
 `);
 
 // 获取客户详情
-export const getCustomer = id => createAction(constants.GET_CUSTOMER, { id });
+const getCustomer = id => createAction(constants.GET_CUSTOMER, { id });
 // 保存客户详情
-export const saveCustomer = data => createAction(constants.SAVE_CUSTOMER, { data });
+const saveCustomer = data => createAction(constants.SAVE_CUSTOMER, { data });
 
 const customerConstants = createRequestConstants(constants.GET_CUSTOMER);
-const saveConstants = createRequestConstants(constants.SAVE_CUSTOMER);
+const customer = createRequestActions(customerConstants);
 
-export const customer = createRequestActions(customerConstants);
-export const save = createRequestActions(saveConstants);
+const saveConstants = createRequestConstants(constants.SAVE_CUSTOMER);
+const save = createRequestActions(saveConstants);
 
 
 // 导出actions
