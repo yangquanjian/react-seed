@@ -8,10 +8,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-// Import CSS reset and Global Styles
-import 'sanitize.css/sanitize.css';
 // https://github.com/amfe/lib-flexible
-import '../dep/flexible/flexible-0.3.2';
+// inline in html
+// import '../dep/flexible/flexible-0.3.2';
 
 import configureStore from './redux/store';
 import routes from './routes';

@@ -1,21 +1,24 @@
 /**
- * @file mission/index.js
+ * @file profile/index.js
  * @author maoquan(maoquan@htsc.com)
  */
 
 import React, { PropTypes } from 'react';
+import NavBar from '../../components/common/NavBar';
 
-export default function Mission(props) {
+export default function Profile(props) {
   const { title } = props;
   return (
-    <p>{ title }</p>
+    <div className="page-profile">
+      <NavBar iconName={false} leftContent={false}>{title}</NavBar>
+    </div>
   );
 }
 
-Mission.propTypes = {
+Profile.propTypes = {
   title: PropTypes.string.isRequired,
 };
 
-Mission.defaultProps = {
-  title: '任务',
+Profile.defaultProps = {
+  title: '个人设置',
 };
