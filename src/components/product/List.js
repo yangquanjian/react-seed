@@ -8,6 +8,7 @@ import { autobind } from 'core-decorators';
 import { ListView } from 'antd-mobile';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
+import Select from '../../components/common/Select';
 import { prepareDataSource } from '../../utils/listView';
 import ListItem from './ListItem';
 import './list.less';
@@ -65,8 +66,16 @@ export default class ProductList extends PureComponent {
   }
 
   renderHeader() {
+    const { Option } = Select;
     return (
-      <span>Header</span>
+      <div>
+        <Select style={{ width: 300 }}>
+          <Option value="0" text="预期收益由高到低">预期收益由高到低</Option>
+          <Option value="1" text="预期收益由低到高">预期收益由低到高</Option>
+          <Option value="2" text="期限由高到低">期限由高到低</Option>
+          <Option value="3" text="期限由低到高">期限由低到高</Option>
+        </Select>
+      </div>
     );
   }
 
