@@ -65,6 +65,12 @@ export default class ProductList extends PureComponent {
     getList(categoryId);
   }
 
+  @autobind
+  handleClick(e, id) {
+    const { push } = this.props;
+    push(`product/detail?id=${id}`);
+  }
+
   renderHeader() {
     const { Option } = Select;
     return (
@@ -79,10 +85,12 @@ export default class ProductList extends PureComponent {
     );
   }
 
+  @autobind
   renderRow(rowData, sectionID, rowID) {
     return (
       <ListItem
         key={`${sectionID}-${rowID}`}
+        onClick={this.handleClick}
         {...rowData}
       />
     );

@@ -86,6 +86,11 @@ class Frame extends Component {
   render() {
     const { children, location, loading } = this.props;
     const { pathname } = location;
+    const paths = pathname.split('/').filter(path => !!path);
+    // 暂时先根据pathname长度决定是否隐藏tabbar,
+    // 后续根据需求建立需要tabbar的白名单,如{ '/product': true, ... }
+    const isTabBarHidden = paths.length > 1;
+
     // tabbar内渲染 or 独立页面
     let findTabItem = false;
     const tabs = tabConfig.map(
@@ -102,13 +107,12 @@ class Frame extends Component {
         unselectedTintColor="#949494"
         tintColor="#33A3F4"
         barTintColor="white"
+        hidden={isTabBarHidden}
       >
         {tabs}
       </TabBar>
     ) : (
-      <div
-        className="page-container"
-      >{children}</div>
+      <div className="page-wrapper">{children}</div>
     );
     return (
       <div className="page-wrapper">

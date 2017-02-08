@@ -6,10 +6,11 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import { SearchBar } from 'antd-mobile';
 
-import NavBar from '../../components/common/NavBar';
 import { actions } from './HomeRedux';
 import ProductList from '../../components/product/List';
+import './home.less';
 
 const mapStateToProps = state => ({
   list: state.getIn(['productHome', 'list', 'items']),
@@ -31,13 +32,9 @@ export default class ProductHome extends PureComponent {
   }
 
   render() {
-    const { title } = this.props;
     return (
-      <div className="page-product">
-        <NavBar
-          iconName={false}
-          leftContent={false}
-        >{title}</NavBar>
+      <div className="page-product-home">
+        <SearchBar placeholder="搜索" />
         <ProductList
           categoryId={'c12'}
           {...this.props}
