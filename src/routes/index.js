@@ -3,7 +3,6 @@
  * @author maoquan(maoquan@htsc.com)
  */
 
-
 import React from 'react';
 import { applyRouterMiddleware, Router, Route, IndexRoute, IndexRedirect } from 'react-router';
 import { useScroll } from 'react-router-scroll';
