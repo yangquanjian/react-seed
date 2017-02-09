@@ -6,6 +6,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import NavBar from '../../components/common/NavBar';
+import Chart from '../../components/customer/Chart';
 
 export default function CustomerHome(props) {
   return (
@@ -15,6 +16,7 @@ export default function CustomerHome(props) {
         leftContent={false}
       >{props.title}</NavBar>
       <p><Link to="/customer/1">修改客户信息</Link></p>
+      <Chart />
     </div>
   );
 }

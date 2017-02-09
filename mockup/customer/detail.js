@@ -9,7 +9,7 @@ exports.response = function (req, res) {
       name: '蛋蛋猫',
       tel: '13852293974',
       weixin: 'woshiyigezhu',
-      isVip: true,
+      isVip: true
     }
   };
 }
