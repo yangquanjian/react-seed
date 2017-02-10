@@ -4,7 +4,7 @@
  */
 
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'dva/router';
 import NavBar from '../../components/common/NavBar';
 
 export default function MissionHome(props) {

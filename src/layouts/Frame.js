@@ -6,7 +6,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { TabBar, ActivityIndicator } from 'antd-mobile';
-import { withRouter } from 'react-router';
+import { withRouter } from 'dva/router';
 import { autobind } from 'core-decorators';
 
 import TabPane from './TabPane';
@@ -16,7 +16,7 @@ import tabConfig from '../config/tabConfig';
 import '../css/main.less';
 
 const mapStateToProps = state => ({
-  loading: state.getIn(['global', 'loading']),
+  loading: state.loading.global,
 });
 
 @connect(mapStateToProps)
@@ -84,7 +84,7 @@ class Frame extends Component {
   }
 
   render() {
-    const { children, location, loading } = this.props;
+    const { children, location, loading = false } = this.props;
     const { pathname } = location;
     const paths = pathname.split('/').filter(path => !!path);
     // 暂时先根据pathname长度决定是否隐藏tabbar,

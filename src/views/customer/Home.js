@@ -4,7 +4,7 @@
  */
 
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'dva/router';
 import NavBar from '../../components/common/NavBar';
 import Chart from '../../components/customer/Chart';
 

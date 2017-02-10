@@ -1,25 +1,31 @@
 /**
- * @file routes/index.js
+ * @file routes.js
  * @author maoquan(maoquan@htsc.com)
  */
 
 import React from 'react';
-import { applyRouterMiddleware, Router, Route, IndexRoute, IndexRedirect } from 'react-router';
+import {
+  applyRouterMiddleware,
+  Router,
+  Route,
+  IndexRoute,
+  IndexRedirect,
+} from 'dva/router';
 import { useScroll } from 'react-router-scroll';
 
-import Frame from '../layouts/Frame';
-import TabPane from '../layouts/TabPane';
+import Frame from './layouts/Frame';
+import TabPane from './layouts/TabPane';
 
-import ProductHome from '../views/product/Home';
-import ProductDetail from '../views/product/Detail';
-import CustomerHome from '../views/customer/Home';
-import CustomerDetail from '../views/customer/Detail';
-import MissionHome from '../views/mission/Home';
-import MissionDetail from '../views/mission/Detail';
-import Profile from '../views/profile';
+import ProductHome from './views/product/Home';
+import ProductDetail from './views/product/Detail';
+import CustomerHome from './views/customer/Home';
+import CustomerDetail from './views/customer/Detail';
+import MissionHome from './views/mission/Home';
+import MissionDetail from './views/mission/Detail';
+import Profile from './views/profile';
 
 
-const routes = history => (
+const routes = ({ history }) => (// eslint-disable-line
   <Router
     history={history}
     render={

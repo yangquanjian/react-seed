@@ -2,12 +2,18 @@
   "presets": ["es2015", "stage-2", "react"],
   "plugins": [
     [
-      "import",
-      {
+      "import", {
         "libraryName": "antd-mobile",
         "style": true
       }
     ],
+    [
+      "dva-hmr", {
+        "container": "#app",
+        "quiet": false
+      }
+    ],
+    "add-module-exports",
     "transform-runtime",
     "transform-decorators-legacy"
   ],
