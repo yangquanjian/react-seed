@@ -22,7 +22,6 @@ export default class CustomerForm extends PureComponent {
   static propTypes = {
     id: PropTypes.string,
     data: ImmutablePropTypes.map.isRequired,
-    getData: PropTypes.func.isRequired,
     saveData: PropTypes.func.isRequired,
     form: PropTypes.object.isRequired,
     push: PropTypes.func,
@@ -42,8 +41,6 @@ export default class CustomerForm extends PureComponent {
   }
 
   componentDidMount() {
-    const { getData, id } = this.props;
-    getData(id);
   }
 
   componentWillReceiveProps(nextProps) {

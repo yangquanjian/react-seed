@@ -6,38 +6,38 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { routerRedux } from 'dva/router'
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import { actions } from './DetailRedux';
 import CustomerForm from '../../components/customer/Form';
 
 const mapStateToProps = state => ({
-  formData: state.getIn(['customerDetail', 'form', 'data']),
+  data: state.customer.get('data'),
 });
 
 const mapDispatchToProps = {
-  getData: actions.form.getCustomer,
-  saveData: actions.form.saveCustomer,
-  push,
+  saveData: data => ({
+    type: 'customer/save',
+    payload: data,
+  }),
+  push: routerRedux.push,
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class CustomDetail extends Component {
   static propTypes = {
-    formData: ImmutablePropTypes.map.isRequired,
+    data: ImmutablePropTypes.map.isRequired,
     params: PropTypes.object.isRequired,
   }
 
   render() {
-    const { formData, params, ...others } = this.props;
+    const { params, ...others } = this.props;
     return (
       <div>
         <h1>修改客户信息</h1>
         <CustomerForm
           {...others}
           id={params.id}
-          data={formData}
         />
       </div>
     );

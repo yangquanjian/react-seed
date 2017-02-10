@@ -5,20 +5,22 @@
 
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { routerRedux } from 'dva/router'
 import { SearchBar } from 'antd-mobile';
 
-import { actions } from './HomeRedux';
 import ProductList from '../../components/product/List';
 import './home.less';
 
 const mapStateToProps = state => ({
-  list: state.getIn(['productHome', 'list', 'items']),
+  list: state.product.get('list'),
 });
 
 const mapDispatchToProps = {
-  getList: actions.list.getProductList,
-  push,
+  getList: categoryId => ({
+    type: 'product/fetch',
+    payload: { categoryId },
+  }),
+  push: routerRedux.push,
 };
 
 @connect(mapStateToProps, mapDispatchToProps)

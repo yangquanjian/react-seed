@@ -1,49 +1,36 @@
 /**
  * @file app.js
- * @author maoquan
+ * @author maoquan(maoquan@htsc.com)
  */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
-// https://github.com/amfe/lib-flexible
-// inline in html
-// import '../dep/flexible/flexible-0.3.2';
+import dva from 'dva';
+import { browserHistory } from 'dva/router';
+import createLoading from 'dva-loading';
+import createLogger from 'redux-logger';
 
-import configureStore from './redux/store';
-import routes from './routes';
+import routerConfig from './router';
 
-// Create redux store with history
-// this uses the singleton browserHistory provided by react-router
-// Optionally, this could be changed to leverage a created history
-// e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
-const initialState = {};
-const store = configureStore(initialState, browserHistory);
+import productModel from './models/product';
+import customerModel from './models/customer';
 
-const selectLocationState = () => {
-  let prevRoutingState;
-  let prevRoutingStateJS;
-
-  return (state) => {
-    const routingState = state.get('route');
-
-    if (!routingState.equals(prevRoutingState)) {
-      prevRoutingState = routingState;
-      prevRoutingStateJS = routingState.toJS();
-    }
-
-    return prevRoutingStateJS;
-  };
-};
-const history = syncHistoryWithStore(browserHistory, store, {
-  selectLocationState: selectLocationState(),
+// 1. Initialize
+const app = dva({
+  history: browserHistory,
+  onAction: createLogger(),
+  onError(e) {
+    console.log(e);
+  },
 });
 
-ReactDOM.render(
-  <Provider store={store}>
-    { routes(history) }
-  </Provider>,
-  document.getElementById('app'),
-);
+// 2. Plugins
+app.use(createLoading());
+
+// 3. Model
+app.model(productModel);
+app.model(customerModel);
+
+// 4. Router
+app.router(routerConfig);
+
+// 5. Start
+app.start('#app');

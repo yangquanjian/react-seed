@@ -6,7 +6,7 @@
 
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { routerRedux } from 'dva/router'
 import { NavBar, SearchBar } from 'antd-mobile';
 
 // import { actions } from './HomeDetail';
@@ -17,7 +17,7 @@ const mapStateToProps = state => ({ // eslint-disable-line
 
 const mapDispatchToProps = {
   // getData: actions.list.getProduct,
-  push,
+  push: routerRedux.push,
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
