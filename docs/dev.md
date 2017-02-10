@@ -79,7 +79,7 @@ export default class ProductHome extends PureComponent {
 
 从上面代码，我们看到view组件是一个容器组件，主要用于组织其他子组件（ProductList等）,view组件还要一个重要任务是连接redux，向子组件传递所有必要的属性(props),这个后面讲到。
 
-别忘了将view组件添加到路由配置中：
+别忘了将view组件添加到路由配置中(src/router.js)：
 
 ```
 import ProductHome from '../views/product/Home';
@@ -99,9 +99,11 @@ import ProductHome from '../views/product/Home';
 
 ### 3. 添加子组件
 
-通过需求分析，我们定义ProductList组件，用于展示产品列表页面，子组件路径：src/components/product/List.js
+* 通过需求分析，我们定义ProductList组件，用于展示产品列表页面；
+* 子组件全部放在`src/components/`下，并根据view名称建立子文件夹；
+* 子组件路径：`src/components/product/List.js`;
 
-ProductList关键代码片段:
+ProductList关键代码片段(先忽略具体逻辑，只要知道是一个标准的组件写法):
 
 ```
 import React, { PropTypes, PureComponent } from 'react';
@@ -230,168 +232,121 @@ export default class ProductList extends PureComponent {
   3. props全部从父组件中获取；
   4. 样式文件（list.less）直接在js中引入，webpack中的css-loader会自动处理;
 
-我们知道，ProductList组件最终会被view组件(views/product/Home.js)引用，作为页面的一部分，同时，ProductList组件应向view组件提供一份配置，比如如何获取list数据,页面上该组件有哪些交互等，以便view组件将合适的props传递给ProductList组件。
+### 创建model文件(该文件包含action、reducer、saga等所有相关配置, 可参看[基于 redux、redux-saga 和 react-router@2.x 的轻量级前端框架: dva](https://github.com/dvajs/dva/blob/master/README_zh-CN.md))
 
-上述组件配置文件就是ListRedux文件，ListRedux主要代码：
+```
+export default {
+  namespace: 'product',
+  state: {},
+  reducers: {},
+  effects: {},
+  subscriptions: {},
+};
+```
+
+并将该文件添加到启动文件`src/app.js`中
+
+```
+// 其他代码...
+app.model(require('./models/product'));
+// 其他代码...
+
+```
+
+下面是重点，编辑model文件，使用redux的方式将数据从服务器端取回，并塞到组件里:
+
+回到上面创建的model文件中
+
+```
+export default {
+  namespace: 'product', // 对应redux reducer中的名称，可在组件中使用state.product访问到
+  state: {}, // 初始状态
+  reducers: {}, // reducer, 响应action并更改store数据
+  effects: {}, // redux-saga配置，响应action并发起异步请求，（ajax均在此发起 ）
+  subscriptions: {}, // 这个主要是启动时被调用，数据请求的action可在这里发起，并由上面的saga响应
+};
+```
+
+下面贴出`model/product.js`的示例
 
 ```
 import { fromJS } from 'immutable';
-import { createReducer, createTypes } from 'reduxsauce';
-import createAction, { createRequestActions } from '../../utils/createAction';
-import { createRequestConstants } from '../../utils/createConstants';
 
-/**
- * constants
- */
-export const constants = createTypes(`
-  GET_PRODUCT_LIST
-`);
-
-/**
- * actions
- */
-// 获取理财产品列表
-const getProductList =
-  categoryId => createAction(constants.GET_PRODUCT_LIST, { categoryId });
-
-// 获取理财产品列表这个异步过程用到的辅助action
-const productListConstants = createRequestConstants(constants.GET_PRODUCT_LIST);
-const productList = createRequestActions(productListConstants);
-
-export const actions = { getProductList, productList };
-
-/**
- * reducers
- */
-const INITIAL_STATE = fromJS({
-  items: [],
-});
-
-const updateList = (state, action) => {
-  const { response } = action;
-  return state.update('items', list => list.concat(response.data));
-};
-
-const ACTION_HANDLERS = {
-  [productListConstants.SUCCESS]: updateList,
-};
-
-export default createReducer(INITIAL_STATE, ACTION_HANDLERS);
-```
-
-上述代码中，主要包括三种类型的数据(export出去的对象)：
-
-  * constants: 在saga中用到，用于监听异步action请求
-  * actions: 请求数据用到的action函数getProductList, 以及处理异步过程的productList: { request, success, failure }
-  * reducer: 接收redux派发出来的action，并改变store数据
-
-从上面代码中，我们定义了getProductList来获取列表数据，但是getProductList只是一个action，并没有真的发起ajax请求和后端交互，这个工作是由`redux-saga`来完成的，`redex-saga`通过监听getProductList函数dispatch出来的action，发起ajax请求，获取数据后再dispatch`productList.SUCCESS` action通知 reducer来更新列表数据(updateList),从而触发组件渲染。
-
-### 4. 创建saga处理异步请求
-
-在src/sagas中新建productSaga.js,用于处理所有理财产品相关的异步请求：
-
-```
-import { take, call, fork } from 'redux-saga/effects';
-import { actions as homeActions, constants as homeConstants } from '../views/product/HomeRedux';
-import { createFetchGenerator } from '../utils/createSagas';
-
-export default (api) => {
-  // 获取客户详情
-  const getProductList = createFetchGenerator(homeActions.list.productList, api.getProductList);
-
-  function* watchGetProductList() {
-    while (true) { // eslint-disable-line
-      const { categoryId } = yield take(homeConstants.list.GET_PRODUCT_LIST);
-      yield call(getProductList, { categoryId });
-    }
-  }
-
-  function* watcher() {
-    yield fork(watchGetProductList);
-  }
-
-  return watcher;
-};
-```
-
-其中，`createFetchGenerator`是一个通用的生成异步获取数据函数的函数， 具体参考[utils/createSagas](../src/utils/createSagas.js)
-
-并将此saga添加到sagas/index.js中以便在应用启动时生效：
-
-```
-import productSaga from './productSaga';
 import api from '../api';
+import { delay } from '../utils/sagaEffects';
 
-export default function* root() {
-  ...,
-  yield fork(productSaga(api));
-}
-```
-
-### 5. view组件连接redux
-
-在views/product/Home.js所在目录下新建HomeRedux.js用于连接redux,HomeRedux同时需import 子组件ProductList的redux配置，具体代码：
-
-```
-import { combineReducers } from 'redux-immutable';
-
-// 引入 reducer / actionCreator / constant
-import list, { actions as listActions, constants as listConstants } from '../../components/product/ListRedux';
-
-export default combineReducers({
-  list,
-});
-
-export const actions = {
-  list: listActions,
+export default {
+  namespace: 'product',
+  state: fromJS({
+    list: [], // 初始列表数据
+  }),
+  reducers: {
+    // saga 异步请求成功后，发起`saveList`action,然后通过reducer来更改数据
+    saveList(state, action) {
+      const { payload: { response } } = action;
+      return state.update('list', list => list.concat(response.data));
+    },
+  },
+  effects: {
+    // 响应名称为`fetch`的响应，并发起异步请求
+    * fetch({ payload: { categoryId = 1 } }, { call, put }) {
+      const response = yield call(api.getProductList, { categoryId });
+      // 模拟网络延迟
+      yield delay(1000);
+      yield put({
+        type: 'saveList',
+        payload: {
+          response,
+          categoryId,
+        },
+      });
+    },
+  },
+  subscriptions: {
+    setup({ dispatch, history }) {
+      // 监听路由，只要符合某种特定模式，如本例中pathname === '/product', 就进行特定动作
+      // 这里表示已进入`/product`页面，就发起`fetch`请求,取后端数据
+      return history.listen(({ pathname, query }) => {
+        if (pathname === '/product') {
+          dispatch({ type: 'fetch', payload: query });
+        }
+      });
+    },
+  },
 };
-
-export const constants = {
-  list: listConstants,
-};
 ```
 
-因这里只用到了ProductList组件，所以只需引入product/ListRedux配置，如果有多个子组件，则需引入所有子组件的redux文件(如果有的话)，另外要注意将HomeRedux中创建的reducer添加到src/redux/reducers中
+### 在view组件中绑定数据
 
 ```
-import productHome from '../views/product/HomeRedux';
+// 其他代码略
 
-export default function createReducer(asyncReducers) {
-  return combineReducers({
-    ...,
-    productHome,
-    ...,
-  });
-}
-
-```
-
-最后，我们再回到views/product/Home.js，添加连接redux的相关代码：
-
-```
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-
-import { actions } from './HomeRedux';
-import ProductList from '../../components/product/List';
-
+/////////// 绑定数据代码
 const mapStateToProps = state => ({
-  list: state.getIn(['productHome', 'list', 'items']),
+  // 对应model中的namespace / state字段
+  list: state.product.get('list'),
 });
 
 const mapDispatchToProps = {
-  getList: actions.list.getProductList,
-  push,
+  // 这里是为了滑动列表时持续获取数据,
+  // 初始加载并不需要在组件中定义
+  getList: categoryId => ({
+    type: 'product/fetch',
+    payload: { categoryId },
+  }),
+  push: routerRedux.push,
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class ProductHome extends PureComponent {
+
+  // 其他代码略
+
   render() {
     return (
-      <div>
-        <h1>产品首页</h1>
+      <div className="page-product-home">
+        <SearchBar placeholder="搜索" />
+        { // 将props中的数据传递给组件 }
         <ProductList
           categoryId={'c12'}
           {...this.props}
@@ -402,7 +357,4 @@ export default class ProductHome extends PureComponent {
 }
 ```
 
-我们通过redux connect获取到list、getList等props（均在ListRedux中定义）,并传递给ProductList，至此一个简单的理财产品列表就完成了。
-
-
-
+OK，搞定

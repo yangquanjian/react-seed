@@ -10,9 +10,6 @@ import createLogger from 'redux-logger';
 
 import routerConfig from './router';
 
-import productModel from './models/product';
-import customerModel from './models/customer';
-
 // 1. Initialize
 const app = dva({
   history: browserHistory,
@@ -26,8 +23,8 @@ const app = dva({
 app.use(createLoading());
 
 // 3. Model
-app.model(productModel);
-app.model(customerModel);
+app.model(require('./models/product'));
+app.model(require('./models/customer'));
 
 // 4. Router
 app.router(routerConfig);
