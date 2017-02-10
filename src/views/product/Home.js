@@ -5,7 +5,7 @@
 
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { routerRedux } from 'dva/router'
+import { routerRedux } from 'dva/router';
 import { SearchBar } from 'antd-mobile';
 
 import ProductList from '../../components/product/List';
