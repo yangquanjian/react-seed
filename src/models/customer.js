@@ -4,7 +4,7 @@
  */
 
 import { fromJS } from 'immutable';
-import { routerRedux } from 'dva/router'
+import { routerRedux } from 'dva/router';
 
 import api from '../api';
 
@@ -18,7 +18,7 @@ export default {
       const { payload: { response } } = action;
       return state.set('data', fromJS(response.data));
     },
-    saveSuccess(state, action) {
+    saveSuccess(state, action) {// eslint-disable-line
       // 做一些表单保存成功后的处理
       return state;
     },

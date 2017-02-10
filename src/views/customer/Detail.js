@@ -6,7 +6,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { routerRedux } from 'dva/router'
+import { routerRedux } from 'dva/router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import CustomerForm from '../../components/customer/Form';
