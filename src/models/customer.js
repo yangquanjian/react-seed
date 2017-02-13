@@ -47,7 +47,7 @@ export default {
         const match = pathToRegexp('/customer/:id').exec(pathname);
         if (match) {
           const id = match[1];
-          dispatch({ type: 'fetchUser', payload: { id } });
+          dispatch({ type: 'fetch', payload: { id } });
         }
       });
     },
