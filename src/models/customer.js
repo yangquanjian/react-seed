@@ -5,6 +5,7 @@
 
 import { fromJS } from 'immutable';
 import { routerRedux } from 'dva/router';
+import pathToRegexp from 'path-to-regexp';
 
 import api from '../api';
 
@@ -42,9 +43,11 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
-        if (/\/customer\/\d+/.test(pathname)) {
-          dispatch({ type: 'fetch', payload: query });
+      return history.listen(({ pathname }) => {
+        const match = pathToRegexp('/customer/:id').exec(pathname);
+        if (match) {
+          const id = match[1];
+          dispatch({ type: 'fetchUser', payload: { id } });
         }
       });
     },
