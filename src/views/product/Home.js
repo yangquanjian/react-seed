@@ -6,7 +6,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
-import { SearchBar } from 'antd-mobile';
+import Searchable from '../../components/product/Searchable';
 
 import ProductList from '../../components/product/List';
 import './home.less';
@@ -23,6 +23,7 @@ const mapDispatchToProps = {
   push: routerRedux.push,
 };
 
+@Searchable
 @connect(mapStateToProps, mapDispatchToProps)
 export default class ProductHome extends PureComponent {
   static propTypes = {
@@ -36,7 +37,6 @@ export default class ProductHome extends PureComponent {
   render() {
     return (
       <div className="page-product-home">
-        <SearchBar placeholder="搜索" />
         <ProductList
           categoryId={'c12'}
           {...this.props}
