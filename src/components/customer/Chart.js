@@ -7,6 +7,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 
 import Chart from '../chart';
+
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
 export default class ChartWidget extends PureComponent {

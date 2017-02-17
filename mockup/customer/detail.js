@@ -5,6 +5,7 @@ exports.response = function (req, res) {
       global: "获取客户详细信息失败"
     },
     data: {
+<<<<<<< HEAD
       brokerNumber: "02054709",
       cusId: "1-F9-465",
       custLevelCode: "805010",
@@ -34,6 +35,13 @@ exports.response = function (req, res) {
       openTime: "05/31/2007",
       priSalesTeam: "1-OOSD",
       priSalesTeamId: "1-OOSD"
+=======
+      id: '1',
+      name: '蛋蛋猫',
+      tel: '13852293974',
+      weixin: 'woshiyigezhu',
+      isVip: true
+>>>>>>> 37e3423056288ca36281d93218e18947fa47c507
     }
   };
 };
