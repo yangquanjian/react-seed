@@ -3,7 +3,6 @@
  * @author maoquan(maoquan@htsc.com)
  */
 
-import { fromJS } from 'immutable';
 import { routerRedux } from 'dva/router';
 import pathToRegexp from 'path-to-regexp';
 
@@ -11,13 +10,19 @@ import api from '../api';
 
 export default {
   namespace: 'customer',
-  state: fromJS({
+  state: {
     data: {},
-  }),
+  },
   reducers: {
     fetchSuccess(state, action) {
       const { payload: { response } } = action;
-      return state.set('data', fromJS(response.data));
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          ...response.data,
+        },
+      };
     },
     saveSuccess(state, action) {// eslint-disable-line
       // 做一些表单保存成功后的处理

@@ -7,12 +7,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import CustomerForm from '../../components/customer/Form';
 
 const mapStateToProps = state => ({
-  data: state.customer.get('data'),
+  data: state.customer.data,
 });
 
 const mapDispatchToProps = {
@@ -26,7 +25,7 @@ const mapDispatchToProps = {
 @connect(mapStateToProps, mapDispatchToProps)
 export default class CustomDetail extends Component {
   static propTypes = {
-    data: ImmutablePropTypes.map.isRequired,
+    data: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
   }
 

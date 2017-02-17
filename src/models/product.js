@@ -3,20 +3,21 @@
  * @author maoquan(maoquan@htsc.com)
  */
 
-import { fromJS } from 'immutable';
-
 import api from '../api';
 import { delay } from '../utils/sagaEffects';
 
 export default {
   namespace: 'product',
-  state: fromJS({
+  state: {
     list: [],
-  }),
+  },
   reducers: {
     saveList(state, action) {
       const { payload: { response } } = action;
-      return state.update('list', list => list.concat(response.data));
+      return {
+        ...state,
+        list: [...state.list, ...response.data],
+      };
     },
   },
   effects: {
