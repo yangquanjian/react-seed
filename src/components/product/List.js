@@ -29,6 +29,7 @@ export default class ProductList extends PureComponent {
     super(props);
 
     this.state = {
+      dataSource: prepareDataSource(props.list),
       isLoading: false,
     };
   }

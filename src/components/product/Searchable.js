@@ -59,7 +59,7 @@ export default (ComposedComponent) => {
       const { mode } = this.state;
       let mainElems;
       if (mode === SHOW_MODE.NORMAL) {
-        mainElems = <ComposedComponent />;
+        mainElems = <ComposedComponent {...this.props} />;
       } else if (mode === SHOW_MODE.SEARCHING) {
         mainElems = (
           <div>搜索推荐</div>

@@ -3,6 +3,7 @@
  * @author maoquan(maoquan@htsc.com)
  */
 
+import _ from 'lodash';
 import api from '../api';
 import { delay } from '../utils/sagaEffects';
 
@@ -36,11 +37,15 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
-        if (pathname === '/product') {
-          dispatch({ type: 'fetch', payload: query });
-        }
-      });
+      return history.listen(
+        _.once(
+          ({ pathname, query }) => {
+            if (pathname === '/product') {
+              dispatch({ type: 'fetch', payload: query });
+            }
+          },
+        ),
+      );
     },
   },
 };
