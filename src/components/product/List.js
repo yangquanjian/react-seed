@@ -35,7 +35,7 @@ export default class ProductList extends PureComponent {
   }
 
   componentDidMount() {
-    this.getList();
+    // this.getList();
   }
 
   componentWillReceiveProps(nextProps) {

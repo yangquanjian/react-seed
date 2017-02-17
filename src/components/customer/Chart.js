@@ -7,41 +7,38 @@
 import React, { PropTypes, PureComponent } from 'react';
 
 import Chart from '../chart';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
-export default class CustomerForm extends PureComponent {
+export default class ChartWidget extends PureComponent {
 
   static propTypes = {
-    data: PropTypes.array,
+    chartData: ImmutablePropTypes.list,
   }
 
   static defaultProps = {
-    // 这里仅做示例，data应由父组件传入
-    data: [
-      {
-        date: '2016-06',
-        money: '1200',
-      },
-      {
-        date: '2016-07',
-        money: '1600',
-      },
-      {
-        date: '2016-08',
-        money: '700',
-      },
-      {
-        date: '2016-09',
-        money: '2900',
-      },
-      {
-        date: '2016-10',
-        money: '1800',
-      },
-    ],
+    chartData: undefined
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { chartData } = nextProps;
+    if (chartData !== this.props.chartData) {
+      this.setState({
+        isLoading: false,
+        dataSource: chartData
+      });
+    }
   }
 
   render() {
-    const { data } = this.props;
+    const { dataSource } = this.state;
+    if (!dataSource) {
+      return null;
+    }
 
     const options = {
       title: {
@@ -53,14 +50,14 @@ export default class CustomerForm extends PureComponent {
       },
       xAxis: {
         // x轴时间维度
-        data: data.map(item => item.date),
+        data: dataSource.map(item => item.date),
       },
       yAxis: {},
     };
     const series = {
       name: '销量',
       type: 'line',
-      data: data.map(item => item.money),
+      data: dataSource.map(item => item.money),
     };
     return (
       <div>

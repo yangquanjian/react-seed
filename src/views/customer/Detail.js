@@ -1,45 +1,55 @@
 /**
  * @file customer/Detail.js
  *  客户表单，修改客户信息
- * @author maoquan(maoquan@htsc.com)
+ * @author xuxiaoqin
  */
 
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-
-import CustomerForm from '../../components/customer/Form';
+import CustomerBasicHeader from '../../components/customer/DetailHeader';
+import ChartWidget from '../../components/customer/Chart';
 
 const mapStateToProps = state => ({
-  data: state.customer.get('data'),
+    data: state.customer.get('detailInfo'),
+    chartData: state.customer.get('chartInfo')
 });
 
 const mapDispatchToProps = {
-  saveData: data => ({
-    type: 'customer/save',
-    payload: data,
-  }),
-  push: routerRedux.push,
+    getBasicInfo: custId => ({
+        type: 'customer/getBasicInfo',
+        payload: { custId },
+    }),
+    push: routerRedux.push,
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class CustomDetail extends Component {
-  static propTypes = {
-    data: ImmutablePropTypes.map.isRequired,
-    params: PropTypes.object.isRequired,
-  }
+export default class CustomerDetail extends PureComponent {
+    static propTypes = {
+        data: ImmutablePropTypes.map,
+        // chartData: ImmutablePropTypes.array,
+    }
 
-  render() {
-    const { params, ...others } = this.props;
-    return (
-      <div>
-        <h1>修改客户信息</h1>
-        <CustomerForm
-          {...others}
-          id={params.id}
-        />
-      </div>
-    );
-  }
+    static defaultProps = {
+        data: undefined,
+        // chartData: undefined
+    };
+
+    componentDidMount() {
+
+    }
+
+    render() {
+        const { data, ...others} = this.props;
+        return (
+            <div>
+                <p>客户详细信息</p>
+                <CustomerBasicHeader
+                    data={data}
+                />
+                <ChartWidget {...others} />
+            </div>
+        );
+    }
 }
