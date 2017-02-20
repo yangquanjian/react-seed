@@ -12,6 +12,7 @@ export default {
   namespace: 'customer',
   state: {
     data: {},
+    searchList: [],
   },
   reducers: {
     fetchSuccess(state, action) {
@@ -27,6 +28,12 @@ export default {
     saveSuccess(state, action) {// eslint-disable-line
       // 做一些表单保存成功后的处理
       return state;
+    },
+    searchSuccess(state, { payload: { response } }) {// eslint-disable-line
+      return {
+        ...state,
+        searchList: response.data,
+      };
     },
   },
   effects: {
@@ -44,6 +51,24 @@ export default {
       const response = yield call(api.saveCustomer, { data });
       yield put({ type: 'saveSuccess', payload: { response } });
       yield put(routerRedux.goBack());
+    },
+    * search({ payload: { keyword, page } }, { put }) {
+      // const response = yield call(api.searchCustomer, { keyword, page });
+      const response = {
+        data: [
+          {
+            id: '1',
+            name: '张三',
+            phone: '13852293972',
+          },
+          {
+            id: '2',
+            name: '李四',
+            phone: '17705188176',
+          },
+        ],
+      };
+      yield put({ type: 'searchSuccess', payload: { response } });
     },
   },
   subscriptions: {
