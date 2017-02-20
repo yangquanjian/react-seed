@@ -14,14 +14,13 @@ import {
   WingBlank,
 } from 'antd-mobile';
 import { createForm } from 'rc-form';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 
 @createForm()
 export default class CustomerForm extends PureComponent {
 
   static propTypes = {
     id: PropTypes.string,
-    data: ImmutablePropTypes.map.isRequired,
+    data: PropTypes.object.isRequired,
     saveData: PropTypes.func.isRequired,
     form: PropTypes.object.isRequired,
     push: PropTypes.func,
@@ -56,7 +55,7 @@ export default class CustomerForm extends PureComponent {
   getInputFieldProps(prop, options) {
     const { getFieldProps } = this.props.form;
     const { data } = this.state;
-    return getFieldProps(prop, { initialValue: data.get(prop), ...options });
+    return getFieldProps(prop, { initialValue: data[prop], ...options });
   }
 
   @autobind

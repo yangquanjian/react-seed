@@ -7,14 +7,13 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import CustomerDetailHeader from '../../components/customer/DetailHeader';
 import ChartWidget from '../../components/customer/Chart';
 
 const mapStateToProps = state => ({
-    data: state.customer.get('detailInfo'),
-    chartData: state.customer.get('chartInfo')
+  data: state.customer.get('detailInfo'),
+  chartData: state.customer.get('chartInfo')
 });
 
 const mapDispatchToProps = {
@@ -88,5 +87,4 @@ export default class CustomerDetail extends PureComponent {
 //       </div>
 //     );
 //   }
-
 }

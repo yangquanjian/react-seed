@@ -12,7 +12,7 @@ import ProductList from '../../components/product/List';
 import './home.less';
 
 const mapStateToProps = state => ({
-  list: state.product.get('list'),
+  list: state.product.list,
 });
 
 const mapDispatchToProps = {

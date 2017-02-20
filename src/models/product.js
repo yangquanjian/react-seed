@@ -3,20 +3,22 @@
  * @author maoquan(maoquan@htsc.com)
  */
 
-import { fromJS } from 'immutable';
-
+import _ from 'lodash';
 import api from '../api';
 import { delay } from '../utils/sagaEffects';
 
 export default {
   namespace: 'product',
-  state: fromJS({
+  state: {
     list: [],
-  }),
+  },
   reducers: {
     saveList(state, action) {
       const { payload: { response } } = action;
-      return state.update('list', list => list.concat(response.data));
+      return {
+        ...state,
+        list: [...state.list, ...response.data],
+      };
     },
   },
   effects: {
@@ -35,11 +37,15 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
-        if (pathname === '/product') {
-          dispatch({ type: 'fetch', payload: query });
-        }
-      });
+      return history.listen(
+        _.once(
+          ({ pathname, query }) => {
+            if (pathname === '/product') {
+              dispatch({ type: 'fetch', payload: query });
+            }
+          },
+        ),
+      );
     },
   },
 };
