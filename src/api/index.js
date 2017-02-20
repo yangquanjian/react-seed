@@ -15,4 +15,12 @@ export default {
    * 保存客户信息
    */
   saveCustomer: ({ data }) => api.post('/customer/save', data),
+  /**
+   * 查询客户基本信息
+   */
+  getCustBasic: ({ id }) => api.get('/customer/getbasic', id),
+  /**
+   * 查询客户基本信息
+   */
+  getPerCustCotact: ({ id }) => api.get('/customer/perCustContact', id),
 };

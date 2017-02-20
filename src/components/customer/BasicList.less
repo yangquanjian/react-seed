@@ -1,0 +1,69 @@
+.baseList{
+  background:#fff;
+  border-top:1px solid #ddd;
+  padding-left:30px;
+  ul{
+    margin-bottom: 40px;
+  }
+  li{
+    display:-webkit-box;
+    line-height:120px;
+    border-bottom:1px solid #e7e7e7;
+    padding-right:30px;
+    position:relative;
+
+    &:last-child{
+      border-bottom:none;
+    }
+    .listLabel{
+      font-size:32px;
+      color:#333;
+    }
+    .listValue{
+      font-size:28px;
+      color:#666;
+      -webkit-box-flex:1.0;
+      text-align:right;
+      padding-left:48px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
+    }
+    div.overheight{
+      padding-top:36px;
+      line-height:48px;
+      text-align:left;
+      padding-bottom:18px;
+      overflow:visible;
+      text-overflow:clip;
+      white-space: normal;
+    }
+
+  }
+
+  .sortDown{
+    //background:url(../img/sortDown.png) no-repeat;
+    background-size:16px;
+    width:16px;
+    height:10px;
+    position:absolute;
+    top:50%;
+    margin-top:-6px;
+    right:8px;
+  }
+  .sortUp{
+    //background:url(../img/sortUp.png) no-repeat;
+    background-size:16px;
+  }
+  .arrow{
+    //background:url(../img/arrow.png) no-repeat;
+    background-size:16px;
+    width:16px;
+    height:26px;
+    position:absolute;
+    top:50%;
+    margin-top:-12px;
+    right:8px;
+  }
+
+}

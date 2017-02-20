@@ -16,6 +16,7 @@ export default function CustomerHome(props) {
         leftContent={false}
       >{props.title}</NavBar>
       <p><Link to="/customer/1">修改客户信息</Link></p>
+      <p><Link to="/custbasic/1">客户基本信息</Link></p>
       <Chart />
     </div>
   );
