@@ -8,6 +8,7 @@ import { browserHistory } from 'dva/router';
 import createLoading from 'dva-loading';
 import createLogger from 'redux-logger';
 import { persistStore, autoRehydrate } from 'redux-persist';
+import { Modal } from 'antd-mobile';
 
 import routerConfig from './router';
 import persistConfig from './config/persist';
@@ -18,7 +19,7 @@ const app = dva({
   onAction: createLogger(),
   extraEnhancers: [autoRehydrate()],
   onError(e) {
-    console.log(e);
+    Modal.alert(e.message);
   },
 });
 
