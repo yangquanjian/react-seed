@@ -9,7 +9,6 @@ import { withRouter, routerRedux } from 'dva/router';
 import { autobind } from 'core-decorators';
 import { Drawer } from 'antd-mobile';
 
-import Chart from '../../components/customer/Chart';
 import Searchable, { queryMethod } from '../../components/customer/Searchable';
 import CustomerInfo from '../../components/customer/Info';
 import CustomerList from '../../components/customer/List';
@@ -36,14 +35,12 @@ const mapDispatchToProps = {
 @Searchable
 export default class CustomerHome extends PureComponent {
   static propTypes = {
-    title: PropTypes.string,
     info: PropTypes.object,
     getList: PropTypes.func,
     list: PropTypes.array,
   }
 
   static defaultProps = {
-    title: '客户首页',
     info: {},
     getList: () => {},
     list: [],
@@ -64,7 +61,7 @@ export default class CustomerHome extends PureComponent {
   }
 
   render() {
-    const { info, title, list, getList } = this.props;
+    const { info, list, getList } = this.props;
     const sidebar = (<div>筛选1111</div>);
     const drawerProps = {
       open: this.state.open,
