@@ -12,6 +12,7 @@ import { Modal } from 'antd-mobile';
 
 import routerConfig from './router';
 import persistConfig from './config/persist';
+import FastClick from './utils/fastclick';
 
 // 1. Initialize
 const app = dva({
@@ -38,3 +39,6 @@ app.start('#app');
 
 // 6. redux-persist
 persistStore(app._store, persistConfig); // eslint-disable-line
+
+// fastclick
+FastClick.attach(document.body);

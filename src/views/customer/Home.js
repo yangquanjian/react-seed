@@ -3,32 +3,82 @@
  * @author maoquan(maoquan@htsc.com)
  */
 
-import React, { PropTypes } from 'react';
-import { Link } from 'dva/router';
-import NavBar from '../../components/common/NavBar';
-import Chart from '../../components/customer/Chart';
+import React, { PureComponent, PropTypes } from 'react';
+import { connect } from 'dva';
+import { withRouter, routerRedux } from 'dva/router';
+import { autobind } from 'core-decorators';
+import { Drawer } from 'antd-mobile';
 
-export default function CustomerHome(props) {
-  return (
-    <div className="page-customer">
-      <NavBar
-        iconName={false}
-        leftContent={false}
-      >{props.title}</NavBar>
-      <p><Link to="/customer/1">修改客户信息</Link></p>
-      <p><Link to="/custbasic/per/1">个人客户 -- 基本信息</Link></p>
-      <p><Link to="/custbasic/org/1">机构客户 -- 基本信息</Link></p>
-      <p><Link to="/custContact/1">个人客户 -- 联系方式</Link></p>
+import Searchable, { queryMethod } from '../../components/customer/Searchable';
+import CustomerInfo from '../../components/customer/Info';
+import CustomerList from '../../components/customer/List';
+import './home.less';
 
-      <Chart />
-    </div>
-  );
+const mapStateToProps = state => ({
+  searchList: state.customer.searchList,
+  info: state.customer.info,
+  list: state.customer.list,
+});
+
+const mapDispatchToProps = {
+  getSearchList: queryMethod,
+  getList: query => ({
+    type: 'customer/getList',
+    payload: { query },
+  }),
+  push: routerRedux.push,
+  replace: routerRedux.replace,
+};
+
+@connect(mapStateToProps, mapDispatchToProps)
+@withRouter
+@Searchable
+export default class CustomerHome extends PureComponent {
+  static propTypes = {
+    info: PropTypes.object,
+    getList: PropTypes.func,
+    list: PropTypes.array,
+  }
+
+  static defaultProps = {
+    info: {},
+    getList: () => {},
+    list: [],
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      open: false,
+      position: 'right',
+    };
+  }
+
+  @autobind
+  onOpenChange() {
+    this.setState({ open: !this.state.open });
+  }
+
+  render() {
+    const { info, list, getList } = this.props;
+    const sidebar = (<div>筛选1111</div>);
+    const drawerProps = {
+      open: this.state.open,
+      position: this.state.position,
+      onOpenChange: this.onOpenChange,
+    };
+    return (
+      <section className="page-customer">
+        <CustomerInfo data={info} />
+        <CustomerList list={list} getList={getList} onOpenChange={this.onOpenChange} />
+        <Drawer
+          className="my-drawer"
+          sidebar={sidebar}
+          dragHandleStyle={{ display: 'none' }}
+          {...drawerProps}
+        />
+      </section>
+    );
+  }
 }
-
-CustomerHome.propTypes = {
-  title: PropTypes.string,
-};
-
-CustomerHome.defaultProps = {
-  title: '客户首页',
-};

@@ -9,6 +9,7 @@ const config = {
   storeConfig: {
     storage: localForage,
   },
+  blacklist: ['routing'],
 };
 
 export default config;

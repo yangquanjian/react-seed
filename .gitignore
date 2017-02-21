@@ -5,3 +5,5 @@ npm-debug.log
 .*.swo
 output
 dist
+iconfont.js
+iconfont.css

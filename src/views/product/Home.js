@@ -6,7 +6,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
-import Searchable from '../../components/product/Searchable';
 
 import ProductList from '../../components/product/List';
 import './home.less';
@@ -20,10 +19,13 @@ const mapDispatchToProps = {
     type: 'product/fetch',
     payload: { categoryId },
   }),
+  doSearch: keyword => ({
+    type: 'product/search',
+    payload: { keyword },
+  }),
   push: routerRedux.push,
 };
 
-@Searchable
 @connect(mapStateToProps, mapDispatchToProps)
 export default class ProductHome extends PureComponent {
   static propTypes = {

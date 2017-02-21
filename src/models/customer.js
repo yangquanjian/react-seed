@@ -14,6 +14,9 @@ export default {
     data: {},
     basic: {},
     contact: {},
+    searchList: [],
+    info: {},
+    list: [],
   },
   reducers: {
     fetchSuccess(state, action) {
@@ -48,9 +51,32 @@ export default {
         },
       };
     },
+    getSuccess(state, action) {
+      const { payload: { info, list } } = action;
+      return {
+        ...state,
+        info: {
+          ...info.data,
+        },
+        list: list.data,
+      };
+    },
+    getListSuccess(state, action) {
+      const { payload: { list } } = action;
+      return {
+        ...state,
+        list: [...state.list, ...list.data],
+      };
+    },
     saveSuccess(state, action) {// eslint-disable-line
       // 做一些表单保存成功后的处理
       return state;
+    },
+    searchSuccess(state, { payload: { response } }) {// eslint-disable-line
+      return {
+        ...state,
+        searchList: response.data,
+      };
     },
   },
   effects: {
@@ -70,6 +96,20 @@ export default {
         type: 'getBasicSuccess',
         payload: {
           response,
+          id,
+        },
+      });
+    },
+    * getInfo({ payload: { id = 2 } }, { call, put }) {
+      const [info, list] = yield [
+        call(api.getCustomerInfo, { id }),
+        call(api.getCustomerList, { id }),
+      ];
+      yield put({
+        type: 'getSuccess',
+        payload: {
+          info,
+          list,
           id,
         },
       });
@@ -94,10 +134,39 @@ export default {
         },
       });
     },
+
+    * getList({ payload: { id = 3 } }, { call, put }) {
+      const list = yield call(api.getCustomerList, { id });
+      yield put({
+        type: 'getListSuccess',
+        payload: {
+          list,
+          id,
+        },
+      });
+    },
     * save({ payload: { data } }, { call, put }) {
       const response = yield call(api.saveCustomer, { data });
       yield put({ type: 'saveSuccess', payload: { response } });
       yield put(routerRedux.goBack());
+    },
+    * search({ payload: { keyword, page } }, { put }) {
+      // const response = yield call(api.searchCustomer, { keyword, page });
+      const response = {
+        data: [
+          {
+            id: '1',
+            name: '张三',
+            phone: '13852293972',
+          },
+          {
+            id: '2',
+            name: '李四',
+            phone: '17705188176',
+          },
+        ],
+      };
+      yield put({ type: 'searchSuccess', payload: { response } });
     },
   },
   subscriptions: {
@@ -106,10 +175,13 @@ export default {
         const match = pathToRegexp('/customer/:id').exec(pathname);
         const custBasicMatch = pathToRegexp('/custBasic/:type/:id').exec(pathname);
         const custContactMatch = pathToRegexp('/custContact/:id').exec(pathname);
+        const custMatch = pathToRegexp('/customer').exec(pathname);
+
         if (match) {
           const id = match[1];
           dispatch({ type: 'fetch', payload: { id } });
         }
+
         if (custBasicMatch) {
           const id = custBasicMatch[2];
           const type = custBasicMatch[1];
@@ -119,9 +191,15 @@ export default {
             dispatch({ type: 'getOrgBasic', payload: { id } });
           }
         }
+
         if (custContactMatch) {
           const id = custContactMatch[1];
           dispatch({ type: 'getPerContact', payload: { id } });
+        }
+
+        if (custMatch) {
+          const id = custMatch[1];
+          dispatch({ type: 'getInfo', payload: { id } });
         }
       });
     },

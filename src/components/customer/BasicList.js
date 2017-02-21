@@ -12,7 +12,7 @@ export default class BasicList extends PureComponent {
   static propTypes = {
     type: PropTypes.string.isRequired,
     data: PropTypes.array.isRequired,
-    getMapKey: PropTypes.function.isRequired,
+    getMapKey: PropTypes.func,
   };
 
   static defaultProps = {

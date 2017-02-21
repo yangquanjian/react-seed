@@ -27,4 +27,12 @@ export default {
    * 查询个人客户联系方式
    */
   getPerCustCotact: ({ id }) => api.get('/customer/queryCustContact', id),
+  /**
+   * 获取客户信息
+   */
+  getCustomerInfo: ({ id }) => api.get('/customer/info', { id }),
+  /**
+   * 获取客户列表
+   */
+  getCustomerList: ({ id }) => api.get('/customer/cusList', { id }),
 };
