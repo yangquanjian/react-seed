@@ -6,29 +6,23 @@
 
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { routerRedux } from 'dva/router';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import { NavBar } from 'antd-mobile';
 import CustBasicHead from '../../components/customer/CustBasicHead';
 import BasicList from '../../components/customer/BasicList';
 
 const mapStateToProps = state => ({
-  data: state.customer.get('basicData'),
+  data: state.customer.basic,
 });
 
 const mapDispatchToProps = {
-  getList: categoryId => ({
-    type: 'customer/getBasic',
-    payload: { categoryId },
-  }),
-  push: routerRedux.push,
+  push: () => {},
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class CustBasic extends PureComponent {
   static propTypes = {
-    data: ImmutablePropTypes.map.isRequired,
+    data: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
   }
@@ -40,18 +34,18 @@ export default class CustBasic extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      liked: false,
       getMapKey: (key) => {
-        const value = this.props.data.get(key);
+        const value = this.props.data[key];
         return (!value) ? '--' : value;
       },
+      getDataArr: () => Object.entries(this.props.data),
     };
   }
 
   render() {
-    const { data, title } = this.props;
-    const getMapKey = this.state.getMapKey;
-    const custType = (this.props.params.id === 1) ? 'org' : 'per';
+    const { title } = this.props;
+    const { getMapKey, getDataArr } = this.state;
+    const custType = this.props.params.type;
 
     return (
       <div className="custBasic">
@@ -68,7 +62,9 @@ export default class CustBasic extends PureComponent {
 
         <BasicList
           type={custType}
-          data={data}
+          data={getDataArr()}
+          getMapKey={getMapKey}
+          {...this.state}
         />
       </div>
     );

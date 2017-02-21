@@ -29,15 +29,14 @@ export const dataSource = new ListView.DataSource({
  * @return {ListView.DataSource}
  */
 export const prepareDataSource = (data) => {
-  const listData = _.isFunction(data.toJS) ? data.toJS() : data;
   const sectionIDs = ['s0'];
   const rowIDs = [];
   const dataBlob = {
     s0: {},
   };
-  if (!_.isEmpty(listData)) {
+  if (!_.isEmpty(data)) {
     rowIDs.push(
-      listData.map(
+      data.map(
         (item, index) => {
           const rowID = `s0-r${index}`;
           dataBlob[rowID] = item;

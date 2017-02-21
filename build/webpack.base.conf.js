@@ -66,6 +66,7 @@ module.exports = {
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       }
-    ]
+    ],
+    noParse: [new RegExp('node_modules/localforage/dist/localforage.js')]
   }
 }

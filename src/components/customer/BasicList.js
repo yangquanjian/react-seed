@@ -4,7 +4,6 @@
  */
 
 import React, { PropTypes, PureComponent } from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import './BasicList.less';
 
@@ -12,13 +11,15 @@ export default class BasicList extends PureComponent {
 
   static propTypes = {
     type: PropTypes.string.isRequired,
-    data: ImmutablePropTypes.map.isRequired,
-  }
+    data: PropTypes.array.isRequired,
+    getMapKey: PropTypes.function.isRequired,
+  };
 
   static defaultProps = {
     type: 'per',
     data: undefined,
-  }
+    getMapKey: () => {},
+  };
 
   constructor(props) {
     super(props);
@@ -60,7 +61,7 @@ export default class BasicList extends PureComponent {
         return (this.props.type === 'per') ? perLabelMap : orgLabelMap;
       },
       getMapValue: (key) => {
-        let value = this.props.data.get(key);
+        let value = this.props.getMapKey(key);
         if (!value || value === undefined) {
           value = '--';
         } else if (key === 'idValDate' || key === 'foundTime' || key === 'openTime' || key === 'lastCommission') {

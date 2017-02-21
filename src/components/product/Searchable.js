@@ -34,17 +34,24 @@ export default (ComposedComponent) => {
     }
 
     @autobind
-    handleSearchFocus() {
+    handleFocus() {
       this.setState({ mode: SHOW_MODE.SEARCHING });
     }
 
     @autobind
-    handleSearchCancel() {
+    handleChange(text) {
+      if (text === '') {
+        this.setState({ mode: SHOW_MODE.SEARCHING });
+      }
+    }
+
+    @autobind
+    handleCancel() {
       this.setState({ mode: SHOW_MODE.NORMAL });
     }
 
     @autobind
-    handleSearchSubmit() {
+    handleSubmit() {
       this.setState({ mode: SHOW_MODE.SEARCHED });
     }
 
@@ -52,7 +59,7 @@ export default (ComposedComponent) => {
       const { mode } = this.state;
       let mainElems;
       if (mode === SHOW_MODE.NORMAL) {
-        mainElems = <ComposedComponent />;
+        mainElems = <ComposedComponent {...this.props} />;
       } else if (mode === SHOW_MODE.SEARCHING) {
         mainElems = (
           <div>搜索推荐</div>
@@ -68,9 +75,10 @@ export default (ComposedComponent) => {
           <SearchBar
             placeholder="搜索"
             showCancelButton
-            onFocus={this.handleSearchFocus}
-            onCancel={this.handleSearchCancel}
-            onSubmit={this.handleSearchSubmit}
+            onFocus={this.handleFocus}
+            onChange={this.handleChange}
+            onCancel={this.handleCancel}
+            onSubmit={this.handleSubmit}
           />
           {mainElems}
         </div>

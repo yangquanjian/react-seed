@@ -16,11 +16,15 @@ export default {
    */
   saveCustomer: ({ data }) => api.post('/customer/save', data),
   /**
-   * 查询客户基本信息
+   * 查询个人客户基本信息
    */
-  getCustBasic: ({ id }) => api.get('/customer/getbasic', id),
+  getPerCustBasic: ({ id }) => api.get('/customer/queryfspcustper', id),
   /**
-   * 查询客户基本信息
+   * 查询机构客户基本信息
    */
-  getPerCustCotact: ({ id }) => api.get('/customer/perCustContact', id),
+  getOrgCustBasic: ({ id }) => api.get('/customer/queryfspcustorg', id),
+  /**
+   * 查询个人客户联系方式
+   */
+  getPerCustCotact: ({ id }) => api.get('/customer/queryCustContact', id),
 };
