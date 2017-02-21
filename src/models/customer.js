@@ -11,8 +11,9 @@ import api from '../api';
 export default {
   namespace: 'customer',
   state: {
-    data: {},
     searchList: [],
+    info: {},
+    list: [],
   },
   reducers: {
     fetchSuccess(state, action) {
@@ -23,6 +24,23 @@ export default {
           ...state.data,
           ...response.data,
         },
+      };
+    },
+    getSuccess(state, action) {
+      const { payload: { info, list } } = action;
+      return {
+        ...state,
+        info: {
+          ...info.data,
+        },
+        list: list.data,
+      };
+    },
+    getListSuccess(state, action) {
+      const { payload: { list } } = action;
+      return {
+        ...state,
+        list: [...state.list, ...list.data],
       };
     },
     saveSuccess(state, action) {// eslint-disable-line
@@ -43,6 +61,30 @@ export default {
         type: 'fetchSuccess',
         payload: {
           response,
+          id,
+        },
+      });
+    },
+    * getInfo({ payload: { id = 2 } }, { call, put }) {
+      const [info, list] = yield [
+        call(api.getCustomerInfo, { id }),
+        call(api.getCustomerList, { id }),
+      ];
+      yield put({
+        type: 'getSuccess',
+        payload: {
+          info,
+          list,
+          id,
+        },
+      });
+    },
+    * getList({ payload: { id = 3 } }, { call, put }) {
+      const list = yield call(api.getCustomerList, { id });
+      yield put({
+        type: 'getListSuccess',
+        payload: {
+          list,
           id,
         },
       });
@@ -75,9 +117,14 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname }) => {
         const match = pathToRegexp('/customer/:id').exec(pathname);
+        const custMatch = pathToRegexp('/customer').exec(pathname);
         if (match) {
           const id = match[1];
           dispatch({ type: 'fetch', payload: { id } });
+        }
+        if (custMatch) {
+          const id = custMatch[1];
+          dispatch({ type: 'getInfo', payload: { id } });
         }
       });
     },
