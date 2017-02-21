@@ -5,7 +5,7 @@
 
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'dva';
-import { routerRedux, Link } from 'dva/router';
+import { withRouter, routerRedux, Link } from 'dva/router';
 
 import Chart from '../../components/customer/Chart';
 import Searchable, { queryMethod } from '../../components/customer/Searchable';
@@ -17,9 +17,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   getSearchList: queryMethod,
   push: routerRedux.push,
+  replace: routerRedux.replace,
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
+@withRouter
 @Searchable
 export default class CustomerHome extends PureComponent {
   static propTypes = {

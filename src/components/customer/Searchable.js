@@ -30,38 +30,54 @@ export default (ComposedComponent) => {
     static propTypes = {
       searchList: PropTypes.array.isRequired,
       getSearchList: PropTypes.func,
-      push: PropTypes.func,
+      replace: PropTypes.func,
+      location: PropTypes.object.isRequired,
     }
 
     static defaultProps = {
       getSearchList: () => {},
-      push: () => {},
+      replace: () => {},
     }
 
     constructor(props) {
       super(props);
 
-      // 记录关键词和页码，翻页使用
-      this.keyword = '';
-      this.page = 1;
-
+      const { searchList, location: { query } } = props;
       this.state = {
-        dataSource: prepareDataSource(props.searchList),
-        mode: SHOW_MODE.NORMAL,
+        dataSource: prepareDataSource(searchList),
+        mode: query.keyword ? SHOW_MODE.SEARCHED : SHOW_MODE.NORMAL,
+        value: query.keyword || '',
       };
     }
 
+    componentWillMount() {
+      const { location: { query } } = this.props;
+      const { keyword } = query;
+      if (keyword) {
+        this.doSearch(query);
+      }
+    }
+
     componentWillReceiveProps(nextProps) {
-      const { searchList } = nextProps;
+      const { searchList, location: { query } } = nextProps;
       if (searchList !== this.props.searchList) {
         this.setState({
           dataSource: prepareDataSource(searchList),
+          mode: query.keyword ? SHOW_MODE.SEARCHED : SHOW_MODE.NORMAL,
         });
+      }
+
+      const { location: { query: preQuery } } = this.props;
+
+      if (query.keyword !== preQuery.keyword
+        || query.page !== preQuery.page) {
+        this.doSearch(query);
       }
     }
 
     @autobind
     onEndReached() {
+      // console.log('onEndReached');
       const { isLoading } = this.state;
       if (!isLoading) {
         this.setState({ isLoading: true }, this.getList);
@@ -73,9 +89,16 @@ export default (ComposedComponent) => {
      */
     @autobind
     getList() {
-      this.page++;
-      const { keyword, page } = this;
-      this.props.getSearchList({ keyword, page });
+      const { location: { query: { keyword, page } } } = this.props;
+      this.props.getSearchList({
+        keyword,
+        page: page + 1,
+      });
+    }
+
+    @autobind
+    doSearch(query) {
+      this.props.getSearchList(query);
     }
 
     @autobind
@@ -84,28 +107,41 @@ export default (ComposedComponent) => {
 
     @autobind
     handleFocus() {
-      this.setState({ mode: SHOW_MODE.SEARCHING });
-    }
-
-    @autobind
-    handleChange(text) {
-      if (text === '') {
+      if (this.state.mode === SHOW_MODE.NORMAL) {
         this.setState({ mode: SHOW_MODE.SEARCHING });
       }
     }
 
     @autobind
+    handleChange(text) {
+      const stateMap = { value: text };
+      if (text === '') {
+        stateMap.mode = SHOW_MODE.SEARCHING;
+      }
+      this.setState(stateMap);
+    }
+
+    @autobind
     handleCancel() {
-      this.setState({ mode: SHOW_MODE.NORMAL });
+      this.setState({
+        mode: SHOW_MODE.NORMAL,
+        value: '',
+      });
     }
 
     @autobind
     handleSubmit(keyword) {
-      // 这里重置page为1
-      this.page = 1;
-      this.keyword = keyword;
-      this.props.getSearchList({ keyword, page: this.page });
-      this.setState({ mode: SHOW_MODE.SEARCHED });
+      const { replace, location: { query } } = this.props;
+      if (query.keyword !== keyword) {
+        // 这里重置page为1
+        replace({
+          pathname: location.pathname,
+          query: {
+            keyword,
+            page: 1,
+          },
+        });
+      }
     }
 
     renderSuggestion() {
@@ -181,7 +217,7 @@ export default (ComposedComponent) => {
     }
 
     render() {
-      const { mode } = this.state;
+      const { mode, value } = this.state;
       let mainElems;
       if (mode === SHOW_MODE.NORMAL) {
         mainElems = <ComposedComponent {...this.props} />;
@@ -194,7 +230,8 @@ export default (ComposedComponent) => {
       return (
         <div>
           <SearchBar
-            placeholder="搜索"
+            placeholder="客户姓名/客户号/手机号/证件号码"
+            value={value}
             showCancelButton
             onFocus={this.handleFocus}
             onChange={this.handleChange}
