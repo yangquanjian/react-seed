@@ -7,15 +7,22 @@
         "style": true
       }
     ],
-    [
-      "dva-hmr", {
-        "container": "#app",
-        "quiet": false
-      }
-    ],
     "add-module-exports",
     "transform-runtime",
     "transform-decorators-legacy"
   ],
+  "env": {
+    "production": {},
+    "development": {
+      "plugins": [
+        [
+          "dva-hmr", {
+            "container": "#app",
+            "quiet": false
+          }
+        ]
+      ]
+    }
+  },
   "comments": false
 }
