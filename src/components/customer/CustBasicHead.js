@@ -5,7 +5,7 @@
 
 import React, { PropTypes, PureComponent } from 'react';
 import Icon from '../common/Icon';
-import './CustBasicHead.less';
+import './cust_basic_head.less';
 
 export default class CustomerForm extends PureComponent {
 
@@ -14,13 +14,14 @@ export default class CustomerForm extends PureComponent {
     sex: PropTypes.string.isRequired,
     name: PropTypes.string,
     number: PropTypes.string,
-  }
+  };
 
   static defaultProps = {
+    type: 'per',
     sex: '男',
     name: '--',
     number: '--',
-  }
+  };
 
   constructor(props) {
     super(props);

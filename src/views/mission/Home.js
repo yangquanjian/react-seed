@@ -16,6 +16,9 @@ export default function MissionHome(props) {
       >{props.title}</NavBar>
       <p>{ props.title }</p>
       <p><Link to="/mission/1">任务详情</Link></p>
+      <p><Link to="/custbasic/per/1">个人客户 -- 基本信息</Link></p>
+      <p><Link to="/custbasic/org/1">机构客户 -- 基本信息</Link></p>
+      <p><Link to="/custContact/1">个人客户 -- 联系方式</Link></p>
     </div>
   );
 }

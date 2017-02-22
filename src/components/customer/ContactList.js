@@ -5,7 +5,7 @@
 
 import React, { PropTypes, PureComponent } from 'react';
 
-import './ContactList.less';
+import './contact_list.less';
 
 export default class ContactList extends PureComponent {
 

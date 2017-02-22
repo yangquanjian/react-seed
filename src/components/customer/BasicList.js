@@ -5,7 +5,7 @@
 
 import React, { PropTypes, PureComponent } from 'react';
 
-import './BasicList.less';
+import './basic_list.less';
 
 export default class BasicList extends PureComponent {
 
