@@ -9,6 +9,12 @@
 }
 
 .@{listPrefixCls} {
+    /** 解决position:relative不能自适应高度问题 */
+    &-view-scrollview {
+      display: table;
+      width: 100%;
+    }
+
     &-footer > div {
       padding: 30px;
       text-align: center;

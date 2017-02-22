@@ -1,0 +1,24 @@
+@import "../../css/util";
+
+.my-drawer {
+  position: relative;
+  overflow: auto;
+}
+.my-drawer .am-drawer-sidebar {
+  background-color: #fff;
+  overflow: auto;
+  z-index:200;
+}
+.my-drawer .am-drawer-sidebar .am-list {
+  width: 6rem;
+  padding: 0;
+}
+.my-drawer.am-drawer-open{
+	position: fixed;
+}
+.my-drawer .am-drawer-open{
+	z-index: 999;
+}
+.my-drawer .am-drawer-overlay{
+	z-index:199
+}
