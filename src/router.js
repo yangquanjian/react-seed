@@ -48,8 +48,8 @@ const routes = ({ history }) => (// eslint-disable-line
       <Route path="customer" component={TabPane}>
         <IndexRoute component={CustomerHome} />
         <Route path=":id" component={CustomerDetail} />
-        <Route path="/custBasic/:type/:id" component={CustBasic} />
-        <Route path="/custContact/:id" component={CustContact} />
+        <Route path="/custBasic/:custNumber/:custSor/:custId" component={CustBasic} />
+        <Route path="/custContact/:custNumber" component={CustContact} />
       </Route>
       <Route path="profile" components={Profile} />
     </Route>

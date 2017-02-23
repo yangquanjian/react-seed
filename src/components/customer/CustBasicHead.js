@@ -29,22 +29,11 @@ export default class CustomerForm extends PureComponent {
       getPhoto: () => {
         let photoStyle;
         if (this.props.type === 'org') {
-          photoStyle = 'headIcon orgHead';
+          photoStyle = <Icon className="" type="kehu" />;
         } else if (this.props.sex === '女') {
-          photoStyle = 'headIcon perHead womanIcon';
+          photoStyle = <Icon className="" type="xinzengkehu" />;
         } else {
-          photoStyle = 'headIcon perHead manIcon';
-        }
-        return photoStyle;
-      },
-      getPhoto1: () => {
-        let photoStyle;
-        if (this.props.type === 'org') {
-          photoStyle = <Icon className="" type="renqun" />;
-        } else if (this.props.sex === '女') {
-          photoStyle = <Icon className="" type="wode" />;
-        } else {
-          photoStyle = <Icon className="" type="wo" />;
+          photoStyle = <Icon className="" type="iconfont-addcustmor" />;
         }
         return photoStyle;
       },
@@ -53,11 +42,9 @@ export default class CustomerForm extends PureComponent {
 
   render() {
     const photo = this.state.getPhoto();
-    const photo1 = this.state.getPhoto1();
     return (
       <section className="baseHead">
-        <div className={photo}>{this.props.type}</div>
-        {photo1}
+        <div className="headIcon">{photo}</div>
         <div className="baseName">{this.props.name}</div>
         <p className="baseNo">{this.props.number}</p>
       </section>

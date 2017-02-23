@@ -158,33 +158,33 @@ exports.response = function (req, res) {
                 }
             ],
             qqNumbers: [
-                {
-                    mainFlag: false,
-                    contactType: "104124",
-                    contactValue: "rbhxhvccccchfbfbbrjjxbnehdjdjdjjxccchsh@139.comlljll",
-                    rowId: "COMMI-20170217-04837984314",
-                    validFlag: true
-                },
-                {
-                    mainFlag: false,
-                    contactType: "104124",
-                    contactValue: "rbhxhvccccchfbfbbrjjxbnehdjdjdjjxccchsh@139.comlljll",
-                    rowId: "COMMI-20170217-04837984314",
-                    validFlag: true
-                },
+                // {
+                //     mainFlag: false,
+                //     contactType: "104124",
+                //     contactValue: "123123124",
+                //     rowId: "COMMI-20170217-04837984314",
+                //     validFlag: true
+                // },
+                // {
+                //     mainFlag: false,
+                //     contactType: "104124",
+                //     contactValue: "56756767567",
+                //     rowId: "COMMI-20170217-04837984314",
+                //     validFlag: true
+                // },
             ],
             wechatNumbers: [
                 {
                     mainFlag: false,
                     contactType: "104124",
-                    contactValue: "rbhxhvccccchfbfbbrjjxbnehdjdjdjjxccchsh@139.comlljll",
+                    contactValue: "wechat345345",
                     rowId: "COMMI-20170217-04837984314",
                     validFlag: true
                 },
                 {
                     mainFlag: false,
                     contactType: "104124",
-                    contactValue: "rbhxhvccccchfbfbbrjjxbnehdjdjdjjxccchsh@139.comlljll",
+                    contactValue: "wechat34456455",
                     rowId: "COMMI-20170217-04837984314",
                     validFlag: true
                 }

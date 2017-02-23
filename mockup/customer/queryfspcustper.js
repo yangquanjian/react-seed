@@ -6,30 +6,31 @@ exports.response = function (req, res) {
         },
         data: {
             // => 个人客户
-            custId: "1-EX-807",
-            custName: "何YjP15",
-            custGender: "女",
-            custAge: "54",
-            custGrade: "紫金理财钻石卡客户",
-            idType: "身份证",
-            idNum: "320105196309291424",
-            idValDate: "04/10/2027",
-            job: "(旧)生产、运输设备操作人员及有关人员",
-            degree: "其他",
-            degreeCode: "110999",
-            merriage: "未婚",
-            merriageCode: "108010",
-            hobits: [
-                "汽车"
-            ],
-            acctStatus: "正常",
-            openTime: "10/20/1995",
-            priSalesTeamId: "1-OXZ5",
-            priSalesTeam: "王华",
-            lastCommission: "09/26/2016",
-            childCount: "4",
-            noPhone: "N",
-            noSms: "Y"
+            isSuccess: true,
+            customerInfoPer: {
+                custId: "1-DU-5288",
+                custName: "1-DU-5288",
+                custGender: "男",
+                custAge: "52",
+                custGrade: "紫金理财金卡客户",
+                idType: "身份证",
+                idNum: "1-DU-5288",
+                idValDate: "03/05/2026",
+                job: "(旧)办事人员及有关人员",
+                degree: "博士",
+                degreeCode: "110001",
+                merriage: "已婚",
+                merriageCode: "108020",
+                hobits: ["娱乐"],
+                acctStatus: "正常",
+                openTime: "04/22/1996",
+                priSalesTeamId: "1-OXZ5",
+                priSalesTeam: "1-OXZ5",
+                lastCommission: "08/30/2016",
+                childCount: "1",
+                noPhone: "Y",
+                noSms: "N",
+            }
         }
     };
 }

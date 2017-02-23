@@ -134,7 +134,6 @@ export default {
         },
       });
     },
-
     * getList({ payload: { id = 3 } }, { call, put }) {
       const list = yield call(api.getCustomerList, { id });
       yield put({
@@ -173,8 +172,8 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname }) => {
         const match = pathToRegexp('/customer/:id').exec(pathname);
-        const custBasicMatch = pathToRegexp('/custBasic/:type/:id').exec(pathname);
-        const custContactMatch = pathToRegexp('/custContact/:id').exec(pathname);
+        const custBasicMatch = pathToRegexp('/custBasic/:custNumber/:custSor/:custId').exec(pathname);
+        const custContactMatch = pathToRegexp('/custContact/:custNumber').exec(pathname);
         const custMatch = pathToRegexp('/customer').exec(pathname);
 
         if (match) {
@@ -183,12 +182,13 @@ export default {
         }
 
         if (custBasicMatch) {
-          const id = custBasicMatch[2];
-          const type = custBasicMatch[1];
-          if (type === 'per') {
-            dispatch({ type: 'getPerBasic', payload: { id } });
+          const custNumber = custBasicMatch[1];
+          const custSor = custBasicMatch[2];
+          const custId = custBasicMatch[3];
+          if (custSor === 'per') {
+            dispatch({ type: 'getPerBasic', payload: { custNumber, custSor, custId } });
           } else {
-            dispatch({ type: 'getOrgBasic', payload: { id } });
+            dispatch({ type: 'getOrgBasic', payload: { custNumber, custSor, custId } });
           }
         }
 

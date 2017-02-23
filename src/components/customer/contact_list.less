@@ -1,0 +1,40 @@
+.other {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0 0 20px 0;
+  background-color: #ffffff;
+  .info {
+    margin: 0;
+    padding: 0.186667rem 0 0 0.4rem;
+    border-top: 1px solid #dddddd;
+    .null-msg.have-data{
+      display: none;
+    }
+    .null-msg.no-data{
+      display: block;
+    }
+    ul,li{
+      list-style: none;
+    }
+    .item-box.have-data{
+      display: block;
+      .til.no-data{
+        display: none;
+      }
+      .til.have-data{
+        display: block;
+      }
+    }
+    .item-box.no-data{
+      display: none;
+    }
+    .item-box.email{
+      .info-item{
+        color: #007aff;
+      }
+    }
+  }
+
+}
