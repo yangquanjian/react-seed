@@ -111,6 +111,9 @@ export default class CustBasic extends PureComponent {
     return (
       <div className="custBasic">
         <NavBar
+          leftContent=" "
+          rightContent=" "
+          className=""
           onLeftClick={() => console.log('onLeftClick')}
         >
           <p>{title}</p>

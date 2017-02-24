@@ -50,8 +50,10 @@ export default class ContactList extends PureComponent {
     const isNull = this.props.isNull;
     const list = this.state.getList();
     const listShow = list.map((item, index) => (
-      <div key={`${item.label}-${index + 1}`}>
-        <h4 className={`til ${(item.length > 0) ? 'have-data' : 'no-data'}`}>{`${item.name}`}</h4>
+      <div className={`data-box len${item.data.length}`} key={`${item.label}-${index + 1}`}>
+        <h4 className={`til len${item.data.length}`}>
+          {`${item.name}`}
+        </h4>
         <ContactItem
           type={`${this.props.type}`}
           data={item.data}

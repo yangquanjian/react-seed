@@ -45,8 +45,10 @@ export default class CustomerForm extends PureComponent {
     return (
       <section className="baseHead">
         <div className="headIcon">{photo}</div>
-        <div className="baseName">{this.props.name}</div>
-        <p className="baseNo">{this.props.number}</p>
+        <div className="headInfo">
+          <p className="custName">{this.props.name}</p>
+          <p className="custNum">{this.props.number}</p>
+        </div>
       </section>
     );
   }

@@ -9,7 +9,7 @@ exports.response = function (req, res) {
             custSor: null,
             custNumber: null,
             custType: "per",
-            name: "张三",
+            name: "zsdasdasdasdasdadfasduahsdjasdasdasdasdasdasd",
             custRelaCd: null,
             custRela: null,
             rowId: null,
@@ -71,7 +71,7 @@ exports.response = function (req, res) {
                     provinceCd: "DF07",
                     city: "百色市",
                     cityCd: "DF0710",
-                    address: "禁魔岛@qq.com",
+                    address: "ADDRI-20161230-03942215132ADDRI-20161230-03942215132ADDRI-20161230-03942215132ADDRI-20161230-03942215132ADDRI-20161230-03942215132ADDRI-20161230-03942215132",
                     zip: "225600",
                     rowId: "ADDRI-20170118-03942215259"
                 },
@@ -111,7 +111,7 @@ exports.response = function (req, res) {
                 {
                     mainFlag: false,
                     contactType: "104120",
-                    contactValue: "05148449304",
+                    contactValue: "0514844930405148449304051484493040514844930405148449304051484493040514844930405148449304",
                     rowId: "COMMI-20170119-04837984216",
                     validFlag: true
                 },
@@ -157,7 +157,8 @@ exports.response = function (req, res) {
                     validFlag: true
                 }
             ],
-            qqNumbers: [
+            qqNumbers: null,
+            // qqNumbers: [
                 // {
                 //     mainFlag: false,
                 //     contactType: "104124",
@@ -168,27 +169,28 @@ exports.response = function (req, res) {
                 // {
                 //     mainFlag: false,
                 //     contactType: "104124",
-                //     contactValue: "56756767567",
+                //     contactValue: "56756767561231231241231231241231231241231231241231231241231231241231231241231231247",
                 //     rowId: "COMMI-20170217-04837984314",
                 //     validFlag: true
                 // },
-            ],
-            wechatNumbers: [
-                {
-                    mainFlag: false,
-                    contactType: "104124",
-                    contactValue: "wechat345345",
-                    rowId: "COMMI-20170217-04837984314",
-                    validFlag: true
-                },
-                {
-                    mainFlag: false,
-                    contactType: "104124",
-                    contactValue: "wechat34456455",
-                    rowId: "COMMI-20170217-04837984314",
-                    validFlag: true
-                }
-            ],
+            // ],
+            wechatNumbers: [],
+            // wechatNumbers: [
+            //     {
+            //         mainFlag: false,
+            //         contactType: "104124",
+            //         contactValue: "wechat345345",
+            //         rowId: "COMMI-20170217-04837984314",
+            //         validFlag: true
+            //     },
+            //     {
+            //         mainFlag: false,
+            //         contactType: "104124",
+            //         contactValue: "wechat34456455wechat34456455wechat34456455wechat34456455wechat34456455wechat34456455",
+            //         rowId: "COMMI-20170217-04837984314",
+            //         validFlag: true
+            //     }
+            // ],
 
             // idAddress: null,
             // homeAddresses: [],

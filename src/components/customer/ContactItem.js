@@ -28,6 +28,15 @@ export default class ContactItem extends PureComponent {
               <span>{`${item.province}${item.city}${item.address}`}</span>
             </p>
           </li>);
+      } else if (this.props.type === 'email') {
+        return (
+          <li key={`${type}-${index + 1}`}>
+            <p className={`info-item ${type}`}>
+              <span>{`${item.contactValue}`}</span>
+            </p>
+            <span className="btn" onClick={() => { console.log(item.contactValue); }}>发送邮件</span>
+          </li>
+        );
       }
       return (
         <li key={`${type}-${index + 1}`}>
@@ -39,7 +48,7 @@ export default class ContactItem extends PureComponent {
     });
 
     return (
-      <ul className="item-box">
+      <ul className="item-list">
         { rowItem }
       </ul>
     );

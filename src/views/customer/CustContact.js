@@ -8,7 +8,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { NavBar } from 'antd-mobile';
-import CustBasicHead from '../../components/customer/CustBasicHead';
+import Icon from '../../components/common/Icon';
 import ContactList from '../../components/customer/ContactList';
 
 const mapStateToProps = state => ({
@@ -54,23 +54,19 @@ export default class CustContact extends PureComponent {
       },
       isNull: (arr) => {
         if (!arr) return false;
-        let bool = !((arr instanceof Array) && arr.length > 0);
+        let bool = 0;
         arr.map((item) => {
-          if ((item instanceof Array && item.length > 0) || (item && item !== {})) {
-            bool = false;
-          } else {
-            bool = true;
-          }
+          if (item instanceof Array && item.length > 0) bool++;
+
           return true;
         });
 
-        return (bool === true) ? 'no-data' : 'have-data';
+        return (bool > 0) ? 'have-data' : 'no-data';
       },
     };
   }
 
   render() {
-    const { title, params } = this.props;
     const { getKey } = this.state;
     const LIST_LABEL_ARR = ['tel', 'email', 'address', 'qq', 'wechat'];
     const LIST_KEY_ARR = [
@@ -113,41 +109,38 @@ export default class CustContact extends PureComponent {
     LIST_KEY_ARR.map((item, index) => {
       const temp = item;
       temp.data = this.state.getSectionArr(temp.child);
-      temp.nullstyle = this.state.isNull(temp.child);
+      temp.nullstyle = this.state.isNull(temp.data);
 
       LIST_KEY_ARR[index] = temp;
       return true;
     });
 
     const testItem = LIST_KEY_ARR.map((item, index) => (
-      <div className="info">
-        <div className={`item-box ${item.nullstyle}`} key={`sec-${item.label}-${index + 1}`}>
-          <h3>{`${item.name}`}</h3>
-          <ContactList
-            isNull={`${item.nullstyle}`}
-            type={`${item.label}`}
-            labelArr={item.child}
-            nameArr={item.childname}
-            dataArr={item.data}
-          />
-        </div>
+      <div className={`info ${item.nullstyle}`} key={`sec-${item.label}-${index + 1}`}>
+        <h3>
+          <Icon className={item.label} type="kehu" />
+          {`${item.name}`}
+        </h3>
+        <ContactList
+          isNull={`${item.nullstyle}`}
+          type={`${item.label}`}
+          labelArr={item.child}
+          nameArr={item.childname}
+          dataArr={item.data}
+        />
       </div>
     ));
 
     return (
       <div className="custBasic">
         <NavBar
+          leftContent=" "
+          rightContent=" "
+          className=""
           onLeftClick={() => console.log('onLeftClick')}
         >
-          <p>{title}</p>
+          <p>{getKey('name')}</p>
         </NavBar>
-
-        <CustBasicHead
-          type={getKey('custType')}
-          sex={getKey('gender')}
-          name={getKey('name')}
-          number={params.custNumber}
-        />
 
         <secttion className="other">
           {testItem}

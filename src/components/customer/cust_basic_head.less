@@ -1,45 +1,72 @@
+@list-border: #efefef;
+@list-label: #333333;
+@list-content: #eeeeee;
 .baseHead{
-  background:#c5342a;
-  padding:24px 0 30px 0;
-  border-bottom:1px solid #ddd;
-  margin-bottom:30px;
+  position: relative;
+  height: 90px;
+  margin: 0;
+  padding: 39px 30px 32px 30px;
+  border: none;
+  background: #ffffff;
+  overflow: hidden;
+  &:after{
+    display: block;
+    position: absolute;
+    content: '';
+    left: 30px;
+    bottom: 0;
+    right: auto;
+    top: auto;
+    width: 100%;
+    border-bottom: 1PX solid #ddd;
+  }
+  &>div{
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: inline-flex;
+    align-content: center;
+    align-items: center;
+  }
   .headIcon{
-    width:140px;
-    height:140px;
-    margin:auto;
-    background: #ffffff none;
+    width: 90px;
+    height: 90px;
+    margin: 0;
     border-radius: 50%;
-    text-align: center;
+    align-content: center;
+    border: 3px solid #fbf3f3;
+    background-color: #faf6f6;
     .iconfont{
-      font-size: 100px;
-      line-height: 140px;
+      margin: 0 auto;
+      font-size: 50px;
+      line-height: 90px;
+      color: #df8d84;
     }
   }
-  .orgHead{
-    background: #333333 none;
-    background-size:140px;
-  }
-  .perHead.manIcon{
-    background: #2db7f5 none;
-    background-size:140px;
-  }
-  .perHead.womanIcon{
-    background: #e3aeab none;
-    background-size:140px;
-  }
-  .baseName{
-    text-align:center;
-    color:#fff;
-    font-size:36px;
-    font-weight:bold;
-    /*height:28px;*/
-    line-height:56px;
-  }
-  .baseNo{
-    text-align:center;
-    color:#e3aeab;
-    font-size:24px;
-    height:28px;
-    line-height:28px;
+  .headInfo{
+    width: 590px;
+    height: 90px;
+    p{
+      display: block;
+      width: 100%;
+      margin: 0;
+      text-align: left;
+      text-indent: 15px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .custName{
+      color: #111111;
+      font-size: 32px;
+      font-weight: bold;
+      line-height: 56px;
+    }
+    .custNum{
+      color: #666666;
+      font-size: 24px;
+      height: 33px;
+      line-height: 33px;
+    }
   }
 }
