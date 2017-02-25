@@ -42,3 +42,6 @@ persistStore(app._store, persistConfig); // eslint-disable-line
 
 // fastclick
 FastClick.attach(document.body);
+
+// cordova
+document.addEventListener('deviceready', () => {}, false);

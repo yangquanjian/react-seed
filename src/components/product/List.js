@@ -71,7 +71,7 @@ export default class ProductList extends PureComponent {
     const { Option } = Select;
     return (
       <div>
-        <Select style={{ width: 300 }}>
+        <Select style={{ width: 300 }} allowClear onChange={e => console.log(e)}>
           <Option value="0" text="预期收益由高到低">预期收益由高到低</Option>
           <Option value="1" text="预期收益由低到高">预期收益由低到高</Option>
           <Option value="2" text="期限由高到低">期限由高到低</Option>

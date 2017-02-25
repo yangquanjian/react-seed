@@ -6,99 +6,99 @@
 
 import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
-import { SearchBar, List, ListView } from 'antd-mobile';
+import { SearchBar, List } from 'antd-mobile';
+import localforage from 'localforage';
 
-import SearchItem from './SearchItem';
-import { prepareDataSource } from '../../utils/listView';
+import './searchable.less';
 
 const Item = List.Item;
 
 const SHOW_MODE = {
   NORMAL: 'NORMAL',
   SEARCHING: 'SEARCHING',
-  SEARCHED: 'SEARCHED',
 };
 
-export const queryMethod = query => ({
-  type: 'customer/search',
-  payload: query,
-});
+const HISTORY_KEY = 'CUSTOMER_HISTORY_KEYWORD';
 
 export default (ComposedComponent) => {
   class SearchableComponent extends PureComponent {
 
     static propTypes = {
-      searchList: PropTypes.array.isRequired,
-      getSearchList: PropTypes.func,
-      replace: PropTypes.func,
+      push: PropTypes.func.isRequired,
+      replace: PropTypes.func.isRequired,
+      goBack: PropTypes.func,
       location: PropTypes.object.isRequired,
     }
 
     static defaultProps = {
-      getSearchList: () => {},
-      replace: () => {},
+      goBack: () => {},
     }
 
     constructor(props) {
       super(props);
 
-      const { searchList, location: { query } } = props;
+      const { location: { query } } = props;
       this.state = {
-        dataSource: prepareDataSource(searchList),
-        mode: query.keyword ? SHOW_MODE.SEARCHED : SHOW_MODE.NORMAL,
-        value: query.keyword || '',
+        mode: SHOW_MODE.NORMAL,
+        // 如果在搜索结果页面，则默认填上关键词
+        value: this.isInResultPage() ? decodeURIComponent(query.keyword) : '',
+        historyList: [],
       };
-    }
-
-    componentWillMount() {
-      const { location: { query } } = this.props;
-      const { keyword } = query;
-      if (keyword) {
-        this.doSearch(query);
-      }
+      this.syncHistoryToState();
     }
 
     componentWillReceiveProps(nextProps) {
-      const { searchList, location: { query } } = nextProps;
-      if (searchList !== this.props.searchList) {
-        this.setState({
-          dataSource: prepareDataSource(searchList),
-          mode: query.keyword ? SHOW_MODE.SEARCHED : SHOW_MODE.NORMAL,
-        });
-      }
-
-      const { location: { query: preQuery } } = this.props;
-
-      if (query.keyword !== preQuery.keyword
-        || query.page !== preQuery.page) {
-        this.doSearch(query);
-      }
+      const { location: { query } } = nextProps;
+      this.setState({
+        mode: SHOW_MODE.NORMAL,
+        value: this.isInResultPage() ? decodeURIComponent(query.keyword) : '',
+      });
+      this.syncHistoryToState();
     }
 
-    @autobind
-    onEndReached() {
-      // console.log('onEndReached');
-      const { isLoading } = this.state;
-      if (!isLoading) {
-        this.setState({ isLoading: true }, this.getList);
+    async getHistoryList() {
+      let historyList = await localforage.getItem(HISTORY_KEY);
+      if (!historyList) {
+        historyList = [];
+        await localforage.setItem(HISTORY_KEY, historyList);
       }
+      return historyList;
     }
 
-    /**
-     * 根据产品分类id获取产品列表
-     */
-    @autobind
-    getList() {
-      const { location: { query: { keyword, page } } } = this.props;
-      this.props.getSearchList({
-        keyword,
-        page: page + 1,
+    syncHistoryToState() {
+      this.getHistoryList().then(
+        historyList => this.setState({
+          historyList,
+        }),
+      );
+    }
+
+    async saveHistory(keyword) {
+      let historyList = await this.getHistoryList();
+      if (historyList.includes(keyword)) {
+        historyList = historyList.filter(item => item !== keyword);
+      }
+      historyList.unshift(keyword);
+      if (historyList.length > 10) {
+        historyList.pop();
+      }
+      await localforage.setItem(HISTORY_KEY, historyList);
+      this.setState({
+        historyList,
       });
     }
 
     @autobind
-    doSearch(query) {
-      this.props.getSearchList(query);
+    async clearHistory() {
+      await localforage.setItem(HISTORY_KEY, []);
+      this.setState({
+        historyList: [],
+      });
+    }
+
+    isInResultPage() {
+      const { location } = this.props;
+      return /searchResult/.test(location.pathname);
     }
 
     @autobind
@@ -107,7 +107,8 @@ export default (ComposedComponent) => {
 
     @autobind
     handleFocus() {
-      if (this.state.mode === SHOW_MODE.NORMAL) {
+      if (this.state.mode === SHOW_MODE.NORMAL
+        && !this.isInResultPage()) {
         this.setState({ mode: SHOW_MODE.SEARCHING });
       }
     }
@@ -123,96 +124,74 @@ export default (ComposedComponent) => {
 
     @autobind
     handleCancel() {
-      this.setState({
-        mode: SHOW_MODE.NORMAL,
-        value: '',
-      });
-    }
-
-    @autobind
-    handleSubmit(keyword) {
-      const { replace, location: { query } } = this.props;
-      if (query.keyword !== keyword) {
-        // 这里重置page为1
-        replace({
-          pathname: location.pathname,
-          query: {
-            keyword,
-            page: 1,
-          },
+      const { goBack } = this.props;
+      if (this.isInResultPage()) {
+        goBack();
+      } else {
+        this.setState({
+          mode: SHOW_MODE.NORMAL,
+          value: '',
         });
       }
     }
 
-    renderSuggestion() {
-      return (
-        <List renderHeader={() => '历史记录'} className="history-list">
-          <Item arrow="horizontal">历史记录1</Item>
-          <Item arrow="horizontal">历史记录2</Item>
-          <Item arrow="horizontal">历史记录3</Item>
-        </List>
-      );
-    }
-
-    renderHeader() {
-      return (
-        <div>
-          Header
-        </div>
-      );
-    }
-
     @autobind
-    renderRow(rowData, sectionID, rowID) {
-      return (
-        <SearchItem
-          key={`${sectionID}-${rowID}`}
-          id={rowData.id}
-          title={rowData.name}
-          extra={rowData.phone}
-          onClick={this.handleClick}
-        />
-      );
-    }
-
-    renderSeparator(sectionID, rowID) {
-      return (
-        <div
-          key={`${sectionID}-${rowID}`}
-          className="list-separator"
-        />
-      );
-    }
-
-    @autobind
-    renderFooter() {
-      const { isLoading } = this.state;
-      return (
-        <div>
-          { isLoading ? '加载中...' : '加载完毕' }
-        </div>
-      );
-    }
-
-    renderResult() {
-      const { dataSource } = this.state;
-      if (!dataSource) {
-        return null;
+    async handleSubmit(keyword) {
+      if (!keyword) {
+        return;
       }
+      const { push, replace, location: { query } } = this.props;
+      const isInResultPage = this.isInResultPage();
+      const nav = isInResultPage ? replace : push;
+      if (query.keyword !== keyword) {
+        await this.saveHistory(keyword);
+        nav({
+          pathname: '/customer/searchResult',
+          query: {
+            keyword: encodeURIComponent(keyword),
+            page: 1,
+          },
+        });
+      } else if (keyword === encodeURIComponent(query.keyword)) {
+        // 如果要搜索的关键词就是这次已展现的列表
+        // 直接切换就好
+        this.setState({
+          mode: SHOW_MODE.NORMAL,
+          value: keyword,
+        });
+      }
+    }
+
+    @autobind
+    handleHistoryItemClick(e) {
+      const keyword = e.target.innerHTML;
+      this.handleSubmit(keyword);
+    }
+
+    @autobind
+    renderHistoryHeader() {
       return (
-        <ListView
-          className="customer-search-list"
-          dataSource={dataSource}
-          renderHeader={this.renderHeader}
-          renderFooter={this.renderFooter}
-          renderRow={this.renderRow}
-          renderSeparator={this.renderSeparator}
-          pageSize={4}
-          scrollRenderAheadDistance={500}
-          scrollEventThrottle={20}
-          onEndReached={this.onEndReached}
-          onEndReachedThreshold={10}
-        />
+        <p>
+          历史记录
+          <a className="history-clear" onClick={this.clearHistory}>清除</a>
+        </p>
+      );
+    }
+
+    renderHistory() {
+      const historyList = this.state.historyList;
+      return (
+        <List renderHeader={this.renderHistoryHeader} className="history-list">
+          {historyList.map(
+            keyword => (
+              <Item
+                key={encodeURIComponent(keyword)}
+                arrow="horizontal"
+                onClick={this.handleHistoryItemClick}
+              >{keyword}</Item>
+            ),
+          )}
+        </List>
       );
     }
 
@@ -222,13 +201,11 @@ export default (ComposedComponent) => {
       if (mode === SHOW_MODE.NORMAL) {
         mainElems = <ComposedComponent {...this.props} />;
       } else if (mode === SHOW_MODE.SEARCHING) {
-        mainElems = this.renderSuggestion();
-      } else if (mode === SHOW_MODE.SEARCHED) {
-        mainElems = this.renderResult();
+        mainElems = this.renderHistory();
       }
 
       return (
-        <div>
+        <div className="customer-search">
           <SearchBar
             placeholder="客户姓名/客户号/手机号/证件号码"
             value={value}

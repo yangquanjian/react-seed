@@ -52,9 +52,9 @@ class Frame extends Component {
 
   renderIcon(icon, isSelected = false) {
     const iconMap = {
-      mission: 'mission',
-      product: 'chanpin',
-      customer: 'kehu',
+      mission: 'renwu',
+      product: 'all',
+      customer: 'account',
       profile: 'wode',
     };
     return (
