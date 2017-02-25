@@ -64,9 +64,10 @@ export default class SearchList extends PureComponent {
    */
   @autobind
   refreshMore() {
-    const { location: { query: { keyword } } } = this.props;
+    const { location: { query: { keyword, cusType } } } = this.props;
     this.props.getList({
       keyword,
+      cusType,
     });
   }
 

@@ -94,7 +94,7 @@ export default {
       yield put({ type: 'saveSuccess', payload: { response } });
       yield put(routerRedux.goBack());
     },
-    * search({ payload: { keyword, page } }, { put }) {
+    * search({ payload: { keyword, page, cusType } }, { put }) {
       // const response = yield call(api.searchCustomer, { keyword, page });
       const response = {
         data: [

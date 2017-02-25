@@ -9,14 +9,27 @@ import { autobind } from 'core-decorators';
 import { SearchBar, List } from 'antd-mobile';
 import localforage from 'localforage';
 
+import Select from '../common/Select';
 import './searchable.less';
 
 const Item = List.Item;
+const Option = Select.Option;
 
 const SHOW_MODE = {
   NORMAL: 'NORMAL',
   SEARCHING: 'SEARCHING',
 };
+
+const SELECT_OPTIONS = [
+  {
+    text: '我的客户',
+    value: '0',
+  },
+  {
+    text: '我团队的客户',
+    value: '1',
+  },
+];
 
 const HISTORY_KEY = 'CUSTOMER_HISTORY_KEYWORD';
 
@@ -37,12 +50,16 @@ export default (ComposedComponent) => {
     constructor(props) {
       super(props);
 
+      // 我的客户、我团队的客户选择组件
+      this.select = null;
+
       const { location: { query } } = props;
       this.state = {
         mode: SHOW_MODE.NORMAL,
         // 如果在搜索结果页面，则默认填上关键词
         value: this.isInResultPage() ? decodeURIComponent(query.keyword) : '',
         historyList: [],
+        typeValue: SELECT_OPTIONS[0].value,
       };
       this.syncHistoryToState();
     }
@@ -105,6 +122,14 @@ export default (ComposedComponent) => {
     handleClick() {
     }
 
+
+    @autobind
+    handleSelectChange(value) {
+      this.setState({
+        typeValue: value,
+      });
+    }
+
     @autobind
     handleFocus() {
       if (this.state.mode === SHOW_MODE.NORMAL
@@ -149,7 +174,7 @@ export default (ComposedComponent) => {
           pathname: '/customer/searchResult',
           query: {
             keyword: encodeURIComponent(keyword),
-            page: 1,
+            cusType: this.state.typeValue,
           },
         });
       } else if (keyword === encodeURIComponent(query.keyword)) {
@@ -196,25 +221,47 @@ export default (ComposedComponent) => {
     }
 
     render() {
-      const { mode, value } = this.state;
+      const { mode, value, typeValue } = this.state;
       let mainElems;
       if (mode === SHOW_MODE.NORMAL) {
-        mainElems = <ComposedComponent {...this.props} />;
+        mainElems = (<ComposedComponent
+          {...this.props}
+          cusType={typeValue}
+        />);
       } else if (mode === SHOW_MODE.SEARCHING) {
         mainElems = this.renderHistory();
       }
 
       return (
         <div className="customer-search">
-          <SearchBar
-            placeholder="客户姓名/客户号/手机号/证件号码"
-            value={value}
-            showCancelButton
-            onFocus={this.handleFocus}
-            onChange={this.handleChange}
-            onCancel={this.handleCancel}
-            onSubmit={this.handleSubmit}
-          />
+          <div className="customer-header">
+            <Select
+              className="customer-header-select"
+              ref={ref => (this.select = ref)}
+              value={typeValue}
+              onChange={this.handleSelectChange}
+            >
+              {SELECT_OPTIONS.map(
+                option => (
+                  <Option
+                    key={option.value}
+                    value={option.value}
+                    text={option.text}
+                  >{option.text}</Option>
+                ),
+              )}
+            </Select>
+            <SearchBar
+              className="customer-header-search"
+              placeholder="客户姓名/客户号/手机号/证件号码"
+              value={value}
+              showCancelButton
+              onFocus={this.handleFocus}
+              onChange={this.handleChange}
+              onCancel={this.handleCancel}
+              onSubmit={this.handleSubmit}
+            />
+          </div>
           {mainElems}
         </div>
       );
