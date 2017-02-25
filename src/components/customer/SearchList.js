@@ -30,6 +30,7 @@ export default class SearchList extends PureComponent {
     this.state = {
       dataSource: prepareDataSource(list),
       height: 1000,
+      isLoading: false,
     };
   }
 
@@ -46,13 +47,14 @@ export default class SearchList extends PureComponent {
     if (list !== this.props.list) {
       this.setState({
         dataSource: prepareDataSource(list),
+        isLoading: false,
       });
     }
   }
 
   @autobind
   onEndReached() {
-    // console.log('onEndReached');
+    console.log('onEndReached');
     const { isLoading } = this.state;
     if (!isLoading) {
       this.setState({ isLoading: true }, this.refreshMore);
@@ -100,11 +102,9 @@ export default class SearchList extends PureComponent {
   @autobind
   renderFooter() {
     const { isLoading } = this.state;
-    return (
-      <div>
-        { isLoading ? '加载中...' : '加载完毕' }
-      </div>
-    );
+    return isLoading ? (
+      <div>加载中...</div>
+    ) : null;
   }
 
   render() {
@@ -127,7 +127,7 @@ export default class SearchList extends PureComponent {
           scrollRenderAheadDistance={500}
           scrollEventThrottle={20}
           onEndReached={this.onEndReached}
-          onEndReachedThreshold={10}
+          onEndReachedThreshold={0}
         />
       </div>
     );

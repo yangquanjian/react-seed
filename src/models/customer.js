@@ -6,6 +6,7 @@
 import { routerRedux } from 'dva/router';
 import pathToRegexp from 'path-to-regexp';
 
+import { delay } from '../utils/sagaEffects';
 import api from '../api';
 
 export default {
@@ -96,6 +97,7 @@ export default {
     },
     * search({ payload: { keyword, page, cusType } }, { put }) {
       // const response = yield call(api.searchCustomer, { keyword, page });
+      yield delay(1000);
       const response = {
         data: [
           {
