@@ -54,7 +54,7 @@ class Frame extends Component {
     const iconMap = {
       mission: 'renwu',
       product: 'all',
-      customer: 'account',
+      customer: 'customer',
       profile: 'wode',
     };
     return (
