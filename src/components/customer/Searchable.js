@@ -9,6 +9,7 @@ import { autobind } from 'core-decorators';
 import { SearchBar, List } from 'antd-mobile';
 import localforage from 'localforage';
 
+import Icon from '../common/Icon';
 import Select from '../common/Select';
 import './searchable.less';
 
@@ -106,6 +107,18 @@ export default (ComposedComponent) => {
     }
 
     @autobind
+    async removeHistory(keyword) {
+      let historyList = await this.getHistoryList();
+      if (historyList.includes(keyword)) {
+        historyList = historyList.filter(item => item !== keyword);
+      }
+      await localforage.setItem(HISTORY_KEY, historyList);
+      this.setState({
+        historyList,
+      });
+    }
+
+    @autobind
     async clearHistory() {
       await localforage.setItem(HISTORY_KEY, []);
       this.setState({
@@ -194,12 +207,26 @@ export default (ComposedComponent) => {
     }
 
     @autobind
+    handleRemoveClick(e) {
+      const keyword = e.target.dataset.item;
+      this.removeHistory(keyword);
+    }
+
+    @autobind
     renderHistoryHeader() {
       return (
-        <p>
-          历史记录
-          <a className="history-clear" onClick={this.clearHistory}>清除</a>
-        </p>
+        <p>历史记录</p>
+      );
+    }
+
+    @autobind
+    renderCrossIcon(keyword) {
+      return (
+        <Icon
+          type="close"
+          data-item={keyword}
+          onClick={this.handleRemoveClick}
+        />
       );
     }
 
@@ -211,7 +238,7 @@ export default (ComposedComponent) => {
             keyword => (
               <Item
                 key={encodeURIComponent(keyword)}
-                arrow="horizontal"
+                extra={this.renderCrossIcon(keyword)}
                 onClick={this.handleHistoryItemClick}
               >{keyword}</Item>
             ),
