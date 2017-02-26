@@ -9,7 +9,7 @@ const config = {
   storeConfig: {
     storage: localForage,
   },
-  blacklist: ['routing'],
+  blacklist: ['routing', 'loading', '@@dva'],
 };
 
 export default config;
