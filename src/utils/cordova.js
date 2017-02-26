@@ -4,9 +4,6 @@
  * @author maoquan(maoquan@htsc.com)
  */
 
- /** global MCRMCordovaPlugin */
- /** eslint no-undef: "error" */
-
 function exec(method, args) {
   try {
     MCRMCordovaPlugin[method].apply(null, args);
