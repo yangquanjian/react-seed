@@ -8,12 +8,12 @@ function exec(method, args) {
   try {
     MCRMCordovaPlugin[method].apply(null, args);
   } catch (e) {
-    // console.log(e);
+    console.log(e);
   }
 }
 
 export default {
-  nav2Login() {
-    exec('nav2Login');
+  navToLogin() {
+    exec('navToLogin');
   },
 };
