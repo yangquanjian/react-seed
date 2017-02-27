@@ -14,6 +14,7 @@ export default {
     data: {},
     basic: {},
     contact: {},
+    serviceList: {},
     searchList: [],
     info: {},
     list: [],
@@ -46,6 +47,17 @@ export default {
       return {
         ...state,
         contact: {
+          ...state.data,
+          ...response.data,
+        },
+      };
+    },
+    getServiceListSuccess(state, action) {
+      // 服务记录列表
+      const { payload: { response } } = action;
+      return {
+        ...state,
+        serviceList: {
           ...state.data,
           ...response.data,
         },
@@ -134,6 +146,16 @@ export default {
         },
       });
     },
+    * getServiceList({ payload: { id = 1 } }, { call, put }) {
+      const response = yield call(api.getServiceList, { id });
+      yield put({
+        type: 'getServiceListSuccess',
+        payload: {
+          response,
+          id,
+        },
+      });
+    },
     * getList({ payload: { id = 3 } }, { call, put }) {
       const list = yield call(api.getCustomerList, { id });
       yield put({
@@ -174,6 +196,7 @@ export default {
         const match = pathToRegexp('/customer/:id').exec(pathname);
         const custBasicMatch = pathToRegexp('/custBasic/:custNumber/:custSor/:custId').exec(pathname);
         const custContactMatch = pathToRegexp('/custContact/:custNumber').exec(pathname);
+        const serviceListMatch = pathToRegexp('/serviceList/:custNumber').exec(pathname);
         const custMatch = pathToRegexp('/customer').exec(pathname);
 
         if (match) {
@@ -195,6 +218,11 @@ export default {
         if (custContactMatch) {
           const id = custContactMatch[1];
           dispatch({ type: 'getPerContact', payload: { id } });
+        }
+
+        if (serviceListMatch) {
+          const id = serviceListMatch[1];
+          dispatch({ type: 'getServiceList', payload: { id } });
         }
 
         if (custMatch) {
