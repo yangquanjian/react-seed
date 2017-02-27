@@ -14,6 +14,7 @@
     "browser": true
   },
   "globals": {
-    "fetch": true
+    "fetch": true,
+    "MCRMCordovaPlugin": true
   }
 }

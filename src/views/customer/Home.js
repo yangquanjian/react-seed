@@ -97,7 +97,7 @@ export default class CustomerHome extends PureComponent {
           sidebar={sidebar}
           dragHandleStyle={{ display: 'none' }}
           {...drawerProps}
-        />
+        >1</Drawer>
       </section>
     );
   }

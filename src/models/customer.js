@@ -6,6 +6,7 @@
 import { routerRedux } from 'dva/router';
 import pathToRegexp from 'path-to-regexp';
 
+import { delay } from '../utils/sagaEffects';
 import api from '../api';
 
 export default {
@@ -140,18 +141,19 @@ export default {
         }
       });
     },
-    * search({ payload: { keyword, page } }, { put }) {
+    * search({ payload: { keyword, page, cusType } }, { put }) {
       // const response = yield call(api.searchCustomer, { keyword, page });
+      yield delay(1000);
       const response = {
         data: [
           {
             id: '1',
-            name: '张三',
+            name: `张三${new Date().getTime()}`,
             phone: '13852293972',
           },
           {
             id: '2',
-            name: '李四',
+            name: `李四${new Date().getTime()}`,
             phone: '17705188176',
           },
         ],
@@ -161,12 +163,8 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname }) => {
-        const match = pathToRegexp('/customer/:id').exec(pathname);
-        
+      return history.listen(({ pathname, query }) => {
         const matchDetail = pathToRegexp('/customer/detail').exec(pathname);
-
-        const matchBasic = pathToRegexp('/customer/basicInfo').exec(pathname);
 
         if (matchDetail) {
           const id = matchDetail[1];
@@ -174,19 +172,19 @@ export default {
           dispatch({ type: 'fetchChartInfo', payload: { id } });
         }
 
-        if (matchBasic) {
-          const id = matchBasic[1];
-          dispatch({ type: 'fetchBasicInfo', payload: { id } });
-        }
-
+        // 客户首页
         const custMatch = pathToRegexp('/customer').exec(pathname);
-        if (match) {
-          const id = match[1];
-          dispatch({ type: 'fetch', payload: { id } });
-        }
         if (custMatch) {
           const id = custMatch[1];
           dispatch({ type: 'getInfo', payload: { id } });
+          return;
+        }
+
+        // 客户搜索
+        const searchMatch = pathToRegexp('/customer/searchResult').exec(pathname);
+        if (searchMatch) {
+          dispatch({ type: 'search', payload: query });
+          return;
         }
       });
     },

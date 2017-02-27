@@ -4,7 +4,6 @@ module.exports = Object.assign(
   {},
   prefixMap,
   {
-
     // 色彩
     // ---
     // 文字色
