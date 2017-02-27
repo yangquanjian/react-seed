@@ -6,6 +6,7 @@
 import { routerRedux } from 'dva/router';
 import pathToRegexp from 'path-to-regexp';
 
+import { delay } from '../utils/sagaEffects';
 import api from '../api';
 
 export default {
@@ -171,18 +172,19 @@ export default {
       yield put({ type: 'saveSuccess', payload: { response } });
       yield put(routerRedux.goBack());
     },
-    * search({ payload: { keyword, page } }, { put }) {
+    * search({ payload: { keyword, page, cusType } }, { put }) {
       // const response = yield call(api.searchCustomer, { keyword, page });
+      yield delay(1000);
       const response = {
         data: [
           {
             id: '1',
-            name: '张三',
+            name: `张三${new Date().getTime()}`,
             phone: '13852293972',
           },
           {
             id: '2',
-            name: '李四',
+            name: `李四${new Date().getTime()}`,
             phone: '17705188176',
           },
         ],
@@ -214,17 +216,17 @@ export default {
             dispatch({ type: 'getOrgBasic', payload: { custNumber, custSor, custId } });
           }
         }
-
+        // 个人客户联系方式
         if (custContactMatch) {
           const id = custContactMatch[1];
           dispatch({ type: 'getPerContact', payload: { id } });
         }
-
+        // 服务列表
         if (serviceListMatch) {
           const id = serviceListMatch[1];
           dispatch({ type: 'getServiceList', payload: { id } });
         }
-
+        // 客户详情
         if (custMatch) {
           const id = custMatch[1];
           dispatch({ type: 'getInfo', payload: { id } });
