@@ -5,7 +5,7 @@ exports.response = function (req, res) {
     "resultData": {
       "page": {
         "pageSize": 100,
-        "curPageNum": 1,
+        "curPageNum": 2,
         "totalPageNum": 72,
         "totalRecordNum": 7150
       },
