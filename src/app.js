@@ -24,6 +24,7 @@ const app = dva({
   onAction: createLogger(),
   extraEnhancers: [autoRehydrate()],
   onError(e) {
+    console.log(e);
     const { message } = e;
     if (message === 'MAG0010') {
       Modal.alert(

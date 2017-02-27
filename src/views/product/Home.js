@@ -43,7 +43,7 @@ export default class ProductHome extends PureComponent {
   render() {
     return (
       <div className="page-product-home">
-        <a onClick={this.handleClick}>调用原生登录接口</a>
+        <a onClick={this.handleClick}>退出登录</a>
       </div>
     );
   }

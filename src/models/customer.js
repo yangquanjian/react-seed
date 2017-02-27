@@ -6,7 +6,6 @@
 import { routerRedux } from 'dva/router';
 import pathToRegexp from 'path-to-regexp';
 
-import { delay } from '../utils/sagaEffects';
 import api from '../api';
 
 export default {
@@ -16,21 +15,14 @@ export default {
     basic: {},
     contact: {},
     serviceList: {},
-    searchList: [],
+    searchInfo: {
+      page: {},
+      list: [],
+    },
     info: {},
     list: [],
   },
   reducers: {
-    fetchSuccess(state, action) {
-      const { payload: { response } } = action;
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          ...response.data,
-        },
-      };
-    },
     getBasicSuccess(state, action) {
       // 客户基本信息
       const { payload: { response } } = action;
@@ -85,24 +77,20 @@ export default {
       // 做一些表单保存成功后的处理
       return state;
     },
-    searchSuccess(state, { payload: { response } }) {// eslint-disable-line
+    searchSuccess(state, { payload: { response, query } }) {// eslint-disable-line
+      const { resultData: { page, resultList } } = response;
+      // 如果page为1表示新刷新，这时候清空之前的列表
+      const originList = page.curPageNum === 1 ? [] : state.searchInfo.list;
       return {
         ...state,
-        searchList: response.data,
+        searchInfo: {
+          page,
+          list: [...originList, ...resultList],
+        },
       };
     },
   },
   effects: {
-    * fetch({ payload: { id = 1 } }, { call, put }) {
-      const response = yield call(api.getCustomer, { id });
-      yield put({
-        type: 'fetchSuccess',
-        payload: {
-          response,
-          id,
-        },
-      });
-    },
     * getPerBasic({ payload: { id = 1 } }, { call, put }) {
       const response = yield call(api.getPerCustBasic, { id });
       yield put({
@@ -172,38 +160,25 @@ export default {
       yield put({ type: 'saveSuccess', payload: { response } });
       yield put(routerRedux.goBack());
     },
-    * search({ payload: { keyword, page, cusType } }, { put }) {
-      // const response = yield call(api.searchCustomer, { keyword, page });
-      yield delay(1000);
-      const response = {
-        data: [
-          {
-            id: '1',
-            name: `张三${new Date().getTime()}`,
-            phone: '13852293972',
-          },
-          {
-            id: '2',
-            name: `李四${new Date().getTime()}`,
-            phone: '17705188176',
-          },
-        ],
-      };
-      yield put({ type: 'searchSuccess', payload: { response } });
+    // 搜索客户
+    * search({ payload: query }, { call, put }) {
+      const { keywords, custQueryType, page = 1 } = query;
+      const response = yield call(api.searchCustomer, { keywords, custQueryType, page });
+      yield put({ type: 'searchSuccess', payload: { response, query } });
     },
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname }) => {
-        const match = pathToRegexp('/customer/:id').exec(pathname);
+      return history.listen(({ pathname, query }) => {
         const custBasicMatch = pathToRegexp('/custBasic/:custNumber/:custSor/:custId').exec(pathname);
         const custContactMatch = pathToRegexp('/custContact/:custNumber').exec(pathname);
         const serviceListMatch = pathToRegexp('/serviceList/:custNumber').exec(pathname);
         const custMatch = pathToRegexp('/customer').exec(pathname);
 
-        if (match) {
-          const id = match[1];
-          dispatch({ type: 'fetch', payload: { id } });
+        if (pathname === '/customer/searchResult') {
+          const { keyword, custQueryType, page = 1 } = query;
+          dispatch({ type: 'search', payload: { keyword, custQueryType, page } });
+          return;
         }
 
         if (custBasicMatch) {
