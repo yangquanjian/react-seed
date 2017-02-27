@@ -4,24 +4,23 @@
  * @author maoquan(maoquan@htsc.com)
  */
 
-import React, { PropTypes } from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { PropTypes } from 'react';
+// import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default function TabPane(props) {
-  const { location, children } = props;
-  const { action, pathname } = location;
-  return (
-    <ReactCSSTransitionGroup
-      component="section"
-      transitionName={action === 'POP' ? 'page-reverse' : 'page'}
-      transitionEnterTimeout={500}
-      transitionLeaveTimeout={500}
-    >
-      {React.cloneElement(children, {
-        key: pathname,
-      })}
-    </ReactCSSTransitionGroup>
-  );
+  // const { location, children } = props;
+  // const { action, pathname } = location;
+  return props.children;
+    // <ReactCSSTransitionGroup
+    //   component="section"
+    //   transitionName={action === 'POP' ? 'page-reverse' : 'page'}
+    //   transitionEnterTimeout={200}
+    //   transitionLeaveTimeout={200}
+    // >
+    //   {React.cloneElement(children, {
+    //     key: pathname,
+    //   })}
+    // </ReactCSSTransitionGroup>
 }
 
 TabPane.propTypes = {

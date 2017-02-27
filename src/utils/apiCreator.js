@@ -5,6 +5,8 @@
 
 import request from './request';
 
+import { queryToString } from './helper';
+
 /**
  * api生成器
  *
@@ -23,15 +25,15 @@ export default function createApi(options = {}) {
     return url;
   };
 
-  // 将{ a: 1, b: 2 } => a=1&b=2
-  const queryToString = (query = {}) => {
-    const encode = encodeURIComponent;
-    return Object.keys(query).map(
-      key => (`${encode(key)}=${encode(query[key])}`),
-    ).join('&');
-  };
+  // 授权信息: empId, deviceId, token
+  let authInfo = {};
 
   return {
+
+    setAuthInfo(info) {
+      authInfo = info;
+    },
+
     /**
      * @param {string} url API url
      * @param {Object} query 请求参数
@@ -41,7 +43,15 @@ export default function createApi(options = {}) {
     get(url, query) {
       const finalUrl = padPrefix(url);
       const queryString = queryToString(query);
-      return request(`${finalUrl}?${queryString}`);
+      return request(
+        `${finalUrl}?${queryString}`,
+        {
+          method: 'GET',
+          headers: {
+            ...authInfo,
+          },
+        },
+      );
     },
 
     /**
@@ -57,6 +67,7 @@ export default function createApi(options = {}) {
         {
           method: 'POST',
           headers: {
+            ...authInfo,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(query),

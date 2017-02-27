@@ -8,17 +8,11 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
 
-import CustomerForm from '../../components/customer/Form';
-
 const mapStateToProps = state => ({
   data: state.customer.data,
 });
 
 const mapDispatchToProps = {
-  saveData: data => ({
-    type: 'customer/save',
-    payload: data,
-  }),
   push: routerRedux.push,
 };
 
@@ -30,14 +24,9 @@ export default class CustomDetail extends Component {
   }
 
   render() {
-    const { params, ...others } = this.props;
     return (
       <div>
-        <h1>修改客户信息</h1>
-        <CustomerForm
-          {...others}
-          id={params.id}
-        />
+        <h1>客户详情</h1>
       </div>
     );
   }

@@ -9,9 +9,13 @@ import createLoading from 'dva-loading';
 import createLogger from 'redux-logger';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import { Modal } from 'antd-mobile';
+import _ from 'lodash';
 
 import routerConfig from './router';
 import persistConfig from './config/persist';
+import FastClick from './utils/fastclick';
+import { getQuery } from './utils/helper';
+import api from './api';
 
 // 1. Initialize
 const app = dva({
@@ -38,3 +42,14 @@ app.start('#app');
 
 // 6. redux-persist
 persistStore(app._store, persistConfig); // eslint-disable-line
+
+// fastclick
+FastClick.attach(document.body);
+
+// cordova
+document.addEventListener('deviceready', () => {}, false);
+
+// 存储empId, deviceId, token等授权信息
+const query = getQuery(location.search);
+const authInfo = _.pick(query, 'empId', 'deviceId', 'token');
+api.setAuthInfo(authInfo);
