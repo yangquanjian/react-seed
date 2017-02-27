@@ -13,7 +13,22 @@ import 'whatwg-fetch';
  * @return {object}          The parsed JSON from the request
  */
 function parseJSON(response) {
-  return response.json();
+  return response.json().then(
+    (res) => {
+      const { code, msg } = res;
+      if (code !== '0') {
+        let error;
+        if (code === 'MAG0010') {
+          // 这里使用code作为message，以便对登录错误做特殊处理
+          error = new Error(code);
+        } else {
+          error = new Error(msg);
+        }
+        throw error;
+      }
+      return res;
+    },
+  );
 }
 
 /**

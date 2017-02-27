@@ -1,9 +1,7 @@
 exports.response = function (req, res) {
   return {
-    status: 0,
-    message: {
-      global: "获取客户信息失败"
-    },
+    code: '0',
+    msg: 'OK',
     data: {
       CustomerAll: '253',
       PerCustomer : '53',
