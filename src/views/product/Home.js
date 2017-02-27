@@ -6,8 +6,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
+import { autobind } from 'core-decorators';
 
-import { navToLogin } from '../../utils/cordova';
 import './home.less';
 
 const mapStateToProps = state => ({
@@ -23,6 +23,9 @@ const mapDispatchToProps = {
     type: 'product/search',
     payload: { keyword },
   }),
+  logout: () => ({
+    type: 'global/logout',
+  }),
   push: routerRedux.push,
 };
 
@@ -30,14 +33,16 @@ const mapDispatchToProps = {
 export default class ProductHome extends PureComponent {
   static propTypes = {
     title: PropTypes.string,
+    logout: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     title: '产品首页',
   }
 
+  @autobind
   handleClick() {
-    navToLogin();
+    this.props.logout();
   }
 
   render() {

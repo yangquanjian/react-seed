@@ -54,4 +54,10 @@ export default {
    * 获取服务记录列表
    */
   getServiceList: ({ id }) => api.get('/customer/custServiceRecord', { id }),
+
+  /**
+   * 登出
+   * {}
+   */
+  logout: query => api.post('/mobile/logout', query),
 };
