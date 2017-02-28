@@ -31,6 +31,9 @@ export default class NavBar extends PureComponent {
   }
 
   renderIcon(iconName) {
+    if (!iconName) {
+      return null;
+    }
     return <Icon type={iconName} />;
   }
 
