@@ -34,7 +34,7 @@
 						}
 					}
 					.rc-select-arrow {
-						right:15px;
+						right:8px;
 						b {
 							border-color: #666 transparent transparent transparent;
 						}
@@ -76,16 +76,24 @@
 					}
 					i {
 						position: absolute;
-						background:url(../../../static/img/sortIcon.png) no-repeat;
+						background:url(../../../static/img/sortDown.png) no-repeat;
 						background-size:14px;
 						right:20px;
 						top:18px;
 						width:14px;
 						height:21px;
+						&.sortUp{
+							background:url(../../../static/img/sortUp.png) no-repeat;
+							background-size:14px;
+						}
 					}
 				}
 			}
 		}
+	}
+	.list-separator{
+		height:5px;
+		background:#efefef;
 	}
 }
 .filterList {

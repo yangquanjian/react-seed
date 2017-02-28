@@ -5,6 +5,7 @@
 
 import { routerRedux } from 'dva/router';
 import pathToRegexp from 'path-to-regexp';
+import _ from 'lodash';
 
 import api from '../api';
 
@@ -74,14 +75,17 @@ export default {
       };
     },
     getListSuccess(state, action) {
-      const { payload: { list } } = action;
-      const { page = [], resultList: newData } = list.resultData;
-      const oldResult = state.list.resultList;
+      const { payload: { list, refresh } } = action;
+      const { page = {}, resultList: newData } = list.resultData;
+      const oldResult = refresh ? [] : state.list.resultList;
+      if (_.isEmpty(newData) && !refresh) {
+        return state;
+      }
       return {
         ...state,
         list: {
           page,
-          resultList: [...newData, ...oldResult],
+          resultList: [...oldResult, ...newData],
         },
       };
     },
@@ -221,15 +225,41 @@ export default {
     },
     * getList({ payload: {
         custQueryType = 'personal',
+        keywords = '',
+        custNature = '',
+        custType = '',
+        custLevel = '',
+        riskLevel = '',
+        accountStatus = '',
         orderType = 'desc',
         pageSize = 10,
         pageNum = 1,
+        openDateStart = '',
+        openDateEnd = '',
+        refresh = false,
       } }, { call, put }) {
-      const list = yield call(api.getCustomerList, { custQueryType, orderType, pageSize, pageNum });
+      const list = yield call(
+        api.getCustomerList,
+        {
+          custQueryType,
+          keywords,
+          custNature,
+          custType,
+          custLevel,
+          riskLevel,
+          accountStatus,
+          orderType,
+          pageSize,
+          pageNum,
+          openDateStart,
+          openDateEnd,
+        },
+      );
       yield put({
         type: 'getListSuccess',
         payload: {
           list,
+          refresh,
         },
       });
     },
