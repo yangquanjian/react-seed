@@ -12,39 +12,28 @@ export default {
   /**
    * 获取产品列表
    */
-  getProductList: ({ categoryId }) => api.get('/product/list', { categoryId }),
-
+  getProductList: ({ categoryId }) => api.post('/product/list', { categoryId }),
   /**
    * 获取客户详细信息
    * { keywords, page, custQueryType }
    */
   searchCustomer: query => api.post('/groovy/cust/custList', query),
-
   /**
    * 保存客户信息
    */
   saveCustomer: ({ data }) => api.post('/customer/save', data),
-
   /**
-   * 查询个人客户基本信息
+   * 查询客户基本信息
    */
-  getPerCustBasic: ({ id }) => api.get('/customer/queryfspcustper', id),
-
+  getCustBasic: ({ custNumber, custSor, custId }) => api.post('/groovy/cust/custBaseInfo', { custNumber, custSor, custId }),
   /**
-   * 查询机构客户基本信息
+   * 查询客户联系方式
    */
-  getOrgCustBasic: ({ id }) => api.get('/customer/queryfspcustorg', id),
-
-  /**
-   * 查询个人客户联系方式
-   */
-  getPerCustCotact: ({ id }) => api.get('/customer/queryCustContact', id),
-
+  getCustCotact: ({ custNumber, custSor, custId }) => api.post('/groovy/cust/custContact', { custNumber, custSor, custId }),
   /**
    * 获取客户信息
    */
   getCustomerInfo: () => api.post('/groovy/emp/home'),
-
   /**
    * 获取客户列表
    */
@@ -55,25 +44,12 @@ export default {
    */
   getCustomerDetail: ({ custNumber, custSor, custId }) => api.post('/groovy/cust/custDetail', { custNumber, custSor, custId }),
   /**
-   * 获取客户基本信息
-   */
-  getCustomerBasicInfo: ({ custId }) => api.post('/customer/basic', { custId }),
-  /**
-   * 获取推荐产品列表
-   */
-  getRecommendProductList: ({ custId }) => api.post('/customer/recommend', { custId }),
-
-  /**
    * 获取服务记录列表
    */
-  getServiceList: ({ id }) => api.get('/customer/custServiceRecord', { id }),
+  getServiceList: ({ id }) => api.post('/groovy/cust/custServiceRecord', { id }),
   /**
    * 登出
    * {}
    */
   logout: query => api.post('/mobile/logout', query),
-  /**
-   * 不适合产品忽略
-   */
-  ignoreProduct: ({ custId }) => api.post('/customer/ignore', { custId }),
 };

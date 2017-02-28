@@ -1,0 +1,54 @@
+.contact-org-detail{
+  background-color: #ffffff;
+  .item{
+    position: relative;
+    overflow: hidden;
+    height: 120px;
+    .iconfont{
+      position: absolute;
+      top: 40px;
+      left: 30px;
+      font-size: 35px;
+      color: #d33a31;
+    }
+    .data{
+      display: flex;
+      height: 100%;
+      margin: 0 0 0 85px;
+      padding: 0;
+      border-bottom: 1px solid #ebecec;
+      align-items: center;
+      p{
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      p:nth-child(2){
+        text-align: right;
+        padding-right: 30px;
+      }
+    }
+  }
+  .item.email{
+    height: 160px;
+    .data{
+      height: 160px;
+      p{
+        margin-top: -33px;
+      }
+    }
+    .btn{
+      display: inline-block;
+      position: absolute;
+      right: 30px;
+      bottom: 15px;
+      line-height: 1;
+      padding: 10px 20px;
+      font-size: 26px;
+      color: #2694e4;
+      border: 1px solid #2694e4;
+      border-radius: 5px;
+    }
+  }
+}

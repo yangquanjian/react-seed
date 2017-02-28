@@ -25,7 +25,7 @@ export default class ContactItem extends PureComponent {
         return (
           <li key={`${type}-${index + 1}`}>
             <p className={`info-item ${type}`}>
-              <span>{`${item.province}${item.city}${item.address}`}</span>
+              <span>{`${(!item.province) ? '' : item.province}${(!item.city || item.city === item.province) ? '' : item.city}${(!item.address) ? '' : item.address}`}</span>
             </p>
           </li>);
       } else if (this.props.type === 'email') {

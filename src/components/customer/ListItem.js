@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { autobind } from 'core-decorators';
 import './listItem.less';
 
 class ListItem extends React.Component {
@@ -11,6 +12,7 @@ class ListItem extends React.Component {
     custTotalAsset: PropTypes.number,
     custType: PropTypes.string,
     custOpenDate: PropTypes.string,
+    push: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -22,6 +24,7 @@ class ListItem extends React.Component {
     custTotalAsset: 0,
     custType: 'per',
     custOpenDate: '--',
+    push: () => {},
   }
 
   levelShow(lev) {
@@ -36,15 +39,21 @@ class ListItem extends React.Component {
         return 'sil';
       case '805030':
         return 'fin';
-      default :
+      default:
         return 'emp';
     }
+  }
+
+  @autobind
+  handleClick() {
+    const { brokerNumber, custType, cusId: custId, push } = this.props;
+    push(`customer/detail?custId=${custId}&custNumber=${brokerNumber}&custSor=${custType}`);
   }
 
   render() {
     const { custLevelCode, custName, brokerNumber, custOpenDate, custType } = this.props;
     return (
-      <div className="listItem">
+      <div className="listItem" onClick={this.handleClick}>
         <i className={custType} />
         <div className="listInfo">
           <div className="listName">{custName}</div>

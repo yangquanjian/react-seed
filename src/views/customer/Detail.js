@@ -35,15 +35,13 @@ export default class CustomerDetail extends PureComponent {
     data: PropTypes.object.isRequired,
     goBack: PropTypes.func.isRequired,
     // recommendList: PropTypes.array.isRequired,
+    push: PropTypes.func,
   }
 
   static defaultProps = {
     data: {},
-    // recommendList: [],
+    push: () => { },
   };
-
-  componentDidMount() {
-  }
 
   render() {
     const { goBack } = this.props;
@@ -56,9 +54,12 @@ export default class CustomerDetail extends PureComponent {
       custId,
     } = this.props.data;
 
+    const { push } = this.props;
+
     if (!custBaseInfo) {
       return null;
     }
+
     // <RecommendProductList {...this.props} />
     return (
       <div>
@@ -71,12 +72,19 @@ export default class CustomerDetail extends PureComponent {
           custSor={custSor}
           custNumber={custNumber}
           custId={custId}
+          push={push}
         />
         <TabBar
           chartData={monthlyProfits}
           assetData={custMoneyDistributionDTOList}
         />
-        <CustomerDetailFooter lastCommission={custBaseInfo.lastCommission} />
+        <CustomerDetailFooter
+          lastCommission={custBaseInfo.lastCommission}
+          push={push}
+          custSor={custSor}
+          custNumber={custNumber}
+          custId={custId}
+        />
       </div>
     );
   }

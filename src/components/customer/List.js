@@ -24,16 +24,18 @@ export default class CustomerInfo extends PureComponent {
     location: PropTypes.object.isRequired,
     replace: PropTypes.func.isRequired,
     pageNum: PropTypes.number,
+    push: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     list: {},
-    getList: () => {},
-    onOpenChange: () => {},
+    getList: () => { },
+    onOpenChange: () => { },
     custQueryType: 'personal',
     location: {},
-    replace: () => {},
+    replace: () => { },
     pageNum: 1,
+    push: () => {},
   }
 
   constructor(props) {
@@ -182,10 +184,12 @@ export default class CustomerInfo extends PureComponent {
 
   @autobind
   renderRow(rowData, sectionID, rowID) {
+    const { push } = this.props;
     return (
       <ListItem
         key={`${sectionID}-${rowID}`}
         {...rowData}
+        push={push}
       />
     );
   }
@@ -204,7 +208,7 @@ export default class CustomerInfo extends PureComponent {
     const { isLoading } = this.state;
     return (
       <div>
-        { isLoading ? '加载中...' : '加载完毕' }
+        {isLoading ? '加载中...' : '加载完毕'}
       </div>
     );
   }

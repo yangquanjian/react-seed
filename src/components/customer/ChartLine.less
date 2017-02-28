@@ -1,46 +1,41 @@
-@color_1: #e52416;
-@color_2: #39cf94;
-@color_3: #666;
-
-.infoNum {
+.chart-line-section{
+  .infoNum {
 	display: -webkit-box;
 	padding: 15px;
-	.number {
-		height: 18px;
-		line-height: 18px;
-		font-size: 16px;
-		color: @color_1;
-		text-align: right;
-	}
-	.loss {
-		.number {
-			color: @color_2;
-		}
-	}
-	.label {
-		height: 14px;
-		line-height: 14px;
-		font-size: 10px;
-		color: @color_3;
-		text-align: right;
-	}
-}
-.monthPercent {
+  }
+  .monthPercent {
 	padding: 0px 15px;
 	border-right: 1px solid #eee;
-}
-.monthNum {
+  }
+  .infoNum .number {
+	height: 18px;
+	line-height: 18px;
+	font-size: 16px;
+	color: #e52416;
+	text-align: right;
+  }
+  .infoNum .loss .number {
+	color: #39cf94;
+  }
+  .infoNum .label {
+	height: 14px;
+	line-height: 14px;
+	font-size: 10px;
+	color: #666;
+	text-align: right;
+  }
+  .monthNum {
 	padding-left: 15px;
-}
-.label-section {
+  }
+  .label-section {
 	display: flex;
 	justify-content: flex-start;
 	align-items: flex-start;
 	font-size: 15px;
 	position: relative;
 	opacity: 0.5;
-}
-.left-section {
+  }
+  .left-section {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -50,14 +45,14 @@
 	padding: 0;
 	margin: 0;
 	left: 60px;
-	>div {
-		height: 85px;
-		&:nth-child(2) {
-			height: 85px;
-		}
-	}
-}
-.right-section {
+  }
+  .left-section > div {
+	height: 85px;
+  }
+  .left-section > div:nth-child(2) {
+	height: 85px;
+  }
+  .right-section {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -67,10 +62,11 @@
 	padding: 0;
 	margin: 0;
 	right: 70px;
-	>div {
-		height: 85px;
-		&:nth-child(2) {
-			height: 85px;
-		}
-	}
+  }
+  .right-section > div {
+	height: 85px;
+  }
+  .right-section > div:nth-child(2) {
+	height: 85px;
+  }
 }

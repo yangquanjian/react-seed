@@ -20,9 +20,6 @@ export default class ChartPieWidget extends PureComponent {
     };
   }
 
-  componentWillReceiveProps() {
-  }
-
   @autobind
   filterAssetData(assetData) {
     if (assetData.indexOf('万') !== -1) {
@@ -297,7 +294,7 @@ export default class ChartPieWidget extends PureComponent {
         </Chart>
         <div className={fuzhai}>
           <span className="fuzhaiLabel">负债</span>
-          <span className="fuzhaiContent">{fuzhaiData.maketVal}</span>
+          <span className="fuzhaiContent">{fuzhaiData && fuzhaiData.maketVal}</span>
         </div>
         <div className="assetDescription">
           {
