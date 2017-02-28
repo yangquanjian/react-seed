@@ -14,7 +14,6 @@ export default {
     data: {},
     detailInfo: {},
     basicInfo: {},
-    chartInfo: [],
     searchList: [],
     basic: {},
     contact: {},
@@ -25,6 +24,7 @@ export default {
     },
     info: {},
     list: [],
+    recommendList: [],
   },
   reducers: {
     getBasicSuccess(state, action) {
@@ -82,16 +82,50 @@ export default {
       return state;
     },
     fetchCustDetailSuccess(state, action) {
-      const { payload: { response, custId } } = action;
-      return state.set('detailInfo', fromJS(Object.assign(response.data, custId)));
+      const { payload: { response, custId, custNumber, custSor } } = action;
+      return {
+        ...state,
+        detailInfo: {
+          ...state.detailInfo,
+          ...response.resultData,
+          custId,
+          custNumber,
+          custSor,
+        },
+      };
     },
     fetchCustBasicSuccess(state, action) {
       const { payload: { response, custId } } = action;
-      return state.set('basicInfo', fromJS(Object.assign(response.data, custId)));
+      return {
+        ...state,
+        basicInfo: {
+          ...state.basicInfo,
+          ...response.data,
+          custId,
+        },
+      };
     },
-    fetchCustChartSuccess(state, action) {
+    fetchRecommendProductSuccess(state, action) {
       const { payload: { response, custId } } = action;
-      return state.set('chartInfo', response.data);
+      return {
+        ...state,
+        recommendList: [
+          ...state.recommendList,
+          ...response.resultData,
+          custId,
+        ],
+      };
+    },
+    ignoreProductSuccess(state, action) {
+      const { payload: { response, custId } } = action;
+      return {
+        ...state,
+        ignoreResult: {
+          ...state.ignoreResult,
+          ...response.data,
+          custId,
+        },
+      };
     },
     searchSuccess(state, { payload: { response, query } }) {// eslint-disable-line
       const { resultData: { page, resultList } } = response;
@@ -117,15 +151,17 @@ export default {
         },
       });
     },
-    * fetchCustDetail({ payload: { custId = 1 } }, {call, put}) {
-      const response = yield call(api.getCustomerDetail, { custId });
+    * fetchCustDetail({ payload: { custId = 1, custNumber = 1, custSor = 'per' } }, { call, put }) {
+      const response = yield call(api.getCustomerDetail, { custId, custNumber, custSor });
       yield put({
         type: 'fetchCustDetailSuccess',
         payload: {
           response,
-          custId
-        }
-      })
+          custId,
+          custNumber,
+          custSor,
+        },
+      });
     },
     * getInfo({ payload: { id = 2 } }, { call, put }) {
       const [info, list] = yield [
@@ -186,24 +222,42 @@ export default {
       yield put({ type: 'saveSuccess', payload: { response } });
       yield put(routerRedux.goBack());
     },
-    * fetchBasicInfo({ payload: { custId = 1 }}, { call, put }) {
+    * fetchBasicInfo({ payload: { custId = 1 } }, { call, put }) {
       const response = yield call(api.getCustomerBasicInfo, { custId });
       yield put({
         type: 'fetchCustBasicSuccess',
         payload: {
           response,
-          custId
-        }
+          custId,
+        },
       });
     },
-    * fetchChartInfo({ payload: { custId = 1 }}, { call, put }) {
-      const response = yield call(api.getCustomerChartInfo, { custId });
+    * fetchRecommendProductList({ payload: { custId = 1 } }, { call, put }) {
+      const response = yield call(api.getRecommendProductList, { custId });
       yield put({
-        type: 'fetchCustChartSuccess',
+        type: 'fetchRecommendProductSuccess',
         payload: {
           response,
-          custId
-        }
+          custId,
+        },
+      });
+    },
+    * ignoreProduct({ payload: { custId = 1 } }, { call, put }) {
+      const response = yield call(api.ignoreProduct, { custId });
+      yield put({
+        type: 'ignoreProductSuccess',
+        payload: {
+          response,
+          custId,
+        },
+      });
+      /* 不合适成功之后，重新去拉取推荐产品列表数据 */
+      yield put({
+        type: 'fetchRecommendProductList',
+        payload: {
+          response,
+          custId,
+        },
       });
     },
     // 搜索客户
@@ -216,19 +270,14 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
-        const matchDetail = pathToRegexp('/customer/detail').exec(pathname);
+        const custMatch = pathToRegexp('/customer').exec(pathname);
 
-        if (matchDetail) {
-          const id = matchDetail[1];
-          dispatch({ type: 'fetchCustDetail', payload: { id } });
-          dispatch({ type: 'fetchChartInfo', payload: { id } });
-        }
+        const matchDetail = pathToRegexp('/customer/detail').exec(pathname);
 
         // 客户首页
         const custBasicMatch = pathToRegexp('/custBasic/:custNumber/:custSor/:custId').exec(pathname);
         const custContactMatch = pathToRegexp('/custContact/:custNumber').exec(pathname);
         const serviceListMatch = pathToRegexp('/serviceList/:custNumber').exec(pathname);
-        const custMatch = pathToRegexp('/customer').exec(pathname);
 
         if (pathname === '/customer/searchResult') {
           const { keyword, custQueryType, page = 1 } = query;
@@ -262,6 +311,11 @@ export default {
           dispatch({ type: 'getInfo', payload: { id } });
         }
 
+        if (matchDetail) {
+          const { custId, custNumber, custSor } = query;
+          dispatch({ type: 'fetchCustDetail', payload: { custId, custNumber, custSor } });
+          // dispatch({ type: 'fetchRecommendProductList', payload: { custId } });
+        }
       });
     },
   },

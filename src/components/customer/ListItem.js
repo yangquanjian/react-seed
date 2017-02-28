@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'dva/router';
 
 class ListItem extends React.Component {
   static propTypes = {
@@ -23,6 +24,7 @@ class ListItem extends React.Component {
       <div
         className="list-item"
       >
+        <Link to="/customer/detail?deviceId=3400b9a4-6f77-33a9-9e2d-df785c3dca7a&empId=002475&token=YSZ928GSSCIPKPBRZGDFOWVJOFCS1RTV&custId=1-DU-5288&custNumber=02007829&custSor=per">客户详情</Link>
         <div>{lev}</div>
         <div>{name}</div>
         <div>{cusNo}</div>

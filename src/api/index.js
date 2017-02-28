@@ -52,16 +52,15 @@ export default {
   /**
    * 获取客户详细信息
    */
-  getCustomerDetail: ({ id }) => api.get('/customer/detail', { id }),
+  getCustomerDetail: ({ custNumber, custSor, custId }) => api.post('/groovy/cust/custDetail', { custNumber, custSor, custId }),
   /**
    * 获取客户基本信息
    */
-  getCustomerBasicInfo: ({ id }) => api.get('/customer/basic', { id }),
+  getCustomerBasicInfo: ({ custId }) => api.post('/customer/basic', { custId }),
   /**
-   * 获取客户收益折线图
+   * 获取推荐产品列表
    */
-  getCustomerChartInfo: ({ id }) => api.get('/customer/chart', { id }),
-
+  getRecommendProductList: ({ custId }) => api.post('/customer/recommend', { custId }),
   /**
    * 获取服务记录列表
    */
@@ -71,4 +70,8 @@ export default {
    * {}
    */
   logout: query => api.post('/mobile/logout', query),
+  /**
+   * 不适合产品忽略
+   */
+  ignoreProduct: ({ custId }) => api.post('/customer/ignore', { custId }),
 };
