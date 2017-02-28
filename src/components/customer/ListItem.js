@@ -1,34 +1,68 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'dva/router';
+import { autobind } from 'core-decorators';
+import './listItem.less';
 
 class ListItem extends React.Component {
   static propTypes = {
-    id: PropTypes.string.isRequired,
-    lev: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    cusNo: PropTypes.string.isRequired,
-    fund: PropTypes.string.isRequired,
+    cusId: PropTypes.string,
+    custLevelCode: PropTypes.string,
+    custLevelName: PropTypes.string,
+    custName: PropTypes.string,
+    brokerNumber: PropTypes.string,
+    custTotalAsset: PropTypes.number,
+    custType: PropTypes.string,
+    custOpenDate: PropTypes.string,
+    push: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    id: '--',
-    lev: '--',
-    name: '--',
-    cusNo: '--',
-    fund: '--',
+    cusId: '--',
+    custLevelCode: '--',
+    custLevelName: '--',
+    custName: '--',
+    brokerNumber: '--',
+    custTotalAsset: 0,
+    custType: 'per',
+    custOpenDate: '--',
+    push: () => { },
+  }
+
+  levelShow(lev) {
+    switch (lev) {
+      case '805010':
+        return 'dia';
+      case '805015':
+        return 'whgold';
+      case '805020':
+        return 'gold';
+      case '805025':
+        return 'sil';
+      case '805030':
+        return 'fin';
+      default:
+        return 'emp';
+    }
+  }
+
+  @autobind
+  handleClick() {
+    const { brokerNumber, custType, cusId: custId, push } = this.props;
+    push(`customer/detail?custId=${custId}&custNumber=${brokerNumber}&custSor=${custType}`);
   }
 
   render() {
-    const { lev, name, cusNo, fund } = this.props;
+    const { custLevelCode, custName, brokerNumber, custOpenDate, custType } = this.props;
     return (
-      <div
-        className="list-item"
-      >
-        <Link to="/customer/detail?custId=1-DU-5288&custNumber=02007829&custSor=per">客户详情</Link>
-        <div>{lev}</div>
-        <div>{name}</div>
-        <div>{cusNo}</div>
-        <div>{fund}</div>
+      <div className="listItem" onClick={this.handleClick}>
+        <i className={custType} />
+        <div className="listInfo">
+          <div className="listName">{custName}</div>
+          <div className="listElse">
+            <i className={this.levelShow(custLevelCode)} />
+            <div className="listNum">{brokerNumber}</div>
+            <div className="listTime">开户时间:{custOpenDate}</div>
+          </div>
+        </div>
       </div>
     );
   }

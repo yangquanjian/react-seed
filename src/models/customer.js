@@ -13,7 +13,6 @@ export default {
   state: {
     data: {},
     detailInfo: {},
-    basicInfo: {},
     searchList: [],
     basic: {},
     contact: {},
@@ -23,8 +22,10 @@ export default {
       list: [],
     },
     info: {},
-    list: [],
-    recommendList: [],
+    list: {
+      page: {},
+      resultList: [],
+    },
   },
   reducers: {
     getBasicSuccess(state, action) {
@@ -60,21 +61,26 @@ export default {
         },
       };
     },
-    getSuccess(state, action) {
+    getInfoSuccess(state, action) {
       const { payload: { info, list } } = action;
       return {
         ...state,
         info: {
-          ...info.data,
+          ...info.resultData,
         },
-        list: list.data,
+        list: list.resultData,
       };
     },
     getListSuccess(state, action) {
       const { payload: { list } } = action;
+      const { page = [], resultList: newData } = list.resultData;
+      const oldResult = state.list.resultList;
       return {
         ...state,
-        list: [...state.list, ...list.data],
+        list: {
+          page,
+          resultList: [...newData, ...oldResult],
+        },
       };
     },
     saveSuccess(state, action) {// eslint-disable-line
@@ -91,39 +97,6 @@ export default {
           custId,
           custNumber,
           custSor,
-        },
-      };
-    },
-    fetchCustBasicSuccess(state, action) {
-      const { payload: { response, custId } } = action;
-      return {
-        ...state,
-        basicInfo: {
-          ...state.basicInfo,
-          ...response.data,
-          custId,
-        },
-      };
-    },
-    fetchRecommendProductSuccess(state, action) {
-      const { payload: { response, custId } } = action;
-      return {
-        ...state,
-        recommendList: [
-          ...state.recommendList,
-          ...response.resultData,
-          custId,
-        ],
-      };
-    },
-    ignoreProductSuccess(state, action) {
-      const { payload: { response, custId } } = action;
-      return {
-        ...state,
-        ignoreResult: {
-          ...state.ignoreResult,
-          ...response.data,
-          custId,
         },
       };
     },
@@ -151,6 +124,24 @@ export default {
         },
       });
     },
+    * getInfo({ payload: {
+      custQueryType = 'personal',
+      orderType = 'desc',
+      pageSize = 10,
+      pageNum = 1,
+    } }, { call, put }) {
+      const [info, list] = yield [
+        call(api.getCustomerInfo),
+        call(api.getCustomerList, { custQueryType, orderType, pageSize, pageNum }),
+      ];
+      yield put({
+        type: 'getInfoSuccess',
+        payload: {
+          info,
+          list,
+        },
+      });
+    },
     * fetchCustDetail({ payload: { custId = 1, custNumber = 1, custSor = 'per' } }, { call, put }) {
       const response = yield call(api.getCustomerDetail, { custId, custNumber, custSor });
       yield put({
@@ -160,20 +151,6 @@ export default {
           custId,
           custNumber,
           custSor,
-        },
-      });
-    },
-    * getInfo({ payload: { id = 2 } }, { call, put }) {
-      const [info, list] = yield [
-        call(api.getCustomerInfo, { id }),
-        call(api.getCustomerList, { id }),
-      ];
-      yield put({
-        type: 'getSuccess',
-        payload: {
-          info,
-          list,
-          id,
         },
       });
     },
@@ -207,13 +184,17 @@ export default {
         },
       });
     },
-    * getList({ payload: { id = 3 } }, { call, put }) {
-      const list = yield call(api.getCustomerList, { id });
+    * getList({ payload: {
+      custQueryType = 'personal',
+      orderType = 'desc',
+      pageSize = 10,
+      pageNum = 1,
+    } }, { call, put }) {
+      const list = yield call(api.getCustomerList, { custQueryType, orderType, pageSize, pageNum });
       yield put({
         type: 'getListSuccess',
         payload: {
           list,
-          id,
         },
       });
     },
@@ -221,44 +202,6 @@ export default {
       const response = yield call(api.saveCustomer, { data });
       yield put({ type: 'saveSuccess', payload: { response } });
       yield put(routerRedux.goBack());
-    },
-    * fetchBasicInfo({ payload: { custId = 1 } }, { call, put }) {
-      const response = yield call(api.getCustomerBasicInfo, { custId });
-      yield put({
-        type: 'fetchCustBasicSuccess',
-        payload: {
-          response,
-          custId,
-        },
-      });
-    },
-    * fetchRecommendProductList({ payload: { custId = 1 } }, { call, put }) {
-      const response = yield call(api.getRecommendProductList, { custId });
-      yield put({
-        type: 'fetchRecommendProductSuccess',
-        payload: {
-          response,
-          custId,
-        },
-      });
-    },
-    * ignoreProduct({ payload: { custId = 1 } }, { call, put }) {
-      const response = yield call(api.ignoreProduct, { custId });
-      yield put({
-        type: 'ignoreProductSuccess',
-        payload: {
-          response,
-          custId,
-        },
-      });
-      /* 不合适成功之后，重新去拉取推荐产品列表数据 */
-      yield put({
-        type: 'fetchRecommendProductList',
-        payload: {
-          response,
-          custId,
-        },
-      });
     },
     // 搜索客户
     * search({ payload: query }, { call, put }) {
@@ -273,8 +216,6 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
-        const custMatch = pathToRegexp('/customer').exec(pathname);
-
         // 客户首页
         const custBasicMatch = pathToRegexp('/custBasic/:custNumber/:custSor/:custId').exec(pathname);
         const custContactMatch = pathToRegexp('/custContact/:custNumber').exec(pathname);
@@ -306,13 +247,10 @@ export default {
           const id = serviceListMatch[1];
           dispatch({ type: 'getServiceList', payload: { id } });
         }
-        // 客户详情
-        if (custMatch) {
-          const id = custMatch[1];
-          dispatch({ type: 'getInfo', payload: { id } });
-        }
 
+        // 客户详情
         const matchDetail = pathToRegexp('/customer/detail').exec(pathname);
+
         if (matchDetail) {
           const { custId, custNumber, custSor } = query;
           dispatch({ type: 'fetchCustDetail', payload: { custId, custNumber, custSor } });
