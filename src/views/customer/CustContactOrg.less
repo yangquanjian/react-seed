@@ -1,0 +1,54 @@
+.cust-contact-org{
+  .main,
+  .other{
+    margin: 0;
+    padding: 0 0 0 30px;
+    background-color: #ffffff;
+  }
+  .main{
+    margin-bottom: 20px;
+    .iconfont.more{
+      margin-right: -0.25rem;
+    }
+  }
+  .other{
+    .iconfont.more{
+      margin-right: 0.15rem;
+    }
+  }
+  .item{
+    display: flex;
+    margin: 0;
+    padding: 0;
+    height: 100px;
+    align-items: center;
+    p{
+      margin: 0;
+      flex: 4.5;
+      line-height: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    p:nth-child(2){
+      text-align: right;
+      color: #807f7f;
+    }
+    p.nodata{
+      .iconfont{
+        margin-right: 20px;
+      }
+    }
+    .iconfont.more{
+      flex: 1;
+      color: #807f7f;
+    }
+    p .iconfont{
+      vertical-align: middle;
+    }
+    .left .iconfont{
+      min-width: 75px;
+      color: #d33a31;
+    }
+  }
+}
