@@ -32,11 +32,12 @@ export default class CustomerDetail extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
     // recommendList: PropTypes.array.isRequired,
+    push: PropTypes.func,
   }
 
   static defaultProps = {
     data: {},
-    // recommendList: [],
+    push: () => {},
   };
 
   componentDidMount() {
@@ -52,6 +53,8 @@ export default class CustomerDetail extends PureComponent {
       custId,
     } = this.props.data;
 
+    const { push } = this.props;
+
     if (!custBaseInfo) {
       return null;
     }
@@ -63,6 +66,7 @@ export default class CustomerDetail extends PureComponent {
           custSor={custSor}
           custNumber={custNumber}
           custId={custId}
+          push={push}
         />
         <TabBar
           chartData={monthlyProfits}

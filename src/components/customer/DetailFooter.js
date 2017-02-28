@@ -33,16 +33,6 @@ export default class CustomerDetailFooter extends PureComponent {
   componentDidMount() {
   }
 
-  componentWillReceiveProps(nextProps) {
-    const lastCommission = nextProps;
-    if (lastCommission !== this.props.lastCommission) {
-      this.setState({
-        isLoading: false,
-        lastCommissionDate: lastCommission,
-      });
-    }
-  }
-
   /**
    * 处理用户点击事件
    */
@@ -58,15 +48,15 @@ export default class CustomerDetailFooter extends PureComponent {
   }
 
   render() {
-    const { lastCommissionDate } = this.state;
+    const { lastCommission: lastCommissionDate } = this.props;
     if (!lastCommissionDate) {
       return null;
     }
 
     let lastCommissionHtml = '';
 
-    if (lastCommissionDate.lastCommission.length > 0) {
-      const tempArr = lastCommissionDate.lastCommission.split(/[-/]/);
+    if (lastCommissionDate.length > 0) {
+      const tempArr = lastCommissionDate.split(/[-/]/);
 
       lastCommissionHtml = `最近一次于${tempArr[2]}/${tempArr[0]}/${tempArr[1]}`;
     }

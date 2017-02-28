@@ -275,8 +275,6 @@ export default {
       return history.listen(({ pathname, query }) => {
         const custMatch = pathToRegexp('/customer').exec(pathname);
 
-        const matchDetail = pathToRegexp('/customer/detail').exec(pathname);
-
         // 客户首页
         const custBasicMatch = pathToRegexp('/custBasic/:custNumber/:custSor/:custId').exec(pathname);
         const custContactMatch = pathToRegexp('/custContact/:custNumber').exec(pathname);
@@ -314,6 +312,7 @@ export default {
           dispatch({ type: 'getInfo', payload: { id } });
         }
 
+        const matchDetail = pathToRegexp('/customer/detail').exec(pathname);
         if (matchDetail) {
           const { custId, custNumber, custSor } = query;
           dispatch({ type: 'fetchCustDetail', payload: { custId, custNumber, custSor } });

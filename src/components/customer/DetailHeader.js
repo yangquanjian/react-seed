@@ -14,7 +14,7 @@ export default class CustomerDetailHeader extends PureComponent {
 
   static propTypes = {
     data: PropTypes.object.isRequired,
-    push: PropTypes.func.isRequired,
+    push: PropTypes.func,
     custSor: PropTypes.string.isRequired,
     custNumber: PropTypes.string.isRequired,
     custId: PropTypes.string.isRequired,
@@ -32,9 +32,17 @@ export default class CustomerDetailHeader extends PureComponent {
    * 跳转基本信息页面
    */
   @autobind
-  handleClick({ custId, custNumber, custSor }) {
-    const { push } = this.props;
-    push(`customer/custBasic/${custId}/${custNumber}/${custSor}`);
+  handleClick() {
+    const { push, custId, custNumber, custSor } = this.props;
+    // push({
+    //   pathname: '/custBasic',
+    //   query: {
+    //     custId,
+    //     custNumber,
+    //     custSor,
+    //   },
+    // });
+    push(`/customer/custBasic/${custNumber}/${custSor}/${custId}`);
   }
 
   @autobind
@@ -73,7 +81,7 @@ export default class CustomerDetailHeader extends PureComponent {
   }
 
   render() {
-    const { data: dataSource, custId, custNumber, custSor } = this.props;
+    const { data: dataSource } = this.props;
     if (!dataSource) {
       return null;
     }
@@ -127,9 +135,9 @@ export default class CustomerDetailHeader extends PureComponent {
           <div className="headerBottom">
             <div className="age">{filteredData.custAge}岁</div>
             <div className="sex">{filteredData.custGender}</div>
-            <div className="moreInfo">
+            <div className="moreInfo" onClick={this.handleClick}>
               <Icon {...more} />
-              <div className="" onClick={() => { this.handleClick({ custId, custNumber, custSor }); }}>查看更多</div>
+              <div className="">查看更多</div>
             </div>
           </div>
           <div className="headerSplit" />
@@ -158,9 +166,9 @@ export default class CustomerDetailHeader extends PureComponent {
           <div className="headerBottom">
             <div className="industry">{filteredData.industry}</div>
             <div className="acctType">{filteredData.acctType}</div>
-            <div className="moreInfo">
+            <div className="moreInfo" onClick={this.handleClick}>
               <Icon {...more} />
-              <div className="" onClick={() => { this.handleClick({ custId, custNumber, custSor }); }}>查看更多</div>
+              <div className="">查看更多</div>
             </div>
           </div>
           <div className="headerSplit" />
