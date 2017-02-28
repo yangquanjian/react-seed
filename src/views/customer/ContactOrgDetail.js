@@ -21,90 +21,12 @@ const mapDispatchToProps = {
   goBack: routerRedux.goBack,
 };
 
-const DATA = {
-  custId: null,
-  custSor: null,
-  custNumber: null,
-  custType: null,
-  name: 'test-number-1', // 姓名
-  custRelaCd: '206050', // 机构关系类型代码
-  custRela: '机构客户联系人', // 机构关系类型
-  rowId: 'CONTA-20170107-01418207865',
-  mainFlag: false,
-  validFlag: true,
-  gender: null,
-  cellPhones: [
-    // {
-    //   mainFlag: true,
-    //   contactType: '104123',
-    //   contactValue: '13544444666',
-    //   rowId: 'COMMI-20170119-04837984213',
-    //   validFlag: true
-    // },
-    // {
-    //   mainFlag: false,
-    //   contactType: '104123',
-    //   contactValue: '15897221234',
-    //   rowId: 'COMMI-20170119-04837984189',
-    //   validFlag: true
-    // }
-  ],
-  workTels: [
-    {
-      mainFlag: false,
-      contactType: '104120',
-      contactValue: '0514844930405148449304051484493040514844930405148449304051484493040514844930405148449304',
-      rowId: 'COMMI-20170119-04837984216',
-      validFlag: true,
-    },
-    {
-      mainFlag: false,
-      contactType: '104120',
-      contactValue: '15251765885',
-      rowId: 'COMMI-20170123-04837984271',
-      validFlag: true,
-    },
-  ],
-  homeTels: [
-    {
-      mainFlag: false,
-      contactType: '104121',
-      contactValue: '02586638091',
-      rowId: 'COMMI-20170119-04837984214',
-      validFlag: true,
-    },
-  ],
-  otherTels: [
-    {
-      mainFlag: false,
-      contactType: '104121',
-      contactValue: '02586638091',
-      rowId: 'COMMI-20170119-04837984214',
-      validFlag: true,
-    },
-  ],
-  emailAddresses: [
-    {
-      mainFlag: false,
-      contactType: '104124',
-      contactValue: 'rbhxhvccccchfbfbbrjjxbnehdjdjdjjxccchsh@139.comlljll',
-      rowId: 'COMMI-20170217-04837984314',
-      validFlag: true,
-    },
-    {
-      mainFlag: false,
-      contactType: '104124',
-      contactValue: 'vvvvvvvvvvvvvvvvhuhjuvhhh@139.com',
-      rowId: 'COMMI-20170217-04837984313',
-      validFlag: true,
-    },
-  ],
-};
-
 @connect(mapStateToProps, mapDispatchToProps)
 export default class ContactOrgDetail extends PureComponent {
   static propTypes = {
     title: PropTypes.string,
+    data: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     goBack: PropTypes.func.isRequired,
   }
 
@@ -120,18 +42,34 @@ export default class ContactOrgDetail extends PureComponent {
   }
 
   @autobind
+  getData(rowId) {
+    const data = this.props.data.orgCustomerContactInfoList;
+    if (!data || !(data instanceof Array) || (data instanceof Array && data.length < 1)) {
+      return null;
+    }
+    let result = null;
+    data.map((item) => {
+      if (item.rowId === rowId) {
+        result = item;
+      }
+      return true;
+    });
+    return result;
+  }
+
+  @autobind
   renderRow(arr, label, icon) {
-    if (!arr || !(arr instanceof Array)) return;
-    // if (arr.length < 1) {
-    //   return (<div className="item">
-    //     <Icon className="" type={icon} />
-    //     <div className="data">
-    //       <p className="label">{label}</p>
-    //       <p className="contain">暂无信息</p>
-    //     </div>
-    //   </div>);
-    // }
-    arr.map(item => (
+    if (!arr || !label || !icon) return null;
+    if (!(arr instanceof Array) || (arr instanceof Array && arr.length < 1)) {
+      return (<div className="item">
+        <Icon className="" type={icon} />
+        <div className="data">
+          <p className="label">{label}</p>
+          <p className="contain">暂无信息</p>
+        </div>
+      </div>);
+    }
+    return arr.map(item => (
       <div className={`item ${icon}`}>
         <Icon className="" type={icon} />
         <div className="data">
@@ -145,11 +83,14 @@ export default class ContactOrgDetail extends PureComponent {
 
   render() {
     const { title, goBack } = this.props;
+    const rowId = this.props.params.rowId;
+    const data = this.getData(rowId);
+    if (!data) return null;
     const renderRow = this.renderRow;
-    const arr1 = DATA.cellPhones;
-    const arr2 = DATA.workTels;
-    const arr3 = DATA.homeTels;
-    const arr4 = DATA.emailAddresses;
+    const arr1 = data.cellPhones;
+    const arr2 = data.workTels;
+    const arr3 = data.homeTels;
+    const arr4 = data.emailAddresses;
 
     return (
       <div className="contact-org-detail">
@@ -165,21 +106,21 @@ export default class ContactOrgDetail extends PureComponent {
             <Icon className="" type="account" />
             <div className="data">
               <p className="label">联系人姓名</p>
-              <p className="contain">王小明</p>
+              <p className="contain">{data.name || '--'}</p>
             </div>
           </div>
           <div className="item">
             <Icon className="" type="viewgallery" />
             <div className="data">
               <p className="label">人员类型</p>
-              <p className="contain">机构客户联系人</p>
+              <p className="contain">{data.custRela || '--'}</p>
             </div>
           </div>
           <div className="item">
             <Icon className="" type="favorite" />
             <div className="data">
               <p className="label">是否主要</p>
-              <p className="contain">主要</p>
+              <p className="contain">{(data.mainFlag === true) ? '主要' : '非主要'}</p>
             </div>
           </div>
           {renderRow(arr1, '手机号码', 'mobilephone')}
