@@ -20,6 +20,13 @@ class InfoItem extends PureComponent {
     return '--';
   }
 
+  numFormat(num) {
+    if (num !== '--') {
+      return parseFloat(num).toFixed(2);
+    }
+    return '--';
+  }
+
   render() {
     return (
       <div className="customerWrapper">
@@ -55,24 +62,24 @@ class InfoItem extends PureComponent {
           <div className="flexBox cusFundBox">
             <div className="fundBlank lineBlank cusFund">
               <Icon type="zhuzhuangtulv" />
-              <p className="numLabel">{this.getData('netNewCusAsset')}</p>
+              <p className="numLabel">{this.numFormat(this.getData('netNewCusAsset'))}</p>
               <p className="txtLabel">净新增客户资产(万)</p>
             </div>
             <div className="fundBlank lineBlank stockFund">
               <Icon type="zhuzhuangtulv" />
-              <p className="numLabel">{this.getData('totalNetCommission')}</p>
+              <p className="numLabel">{this.numFormat(this.getData('totalNetCommission'))}</p>
               <p className="txtLabel">股基累计净佣金(万)</p>
             </div>
           </div>
           <div className="flexBox cusFundBox">
             <div className="fundBlank dealFund">
               <Icon type="zhuzhuangtulv" />
-              <p className="numLabel">{this.getData('totalZHVolume')}</p>
+              <p className="numLabel">{this.numFormat(this.getData('totalZHVolume'))}</p>
               <p className="txtLabel">累计综合交易量(万)</p>
             </div>
             <div className="fundBlank baseFund">
               <Icon type="zhuzhuangtulv" />
-              <p className="numLabel">{this.getData('totalJCVolume')}</p>
+              <p className="numLabel">{this.numFormat(this.getData('totalJCVolume'))}</p>
               <p className="txtLabel">累计基础交易量(万)</p>
             </div>
           </div>
