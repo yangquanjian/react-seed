@@ -6,6 +6,8 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
 import { ListView } from 'antd-mobile';
+import _ from 'lodash';
+
 import { prepareDataSource } from '../../utils/listView';
 import ListItem from './ListItem';
 import Select from '../../components/common/Select';
@@ -40,20 +42,26 @@ export default class CustomerInfo extends PureComponent {
     super(props);
 
     const { resultList = [] } = props.list;
+    const { location: { query } } = this.props;
     this.state = {
       dataSource: prepareDataSource(resultList),
       isLoading: false,
+      orderType: query.orderType ? query.orderType : 'desc',
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    const { list } = nextProps;
+    const { list, location: { query } } = nextProps;
+    const { location: { query: oldQuery } } = this.props;
     const { resultList = [] } = list;
     if (list !== this.props.list) {
       this.setState({
         dataSource: prepareDataSource(resultList),
         isLoading: false,
       });
+    }
+    if (!_.isEqual(query, oldQuery)) {
+      this.refreshList(nextProps);
     }
   }
 
@@ -63,6 +71,15 @@ export default class CustomerInfo extends PureComponent {
     if (!isLoading) {
       this.setState({ isLoading: true }, this.refreshMore);
     }
+  }
+
+  @autobind
+  getIconClass() {
+    const { orderType } = this.state;
+    if (orderType === 'desc') {
+      return '';
+    }
+    return 'sortUp';
   }
 
   @autobind
@@ -91,17 +108,47 @@ export default class CustomerInfo extends PureComponent {
 
   @autobind
   handleSortChange() {
-    return '';
+    const { replace, location: { query } } = this.props;
+    const { orderType } = this.state;
+    let newSort = '';
+    if (orderType === 'desc') {
+      this.setState({
+        orderType: 'asc',
+      });
+      newSort = 'asc';
+    } else {
+      this.setState({
+        orderType: 'desc',
+      });
+      newSort = 'desc';
+    }
+    replace({
+      pathname: '/customer',
+      query: {
+        ...query,
+        orderType: newSort,
+      },
+    });
   }
 
   @autobind
   refreshMore() {
-    const { list: { page } } = this.props;
+    const { custQueryType, list: { page }, location: { query } } = this.props;
     this.props.getList({
-      custQueryType: 'personal',
-      orderType: 'desc',
-      pageSize: 10,
+      ...query,
+      custQueryType,
       pageNum: page.curPageNum + 1,
+    });
+  }
+
+  @autobind
+  refreshList(nextProps) {
+    const { custQueryType, location: { query } } = nextProps;
+    this.props.getList({
+      ...query,
+      custQueryType,
+      pageNum: 1,
+      refresh: true,
     });
   }
 
@@ -126,7 +173,7 @@ export default class CustomerInfo extends PureComponent {
           <Option value="805040" text="空">空<Icon type="selected" /></Option>
         </Select>
         <div className="sortBlank" onClick={this.handleSortChange}>
-          <p>开户时间</p><i />
+          <p>开户时间</p><i className={this.getIconClass()} />
         </div>
         <div className="filterBlank" onClick={this.props.onOpenChange}>
           <p>筛选</p><Icon type="filter" />

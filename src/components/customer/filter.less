@@ -13,6 +13,7 @@
     color:#1d1d26;
     font-weight:normal;
     display:-webkit-box;
+    position:relative;
     div {
       -webkit-box-flex:1.0;
     }
@@ -23,6 +24,19 @@
       color:#bbb;
       margin:0px;
       font-size:24px;
+    }
+    i{
+      background:url(../../../static/img/filterDown.png) no-repeat;
+      background-size:24px;
+      position:absolute;
+      right:2px;
+      top:22px;
+      width:24px;
+      height:17px;
+      &.showAll{
+        background:url(../../../static/img/filterUp.png) no-repeat;
+        background-size:24px;
+      }
     }
   }
   .filterBox {
@@ -57,7 +71,8 @@
       background:url(../../../static/img/filterSel.png) no-repeat;
       border:1px solid #e14238;
       color:#e14238;
-      background-position: 0px 0px;
+      background-position: 8px 16px;
+      line-height: 48px;
     }
   }
   .filterBtn {
