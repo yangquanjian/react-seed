@@ -1,10 +1,8 @@
 exports.response = function (req, res) {
     return {
-        status: 0,
-        message: {
-            global: "获取客户信息失败"
-        },
-        data: {
+			code: "0",
+			msg: "OK",
+			resultData: {
             // => 个人客户
             isSuccess: true,
             customerInfoPer: {

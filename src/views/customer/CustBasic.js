@@ -7,8 +7,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { NavBar, List } from 'antd-mobile';
-import CustBasicHead from '../../components/customer/CustBasicHead';
+import { NavBar, List, Modal } from 'antd-mobile';
+import Icon from '../../components/common/Icon';
 import './custbasic.less';
 
 const Item = List.Item;
@@ -48,7 +48,6 @@ const org = [
 const mapStateToProps = state => ({
   data: state.customer.basic,
 });
-
 const mapDispatchToProps = {
   push: () => {},
 };
@@ -68,36 +67,63 @@ export default class CustBasic extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      getMapKey: (key) => {
-        const dataModel = Object.values(this.props.data)[1];
-        const value = dataModel[key];
-        return (!value || value === '--') ? '--' : value;
-      },
-      getDataModel: () => (Object.values(this.props.data)[1]),
-      contactData: (arr, obj) => {
-        const tempArr = arr;
-        arr.map((item, index) => {
-          let value = obj[item.type];
-          if (!value || value === '--') {
-            value = '--';
-          } else if (item.type === 'idValDate' || item.type === 'foundTime' || item.type === 'openTime' || item.type === 'lastCommission') {
-            value = (value.length === 10) ? value.replace(/-/g, '/') : value.slice(0, 10);
-          }
-          tempArr[index].value = value;
-          tempArr[index].key = index + 1;
-          return true;
-        });
-        return tempArr;
-      },
     };
+  }
+
+  getMapKey(data, key) {
+    const dataModel = data;
+    const value = dataModel[key];
+    return (!value || value === '--') ? '--' : value;
+  }
+
+  getCustIcon(data) {
+    const dataModel = data;
+    const type = (this.props.params.custSor === 'per') ? 'per' : 'org';
+    let icon = '';
+    if (type === 'per') {
+      icon = (dataModel.custGender === '男') ? 'touxiang' : 'nvxing';
+    } else {
+      icon = 'jigou';
+    }
+    return icon;
+  }
+
+  getDataModel(data) {
+    return Object.values(data)[1];
+  }
+
+  contactData(arr, obj) {
+    const tempArr = arr;
+    arr.map((item, index) => {
+      let value = obj[item.type];
+      if (!value || value === '--') {
+        value = '--';
+      } else if (item.type === 'idValDate' || item.type === 'foundTime' || item.type === 'openTime' || item.type === 'lastCommission') {
+        value = (value.length === 10) ? value.replace(/-/g, '/') : value.slice(0, 10);
+      }
+      tempArr[index].value = value;
+      tempArr[index].key = index + 1;
+      return true;
+    });
+    return tempArr;
   }
 
   render() {
     const { title, params } = this.props;
-    const { getMapKey } = this.state;
     const labelArr = (this.props.params.custSor === 'per') ? per : org;
-    const dataModel = this.state.getDataModel();
-    const arr = this.state.contactData(labelArr, dataModel);
+    const getCustIcon = this.getCustIcon();
+    const getMapKey = this.getMapKey;
+    const dataModel = this.getDataModel(this.props.data);
+    const arr = this.contactData(labelArr, dataModel);
+    const renderHead = obj => (
+      <section className="baseHead">
+        <div className="headIcon"><Icon type={obj.icon} /></div>
+        <div className="headInfo">
+          <p className="custName">{obj.name}</p>
+          <p className="custNum">{obj.number}</p>
+        </div>
+      </section>
+    );
     const itemShow = arr.map(item => (
       <Item
         className={`${item.type}`}
@@ -107,24 +133,18 @@ export default class CustBasic extends PureComponent {
         {item.name}
       </Item>
     ));
-
     return (
       <div className="custBasic">
         <NavBar
           leftContent=" "
           rightContent=" "
           className=""
-          onLeftClick={() => console.log('onLeftClick')}
+          onLeftClick={() => Modal.alert('onLeftClick')}
         >
           <p>{title}</p>
         </NavBar>
 
-        <CustBasicHead
-          type={params.custSor}
-          sex={getMapKey('custGender')}
-          name={getMapKey('custName')}
-          number={params.custNumber}
-        />
+        { renderHead({ icon: getCustIcon(dataModel), name: getMapKey(dataModel, 'custName'), number: params.custNumber }) }
 
         <List className="cust-basic-list">
           {itemShow}

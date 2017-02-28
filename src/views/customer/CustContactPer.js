@@ -20,7 +20,7 @@ const mapDispatchToProps = {
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class CustContact extends PureComponent {
+export default class CustContactPer extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
@@ -72,6 +72,7 @@ export default class CustContact extends PureComponent {
     const LIST_KEY_ARR = [
       { label: LIST_LABEL_ARR[0],
         name: '电话',
+        icon: 'phone',
         child: ['cellPhones', 'workTels', 'homeTels', 'otherTels'],
         childname: ['手机', '单位', '住宅', '其他'],
         data: [],
@@ -79,6 +80,7 @@ export default class CustContact extends PureComponent {
       },
       { label: LIST_LABEL_ARR[1],
         name: '邮箱',
+        icon: 'email',
         child: ['emailAddresses'],
         childname: [''],
         data: [],
@@ -86,6 +88,7 @@ export default class CustContact extends PureComponent {
       },
       { label: LIST_LABEL_ARR[2],
         name: '地址',
+        icon: 'map',
         child: ['idAddress', 'homeAddresses', 'workAddresses', 'otherAddresses'],
         childname: ['身份证地址', '家庭住址', '单位地址', '其他地址'],
         data: [],
@@ -93,6 +96,7 @@ export default class CustContact extends PureComponent {
       },
       { label: LIST_LABEL_ARR[3],
         name: 'QQ',
+        icon: 'qq',
         child: ['qqNumbers'],
         childname: [''],
         data: [],
@@ -100,6 +104,7 @@ export default class CustContact extends PureComponent {
       },
       { label: LIST_LABEL_ARR[4],
         name: '微信',
+        icon: 'weixin',
         child: ['wechatNumbers'],
         childname: [''],
         data: [],
@@ -118,7 +123,7 @@ export default class CustContact extends PureComponent {
     const testItem = LIST_KEY_ARR.map((item, index) => (
       <div className={`info ${item.nullstyle}`} key={`sec-${item.label}-${index + 1}`}>
         <h3>
-          <Icon className={item.label} type="kehu" />
+          <Icon className={item.label} type={item.icon} />
           {`${item.name}`}
         </h3>
         <ContactList

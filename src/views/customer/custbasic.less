@@ -1,30 +1,104 @@
-.am-navbar-title{
+@list-border: #efefef;
+@list-label: #333333;
+@list-content: #eeeeee;
+.am-navbar-title {
   max-width: 70%;
   overflow: hidden;
-  p{
+  p {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 }
-.cust-basic-list{
+
+.baseHead {
+  position: relative;
+  height: 90px;
+  margin: 0;
+  padding: 39px 30px 32px 30px;
+  border: none;
+  background: #ffffff;
+  overflow: hidden;
+  &:after {
+    display: block;
+    position: absolute;
+    content: '';
+    left: 30px;
+    bottom: 0;
+    right: auto;
+    top: auto;
+    width: 100%;
+    border-bottom: 1PX solid #ddd;
+  }
+  &>div {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: inline-flex;
+    align-content: center;
+    align-items: center;
+  }
+  .headIcon {
+    width: 90px;
+    height: 90px;
+    margin: 0;
+    border-radius: 50%;
+    align-content: center;
+    border: 3px solid #fbf3f3;
+    background-color: #faf6f6;
+    .iconfont {
+      margin: 0 auto;
+      font-size: 50px;
+      line-height: 90px;
+      color: #df8d84;
+    }
+  }
+  .headInfo {
+    width: 590px;
+    height: 90px;
+    p {
+      display: block;
+      width: 100%;
+      margin: 0;
+      text-align: left;
+      text-indent: 15px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .custName {
+      color: #111111;
+      font-size: 32px;
+      font-weight: bold;
+      line-height: 56px;
+    }
+    .custNum {
+      color: #666666;
+      font-size: 24px;
+      height: 33px;
+      line-height: 33px;
+    }
+  }
+}
+
+.cust-basic-list {
   margin: 0 auto 50px auto;
   padding-bottom: 50px;
-  .am-list-body{
+  .am-list-body {
     border: none;
-    div:not(:last-child){
-      .am-list-line:after{
+    div:not(:last-child) {
+      .am-list-line:after {
         border-bottom: 1PX solid #efefef;
       }
     }
-    .am-list-item {
+    .am-list-item  {
       min-height: 129px;
-      .am-list-line {
-        .am-list-content{
+      .am-list-line  {
+        .am-list-content {
           flex: 2;
           color: #333333;
         }
-        .am-list-extra{
+        .am-list-extra {
           flex: 3;
           color: #666666;
         }
