@@ -15,6 +15,7 @@ import routerConfig from './router';
 import persistConfig from './config/persist';
 import FastClick from './utils/fastclick';
 import { getQuery } from './utils/helper';
+import { navToLogin } from './utils/cordova';
 import api from './api';
 
 // 1. Initialize
@@ -23,7 +24,22 @@ const app = dva({
   onAction: createLogger(),
   extraEnhancers: [autoRehydrate()],
   onError(e) {
-    Modal.alert(e.message);
+    console.log(e);
+    const { message } = e;
+    if (message === 'MAG0010') {
+      Modal.alert(
+        '错误',
+        '登录超时，请重新登录！',
+        [
+          {
+            text: '确定',
+            onPress: navToLogin,
+          },
+        ],
+      );
+    } else {
+      Modal.alert(message);
+    }
   },
 });
 
@@ -32,6 +48,7 @@ app.use(createLoading());
 
 // 3. Model
 app.model(require('./models/product'));
+app.model(require('./models/global'));
 app.model(require('./models/customer'));
 
 // 4. Router

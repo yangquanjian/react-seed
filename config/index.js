@@ -22,7 +22,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/mcrm/api': {
-          target: 'https://192.168.71.26:9081/',
+          target: 'http://192.168.71.27:8018',
           secure: false
         }
     },

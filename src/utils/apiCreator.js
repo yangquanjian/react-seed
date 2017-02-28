@@ -15,7 +15,7 @@ import { queryToString } from './helper';
  * @return {Fucntion}
  */
 export default function createApi(options = {}) {
-  const { prefix = '/api' } = options;
+  const { prefix = '/mcrm/api' } = options;
 
   // 如果没有前缀，自动补上
   const padPrefix = (url) => {

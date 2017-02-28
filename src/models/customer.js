@@ -6,7 +6,6 @@
 import { routerRedux } from 'dva/router';
 import pathToRegexp from 'path-to-regexp';
 
-import { delay } from '../utils/sagaEffects';
 import api from '../api';
 
 export default {
@@ -17,15 +16,45 @@ export default {
     basicInfo: {},
     chartInfo: [],
     searchList: [],
+    basic: {},
+    contact: {},
+    serviceList: {},
+    searchInfo: {
+      page: {},
+      list: [],
+    },
     info: {},
     list: [],
   },
   reducers: {
-    fetchSuccess(state, action) {
+    getBasicSuccess(state, action) {
+      // 客户基本信息
       const { payload: { response } } = action;
       return {
         ...state,
-        data: {
+        basic: {
+          ...state.data,
+          ...response.data,
+        },
+      };
+    },
+    getContactSuccess(state, action) {
+      // 个人客户联系方式
+      const { payload: { response } } = action;
+      return {
+        ...state,
+        contact: {
+          ...state.data,
+          ...response.data,
+        },
+      };
+    },
+    getServiceListSuccess(state, action) {
+      // 服务记录列表
+      const { payload: { response } } = action;
+      return {
+        ...state,
+        serviceList: {
           ...state.data,
           ...response.data,
         },
@@ -64,18 +93,24 @@ export default {
       const { payload: { response, custId } } = action;
       return state.set('chartInfo', response.data);
     },
-    searchSuccess(state, { payload: { response } }) {// eslint-disable-line
+    searchSuccess(state, { payload: { response, query } }) {// eslint-disable-line
+      const { resultData: { page, resultList } } = response;
+      // 如果page为1表示新刷新，这时候清空之前的列表
+      const originList = page.curPageNum === 1 ? [] : state.searchInfo.list;
       return {
         ...state,
-        searchList: response.data,
+        searchInfo: {
+          page,
+          list: [...originList, ...resultList],
+        },
       };
     },
   },
   effects: {
-    * fetch({ payload: { id = 1 } }, { call, put }) {
-      const response = yield call(api.getCustomer, { id });
+    * getPerBasic({ payload: { id = 1 } }, { call, put }) {
+      const response = yield call(api.getPerCustBasic, { id });
       yield put({
-        type: 'fetchSuccess',
+        type: 'getBasicSuccess',
         payload: {
           response,
           id,
@@ -102,6 +137,36 @@ export default {
         payload: {
           info,
           list,
+          id,
+        },
+      });
+    },
+    * getOrgBasic({ payload: { id = 1 } }, { call, put }) {
+      const response = yield call(api.getOrgCustBasic, { id });
+      yield put({
+        type: 'getBasicSuccess',
+        payload: {
+          response,
+          id,
+        },
+      });
+    },
+    * getPerContact({ payload: { id = 1 } }, { call, put }) {
+      const response = yield call(api.getPerCustCotact, { id });
+      yield put({
+        type: 'getContactSuccess',
+        payload: {
+          response,
+          id,
+        },
+      });
+    },
+    * getServiceList({ payload: { id = 1 } }, { call, put }) {
+      const response = yield call(api.getServiceList, { id });
+      yield put({
+        type: 'getServiceListSuccess',
+        payload: {
+          response,
           id,
         },
       });
@@ -141,24 +206,11 @@ export default {
         }
       });
     },
-    * search({ payload: { keyword, page, cusType } }, { put }) {
-      // const response = yield call(api.searchCustomer, { keyword, page });
-      yield delay(1000);
-      const response = {
-        data: [
-          {
-            id: '1',
-            name: `张三${new Date().getTime()}`,
-            phone: '13852293972',
-          },
-          {
-            id: '2',
-            name: `李四${new Date().getTime()}`,
-            phone: '17705188176',
-          },
-        ],
-      };
-      yield put({ type: 'searchSuccess', payload: { response } });
+    // 搜索客户
+    * search({ payload: query }, { call, put }) {
+      const { keywords, custQueryType, page = 1 } = query;
+      const response = yield call(api.searchCustomer, { keywords, custQueryType, page });
+      yield put({ type: 'searchSuccess', payload: { response, query } });
     },
   },
   subscriptions: {
@@ -173,19 +225,43 @@ export default {
         }
 
         // 客户首页
+        const custBasicMatch = pathToRegexp('/custBasic/:custNumber/:custSor/:custId').exec(pathname);
+        const custContactMatch = pathToRegexp('/custContact/:custNumber').exec(pathname);
+        const serviceListMatch = pathToRegexp('/serviceList/:custNumber').exec(pathname);
         const custMatch = pathToRegexp('/customer').exec(pathname);
-        if (custMatch) {
-          const id = custMatch[1];
-          dispatch({ type: 'getInfo', payload: { id } });
+
+        if (pathname === '/customer/searchResult') {
+          const { keyword, custQueryType, page = 1 } = query;
+          dispatch({ type: 'search', payload: { keyword, custQueryType, page } });
           return;
         }
 
-        // 客户搜索
-        const searchMatch = pathToRegexp('/customer/searchResult').exec(pathname);
-        if (searchMatch) {
-          dispatch({ type: 'search', payload: query });
-          return;
+        if (custBasicMatch) {
+          const custNumber = custBasicMatch[1];
+          const custSor = custBasicMatch[2];
+          const custId = custBasicMatch[3];
+          if (custSor === 'per') {
+            dispatch({ type: 'getPerBasic', payload: { custNumber, custSor, custId } });
+          } else {
+            dispatch({ type: 'getOrgBasic', payload: { custNumber, custSor, custId } });
+          }
         }
+        // 个人客户联系方式
+        if (custContactMatch) {
+          const id = custContactMatch[1];
+          dispatch({ type: 'getPerContact', payload: { id } });
+        }
+        // 服务列表
+        if (serviceListMatch) {
+          const id = serviceListMatch[1];
+          dispatch({ type: 'getServiceList', payload: { id } });
+        }
+        // 客户详情
+        if (custMatch) {
+          const id = custMatch[1];
+          dispatch({ type: 'getInfo', payload: { id } });
+        }
+
       });
     },
   },

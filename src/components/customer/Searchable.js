@@ -187,7 +187,7 @@ export default (ComposedComponent) => {
           pathname: '/customer/searchResult',
           query: {
             keyword: encodeURIComponent(keyword),
-            cusType: this.state.typeValue,
+            custQueryType: this.state.typeValue,
           },
         });
       } else if (keyword === encodeURIComponent(query.keyword)) {
@@ -253,7 +253,7 @@ export default (ComposedComponent) => {
       if (mode === SHOW_MODE.NORMAL) {
         mainElems = (<ComposedComponent
           {...this.props}
-          cusType={typeValue}
+          custQueryType={typeValue}
         />);
       } else if (mode === SHOW_MODE.SEARCHING) {
         mainElems = this.renderHistory();

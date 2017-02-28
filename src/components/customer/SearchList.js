@@ -13,10 +13,10 @@ import { prepareDataSource } from '../../utils/listView';
 export default class SearchList extends PureComponent {
 
   static propTypes = {
-    list: PropTypes.array.isRequired,
+    searchInfo: PropTypes.object.isRequired,
     replace: PropTypes.func,
     location: PropTypes.object.isRequired,
-    getList: PropTypes.func.isRequired,
+    doSearch: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -26,25 +26,15 @@ export default class SearchList extends PureComponent {
   constructor(props) {
     super(props);
 
-    const { list } = props;
     this.state = {
-      dataSource: prepareDataSource(list),
-      height: 1000,
+      dataSource: null,
       isLoading: false,
     };
   }
 
-  componentDidMount() {
-    if (this.container) {
-      const offset = this.container.getBoundingClientRect();
-      const height = document.documentElement.clientHeight;
-      this.setState({ height: height - offset.top }); // eslint-disable-line
-    }
-  }
-
   componentWillReceiveProps(nextProps) {
-    const { list } = nextProps;
-    if (list !== this.props.list) {
+    const { searchInfo: { list } } = nextProps;
+    if (list !== this.props.searchInfo.list) {
       this.setState({
         dataSource: prepareDataSource(list),
         isLoading: false,
@@ -54,7 +44,6 @@ export default class SearchList extends PureComponent {
 
   @autobind
   onEndReached() {
-    console.log('onEndReached');
     const { isLoading } = this.state;
     if (!isLoading) {
       this.setState({ isLoading: true }, this.refreshMore);
@@ -66,10 +55,15 @@ export default class SearchList extends PureComponent {
    */
   @autobind
   refreshMore() {
-    const { location: { query: { keyword, cusType } } } = this.props;
-    this.props.getList({
+    const {
+      doSearch,
+      searchInfo: { page },
+      location: { query: { keyword, cusType } },
+    } = this.props;
+    doSearch({
       keyword,
       cusType,
+      page: page.curPageNum + 1,
     });
   }
 
@@ -79,12 +73,19 @@ export default class SearchList extends PureComponent {
 
   @autobind
   renderRow(rowData, sectionID, rowID) {
+    const { location: { query: { keyword } } } = this.props;
+    // 如果搜索条件不是纯数字，则认为是姓名搜索
+    // 不需要展示搜索条件，如电话、开户号等
+    let extra = keyword;
+    if (/\D/.test(keyword)) {
+      extra = '';
+    }
     return (
       <SearchItem
         key={`${sectionID}-${rowID}`}
-        id={rowData.id}
-        title={rowData.name}
-        extra={rowData.phone}
+        id={rowData.cusId}
+        title={rowData.custName}
+        extra={extra}
         onClick={this.handleClick}
       />
     );
@@ -108,18 +109,16 @@ export default class SearchList extends PureComponent {
   }
 
   render() {
-    const { dataSource, height } = this.state;
+    const { dataSource } = this.state;
     if (!dataSource) {
       return null;
     }
     return (
-      <div
-        ref={ref => (this.container = ref)}
-        style={{ height: `${height}px` }}
-      >
+      <div>
         <ListView
           className="customer-search-list"
           dataSource={dataSource}
+          initialListSize={20}
           renderFooter={this.renderFooter}
           renderRow={this.renderRow}
           renderSeparator={this.renderSeparator}
@@ -127,7 +126,8 @@ export default class SearchList extends PureComponent {
           scrollRenderAheadDistance={500}
           scrollEventThrottle={20}
           onEndReached={this.onEndReached}
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={10}
+          useBodyScroll
         />
       </div>
     );
