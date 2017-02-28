@@ -10,13 +10,13 @@ import { routerRedux } from 'dva/router';
 
 import CustomerDetailHeader from '../../components/customer/DetailHeader';
 // import ChartWidget from '../../components/customer/Chart';
-import RecommendProductList from '../../components/customer/RecommendProductList';
+// import RecommendProductList from '../../components/customer/RecommendProductList';
 import CustomerDetailFooter from '../../components/customer/DetailFooter';
 import TabBar from '../../components/customer/Tab';
 
 const mapStateToProps = state => ({
   data: state.customer.detailInfo,
-  recommendList: state.customer.recommendList,
+  // recommendList: state.customer.recommendList,
 });
 
 const mapDispatchToProps = {
@@ -31,12 +31,12 @@ const mapDispatchToProps = {
 export default class CustomerDetail extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
-    recommendList: PropTypes.array.isRequired,
+    // recommendList: PropTypes.array.isRequired,
   }
 
   static defaultProps = {
     data: {},
-    recommendList: [],
+    // recommendList: [],
   };
 
   componentDidMount() {
@@ -54,6 +54,7 @@ export default class CustomerDetail extends PureComponent {
     if (!custBaseInfo) {
       return null;
     }
+    // <RecommendProductList {...this.props} />
     return (
       <div>
         <CustomerDetailHeader
@@ -66,7 +67,6 @@ export default class CustomerDetail extends PureComponent {
           chartData={monthlyProfits}
           assetData={custMoneyDistributionDTOList}
         />
-        <RecommendProductList {...this.props} />
         <CustomerDetailFooter lastCommission={custBaseInfo.lastCommission} />
       </div>
     );

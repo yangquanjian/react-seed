@@ -16,8 +16,8 @@ export default class CustomerDetailHeader extends PureComponent {
     data: PropTypes.object.isRequired,
     push: PropTypes.func.isRequired,
     custSor: PropTypes.string.isRequired,
-    custNumber: PropTypes.number.isRequired,
-    custId: PropTypes.number.isRequired,
+    custNumber: PropTypes.string.isRequired,
+    custId: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
