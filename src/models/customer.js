@@ -6,7 +6,6 @@
 import { routerRedux } from 'dva/router';
 import pathToRegexp from 'path-to-regexp';
 
-import { delay } from '../utils/sagaEffects';
 import api from '../api';
 
 export default {
@@ -17,21 +16,14 @@ export default {
     contact: {},
     contactList: {},
     serviceList: {},
-    searchList: [],
+    searchInfo: {
+      page: {},
+      list: [],
+    },
     info: {},
     list: [],
   },
   reducers: {
-    fetchSuccess(state, action) {
-      const { payload: { response } } = action;
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          ...response.data,
-        },
-      };
-    },
     getBasicSuccess(state, action) {
       // 客户基本信息
       const { payload: { response } } = action;
@@ -97,34 +89,20 @@ export default {
       // 做一些表单保存成功后的处理
       return state;
     },
-    searchSuccess(state, { payload: { response } }) {// eslint-disable-line
+    searchSuccess(state, { payload: { response, query } }) {// eslint-disable-line
+      const { resultData: { page, resultList } } = response;
+      // 如果page为1表示新刷新，这时候清空之前的列表
+      const originList = page.curPageNum === 1 ? [] : state.searchInfo.list;
       return {
         ...state,
-        searchList: response.data,
+        searchInfo: {
+          page,
+          list: [...originList, ...resultList],
+        },
       };
     },
   },
   effects: {
-    * fetch({ payload: { id = 1 } }, { call, put }) {
-      const response = yield call(api.getCustomer, { id });
-      yield put({
-        type: 'fetchSuccess',
-        payload: {
-          response,
-          id,
-        },
-      });
-    },
-    * getPerBasic({ payload: { id = 1 } }, { call, put }) {
-      const response = yield call(api.getPerCustBasic, { id });
-      yield put({
-        type: 'getBasicSuccess',
-        payload: {
-          response,
-          id,
-        },
-      });
-    },
     * getInfo({ payload: { id = 2 } }, { call, put }) {
       const [info, list] = yield [
         call(api.getCustomerInfo, { id }),
@@ -139,33 +117,39 @@ export default {
         },
       });
     },
-    * getOrgBasic({ payload: { id = 1 } }, { call, put }) {
-      const response = yield call(api.getOrgCustBasic, { id });
+    * getCustBasic({ payload: { custNumber, custSor = 'per', custId } }, { call, put }) {
+      const response = yield call(api.getCustBasic, { custNumber, custSor, custId });
       yield put({
         type: 'getBasicSuccess',
         payload: {
           response,
-          id,
+          custNumber,
+          custSor,
+          custId,
         },
       });
     },
-    * getPerContact({ payload: { id = 1 } }, { call, put }) {
-      const response = yield call(api.getPerCustCotact, { id });
+    * getPerContact({ payload: { custNumber, custSor = 'per', custId } }, { call, put }) {
+      const response = yield call(api.custContact, { custNumber, custSor, custId });
       yield put({
         type: 'getContactSuccess',
         payload: {
           response,
-          id,
+          custNumber,
+          custSor,
+          custId,
         },
       });
     },
-    * getOrgContact({ payload: { id = 1 } }, { call, put }) {
-      const response = yield call(api.getOrgCustCotact, { id });
+    * getOrgContact({ payload: { custNumber, custSor = 'org', custId } }, { call, put }) {
+      const response = yield call(api.custContact, { custNumber, custSor, custId });
       yield put({
         type: 'getContactListSuccess',
         payload: {
           response,
-          id,
+          custNumber,
+          custSor,
+          custId,
         },
       });
     },
@@ -194,60 +178,41 @@ export default {
       yield put({ type: 'saveSuccess', payload: { response } });
       yield put(routerRedux.goBack());
     },
-    * search({ payload: { keyword, page, cusType } }, { put }) {
-      // const response = yield call(api.searchCustomer, { keyword, page });
-      yield delay(1000);
-      const response = {
-        data: [
-          {
-            id: '1',
-            name: `张三${new Date().getTime()}`,
-            phone: '13852293972',
-          },
-          {
-            id: '2',
-            name: `李四${new Date().getTime()}`,
-            phone: '17705188176',
-          },
-        ],
-      };
-      yield put({ type: 'searchSuccess', payload: { response } });
+    // 搜索客户
+    * search({ payload: query }, { call, put }) {
+      const { keywords, custQueryType, page = 1 } = query;
+      const response = yield call(api.searchCustomer, { keywords, custQueryType, page });
+      yield put({ type: 'searchSuccess', payload: { response, query } });
     },
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname }) => {
-        const match = pathToRegexp('/customer/:id').exec(pathname);
-        if (match) {
-          const id = match[1];
-          dispatch({ type: 'fetch', payload: { id } });
+      return history.listen(({ pathname, query }) => {
+        // 搜索页面
+        if (pathname === '/customer/searchResult') {
+          const { keyword, custQueryType, page = 1 } = query;
+          dispatch({ type: 'search', payload: { keyword, custQueryType, page } });
           return;
         }
         // 客户详情页面
         const custBasicMatch = pathToRegexp('/custBasic/:custNumber/:custSor/:custId').exec(pathname);
         if (custBasicMatch) {
-          const custNumber = custBasicMatch[1];
-          const custSor = custBasicMatch[2];
-          const custId = custBasicMatch[3];
-          if (custSor === 'per') {
-            dispatch({ type: 'getPerBasic', payload: { custNumber, custSor, custId } });
-            return;
-          }
-          dispatch({ type: 'getOrgBasic', payload: { custNumber, custSor, custId } });
+          const { custNumber, custSor, custId } = query;
+          dispatch({ type: 'getCustBasic', payload: { custNumber, custSor, custId } });
           return;
         }
         // 个人客户联系方式
-        const custContactPerMatch = pathToRegexp('/custContactPer/:custNumber').exec(pathname);
+        const custContactPerMatch = pathToRegexp('/custContactPer/:custNumber/:custSor/:custId').exec(pathname);
         if (custContactPerMatch) {
-          const id = custContactPerMatch[1];
-          dispatch({ type: 'getPerContact', payload: { id } });
+          const { custNumber, custSor, custId } = query;
+          dispatch({ type: 'getPerContact', payload: { custNumber, custSor, custId } });
           return;
         }
         // 机构客户联系方式
-        const custContactOrgMatch = pathToRegexp('/custContactOrg/:custNumber').exec(pathname);
+        const custContactOrgMatch = pathToRegexp('/custContactOrg/:custNumber/:custSor/:custId').exec(pathname);
         if (custContactOrgMatch) {
-          const id = custContactOrgMatch[1];
-          dispatch({ type: 'getOrgContact', payload: { id } });
+          const { custNumber, custSor, custId } = query;
+          dispatch({ type: 'getOrgContact', payload: { custNumber, custSor, custId } });
           return;
         }
         // 服务列表

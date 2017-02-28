@@ -11,11 +11,11 @@ import SearchList from '../../components/customer/SearchList';
 import Searchable from '../../components/customer/Searchable';
 
 const mapStateToProps = state => ({
-  list: state.customer.searchList,
+  searchInfo: state.customer.searchInfo,
 });
 
 const mapDispatchToProps = {
-  getList: query => ({
+  doSearch: query => ({
     type: 'customer/search',
     payload: query,
   }),
@@ -29,41 +29,28 @@ const mapDispatchToProps = {
 @Searchable
 export default class CustomerHome extends PureComponent {
   static propTypes = {
-    getList: PropTypes.func.isRequired,
+    doSearch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
-    list: PropTypes.array,
+    searchInfo: PropTypes.object,
   }
 
   static defaultProps = {
-    list: [],
-  }
-
-  constructor(props) {
-    super(props);
-
-    const { list } = props;
-    this.state = {
-      list,
-    };
+    searchInfo: { page: {}, list: {} },
   }
 
   componentWillReceiveProps(nextProps) {
-    const { list, location: { query } } = nextProps;
-    const { location: preLocation, getList } = this.props;
+    const { location: { query } } = nextProps;
+    const { location: preLocation, doSearch } = this.props;
     // 如果url上关键词发生变化，则触发新的搜索请求
-    const { keyword } = query;
+    const { keyword, custQueryType } = query;
     if (keyword !== preLocation.query.keyword) {
-      getList({ keyword });
-    }
-    // 更新列表
-    if (this.props.list !== list) {
-      this.setState({ list });
+      doSearch({ keyword, custQueryType });
     }
   }
 
   render() {
     return (
-      <SearchList {...this.props} {...this.state} />
+      <SearchList {...this.props} />
     );
   }
 }

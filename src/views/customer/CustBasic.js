@@ -70,14 +70,14 @@ export default class CustBasic extends PureComponent {
     };
   }
 
-  getMapKey(data, key) {
-    const dataModel = data;
+  getMapKey(key) {
+    const dataModel = Object.values(this.props.data)[1];
     const value = dataModel[key];
     return (!value || value === '--') ? '--' : value;
   }
 
-  getCustIcon(data) {
-    const dataModel = data;
+  getCustIcon() {
+    const dataModel = Object.values(this.props.data)[1];
     const type = (this.props.params.custSor === 'per') ? 'per' : 'org';
     let icon = '';
     if (type === 'per') {
@@ -144,7 +144,7 @@ export default class CustBasic extends PureComponent {
           <p>{title}</p>
         </NavBar>
 
-        { renderHead({ icon: getCustIcon(dataModel), name: getMapKey(dataModel, 'custName'), number: params.custNumber }) }
+        { renderHead({ icon: getCustIcon, name: getMapKey('custName'), number: params.custNumber }) }
 
         <List className="cust-basic-list">
           {itemShow}

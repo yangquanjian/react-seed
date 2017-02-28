@@ -22,7 +22,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/mcrm/api': {
-          target: 'https://192.168.71.26:9081/',
+          target: 'http://192.168.71.27:8081',
           secure: false
         }
     },
@@ -32,6 +32,6 @@ module.exports = {
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
     cssSourceMap: true,
-    mock: true
+    mock: false
   }
 }

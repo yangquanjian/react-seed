@@ -24,6 +24,7 @@ const app = dva({
   onAction: createLogger(),
   extraEnhancers: [autoRehydrate()],
   onError(e) {
+    console.log(e);
     const { message } = e;
     if (message === 'MAG0010') {
       Modal.alert(
@@ -47,6 +48,7 @@ app.use(createLoading());
 
 // 3. Model
 app.model(require('./models/product'));
+app.model(require('./models/global'));
 app.model(require('./models/customer'));
 
 // 4. Router

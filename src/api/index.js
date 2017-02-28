@@ -15,28 +15,22 @@ export default {
   getProductList: ({ categoryId }) => api.post('/product/list', { categoryId }),
   /**
    * 获取客户详细信息
+   * { keywords, page, custQueryType }
    */
-  getCustomer: ({ id }) => api.post('/customer/detail', { id }),
+  searchCustomer: query => api.post('/groovy/cust/custList', query),
   /**
    * 保存客户信息
    */
   saveCustomer: ({ data }) => api.post('/customer/save', data),
+
   /**
-   * 查询个人客户基本信息
+   * 查询客户基本信息
    */
-  getPerCustBasic: ({ id }) => api.post('/customer/queryfspcustper', id),
+  getCustBasic: ({ custNumber, custSor, custId }) => api.post('/groovy/cust/custBaseInfo', { custNumber, custSor, custId }),
   /**
-   * 查询机构客户基本信息
+   * 查询客户联系方式
    */
-  getOrgCustBasic: ({ id }) => api.post('/customer/queryfspcustorg', id),
-  /**
-   * 查询个人客户联系方式
-   */
-  getPerCustCotact: ({ id }) => api.post('/customer/custContact', id),
-  /**
-   * 查询机构客户联系方式
-   */
-  getOrgCustCotact: ({ id }) => api.post('/customer/custContactOrg', id),
+  getCustCotact: ({ custNumber, custSor, custId }) => api.post('/groovy/cust/custContact', { custNumber, custSor, custId }),
   /**
    * 获取客户信息
    */
@@ -48,5 +42,10 @@ export default {
   /**
    * 获取服务记录列表
    */
-  getServiceList: ({ id }) => api.post('/customer/custServiceRecord', { id }),
+  getServiceList: ({ id }) => api.post('/groovy/cust/custServiceRecord', { id }),
+  /**
+   * 登出
+   * {}
+   */
+  logout: query => api.post('/mobile/logout', query),
 };
