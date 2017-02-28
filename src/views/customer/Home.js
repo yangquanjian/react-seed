@@ -25,7 +25,11 @@ const mapDispatchToProps = {
   getSearchList: queryMethod,
   getList: query => ({
     type: 'customer/getList',
-    payload: { query },
+    payload: query,
+  }),
+  getInfo: query => ({
+    type: 'customer/getInfo',
+    payload: query,
   }),
   push: routerRedux.push,
   replace: routerRedux.replace,
@@ -38,15 +42,21 @@ export default class CustomerHome extends PureComponent {
   static propTypes = {
     info: PropTypes.object,
     getList: PropTypes.func,
+    getInfo: PropTypes.func,
     list: PropTypes.object,
     custQueryType: PropTypes.string,
+    location: PropTypes.object,
+    replace: PropTypes.func,
   }
 
   static defaultProps = {
     info: {},
     getList: () => {},
+    getInfo: () => {},
     list: {},
-    custQueryType: 'personal'
+    custQueryType: 'personal',
+    location: {},
+    replace: () => {},
   }
 
   constructor(props) {
@@ -58,6 +68,16 @@ export default class CustomerHome extends PureComponent {
     };
   }
 
+  componentWillMount() {
+    const { custQueryType } = this.props;
+    this.props.getInfo({
+      custQueryType,
+      orderType: 'desc',
+      pageSize: 10,
+      pageNum: 1,
+    });
+  }
+
   @autobind
   onOpenChange() {
     this.setState({ open: !this.state.open });
@@ -65,11 +85,10 @@ export default class CustomerHome extends PureComponent {
 
   render() {
     const { info, list, getList, custQueryType, location, replace } = this.props;
-    const { resultList = [] } = list; 
     const sidebar = (
-      <Filter 
-        onOpenChange={this.onOpenChange} 
-        location={location} 
+      <Filter
+        onOpenChange={this.onOpenChange}
+        location={location}
         replace={replace}
       />
     );
@@ -81,12 +100,12 @@ export default class CustomerHome extends PureComponent {
     return (
       <section className="page-customer">
         <CustomerInfo data={info} />
-        <CustomerList 
-          list={resultList} 
-          getList={getList} 
-          onOpenChange={this.onOpenChange} 
-          custQueryType={custQueryType} 
-          location={location} 
+        <CustomerList
+          list={list}
+          getList={getList}
+          onOpenChange={this.onOpenChange}
+          custQueryType={custQueryType}
+          location={location}
           replace={replace}
         />
         <Drawer

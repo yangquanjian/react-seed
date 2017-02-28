@@ -1,4 +1,4 @@
-import React, { PropTypes,PureComponent } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
 import Icon from '../../components/common/Icon';
 import './infoItem.less';
@@ -15,13 +15,12 @@ class InfoItem extends PureComponent {
   @autobind
   getData(key) {
     if (this.props.data) {
-      return this.props.data[key];
+      return this.props.data[key] ? this.props.data[key] : '--';
     }
     return '--';
   }
 
   render() {
-    const { data } = this.props;
     return (
       <div className="customerWrapper">
         <div className="customerNew">

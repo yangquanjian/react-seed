@@ -1,4 +1,4 @@
-import React, { PropTypes,PureComponent } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import classname from 'classnames';
 import './indicator.less';
 
@@ -15,16 +15,16 @@ class Indicator extends PureComponent {
 
   render() {
     const { count, activeIndex } = this.props;
-    const width = 34*count;
+    const width = 34 * count;
     const elems = [];
     for (let i = 0; i < count; i++) {
       const classNames = classname({
-        focus: i == activeIndex,
-      })
-      elems.push(<span key={i} className={classNames}></span>)
+        focus: i === activeIndex,
+      });
+      elems.push(<span key={i} className={classNames} />);
     }
     return (
-      <div className="indicatorWrapper" style={{width:width}}>
+      <div className="indicatorWrapper" style={{ width }}>
         {elems}
       </div>
     );

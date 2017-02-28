@@ -5,10 +5,7 @@
 
 import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
-import {
-  Tabs,
-  WhiteSpace,
-} from 'antd-mobile';
+import { Tabs } from 'antd-mobile';
 import InfoItem from './InfoItem';
 import Indicator from './Indicator';
 import './info.less';
@@ -34,9 +31,6 @@ export default class CustomerInfo extends PureComponent {
     };
   }
 
-  componentDidMount() {
-  }
-
   componentWillReceiveProps(nextProps) {
     const { data } = nextProps;
     if (data !== this.props.data) {
@@ -49,12 +43,12 @@ export default class CustomerInfo extends PureComponent {
   @autobind
   tabChange(key) {
     this.setState({
-      activeIndex: parseInt(key),
-    })
+      activeIndex: parseInt(key, 10),
+    });
   }
 
   render() {
-    const { data : {kpiList = []}, count, activeIndex } = this.state;
+    const { data: { kpiList = [] }, count, activeIndex } = this.state;
     return (
       <div className="infoTab">
         <Tabs defaultActiveKey="0" onChange={this.tabChange}>

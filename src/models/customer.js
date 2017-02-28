@@ -20,7 +20,10 @@ export default {
       list: [],
     },
     info: {},
-    list: {},
+    list: {
+      page: {},
+      resultList: [],
+    },
   },
   reducers: {
     getBasicSuccess(state, action) {
@@ -68,7 +71,7 @@ export default {
     },
     getListSuccess(state, action) {
       const { payload: { list } } = action;
-      const { resultData: { page, resultList:  newData } } = list;
+      const { page = [], resultList: newData } = list.resultData;
       const oldResult = state.list.resultList;
       return {
         ...state,
@@ -106,17 +109,21 @@ export default {
         },
       });
     },
-    * getInfo({ payload: { id = 2 } }, { call, put }) {
+    * getInfo({ payload: {
+        custQueryType = 'personal',
+        orderType = 'desc',
+        pageSize = 10,
+        pageNum = 1,
+      } }, { call, put }) {
       const [info, list] = yield [
-        call(api.getCustomerInfo, { id }),
-        call(api.getCustomerList, { id }),
+        call(api.getCustomerInfo),
+        call(api.getCustomerList, { custQueryType, orderType, pageSize, pageNum }),
       ];
       yield put({
         type: 'getInfoSuccess',
         payload: {
           info,
           list,
-          id,
         },
       });
     },
@@ -150,13 +157,17 @@ export default {
         },
       });
     },
-    * getList({ payload: { id = 3 } }, { call, put }) {
-      const list = yield call(api.getCustomerList, { id });
+    * getList({ payload: {
+        custQueryType = 'personal',
+        orderType = 'desc',
+        pageSize = 10,
+        pageNum = 1,
+      } }, { call, put }) {
+      const list = yield call(api.getCustomerList, { custQueryType, orderType, pageSize, pageNum });
       yield put({
         type: 'getListSuccess',
         payload: {
           list,
-          id,
         },
       });
     },
@@ -178,7 +189,6 @@ export default {
         const custBasicMatch = pathToRegexp('/custBasic/:custNumber/:custSor/:custId').exec(pathname);
         const custContactMatch = pathToRegexp('/custContact/:custNumber').exec(pathname);
         const serviceListMatch = pathToRegexp('/serviceList/:custNumber').exec(pathname);
-        const custMatch = pathToRegexp('/customer').exec(pathname);
 
         if (pathname === '/customer/searchResult') {
           const { keyword, custQueryType, page = 1 } = query;
@@ -205,13 +215,6 @@ export default {
         if (serviceListMatch) {
           const id = serviceListMatch[1];
           dispatch({ type: 'getServiceList', payload: { id } });
-        }
-        //客户首页
-        const custMatch = pathToRegexp('/customer').exec(pathname);
-        if (custMatch) {
-          const id = custMatch[1];
-          dispatch({ type: 'getInfo', payload: { id } });
-          return;
         }
       });
     },

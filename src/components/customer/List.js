@@ -15,39 +15,51 @@ import './list.less';
 export default class CustomerInfo extends PureComponent {
 
   static propTypes = {
-    list: PropTypes.array,
+    list: PropTypes.object,
     getList: PropTypes.func.isRequired,
     onOpenChange: PropTypes.func.isRequired,
     custQueryType: PropTypes.string,
     location: PropTypes.object.isRequired,
     replace: PropTypes.func.isRequired,
+    pageNum: PropTypes.number,
   }
 
   static defaultProps = {
-    list: [],
+    list: {},
     getList: () => {},
     onOpenChange: () => {},
     custQueryType: 'personal',
     location: {},
     replace: () => {},
+    pageNum: 1,
   }
 
   constructor(props) {
     super(props);
 
+    const { resultList = [] } = props.list;
     this.state = {
-      dataSource: prepareDataSource(props.list),
+      dataSource: prepareDataSource(resultList),
       isLoading: false,
     };
   }
 
   componentWillReceiveProps(nextProps) {
     const { list } = nextProps;
+    const { resultList = [] } = list;
     if (list !== this.props.list) {
       this.setState({
-        dataSource: prepareDataSource(nextProps.list),
+        dataSource: prepareDataSource(resultList),
         isLoading: false,
       });
+    }
+  }
+
+  @autobind
+  onEndReached() {
+    const { isLoading } = this.state;
+    if (!isLoading) {
+      this.setState({ isLoading: true }, this.refreshMore);
     }
   }
 
@@ -77,16 +89,18 @@ export default class CustomerInfo extends PureComponent {
 
   @autobind
   handleSortChange() {
-    const { replace, location: { query } } = this.props;
-    console.log('sortChange');
+    return '';
   }
 
   @autobind
-  onEndReached() {
-    const { isLoading } = this.state;
-    if (!isLoading) {
-      this.setState({ isLoading: true }, this.props.getList);
-    }
+  refreshMore() {
+    const { list: { page } } = this.props;
+    this.props.getList({
+      custQueryType: 'personal',
+      orderType: 'desc',
+      pageSize: 10,
+      pageNum: page.curPageNum + 1,
+    });
   }
 
   @autobind
@@ -169,7 +183,7 @@ export default class CustomerInfo extends PureComponent {
         onEndReachedThreshold={10}
         stickyHeader
         stickyProps={{
-          stickyStyle: { WebkitTransform: 'none', transform: 'none',zIndex: '1' },
+          stickyStyle: { WebkitTransform: 'none', transform: 'none', zIndex: '1' },
           // topOffset: -43,
           // isActive: false, // 关闭 sticky 效果
         }}

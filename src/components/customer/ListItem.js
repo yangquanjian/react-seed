@@ -10,7 +10,7 @@ class ListItem extends React.Component {
     brokerNumber: PropTypes.string,
     custTotalAsset: PropTypes.number,
     custType: PropTypes.string,
-    custOpenDate: PropTypes.string
+    custOpenDate: PropTypes.string,
   };
 
   static defaultProps = {
@@ -21,11 +21,11 @@ class ListItem extends React.Component {
     brokerNumber: '--',
     custTotalAsset: 0,
     custType: 'per',
-    custOpenDate: '--'
+    custOpenDate: '--',
   }
 
   levelShow(lev) {
-    switch(lev){
+    switch (lev) {
       case '805010':
         return 'dia';
       case '805015':

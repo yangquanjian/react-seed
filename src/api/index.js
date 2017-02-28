@@ -43,12 +43,12 @@ export default {
   /**
    * 获取客户信息
    */
-  getCustomerInfo: ({ id }) => api.post('/customer/info', { id }),
+  getCustomerInfo: () => api.post('/groovy/emp/home'),
 
   /**
    * 获取客户列表
    */
-  getCustomerList: ({ id }) => api.post('/customer/cusList', { id }),
+  getCustomerList: query => api.post('/groovy/cust/custList', query),
 
   /**
    * 获取服务记录列表
