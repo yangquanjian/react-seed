@@ -49,7 +49,8 @@ export default class CustomerDetail extends PureComponent {
       custMoneyDistributionDTOList,
       custSor,
       custNumber,
-      custId } = this.props.data;
+      custId,
+    } = this.props.data;
 
     if (!custBaseInfo) {
       return null;
