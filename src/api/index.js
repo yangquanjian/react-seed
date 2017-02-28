@@ -43,12 +43,12 @@ export default {
   /**
    * 获取客户信息
    */
-  getCustomerInfo: ({ id }) => api.get('/customer/info', { id }),
+  getCustomerInfo: ({ id }) => api.post('/customer/info', { id }),
 
   /**
    * 获取客户列表
    */
-  getCustomerList: ({ id }) => api.get('/customer/cusList', { id }),
+  getCustomerList: ({ id }) => api.post('/customer/cusList', { id }),
 
   /**
    * 获取服务记录列表

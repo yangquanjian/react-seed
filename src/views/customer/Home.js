@@ -12,6 +12,7 @@ import { Drawer } from 'antd-mobile';
 import Searchable, { queryMethod } from '../../components/customer/Searchable';
 import CustomerInfo from '../../components/customer/Info';
 import CustomerList from '../../components/customer/List';
+import Filter from '../../components/customer/Filter';
 import './home.less';
 
 const mapStateToProps = state => ({
@@ -37,13 +38,15 @@ export default class CustomerHome extends PureComponent {
   static propTypes = {
     info: PropTypes.object,
     getList: PropTypes.func,
-    list: PropTypes.array,
+    list: PropTypes.object,
+    custQueryType: PropTypes.string,
   }
 
   static defaultProps = {
     info: {},
     getList: () => {},
-    list: [],
+    list: {},
+    custQueryType: 'personal'
   }
 
   constructor(props) {
@@ -61,8 +64,15 @@ export default class CustomerHome extends PureComponent {
   }
 
   render() {
-    const { info, list, getList } = this.props;
-    const sidebar = (<div>筛选1111</div>);
+    const { info, list, getList, custQueryType, location, replace } = this.props;
+    const { resultList = [] } = list; 
+    const sidebar = (
+      <Filter 
+        onOpenChange={this.onOpenChange} 
+        location={location} 
+        replace={replace}
+      />
+    );
     const drawerProps = {
       open: this.state.open,
       position: this.state.position,
@@ -71,13 +81,23 @@ export default class CustomerHome extends PureComponent {
     return (
       <section className="page-customer">
         <CustomerInfo data={info} />
-        <CustomerList list={list} getList={getList} onOpenChange={this.onOpenChange} />
+        <CustomerList 
+          list={resultList} 
+          getList={getList} 
+          onOpenChange={this.onOpenChange} 
+          custQueryType={custQueryType} 
+          location={location} 
+          replace={replace}
+        />
         <Drawer
           className="my-drawer"
           sidebar={sidebar}
+          style={{ maxHeight: document.documentElement.clientHeight - 120 }}
           dragHandleStyle={{ display: 'none' }}
           {...drawerProps}
-        >1</Drawer>
+        >
+          .
+        </Drawer>
       </section>
     );
   }

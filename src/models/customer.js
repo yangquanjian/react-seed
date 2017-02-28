@@ -20,7 +20,7 @@ export default {
       list: [],
     },
     info: {},
-    list: [],
+    list: {},
   },
   reducers: {
     getBasicSuccess(state, action) {
@@ -56,21 +56,26 @@ export default {
         },
       };
     },
-    getSuccess(state, action) {
+    getInfoSuccess(state, action) {
       const { payload: { info, list } } = action;
       return {
         ...state,
         info: {
-          ...info.data,
+          ...info.resultData,
         },
-        list: list.data,
+        list: list.resultData,
       };
     },
     getListSuccess(state, action) {
       const { payload: { list } } = action;
+      const { resultData: { page, resultList:  newData } } = list;
+      const oldResult = state.list.resultList;
       return {
         ...state,
-        list: [...state.list, ...list.data],
+        list: {
+          page,
+          resultList: [...newData, ...oldResult],
+        },
       };
     },
     saveSuccess(state, action) {// eslint-disable-line
@@ -107,7 +112,7 @@ export default {
         call(api.getCustomerList, { id }),
       ];
       yield put({
-        type: 'getSuccess',
+        type: 'getInfoSuccess',
         payload: {
           info,
           list,
@@ -201,10 +206,12 @@ export default {
           const id = serviceListMatch[1];
           dispatch({ type: 'getServiceList', payload: { id } });
         }
-        // 客户详情
+        //客户首页
+        const custMatch = pathToRegexp('/customer').exec(pathname);
         if (custMatch) {
           const id = custMatch[1];
           dispatch({ type: 'getInfo', payload: { id } });
+          return;
         }
       });
     },
