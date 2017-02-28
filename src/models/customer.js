@@ -162,8 +162,11 @@ export default {
     },
     // 搜索客户
     * search({ payload: query }, { call, put }) {
-      const { keywords, custQueryType, page = 1 } = query;
-      const response = yield call(api.searchCustomer, { keywords, custQueryType, page });
+      const { keyword: keywords, custQueryType, page: pageNum = 1 } = query;
+      const response = yield call(
+        api.searchCustomer,
+        { keywords, custQueryType, pageNum, pageSize: 20 },
+      );
       yield put({ type: 'searchSuccess', payload: { response, query } });
     },
   },
