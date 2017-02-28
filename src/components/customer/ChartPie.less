@@ -1,0 +1,299 @@
+@color_1: #808080;
+@color_2: #ec8d85;
+@color_3: #f0b14a;
+@color_4: #a4adec;
+@color_5: #7fabe9;
+@color_6: #da4e40;
+@color_7: #f3d781;
+@color_8: #bec0c3;
+@color_9: #69caa9;
+@color_10: #c3483b;
+@background_color_1: #ec8d85;
+@background_color_2: #da4e40;
+@background_color_3: #f0b14a;
+@background_color_4: #a4adec;
+@background_color_5: #7fabe9;
+@background_color_6: #f3d781;
+
+.chart-pie-section {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	height: 450px;
+	min-height: 300px;
+	>div {
+		&:nth-child(1) {
+			width: 40%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0;
+			padding: 0;
+			>div {
+				&:nth-child(1) {
+					width: 250px !important;
+					height: 300px !important;
+				}
+			}
+		}
+		>div {
+			canvas {
+				width: 100%;
+				height: 100%;
+				width: 300px !important;
+				height: 150px !important;
+				padding: 0px;
+				margin: 0px;
+				border-width: 0px;
+				transform: scale(2) translateY(20px) translateX(-10px);
+			}
+		}
+	}
+}
+.assetDescription {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-direction: column;
+	padding: 0;
+	position: relative;
+	width: 60%;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-left: 10px;
+	min-height: 300px;
+	height: 400px;
+	max-height: 400px;
+	div {
+		&:last-child {
+			border-bottom: 0px;
+		}
+	}
+}
+.xianjin {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-direction: row;
+	white-space: nowrap;
+	overflow: hidden;
+	border-bottom: 1px solid #dddddd;
+	padding: 16px;
+	color: @color_1;
+	width: 100%;
+	padding-left: 0;
+	padding-right: 0;
+}
+.licai {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-direction: row;
+	white-space: nowrap;
+	overflow: hidden;
+	border-bottom: 1px solid #dddddd;
+	padding: 16px;
+	color: @color_1;
+	width: 100%;
+	padding-left: 0;
+	padding-right: 0;
+}
+.gupiao {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-direction: row;
+	white-space: nowrap;
+	overflow: hidden;
+	border-bottom: 1px solid #dddddd;
+	padding: 16px;
+	color: @color_1;
+	width: 100%;
+	padding-left: 0;
+	padding-right: 0;
+}
+.jijin {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-direction: row;
+	white-space: nowrap;
+	overflow: hidden;
+	border-bottom: 1px solid #dddddd;
+	padding: 16px;
+	color: @color_1;
+	width: 100%;
+	padding-left: 0;
+	padding-right: 0;
+}
+.yanshengpin {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-direction: row;
+	white-space: nowrap;
+	overflow: hidden;
+	border-bottom: 1px solid #dddddd;
+	padding: 16px;
+	color: @color_1;
+	width: 100%;
+	padding-left: 0;
+	padding-right: 0;
+}
+.zhaiquan {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-direction: row;
+	white-space: nowrap;
+	overflow: hidden;
+	border-bottom: 1px solid #dddddd;
+	padding: 16px;
+	color: @color_1;
+	width: 100%;
+	padding-left: 0;
+	padding-right: 0;
+}
+.xianjinCircle {
+	background-color: @background_color_1;
+	border: 12px;
+	border-radius: 12px;
+	width: 12px;
+	height: 12px;
+}
+.assetName {
+	padding-left: 20px;
+	font-size: 26px;
+	max-width: 120px;
+	width: 120px;
+}
+.assetValue {
+	font-size: 26px;
+	position: absolute;
+	right: 110px;
+}
+.xianjinPercent {
+	font-size: 24px;
+	position: absolute;
+	right: 10px;
+	color: @color_2;
+}
+.licaiPercent {
+	font-size: 24px;
+	position: absolute;
+	right: 10px;
+	color: @color_3;
+}
+.jijinPercent {
+	font-size: 24px;
+	position: absolute;
+	right: 10px;
+	color: @color_4;
+}
+.gupiaoPercent {
+	font-size: 24px;
+	position: absolute;
+	right: 10px;
+	color: @color_6;
+}
+.zhaiquanPercent {
+	font-size: 24px;
+	position: absolute;
+	right: 10px;
+	color: @color_5;
+}
+.yanshengpinPercent {
+	font-size: 24px;
+	position: absolute;
+	right: 10px;
+	color: @color_7;
+}
+.gupiaoCircle {
+	background-color: @background_color_2;
+	border: 12px;
+	border-radius: 12px;
+	width: 12px;
+	height: 12px;
+}
+.licaiCircle {
+	border: 12px;
+	border-radius: 12px;
+	width: 12px;
+	height: 12px;
+	background-color: @background_color_3;
+}
+.jijinCircle {
+	border: 12px;
+	border-radius: 12px;
+	width: 12px;
+	height: 12px;
+	background-color: @background_color_4;
+}
+.zhaiquanCircle {
+	border: 12px;
+	border-radius: 12px;
+	width: 12px;
+	height: 12px;
+	background-color: @background_color_5;
+}
+.yanshengpinCircle {
+	border: 12px;
+	border-radius: 12px;
+	width: 12px;
+	height: 12px;
+	background-color: @background_color_6;
+}
+.chart-pie-none-section {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 300px;
+	position: relative;
+	>div {
+		&:nth-child(1) {
+			width: 90%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0;
+			padding: 0;
+		}
+		>div {
+			width: 100%;
+			height: 100%;
+			canvas {
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
+}
+.none-pie-data {
+	position: absolute;
+	color: @color_8;
+}
+.fuzhai {
+	position: absolute;
+	left: 12%;
+	top: 75%;
+	text-align: center;
+	color: @color_9;
+	font-size: 28px;
+}
+.noneFuzhai {
+	display: none;
+}
+.fuzhaiIcon {
+	color: @color_10;
+	vertical-align: middle;
+}
+.fuzhaiContent {
+	font-size: 28px;
+	padding-left: 10px;
+}
+.fuzhaiLabel {
+	font-size: 26px;
+}

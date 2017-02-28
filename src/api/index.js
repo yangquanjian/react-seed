@@ -49,15 +49,29 @@ export default {
    * 获取客户列表
    */
   getCustomerList: ({ id }) => api.get('/customer/cusList', { id }),
-
+  /**
+   * 获取客户详细信息
+   */
+  getCustomerDetail: ({ custNumber, custSor, custId }) => api.post('/groovy/cust/custDetail', { custNumber, custSor, custId }),
+  /**
+   * 获取客户基本信息
+   */
+  getCustomerBasicInfo: ({ custId }) => api.post('/customer/basic', { custId }),
+  /**
+   * 获取推荐产品列表
+   */
+  getRecommendProductList: ({ custId }) => api.post('/customer/recommend', { custId }),
   /**
    * 获取服务记录列表
    */
   getServiceList: ({ id }) => api.get('/customer/custServiceRecord', { id }),
-
   /**
    * 登出
    * {}
    */
   logout: query => api.post('/mobile/logout', query),
+  /**
+   * 不适合产品忽略
+   */
+  ignoreProduct: ({ custId }) => api.post('/customer/ignore', { custId }),
 };

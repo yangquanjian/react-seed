@@ -34,6 +34,10 @@ export default class ProductList extends PureComponent {
     };
   }
 
+  componentDidMount() {
+    // this.getList();
+  }
+
   componentWillReceiveProps(nextProps) {
     const { list } = nextProps;
     if (list !== this.props.list) {
