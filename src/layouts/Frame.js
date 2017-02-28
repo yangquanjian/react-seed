@@ -59,7 +59,7 @@ class Frame extends Component {
     };
     return (
       <Icon
-        className={isSelected ? '' : 'icon-selected'}
+        className={isSelected ? '' : 'icon-active'}
         type={iconMap[icon]}
       />
     );
@@ -104,9 +104,9 @@ class Frame extends Component {
     );
     const main = findTabItem ? (
       <TabBar
-        unselectedTintColor="#949494"
-        tintColor="#33A3F4"
-        barTintColor="white"
+        unselectedTintColor="#c5c4c7"
+        tintColor="#ffffff"
+        barTintColor="#2d3333"
         hidden={isTabBarHidden}
       >
         {tabs}

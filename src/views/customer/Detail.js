@@ -1,32 +1,73 @@
 /**
  * @file customer/Detail.js
  *  客户表单，修改客户信息
- * @author maoquan(maoquan@htsc.com)
+ * @author xuxiaoqin
  */
 
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
 
+import CustomerDetailHeader from '../../components/customer/DetailHeader';
+// import ChartWidget from '../../components/customer/Chart';
+// import RecommendProductList from '../../components/customer/RecommendProductList';
+import CustomerDetailFooter from '../../components/customer/DetailFooter';
+import TabBar from '../../components/customer/Tab';
+
 const mapStateToProps = state => ({
-  data: state.customer.data,
+  data: state.customer.detailInfo,
+  // recommendList: state.customer.recommendList,
 });
 
 const mapDispatchToProps = {
+  ignoreProduct: custId => ({
+    type: 'customer/ignoreProduct',
+    payload: { custId },
+  }),
   push: routerRedux.push,
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class CustomDetail extends Component {
+export default class CustomerDetail extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    // recommendList: PropTypes.array.isRequired,
+  }
+
+  static defaultProps = {
+    data: {},
+    // recommendList: [],
+  };
+
+  componentDidMount() {
   }
 
   render() {
+    const {
+      custBaseInfo,
+      monthlyProfits,
+      custMoneyDistributionDTOList,
+      custSor,
+      custNumber,
+      custId } = this.props.data;
+
+    if (!custBaseInfo) {
+      return null;
+    }
+    // <RecommendProductList {...this.props} />
     return (
       <div>
-        <h1>客户详情</h1>
+        <CustomerDetailHeader
+          data={custBaseInfo}
+          custSor={custSor}
+          custNumber={custNumber}
+          custId={custId}
+        />
+        <TabBar
+          chartData={monthlyProfits}
+          assetData={custMoneyDistributionDTOList}
+        />
+        <CustomerDetailFooter lastCommission={custBaseInfo.lastCommission} />
       </div>
     );
   }

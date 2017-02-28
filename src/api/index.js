@@ -48,4 +48,8 @@ export default {
    * {}
    */
   logout: query => api.post('/mobile/logout', query),
+  /**
+   * 不适合产品忽略
+   */
+  ignoreProduct: ({ custId }) => api.post('/customer/ignore', { custId }),
 };

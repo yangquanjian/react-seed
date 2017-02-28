@@ -8,6 +8,7 @@ import React, { PropTypes, PureComponent, cloneElement } from 'react';
 // 按需引入组件, 保证代码最小
 import echarts from 'echarts/lib/echarts';
 import _ from 'lodash';
+// import elementResizeEvent from 'element-resize-event';
 
 export default class Charts extends PureComponent {
   /* eslint-disable */
@@ -123,6 +124,10 @@ export default class Charts extends PureComponent {
     const chart = echarts.getInstanceByDom(node);
     if (!chart) {
       this.chart = echarts.init(node);
+      // 加入resize
+      // elementResizeEvent(node, function() {
+      //   chart.resize();
+      // })
     }
     this.chart.setOption(options, this.props.theme);
   }

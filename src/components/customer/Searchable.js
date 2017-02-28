@@ -24,11 +24,11 @@ const SHOW_MODE = {
 const SELECT_OPTIONS = [
   {
     text: '我的客户',
-    value: '0',
+    value: 'PERSONAL',
   },
   {
     text: '我团队的客户',
-    value: '1',
+    value: 'TEAM',
   },
 ];
 
@@ -215,7 +215,7 @@ export default (ComposedComponent) => {
     @autobind
     renderHistoryHeader() {
       return (
-        <p>历史记录</p>
+        <p>历史搜索</p>
       );
     }
 
@@ -229,6 +229,12 @@ export default (ComposedComponent) => {
         />
       );
     }
+    @autobind
+    renderClockIcon() {
+      return (
+        <Icon type="clock" />
+      );
+    }
 
     renderHistory() {
       const historyList = this.state.historyList;
@@ -237,6 +243,7 @@ export default (ComposedComponent) => {
           {historyList.map(
             keyword => (
               <Item
+                thumb={this.renderClockIcon()}
                 key={encodeURIComponent(keyword)}
                 extra={this.renderCrossIcon(keyword)}
                 onClick={this.handleHistoryItemClick}
