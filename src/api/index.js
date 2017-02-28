@@ -33,11 +33,24 @@ export default {
   /**
    * 获取客户信息
    */
-  getCustomerInfo: ({ id }) => api.post('/customer/info', { id }),
+  getCustomerInfo: () => api.post('/groovy/emp/home'),
   /**
    * 获取客户列表
    */
-  getCustomerList: ({ id }) => api.post('/customer/cusList', { id }),
+  getCustomerList: query => api.post('/groovy/cust/custList', query),
+
+  /**
+   * 获取客户详细信息
+   */
+  getCustomerDetail: ({ custNumber, custSor, custId }) => api.post('/groovy/cust/custDetail', { custNumber, custSor, custId }),
+  /**
+   * 获取客户基本信息
+   */
+  getCustomerBasicInfo: ({ custId }) => api.post('/customer/basic', { custId }),
+  /**
+   * 获取推荐产品列表
+   */
+  getRecommendProductList: ({ custId }) => api.post('/customer/recommend', { custId }),
   /**
    * 获取服务记录列表
    */
