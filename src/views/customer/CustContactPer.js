@@ -106,7 +106,7 @@ export default class CustContactPer extends PureComponent {
 
   render() {
     const { goBack } = this.props;
-    const title = this.getBaseKey('name');
+    const title = this.getBaseKey('custName');
     const dataModel = LIST_KEY_ARR.map(item => ({
       data: this.getSectionArr(item.child),
       nullstyle: this.isNull(this.getSectionArr(item.child)),

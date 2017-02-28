@@ -13,7 +13,6 @@ export default {
   state: {
     data: {},
     detailInfo: {},
-    basicInfo: {},
     searchList: [],
     basic: {},
     contact: {},
@@ -28,7 +27,6 @@ export default {
       page: {},
       resultList: [],
     },
-    recommendList: [],
   },
   reducers: {
     getBasicSuccess(state, action) {
@@ -106,39 +104,6 @@ export default {
         },
       };
     },
-    fetchCustBasicSuccess(state, action) {
-      const { payload: { response, custId } } = action;
-      return {
-        ...state,
-        basicInfo: {
-          ...state.basicInfo,
-          ...response.data,
-          custId,
-        },
-      };
-    },
-    fetchRecommendProductSuccess(state, action) {
-      const { payload: { response, custId } } = action;
-      return {
-        ...state,
-        recommendList: [
-          ...state.recommendList,
-          ...response.resultData,
-          custId,
-        ],
-      };
-    },
-    ignoreProductSuccess(state, action) {
-      const { payload: { response, custId } } = action;
-      return {
-        ...state,
-        ignoreResult: {
-          ...state.ignoreResult,
-          ...response.data,
-          custId,
-        },
-      };
-    },
     searchSuccess(state, { payload: { response, query } }) {// eslint-disable-line
       const { resultData: { page, resultList } } = response;
       // 如果page为1表示新刷新，这时候清空之前的列表
@@ -154,11 +119,11 @@ export default {
   },
   effects: {
     * getInfo({ payload: {
-        custQueryType = 'personal',
-        orderType = 'desc',
-        pageSize = 10,
-        pageNum = 1,
-      } }, { call, put }) {
+      custQueryType = 'personal',
+      orderType = 'desc',
+      pageSize = 10,
+      pageNum = 1,
+    } }, { call, put }) {
       const [info, list] = yield [
         call(api.getCustomerInfo),
         call(api.getCustomerList, { custQueryType, orderType, pageSize, pageNum }),
@@ -231,11 +196,11 @@ export default {
       });
     },
     * getList({ payload: {
-        custQueryType = 'personal',
-        orderType = 'desc',
-        pageSize = 10,
-        pageNum = 1,
-      } }, { call, put }) {
+      custQueryType = 'personal',
+      orderType = 'desc',
+      pageSize = 10,
+      pageNum = 1,
+    } }, { call, put }) {
       const list = yield call(api.getCustomerList, { custQueryType, orderType, pageSize, pageNum });
       yield put({
         type: 'getListSuccess',
@@ -248,44 +213,6 @@ export default {
       const response = yield call(api.saveCustomer, { data });
       yield put({ type: 'saveSuccess', payload: { response } });
       yield put(routerRedux.goBack());
-    },
-    * fetchBasicInfo({ payload: { custId = 1 } }, { call, put }) {
-      const response = yield call(api.getCustomerBasicInfo, { custId });
-      yield put({
-        type: 'fetchCustBasicSuccess',
-        payload: {
-          response,
-          custId,
-        },
-      });
-    },
-    * fetchRecommendProductList({ payload: { custId = 1 } }, { call, put }) {
-      const response = yield call(api.getRecommendProductList, { custId });
-      yield put({
-        type: 'fetchRecommendProductSuccess',
-        payload: {
-          response,
-          custId,
-        },
-      });
-    },
-    * ignoreProduct({ payload: { custId = 1 } }, { call, put }) {
-      const response = yield call(api.ignoreProduct, { custId });
-      yield put({
-        type: 'ignoreProductSuccess',
-        payload: {
-          response,
-          custId,
-        },
-      });
-      /* 不合适成功之后，重新去拉取推荐产品列表数据 */
-      yield put({
-        type: 'fetchRecommendProductList',
-        payload: {
-          response,
-          custId,
-        },
-      });
     },
     // 搜索客户
     * search({ payload: query }, { call, put }) {
@@ -301,13 +228,12 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
         // 搜索页面
-        const matchDetail = pathToRegexp('/customer/detail').exec(pathname);
         if (pathname === '/customer/searchResult') {
           const { keyword, custQueryType, page = 1 } = query;
           dispatch({ type: 'search', payload: { keyword, custQueryType, page } });
           return;
         }
-        // 客户详情页面
+        // 客户基本信息页面
         const custBasicMatch = pathToRegexp('/custBasic/:custNumber/:custSor/:custId').exec(pathname);
         if (custBasicMatch) {
           const custNumber = custBasicMatch[1];
@@ -341,7 +267,9 @@ export default {
           dispatch({ type: 'getServiceList', payload: { id } });
           return;
         }
+
         // 客户详情
+        const matchDetail = pathToRegexp('customer/detail').exec(pathname);
         if (matchDetail) {
           const { custId, custNumber, custSor } = query;
           dispatch({ type: 'fetchCustDetail', payload: { custId, custNumber, custSor } });
