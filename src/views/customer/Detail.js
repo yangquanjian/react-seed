@@ -37,7 +37,7 @@ export default class CustomerDetail extends PureComponent {
 
   static defaultProps = {
     data: {},
-    push: () => {},
+    push: () => { },
   };
 
   componentDidMount() {
@@ -72,7 +72,13 @@ export default class CustomerDetail extends PureComponent {
           chartData={monthlyProfits}
           assetData={custMoneyDistributionDTOList}
         />
-        <CustomerDetailFooter lastCommission={custBaseInfo.lastCommission} />
+        <CustomerDetailFooter
+          lastCommission={custBaseInfo.lastCommission}
+          push={push}
+          custSor={custSor}
+          custNumber={custNumber}
+          custId={custId}
+        />
       </div>
     );
   }

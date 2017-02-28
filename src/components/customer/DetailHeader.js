@@ -42,7 +42,7 @@ export default class CustomerDetailHeader extends PureComponent {
     //     custSor,
     //   },
     // });
-    push(`/customer/custBasic/${custNumber}/${custSor}/${custId}`);
+    push(`/custBasic/${custNumber}/${custSor}/${custId}`);
   }
 
   @autobind

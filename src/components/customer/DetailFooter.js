@@ -15,11 +15,17 @@ export default class CustomerDetailFooter extends PureComponent {
   static propTypes = {
     push: PropTypes.func.isRequired,
     lastCommission: PropTypes.string.isRequired,
+    custId: PropTypes.string.isRequired,
+    custNumber: PropTypes.string.isRequired,
+    custSor: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
     push: () => { },
     lastCommission: '',
+    custId: '',
+    custNumber: '',
+    custSor: '',
   }
 
   constructor(props) {
@@ -30,21 +36,21 @@ export default class CustomerDetailFooter extends PureComponent {
     };
   }
 
-  componentDidMount() {
-  }
-
   /**
    * 处理用户点击事件
    */
   @autobind
   handleClick(type) {
-    const { push } = this.props;
+    const { push, custId, custNumber, custSor } = this.props;
     if (type === 'serviceRecord') {
-      push('customer/basicInfo?id=1');
-    } else if (type === 'businessState') {
-      push('customer/basicInfo?id=1');
+      push('/serviceRecord');
+    } else if (type === 'contact') {
+      if (custSor === 'per') {
+        push(`/custContactPer/${custNumber}/${custSor}/${custId}`);
+      } else {
+        push(`/custContactOrg/${custNumber}/${custSor}/${custId}`);
+      }
     }
-    console.log('点击了');
   }
 
   render() {
@@ -63,7 +69,7 @@ export default class CustomerDetailFooter extends PureComponent {
 
     return (
       <List className="detailFooterSection">
-        <Item className="tel" thumb="../../../static/images/tel.png" arrow="horizontal" multipleLine onClick={() => { this.handleClick('businessState'); }}>
+        <Item className="tel" thumb="../../../static/images/tel.png" arrow="horizontal" multipleLine onClick={() => { this.handleClick('contact'); }}>
           <div className="telContent">联系方式</div>
         </Item>
         <Item className="serRecord" extra={lastCommissionHtml} thumb="../../../static/images/serviceRecord.png" arrow="horizontal" multipleLine onClick={() => { this.handleClick('serviceRecord'); }}>
