@@ -54,22 +54,23 @@ export default (ComposedComponent) => {
       // 我的客户、我团队的客户选择组件
       this.select = null;
 
-      const { location: { query } } = props;
+      const { location: { query: { keyword, custQueryType } } } = props;
       this.state = {
         mode: SHOW_MODE.NORMAL,
         // 如果在搜索结果页面，则默认填上关键词
-        value: this.isInResultPage() ? decodeURIComponent(query.keyword) : '',
+        value: this.isInResultPage() ? decodeURIComponent(keyword) : '',
+        typeValue: custQueryType || SELECT_OPTIONS[0].value,
         historyList: [],
-        typeValue: SELECT_OPTIONS[0].value,
       };
       this.syncHistoryToState();
     }
 
     componentWillReceiveProps(nextProps) {
-      const { location: { query } } = nextProps;
+      const { location: { query: { keyword, custQueryType } } } = nextProps;
       this.setState({
         mode: SHOW_MODE.NORMAL,
-        value: this.isInResultPage() ? decodeURIComponent(query.keyword) : '',
+        value: this.isInResultPage() ? decodeURIComponent(keyword) : '',
+        typeValue: custQueryType || SELECT_OPTIONS[0].value,
       });
       this.syncHistoryToState();
     }
@@ -201,8 +202,7 @@ export default (ComposedComponent) => {
     }
 
     @autobind
-    handleHistoryItemClick(e) {
-      const keyword = e.target.innerHTML;
+    handleHistoryItemClick(keyword) {
       this.handleSubmit(keyword);
     }
 
@@ -246,7 +246,7 @@ export default (ComposedComponent) => {
                 thumb={this.renderClockIcon()}
                 key={encodeURIComponent(keyword)}
                 extra={this.renderCrossIcon(keyword)}
-                onClick={this.handleHistoryItemClick}
+                onClick={() => this.handleHistoryItemClick(keyword)}
               >{keyword}</Item>
             ),
           )}

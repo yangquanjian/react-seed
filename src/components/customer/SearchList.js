@@ -14,13 +14,13 @@ export default class SearchList extends PureComponent {
 
   static propTypes = {
     searchInfo: PropTypes.object.isRequired,
-    replace: PropTypes.func,
+    replace: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     doSearch: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-    replace: () => {},
   }
 
   constructor(props) {
@@ -68,7 +68,22 @@ export default class SearchList extends PureComponent {
   }
 
   @autobind
-  handleClick() {
+  handleClick(data) {
+    const { push } = this.props;
+    const {
+      cusId: custId,
+      brokerNumber: custNumber,
+      custType: custSor,
+    } = data;
+
+    push({
+      pathname: '/customer/detail',
+      query: {
+        custId,
+        custNumber,
+        custSor,
+      },
+    });
   }
 
   @autobind
@@ -85,7 +100,7 @@ export default class SearchList extends PureComponent {
         key={`${sectionID}-${rowID}`}
         data={rowData}
         extra={extra}
-        onClick={this.handleClick}
+        onClick={() => this.handleClick(rowData)}
       />
     );
   }
