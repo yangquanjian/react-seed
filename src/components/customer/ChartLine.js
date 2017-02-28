@@ -153,11 +153,9 @@ export default class ChartLineWidget extends PureComponent {
           show: true,
           textStyle: {
             color: '#999',
+            fontSize: 16,
           },
         },
-      },
-      grid: {
-        show: true,
       },
       yAxis: {
         show: false,
