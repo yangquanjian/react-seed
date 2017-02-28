@@ -1,13 +1,14 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
 import { List } from 'antd-mobile';
+import Icon from '../common/Icon';
 
 const Item = List.Item;
+const Brief = Item.Brief;
 
 export default class SearchItem extends PureComponent {
   static propTypes = {
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
+    data: PropTypes.object.isRequired,
     extra: PropTypes.string,
     onClick: PropTypes.func,
   };
@@ -19,19 +20,26 @@ export default class SearchItem extends PureComponent {
 
   @autobind
   handleClick() {
-    const { onClick, id } = this.props;
-    onClick(id);
+    const { onClick, data: { cusId } } = this.props;
+    onClick(cusId);
+  }
+  @autobind
+  renderCustomerIcon(type) {
+    const iconType = type === 'per' ? 'kehu1' : 'jigou';
+    return (
+      <Icon type={iconType} />
+    );
   }
 
   render() {
-    const { title, extra } = this.props;
+    const { data: { custName, custType }, extra } = this.props;
     return (
       <Item
-        extra={extra}
-        arrow="horizontal"
+        thumb={this.renderCustomerIcon(custType)}
         onClick={this.handleClick}
       >
-        {title}
+        {custName}
+        <Brief>{extra}</Brief>
       </Item>
     );
   }

@@ -58,11 +58,11 @@ export default class SearchList extends PureComponent {
     const {
       doSearch,
       searchInfo: { page },
-      location: { query: { keyword, cusType } },
+      location: { query: { keyword, custQueryType } },
     } = this.props;
     doSearch({
       keyword,
-      cusType,
+      custQueryType,
       page: page.curPageNum + 1,
     });
   }
@@ -83,8 +83,7 @@ export default class SearchList extends PureComponent {
     return (
       <SearchItem
         key={`${sectionID}-${rowID}`}
-        id={rowData.cusId}
-        title={rowData.custName}
+        data={rowData}
         extra={extra}
         onClick={this.handleClick}
       />
@@ -107,6 +106,12 @@ export default class SearchList extends PureComponent {
       <div>加载中...</div>
     ) : null;
   }
+  @autobind
+  renderHeader() {
+    return (
+      <p>客户搜索结果</p>
+    );
+  }
 
   render() {
     const { dataSource } = this.state;
@@ -114,11 +119,12 @@ export default class SearchList extends PureComponent {
       return null;
     }
     return (
-      <div>
+      <div className="customer-search-list-view">
         <ListView
           className="customer-search-list"
           dataSource={dataSource}
           initialListSize={20}
+          renderHeader={this.renderHeader}
           renderFooter={this.renderFooter}
           renderRow={this.renderRow}
           renderSeparator={this.renderSeparator}

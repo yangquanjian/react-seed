@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'dva/router';
 import './listItem.less';
 
 class ListItem extends React.Component {

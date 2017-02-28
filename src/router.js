@@ -24,6 +24,7 @@ import CustBasic from './views/customer/CustBasic';
 import CustContact from './views/customer/CustContact';
 import ServiceList from './views/customer/ServiceList';
 import CustomerSearchResult from './views/customer/SearchResult';
+import CustomerBasic from './views/customer/BasicInfo';
 import MissionHome from './views/mission/Home';
 import MissionDetail from './views/mission/Detail';
 import Profile from './views/profile';
@@ -54,6 +55,8 @@ const routes = ({ history }) => (// eslint-disable-line
         <Route path="/custBasic/:custNumber/:custSor/:custId" component={CustBasic} />
         <Route path="/custContact/:custNumber" component={CustContact} />
         <Route path="/serviceList/:custNumber" component={ServiceList} />
+        <Route path="detail" components={CustomerDetail} />
+        <Route path="basicInfo" components={CustomerBasic} />
       </Route>
       <Route path="profile" components={Profile} />
     </Route>
