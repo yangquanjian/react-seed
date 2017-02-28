@@ -54,13 +54,9 @@ export default {
    */
   getCustomerDetail: ({ custNumber, custSor, custId }) => api.post('/groovy/cust/custDetail', { custNumber, custSor, custId }),
   /**
-   * 获取客户基本信息
-   */
-  getCustomerBasicInfo: ({ custId }) => api.post('/customer/basic', { custId }),
-  /**
    * 获取推荐产品列表
    */
-  getRecommendProductList: ({ custId }) => api.post('/customer/recommend', { custId }),
+  getRecommendProductList: ({ custId }) => api.post('/groovy/customer/recommend', { custId }),
   /**
    * 获取服务记录列表
    */

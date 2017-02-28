@@ -16,16 +16,16 @@ export default class CustomerDetailHeader extends PureComponent {
     data: PropTypes.object.isRequired,
     push: PropTypes.func.isRequired,
     custSor: PropTypes.string.isRequired,
-    custNumber: PropTypes.number.isRequired,
-    custId: PropTypes.number.isRequired,
+    custNumber: PropTypes.string.isRequired,
+    custId: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
     push: () => { },
     data: {},
     custSor: '',
-    custNumber: 0,
-    custId: 0,
+    custNumber: '',
+    custId: '',
   }
 
   constructor(props) {
@@ -53,10 +53,10 @@ export default class CustomerDetailHeader extends PureComponent {
   }
 
   /**
-   * 获取基本信息
+   * 跳转基本信息页面
    */
   @autobind
-  goToBasicInfo({ custId, custNumber, custSor }) {
+  handleClick({ custId, custNumber, custSor }) {
     const { push } = this.props;
     push(`customer/custBasic/${custId}/${custNumber}/${custSor}`);
   }
@@ -96,17 +96,8 @@ export default class CustomerDetailHeader extends PureComponent {
     return detailData;
   }
 
-  /**
-   * 处理用户点击事件
-   */
-  @autobind
-  handleClick(custId) {
-    const { push } = this.props;
-    push(`customer/basicInfo?custId=${custId}`);
-  }
-
   render() {
-    const { dataSource } = this.state;
+    const { dataSource, custId, custNumber, custSor } = this.state;
     if (!dataSource) {
       return null;
     }
@@ -139,7 +130,7 @@ export default class CustomerDetailHeader extends PureComponent {
 
     if (data.custType === 'per') {
       return (
-        <div>
+        <div className="detailHeaderSection">
           <div className="basic">
             <div className="headerLeft">
               <i className="perCustIconSection"><Icon {...personCust} /></i>
@@ -162,7 +153,7 @@ export default class CustomerDetailHeader extends PureComponent {
             <div className="sex">{data.custGender}</div>
             <div className="moreInfo">
               <Icon {...more} />
-              <div className="">查看更多</div>
+              <div className="" onClick={() => { this.handleClick({ custId, custNumber, custSor }); }}>查看更多</div>
             </div>
           </div>
           <div className="headerSplit" />
@@ -193,7 +184,7 @@ export default class CustomerDetailHeader extends PureComponent {
             <div className="acctType">{data.acctType}</div>
             <div className="moreInfo">
               <Icon {...more} />
-              <div className="">查看更多</div>
+              <div className="" onClick={() => { this.handleClick({ custId, custNumber, custSor }); }}>查看更多</div>
             </div>
           </div>
           <div className="headerSplit" />
