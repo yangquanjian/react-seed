@@ -31,7 +31,12 @@ class Filter extends PureComponent {
   }
 
   @autobind
-  getClass() {
+  getClass(key, val) {
+    const { filter } = this.state;
+    const filtArr = filter[key].split(',');
+    if (filtArr.find(str => str === val)) {
+      return 'filtSel';
+    }
     return '';
   }
 

@@ -36,10 +36,7 @@ export default {
       const { payload: { response } } = action;
       return {
         ...state,
-        basic: {
-          ...state.data,
-          ...response.resultData,
-        },
+        basic: response.resultData,
       };
     },
     getContactSuccess(state, action) {
@@ -47,10 +44,8 @@ export default {
       const { payload: { response } } = action;
       return {
         ...state,
-        contact: {
-          ...state.data,
-          ...response.resultData,
-        },
+        contact: response.resultData,
+
       };
     },
     getContactListSuccess(state, action) {
@@ -58,10 +53,7 @@ export default {
       const { payload: { response } } = action;
       return {
         ...state,
-        contactList: {
-          ...state.data,
-          ...response.resultData,
-        },
+        contactList: response.resultData,
       };
     },
     getServiceListSuccess(state, action) {
@@ -193,6 +185,7 @@ export default {
     },
     * getCustBasic({ payload: { custNumber = 1, custSor = 'per', custId = 1 } }, { call, put }) {
       const response = yield call(api.getCustBasic, { custNumber, custSor, custId });
+      console.log(response);
       yield put({
         type: 'getBasicSuccess',
         payload: {

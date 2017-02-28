@@ -74,17 +74,14 @@ export default class CustBasic extends PureComponent {
   }
 
   getMapKey(key) {
-    const type = (this.props.params.custSor === 'per') ? 'per' : 'org';
-    const data = this.props.data;
-    const dataModel = (type === 'per') ? data.customerInfoPer : data.customerInfoOrg;
+    const dataModel = this.getDataModel();
     const value = (!dataModel[key] || dataModel[key] === '--') ? '--' : dataModel[key];
     return value;
   }
 
   getCustIcon() {
-    const type = (this.props.params.custSor === 'per') ? 'per' : 'org';
-    const data = this.props.data;
-    const dataModel = (type === 'per') ? data.customerInfoPer : data.customerInfoOrg;
+    const dataModel = this.getDataModel();
+    const type = this.props.params.custSor || 'per';
     let icon = '';
     if (type === 'per') {
       icon = (!dataModel || dataModel.custGender === '男') ? 'touxiang' : 'nvxing';
@@ -95,7 +92,7 @@ export default class CustBasic extends PureComponent {
   }
 
   getDataModel() {
-    const type = (this.props.params.custSor === 'per') ? 'per' : 'org';
+    const type = this.props.params.custSor || 'per';
     const data = this.props.data;
     return (type === 'per') ? data.customerInfoPer : data.customerInfoOrg;
   }
@@ -118,10 +115,13 @@ export default class CustBasic extends PureComponent {
 
   render() {
     const { title, params, goBack } = this.props;
+    const dataModel = this.getDataModel();
+    if (!dataModel) {
+      return null;
+    }
     const labelArr = (this.props.params.custSor === 'per') ? per : org;
     const getCustIcon = this.getCustIcon();
     const custName = this.getMapKey('custName');
-    const dataModel = this.getDataModel();
     const arr = this.contactData(labelArr, dataModel);
     const renderHead = obj => (
       <section className="baseHead">
