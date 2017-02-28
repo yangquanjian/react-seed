@@ -179,7 +179,8 @@ export default {
         },
       });
     },
-    * getCustBasic({ payload: { custNumber, custSor, custId } }, { call, put }) {
+    * getCustBasic({ payload: query }, { call, put }) {
+      const { custNumber, custSor, custId } = query;
       const response = yield call(api.getCustBasic, { custNumber, custSor, custId });
       yield put({
         type: 'getBasicSuccess',
@@ -311,7 +312,7 @@ export default {
           dispatch({ type: 'getPerContact', payload: { custNumber, custSor, custId } });
           return;
         }
-        // 机构客户联系方式
+        // 机构客户联系人
         const custContactOrgMatch = pathToRegexp('/custContactOrg/:custNumber/:custSor/:custId').exec(pathname);
         if (custContactOrgMatch) {
           const { custNumber, custSor, custId } = query;

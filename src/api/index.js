@@ -22,7 +22,6 @@ export default {
    * 保存客户信息
    */
   saveCustomer: ({ data }) => api.post('/customer/save', data),
-
   /**
    * 查询客户基本信息
    */

@@ -5,10 +5,10 @@
  */
 
 import React, { PureComponent, PropTypes } from 'react';
-import { autobind } from 'core-decorators';
 import { connect } from 'react-redux';
 
-import { NavBar } from 'antd-mobile';
+import { Modal } from 'antd-mobile';
+import NavBar from '../../components/common/NavBar';
 import Icon from '../../components/common/Icon';
 import ContactList from '../../components/customer/ContactList';
 
@@ -81,7 +81,6 @@ export default class CustContactPer extends PureComponent {
     };
   }
 
-  @autobind
   getKey(key) {
     const value = this.props.data[key];
     return (value === null) ? '--' : value;
@@ -103,7 +102,6 @@ export default class CustContactPer extends PureComponent {
     let bool = 0;
     arr.map((item) => {
       if (item instanceof Array && item.length > 0) bool++;
-
       return true;
     });
 
@@ -111,7 +109,7 @@ export default class CustContactPer extends PureComponent {
   }
 
   render() {
-    const { getKey } = this.getKey;
+    const title = this.getKey('name');
     const dataModel = LIST_KEY_ARR.map(item => ({
       data: this.getSectionArr(item.child),
       nullstyle: this.isNull(this.getSectionArr(item.child)),
@@ -136,12 +134,11 @@ export default class CustContactPer extends PureComponent {
     return (
       <div className="custBasic">
         <NavBar
-          leftContent=" "
-          rightContent=" "
-          className=""
-          onLeftClick={() => console.log('onLeftClick')}
+          iconName={'left'}
+          leftContent={false}
+          onLeftClick={() => Modal.alert('onLeftClick')}
         >
-          <p>{getKey('name')}</p>
+          {title}
         </NavBar>
 
         <secttion className="other">

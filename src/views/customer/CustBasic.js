@@ -7,7 +7,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { NavBar, List, Modal } from 'antd-mobile';
+import { List, Modal } from 'antd-mobile';
+import NavBar from '../../components/common/NavBar';
 import Icon from '../../components/common/Icon';
 import './custbasic.less';
 
@@ -136,12 +137,11 @@ export default class CustBasic extends PureComponent {
     return (
       <div className="custBasic">
         <NavBar
-          leftContent=" "
-          rightContent=" "
-          className=""
+          iconName={'left'}
+          leftContent={false}
           onLeftClick={() => Modal.alert('onLeftClick')}
         >
-          <p>{title}</p>
+          {title}
         </NavBar>
 
         { renderHead({ icon: getCustIcon, name: custName, number: params.custNumber }) }

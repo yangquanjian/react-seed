@@ -8,7 +8,8 @@ import React, { PureComponent, PropTypes } from 'react';
 import { autobind } from 'core-decorators';
 import { connect } from 'react-redux';
 
-import { NavBar, ListView } from 'antd-mobile';
+import { ListView, Modal } from 'antd-mobile';
+import NavBar from '../../components/common/NavBar';
 import { prepareDataSource } from '../../utils/listView';
 import ServiceItem from '../../components/customer/ServiceItem';
 import './servicelist.less';
@@ -101,12 +102,11 @@ export default class ServiceList extends PureComponent {
     return (
       <div className="service-record">
         <NavBar
-          leftContent=" "
-          rightContent=" "
-          className=""
-          onLeftClick={() => console.log('onLeftClick')}
+          iconName={'left'}
+          leftContent={false}
+          onLeftClick={() => Modal.alert('onLeftClick')}
         >
-          <p>{title}</p>
+          {title}
         </NavBar>
 
         <ListView

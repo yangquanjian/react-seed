@@ -8,7 +8,8 @@ import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { autobind } from 'core-decorators';
 
-import { NavBar, Modal } from 'antd-mobile';
+import { Modal } from 'antd-mobile';
+import NavBar from '../../components/common/NavBar';
 import Icon from '../../components/common/Icon';
 import './ContactOrgDetail.less';
 
@@ -93,12 +94,11 @@ export default class ContactOrgDetail extends PureComponent {
     return (
       <div className="contact-org-detail">
         <NavBar
-          leftContent={<Icon className="" type="" />}
-          rightContent=""
-          className=""
-          onLeftClick={Modal.alert('onLeftClick')}
+          iconName={'left'}
+          leftContent={false}
+          onLeftClick={() => Modal.alert('onLeftClick')}
         >
-          <p>{title}</p>
+          {title}
         </NavBar>
 
         <secttion className="contain">
