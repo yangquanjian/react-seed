@@ -6,8 +6,9 @@
 
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { routerRedux } from 'dva/router';
 
-import { List, Modal } from 'antd-mobile';
+import { List } from 'antd-mobile';
 import NavBar from '../../components/common/NavBar';
 import Icon from '../../components/common/Icon';
 import './custbasic.less';
@@ -50,7 +51,7 @@ const mapStateToProps = state => ({
   data: state.customer.basic,
 });
 const mapDispatchToProps = {
-  push: () => {},
+  goBack: routerRedux.goBack,
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -59,6 +60,7 @@ export default class CustBasic extends PureComponent {
     data: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
+    goBack: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -110,7 +112,7 @@ export default class CustBasic extends PureComponent {
   }
 
   render() {
-    const { title, params } = this.props;
+    const { title, params, goBack } = this.props;
     const labelArr = (this.props.params.custSor === 'per') ? per : org;
     const getCustIcon = this.getCustIcon();
     const custName = this.getMapKey('custName');
@@ -137,9 +139,8 @@ export default class CustBasic extends PureComponent {
     return (
       <div className="custBasic">
         <NavBar
-          iconName={'left'}
-          leftContent={false}
-          onLeftClick={() => Modal.alert('onLeftClick')}
+          iconName={'fanhui'}
+          onLeftClick={goBack}
         >
           {title}
         </NavBar>

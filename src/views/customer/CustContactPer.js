@@ -6,8 +6,8 @@
 
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { routerRedux } from 'dva/router';
 
-import { Modal } from 'antd-mobile';
 import NavBar from '../../components/common/NavBar';
 import Icon from '../../components/common/Icon';
 import ContactList from '../../components/customer/ContactList';
@@ -17,7 +17,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  push: () => {},
+  push: routerRedux.push,
+  goBack: routerRedux.goBack,
 };
 
 const LIST_KEY_ARR = [
@@ -69,10 +70,12 @@ export default class CustContactPer extends PureComponent {
     data: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
+    goBack: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     title: '联系方式',
+    goBack: () => {},
   }
 
   constructor(props) {
@@ -109,6 +112,7 @@ export default class CustContactPer extends PureComponent {
   }
 
   render() {
+    const { goBack } = this.props;
     const title = this.getKey('name');
     const dataModel = LIST_KEY_ARR.map(item => ({
       data: this.getSectionArr(item.child),
@@ -134,9 +138,8 @@ export default class CustContactPer extends PureComponent {
     return (
       <div className="custBasic">
         <NavBar
-          iconName={'left'}
-          leftContent={false}
-          onLeftClick={() => Modal.alert('onLeftClick')}
+          iconName={'fanhui'}
+          onLeftClick={goBack}
         >
           {title}
         </NavBar>

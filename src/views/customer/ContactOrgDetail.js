@@ -6,9 +6,9 @@
 
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { routerRedux } from 'dva/router';
 import { autobind } from 'core-decorators';
 
-import { Modal } from 'antd-mobile';
 import NavBar from '../../components/common/NavBar';
 import Icon from '../../components/common/Icon';
 import './ContactOrgDetail.less';
@@ -18,13 +18,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  push: () => {},
+  goBack: routerRedux.goBack,
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class ContactOrgDetail extends PureComponent {
   static propTypes = {
     title: PropTypes.string,
+    goBack: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -57,13 +58,13 @@ export default class ContactOrgDetail extends PureComponent {
           <p className="label">{label}</p>
           <p className="contain">{item.contactValue}</p>
         </div>
-        <div className="btn" onClick={Modal.alert(item.contactValue)}>发送邮件</div>
+        <div className="btn" onClick={console.log(item.contactValue)}>发送邮件</div>
       </div>
     ));
   }
 
   render() {
-    const { title } = this.props;
+    const { title, goBack } = this.props;
     const renderRow = this.renderRow;
     const arr1 = [
       {
@@ -94,9 +95,8 @@ export default class ContactOrgDetail extends PureComponent {
     return (
       <div className="contact-org-detail">
         <NavBar
-          iconName={'left'}
-          leftContent={false}
-          onLeftClick={() => Modal.alert('onLeftClick')}
+          iconName={'fanhui'}
+          onLeftClick={goBack}
         >
           {title}
         </NavBar>

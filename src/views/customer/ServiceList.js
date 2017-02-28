@@ -7,8 +7,9 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { autobind } from 'core-decorators';
 import { connect } from 'react-redux';
+import { routerRedux } from 'dva/router';
 
-import { ListView, Modal } from 'antd-mobile';
+import { ListView } from 'antd-mobile';
 import NavBar from '../../components/common/NavBar';
 import { prepareDataSource } from '../../utils/listView';
 import ServiceItem from '../../components/customer/ServiceItem';
@@ -19,7 +20,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  push: () => {},
+  push: routerRedux.push,
+  goBack: routerRedux.goBack,
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -28,12 +30,14 @@ export default class ServiceList extends PureComponent {
     data: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
-    push: PropTypes.func,
+    push: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     title: '历史服务记录',
     push: () => {},
+    goBack: () => {},
   };
 
   constructor(props) {
@@ -96,15 +100,14 @@ export default class ServiceList extends PureComponent {
 
 
   render() {
-    const { title } = this.props;
+    const { title, goBack } = this.props;
     const { dataSource } = this.state;
 
     return (
       <div className="service-record">
         <NavBar
-          iconName={'left'}
-          leftContent={false}
-          onLeftClick={() => Modal.alert('onLeftClick')}
+          iconName={'fanhui'}
+          onLeftClick={goBack}
         >
           {title}
         </NavBar>
