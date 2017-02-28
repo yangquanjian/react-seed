@@ -88,8 +88,8 @@ export default class CustBasic extends PureComponent {
     return icon;
   }
 
-  getDataModel(data) {
-    return Object.values(data)[1];
+  getDataModel() {
+    return Object.values(this.props.data)[1];
   }
 
   contactData(arr, obj) {
@@ -112,8 +112,8 @@ export default class CustBasic extends PureComponent {
     const { title, params } = this.props;
     const labelArr = (this.props.params.custSor === 'per') ? per : org;
     const getCustIcon = this.getCustIcon();
-    const getMapKey = this.getMapKey;
-    const dataModel = this.getDataModel(this.props.data);
+    const custName = this.getMapKey('custName');
+    const dataModel = this.getDataModel();
     const arr = this.contactData(labelArr, dataModel);
     const renderHead = obj => (
       <section className="baseHead">
@@ -144,7 +144,7 @@ export default class CustBasic extends PureComponent {
           <p>{title}</p>
         </NavBar>
 
-        { renderHead({ icon: getCustIcon, name: getMapKey('custName'), number: params.custNumber }) }
+        { renderHead({ icon: getCustIcon, name: custName, number: params.custNumber }) }
 
         <List className="cust-basic-list">
           {itemShow}

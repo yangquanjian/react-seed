@@ -117,7 +117,7 @@ export default {
         },
       });
     },
-    * getCustBasic({ payload: { custNumber, custSor = 'per', custId } }, { call, put }) {
+    * getCustBasic({ payload: { custNumber, custSor, custId } }, { call, put }) {
       const response = yield call(api.getCustBasic, { custNumber, custSor, custId });
       yield put({
         type: 'getBasicSuccess',

@@ -32,18 +32,17 @@
   }
   &>div {
     position: relative;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: inline-flex;
     align-content: center;
     align-items: center;
   }
   .headIcon {
+    position: absolute;
+    top: 39px;
+    left: 30px;
     width: 90px;
     height: 90px;
-    margin: 0;
     border-radius: 50%;
-    align-content: center;
+    text-align: center;
     border: 3px solid #fbf3f3;
     background-color: #faf6f6;
     .iconfont {
@@ -54,14 +53,12 @@
     }
   }
   .headInfo {
-    width: 590px;
+    margin-left: 135px;
     height: 90px;
     p {
-      display: block;
-      width: 100%;
       margin: 0;
       text-align: left;
-      text-indent: 15px;
+      text-indent: 0;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -76,7 +73,7 @@
       color: #666666;
       font-size: 24px;
       height: 33px;
-      line-height: 33px;
+      line-height: 34px;
     }
   }
 }
