@@ -25,7 +25,7 @@ export default class SearchItem extends PureComponent {
   }
   @autobind
   renderCustomerIcon(type) {
-    const iconType = type === 'per' ? 'kehu1' : 'jigou';
+    const iconType = type === 'per' ? 'kehu01' : 'juxing23';
     return (
       <Icon type={iconType} />
     );

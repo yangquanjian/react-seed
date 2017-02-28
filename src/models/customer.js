@@ -289,8 +289,6 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
-        const custMatch = pathToRegexp('/customer').exec(pathname);
-
         const matchDetail = pathToRegexp('/customer/detail').exec(pathname);
 
         // 客户首页

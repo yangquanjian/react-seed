@@ -106,6 +106,7 @@ export default class SearchList extends PureComponent {
       <div>加载中...</div>
     ) : null;
   }
+
   @autobind
   renderHeader() {
     return (

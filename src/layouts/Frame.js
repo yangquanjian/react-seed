@@ -1,7 +1,7 @@
 /**
-* @file layouts/Frame.js
-* @author maoquan(maoquan@htsc.com)
-*/
+ * @file layouts/Frame.js
+ * @author maoquan(maoquan@htsc.com)
+ */
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
@@ -53,7 +53,7 @@ class Frame extends Component {
   renderIcon(icon, isSelected = false) {
     const iconMap = {
       mission: 'renwu',
-      product: 'all',
+      product: 'chanpin',
       customer: 'customer',
       profile: 'wode',
     };
