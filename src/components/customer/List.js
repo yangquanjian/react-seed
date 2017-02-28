@@ -33,7 +33,7 @@ export default class CustomerInfo extends PureComponent {
     location: {},
     replace: () => { },
     pageNum: 1,
-    push: () => { },
+    push: () => {},
   }
 
   constructor(props) {

@@ -6,7 +6,7 @@
 
 .detailHeaderSection{
   .asset {
-	margin-left: 150px;
+	// margin-left: 150px;
 	text-align: right;
 	width: 50%;
 	font-size: 36px;
@@ -100,9 +100,14 @@
   }
   .custId {
 	font-size: 24px;
+	white-space: nowrap;
+    padding-left: 10px;
   }
   .gradeIdSection {
 	padding-top: 5px;
+	display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
   }
   .orgIcon {
 	color: @detail_header_color_4;
@@ -133,5 +138,29 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+  }
+  .emptyCard{
+	background: url('../../../static/img/emptyCard.png');
+  }
+  .goldCard{
+	background: url('../../../static/img/goldenCard.png');
+  }
+  .silverCard{
+	background: url('../../../static/img/silverCard.png');
+  }
+  .diamondCard{
+	background: url('../../../static/img/diamondCard.png');
+  }
+  .financeCard{
+	background: url('../../../static/img/financeCard.png');
+  }
+  .whiteGoldCard{
+	background: url('../../../static/img/whGoldenCard.png');
+  }
+  .emptyCard,.goldCard,.silverCard,.diamondCard,.financeCard,.whiteGoldCard{
+    width: 90px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-size: 90px 30px;
   }
 }

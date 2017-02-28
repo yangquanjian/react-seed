@@ -288,20 +288,18 @@ export default class ChartPieWidget extends PureComponent {
     });
 
     return (
-      <div className="pieView">
-        <div className="chart-pie-section">
-          <Chart {...options} className="chart-content">
-            <Chart.Pie {...series} className="chart-pie" />
-          </Chart>
-          <div className={fuzhai}>
-            <span className="fuzhaiLabel">负债</span>
-            <span className="fuzhaiContent">{fuzhaiData.maketVal}</span>
-          </div>
-          <div className="assetDescription">
-            {
-              finalArrData
-            }
-          </div>
+      <div className="chart-pie-section">
+        <Chart {...options} className="chart-content">
+          <Chart.Pie {...series} className="chart-pie" />
+        </Chart>
+        <div className={fuzhai}>
+          <span className="fuzhaiLabel">负债</span>
+          <span className="fuzhaiContent">{fuzhaiData && fuzhaiData.maketVal}</span>
+        </div>
+        <div className="assetDescription">
+          {
+            finalArrData
+          }
         </div>
       </div>
     );

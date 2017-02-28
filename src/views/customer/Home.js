@@ -101,7 +101,7 @@ export default class CustomerHome extends PureComponent {
     };
     return (
       <section className="page-customer">
-        <CustomerInfo data={info} push={push} />
+        <CustomerInfo data={info} />
         <CustomerList
           list={list}
           getList={getList}
@@ -109,6 +109,7 @@ export default class CustomerHome extends PureComponent {
           custQueryType={custQueryType}
           location={location}
           replace={replace}
+          push={push}
         />
         <Drawer
           className="my-drawer"

@@ -24,7 +24,7 @@ class ListItem extends React.Component {
     custTotalAsset: 0,
     custType: 'per',
     custOpenDate: '--',
-    push: () => { },
+    push: () => {},
   }
 
   levelShow(lev) {

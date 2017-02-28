@@ -121,7 +121,7 @@ export default class CustomerDetailHeader extends PureComponent {
               <div className="nameSection">
                 <span className="custName">{filteredData.custName}</span>
                 <div className="gradeIdSection">
-                  <img alt="" className={grade} />
+                  <i alt="" className={grade} />
                   <span className="custId">{filteredData.custId}</span>
                 </div>
               </div>
