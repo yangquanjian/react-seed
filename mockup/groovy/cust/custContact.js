@@ -3,16 +3,16 @@ exports.response = function (req, res) {
 			code: "0",
 			msg: "OK",
 			resultData: {
-				"custBaseInfo": {
-					"econNum": "",
-					"custName": "江苏阿斯达所大所大所大所大所多",
-					"totAsset": "",
-					"custGrade": null,
-					"lastCommission": "",
-					"gender": null,
-					"age": null,
-					"acctType": null,
-					"industry": null
+			  custBaseInfo: {
+				  econNum: "",
+				  custName: "江苏阿斯达所大所大所大所大所多",
+				  totAsset: "",
+				  custGrade: null,
+				  lastCommission: "",
+				  gender: null,
+				  age: null,
+				  acctType: null,
+				  industry: null
 				},
 				perCustomerContactInfo: {
 					idAddress: {
@@ -207,6 +207,17 @@ exports.response = function (req, res) {
 				},
 				orgCustomerContactInfoList: [
 					{
+					  custId: null,
+					  custSor: null,
+					  custNumber: null,
+					  custType: null,
+					  name: "test-number-1",//姓名
+					  custRelaCd: "206050",//机构关系类型代码
+					  custRela: "机构客户联系人",//机构关系类型
+					  rowId: "CONTA-20170107-01418207865",
+					  mainFlag: true,
+					  validFlag: true,
+					  gender: null,
 						idAddress: {
 							mainFlag: false,
 							validFlag: true,
@@ -398,6 +409,17 @@ exports.response = function (req, res) {
 						// wechatNumbers: [],
 					},
 					{
+					  custId: null,
+					  custSor: null,
+					  custNumber: null,
+					  custType: null,
+					  name: "test-number-1",//姓名
+					  custRelaCd: "206050",//机构关系类型代码
+					  custRela: "机构客户联系人",//机构关系类型
+					  rowId: "CONTA-20170107-01418207865",
+					  mainFlag: false,
+					  validFlag: true,
+					  gender: null,
 						idAddress: {
 							mainFlag: false,
 							validFlag: true,

@@ -74,16 +74,9 @@ export default class CustContactPer extends PureComponent {
     };
   }
 
-  getKey(dataType, key) {
+  getBaseKey(key) {
     const data = this.props.data;
-    let value = null;
-    if (dataType === 'base') {
-      value = data.custBaseInfo[key];
-    } else if (dataType === 'per') {
-      value = data.perCustomerContactInfo[key];
-    } else if (dataType === 'org') {
-      value = data.orgCustomerContactInfoList[key];
-    }
+    const value = data.custBaseInfo[key];
     return (!value) ? '--' : value;
   }
 
@@ -113,7 +106,7 @@ export default class CustContactPer extends PureComponent {
 
   render() {
     const { goBack } = this.props;
-    const title = this.getKey('base', 'name');
+    const title = this.getBaseKey('name');
     const dataModel = LIST_KEY_ARR.map(item => ({
       data: this.getSectionArr(item.child),
       nullstyle: this.isNull(this.getSectionArr(item.child)),

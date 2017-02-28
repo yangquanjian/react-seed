@@ -7,6 +7,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
+import { autobind } from 'core-decorators';
 
 import NavBar from '../../components/common/NavBar';
 import Icon from '../../components/common/Icon';
@@ -44,10 +45,10 @@ export default class CustContactOrg extends PureComponent {
     };
   }
 
-  getKey(key1, key2) {
-    const value1 = this.props.data[key1];
-    const value2 = (value1) ? value1[key2] : undefined;
-    return (value2 === undefined) ? '--' : value2;
+  getBaseKey(key) {
+    const data = this.props.data;
+    const value = data.custBaseInfo[key];
+    return (!value) ? '--' : value;
   }
 
   getContactList() {
@@ -67,26 +68,31 @@ export default class CustContactOrg extends PureComponent {
 
   getOtherContact(arr) {
     if (!arr || arr.length < 1) return [];
-    const otherArr = arr.map((item, index) => (
-      {
-        key: index + 1,
-        ...item,
+    const otherArr = [];
+    arr.map((item, index) => {
+      if (item.mainFlag === false) {
+        otherArr.push({
+          key: index + 1,
+          ...item,
+        });
       }
-    ));
+      return true;
+    });
     return otherArr;
   }
 
-  handleClick(data) {
+  @autobind
+  handleClick(obj) {
     const { push } = this.props;
-    push({ pathname: '/ContactOrgDetail', state: { ...data } });
+    push({ pathname: '/ContactOrgDetail', state: { obj } });
   }
 
   render() {
     const { goBack } = this.props;
-    const title = this.props.data.custBaseInfo.custName;
-    const contactArr = this.props.data.orgCustomerContactInfoList;
-    const mainData = this.state.getMainContact(contactArr);
-    const otherData = this.state.getOtherContact(contactArr);
+    const title = this.getBaseKey('custName');
+    const contactArr = this.getContactList();
+    const mainData = this.getMainContact(contactArr);
+    const otherData = this.getOtherContact(contactArr);
 
     const mainShow = () => {
       if (mainData === null) {
@@ -97,15 +103,15 @@ export default class CustContactOrg extends PureComponent {
         );
       }
       return (
-        <div className="item" data={mainData} onClick={this.handleClick(mainData)}>
-          <p className="left"><Icon className="" type="shenfenzheng" />{(mainData.name) ? mainData.name : '--'}</p>
+        <div className="item" data={mainData} onClick={() => this.handleClick(mainData)}>
+          <p className="left"><Icon className="" type="shenfenzheng" />{mainData.name || '--'}</p>
           <p className="right">{(mainData.custRela) ? mainData.custRela : '--'}</p>
           <Icon className="more" type="more" />
         </div>
       );
     };
     const otherShow = otherData.map(item => (
-      <div className="other item" data={item} key={item.key} onClick={this.handleClick(item)}>
+      <div className="other item" data={item} key={item.key} onClick={() => { this.handleClick(item); }}>
         <p className="left">{item.name}</p>
         <p className="right">{item.custRela}</p>
         <Icon className="more" type="more" />
