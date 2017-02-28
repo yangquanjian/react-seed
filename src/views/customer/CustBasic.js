@@ -82,7 +82,7 @@ export default class CustBasic extends PureComponent {
     const type = (this.props.params.custSor === 'per') ? 'per' : 'org';
     let icon = '';
     if (type === 'per') {
-      icon = (dataModel.custGender === '男') ? 'touxiang' : 'nvxing';
+      icon = (!dataModel || dataModel.custGender === '男') ? 'touxiang' : 'nvxing';
     } else {
       icon = 'jigou';
     }

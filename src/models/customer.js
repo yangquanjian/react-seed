@@ -179,8 +179,7 @@ export default {
         },
       });
     },
-    * getCustBasic({ payload: query }, { call, put }) {
-      const { custNumber, custSor, custId } = query;
+    * getCustBasic({ payload: { custNumber = 1, custSor = 'per', custId = 1 } }, { call, put }) {
       const response = yield call(api.getCustBasic, { custNumber, custSor, custId });
       yield put({
         type: 'getBasicSuccess',
@@ -192,8 +191,7 @@ export default {
         },
       });
     },
-    * getPerContact({ payload: query }, { call, put }) {
-      const { custNumber, custSor: custSor = 'per', custId } = query;
+    * getPerContact({ payload: { custNumber = 1, custSor = 'per', custId = 1 } }, { call, put }) {
       const response = yield call(api.custContact, { custNumber, custSor, custId });
       yield put({
         type: 'getContactSuccess',
@@ -205,8 +203,7 @@ export default {
         },
       });
     },
-    * getOrgContact({ payload: query }, { call, put }) {
-      const { custNumber, custSor: custSor = 'org', custId } = query;
+    * getOrgContact({ payload: { custNumber = 1, custSor = 'org', custId = 1 } }, { call, put }) {
       const response = yield call(api.custContact, { custNumber, custSor, custId });
       yield put({
         type: 'getContactListSuccess',
@@ -303,21 +300,27 @@ export default {
         // 客户详情页面
         const custBasicMatch = pathToRegexp('/custBasic/:custNumber/:custSor/:custId').exec(pathname);
         if (custBasicMatch) {
-          const { custNumber, custSor, custId } = query;
+          const custNumber = custBasicMatch[1];
+          const custSor = custBasicMatch[2];
+          const custId = custBasicMatch[3];
           dispatch({ type: 'getCustBasic', payload: { custNumber, custSor, custId } });
           return;
         }
         // 个人客户联系方式
         const custContactPerMatch = pathToRegexp('/custContactPer/:custNumber/:custSor/:custId').exec(pathname);
         if (custContactPerMatch) {
-          const { custNumber, custSor = 'per', custId } = query;
+          const custNumber = custBasicMatch[1];
+          const custSor = custBasicMatch[2];
+          const custId = custBasicMatch[3];
           dispatch({ type: 'getPerContact', payload: { custNumber, custSor, custId } });
           return;
         }
         // 机构客户联系人
         const custContactOrgMatch = pathToRegexp('/custContactOrg/:custNumber/:custSor/:custId').exec(pathname);
         if (custContactOrgMatch) {
-          const { custNumber, custSor = 'org', custId } = query;
+          const custNumber = custBasicMatch[1];
+          const custSor = custBasicMatch[2];
+          const custId = custBasicMatch[3];
           dispatch({ type: 'getOrgContact', payload: { custNumber, custSor, custId } });
           return;
         }
