@@ -21,6 +21,86 @@ const mapDispatchToProps = {
   goBack: routerRedux.goBack,
 };
 
+const DATA = {
+  custId: null,
+  custSor: null,
+  custNumber: null,
+  custType: null,
+  name: 'test-number-1', // 姓名
+  custRelaCd: '206050', // 机构关系类型代码
+  custRela: '机构客户联系人', // 机构关系类型
+  rowId: 'CONTA-20170107-01418207865',
+  mainFlag: false,
+  validFlag: true,
+  gender: null,
+  cellPhones: [
+    // {
+    //   mainFlag: true,
+    //   contactType: '104123',
+    //   contactValue: '13544444666',
+    //   rowId: 'COMMI-20170119-04837984213',
+    //   validFlag: true
+    // },
+    // {
+    //   mainFlag: false,
+    //   contactType: '104123',
+    //   contactValue: '15897221234',
+    //   rowId: 'COMMI-20170119-04837984189',
+    //   validFlag: true
+    // }
+  ],
+  workTels: [
+    {
+      mainFlag: false,
+      contactType: '104120',
+      contactValue: '0514844930405148449304051484493040514844930405148449304051484493040514844930405148449304',
+      rowId: 'COMMI-20170119-04837984216',
+      validFlag: true,
+    },
+    {
+      mainFlag: false,
+      contactType: '104120',
+      contactValue: '15251765885',
+      rowId: 'COMMI-20170123-04837984271',
+      validFlag: true,
+    },
+  ],
+  homeTels: [
+    {
+      mainFlag: false,
+      contactType: '104121',
+      contactValue: '02586638091',
+      rowId: 'COMMI-20170119-04837984214',
+      validFlag: true,
+    },
+  ],
+  otherTels: [
+    {
+      mainFlag: false,
+      contactType: '104121',
+      contactValue: '02586638091',
+      rowId: 'COMMI-20170119-04837984214',
+      validFlag: true,
+    },
+  ],
+  emailAddresses: [
+    {
+      mainFlag: false,
+      contactType: '104124',
+      contactValue: 'rbhxhvccccchfbfbbrjjxbnehdjdjdjjxccchsh@139.comlljll',
+      rowId: 'COMMI-20170217-04837984314',
+      validFlag: true,
+    },
+    {
+      mainFlag: false,
+      contactType: '104124',
+      contactValue: 'vvvvvvvvvvvvvvvvhuhjuvhhh@139.com',
+      rowId: 'COMMI-20170217-04837984313',
+      validFlag: true,
+    },
+  ],
+};
+
 @connect(mapStateToProps, mapDispatchToProps)
 export default class ContactOrgDetail extends PureComponent {
   static propTypes = {
@@ -58,7 +138,7 @@ export default class ContactOrgDetail extends PureComponent {
           <p className="label">{label}</p>
           <p className="contain">{item.contactValue}</p>
         </div>
-        <div className="btn" onClick={console.log(item.contactValue)}>发送邮件</div>
+        <div className="btn" onClick={() => { console.log(item.contactValue); }}>发送邮件</div>
       </div>
     ));
   }
@@ -66,31 +146,10 @@ export default class ContactOrgDetail extends PureComponent {
   render() {
     const { title, goBack } = this.props;
     const renderRow = this.renderRow;
-    const arr1 = [
-      {
-        mainFlag: false,
-        contactType: '104120',
-        contactValue: '88888888',
-        rowId: 'COMMI-20170107-04824803699',
-        validFlag: true,
-      },
-      {
-        mainFlag: false,
-        contactType: '104120',
-        contactValue: '88888888',
-        rowId: 'COMMI-20170107-04824803699',
-        validFlag: true,
-      },
-      {
-        mainFlag: false,
-        contactType: '104120',
-        contactValue: '88888888',
-        rowId: 'COMMI-20170107-04824803699',
-        validFlag: true,
-      }];
-    const arr2 = arr1;
-    const arr3 = arr1;
-    const arr4 = arr1;
+    const arr1 = DATA.cellPhones;
+    const arr2 = DATA.workTels;
+    const arr3 = DATA.homeTels;
+    const arr4 = DATA.emailAddresses;
 
     return (
       <div className="contact-org-detail">
