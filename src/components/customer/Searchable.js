@@ -207,8 +207,9 @@ export default (ComposedComponent) => {
     }
 
     @autobind
-    handleRemoveClick(e) {
-      const keyword = e.target.dataset.item;
+    handleRemoveClick(e, keyword) {
+      e.preventDefault();
+      e.stopPropagation();
       this.removeHistory(keyword);
     }
 
@@ -225,7 +226,7 @@ export default (ComposedComponent) => {
         <Icon
           type="close"
           data-item={keyword}
-          onClick={this.handleRemoveClick}
+          onClick={e => this.handleRemoveClick(e, keyword)}
         />
       );
     }
