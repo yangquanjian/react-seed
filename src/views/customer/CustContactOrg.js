@@ -40,35 +40,40 @@ export default class CustContactOrg extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      getKey: (key1, key2) => {
-        const value1 = this.props.data[key1];
-        const value2 = (value1) ? value1[key2] : undefined;
-        return (value2 === undefined) ? '--' : value2;
-      },
-      getContactList: () => {
-        const temp = this.props.data.orgCustomerContactInfoList;
-        return (temp instanceof Array && temp.length > 0) ? temp : [];
-      },
-      getMainContact: (arr) => {
-        if (!arr || arr.length < 1) return null;
-        let mainObj = null;
-        arr.map((item) => {
-          if (item.mainFlag === true) mainObj = item;
-          return true;
-        });
-        return mainObj;
-      },
-      getOtherContact: (arr) => {
-        if (!arr || arr.length < 1) return [];
-        const otherArr = arr.map((item, index) => (
-          {
-            key: index + 1,
-            ...item,
-          }
-        ));
-        return otherArr;
-      },
+
     };
+  }
+
+  getKey(key1, key2) {
+    const value1 = this.props.data[key1];
+    const value2 = (value1) ? value1[key2] : undefined;
+    return (value2 === undefined) ? '--' : value2;
+  }
+
+  getContactList() {
+    const temp = this.props.data.orgCustomerContactInfoList;
+    return (temp instanceof Array && temp.length > 0) ? temp : [];
+  }
+
+  getMainContact(arr) {
+    if (!arr || arr.length < 1) return null;
+    let mainObj = null;
+    arr.map((item) => {
+      if (item.mainFlag === true) mainObj = item;
+      return true;
+    });
+    return mainObj;
+  }
+
+  getOtherContact(arr) {
+    if (!arr || arr.length < 1) return [];
+    const otherArr = arr.map((item, index) => (
+      {
+        key: index + 1,
+        ...item,
+      }
+    ));
+    return otherArr;
   }
 
   handleClick(data) {

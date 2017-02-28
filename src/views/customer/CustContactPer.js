@@ -27,40 +27,30 @@ const LIST_KEY_ARR = [
     icon: 'phone',
     child: ['cellPhones', 'workTels', 'homeTels', 'otherTels'],
     childname: ['手机', '单位', '住宅', '其他'],
-    data: [],
-    nullstyle: '',
   },
   { label: 'email',
     name: '邮箱',
     icon: 'email',
     child: ['emailAddresses'],
     childname: [''],
-    data: [],
-    nullstyle: '',
   },
   { label: 'address',
     name: '地址',
     icon: 'map',
     child: ['idAddress', 'homeAddresses', 'workAddresses', 'otherAddresses'],
     childname: ['身份证地址', '家庭住址', '单位地址', '其他地址'],
-    data: [],
-    nullstyle: '',
   },
   { label: 'qq',
     name: 'QQ',
     icon: 'qq',
     child: ['qqNumbers'],
     childname: [''],
-    data: [],
-    nullstyle: '',
   },
   { label: 'wechat',
     name: '微信',
     icon: 'weixin',
     child: ['wechatNumbers'],
     childname: [''],
-    data: [],
-    nullstyle: '',
   },
 ];
 
@@ -84,15 +74,25 @@ export default class CustContactPer extends PureComponent {
     };
   }
 
-  getKey(key) {
-    const value = this.props.data[key];
-    return (value === null) ? '--' : value;
+  getKey(dataType, key) {
+    const data = this.props.data;
+    let value = null;
+    if (dataType === 'base') {
+      value = data.custBaseInfo[key];
+    } else if (dataType === 'per') {
+      value = data.perCustomerContactInfo[key];
+    } else if (dataType === 'org') {
+      value = data.orgCustomerContactInfoList[key];
+    }
+    return (!value) ? '--' : value;
   }
 
   getSectionArr(arr) {
     const resultArr = [];
+    let data = this.props.data;
+    data = (this.props.params.custSor === 'per') ? data.perCustomerContactInfo : [];
     arr.map((item) => {
-      let temp = (this.props.data[item]) ? this.props.data[item] : [];
+      let temp = (data[item]) ? data[item] : [];
       if (item === 'idAddress') temp = new Array(temp);
       resultArr.push(temp);
       return true;
@@ -113,13 +113,14 @@ export default class CustContactPer extends PureComponent {
 
   render() {
     const { goBack } = this.props;
-    const title = this.getKey('name');
+    const title = this.getKey('base', 'name');
     const dataModel = LIST_KEY_ARR.map(item => ({
       data: this.getSectionArr(item.child),
       nullstyle: this.isNull(this.getSectionArr(item.child)),
+      ...item,
     }));
 
-    const testItem = dataModel.map((item, index) => (
+    const dataShow = dataModel.map((item, index) => (
       <div className={`info ${item.nullstyle}`} key={`sec-${item.label}-${index + 1}`}>
         <h3>
           <Icon className={item.label} type={`${item.icon}`} />
@@ -136,7 +137,7 @@ export default class CustContactPer extends PureComponent {
     ));
 
     return (
-      <div className="custBasic">
+      <div className="cust-contact">
         <NavBar
           iconName={'fanhui'}
           onLeftClick={goBack}
@@ -145,7 +146,7 @@ export default class CustContactPer extends PureComponent {
         </NavBar>
 
         <secttion className="other">
-          {testItem}
+          {dataShow}
         </secttion>
       </div>
     );

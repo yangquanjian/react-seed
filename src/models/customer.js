@@ -54,7 +54,7 @@ export default {
       };
     },
     getContactListSuccess(state, action) {
-      // 机构客户联系方式
+      // 机构客户联系人
       const { payload: { response } } = action;
       return {
         ...state,
@@ -204,7 +204,7 @@ export default {
       });
     },
     * getPerContact({ payload: { custNumber = 1, custSor = 'per', custId = 1 } }, { call, put }) {
-      const response = yield call(api.custContact, { custNumber, custSor, custId });
+      const response = yield call(api.getCustCotact, { custNumber, custSor, custId });
       yield put({
         type: 'getContactSuccess',
         payload: {
@@ -216,7 +216,7 @@ export default {
       });
     },
     * getOrgContact({ payload: { custNumber = 1, custSor = 'org', custId = 1 } }, { call, put }) {
-      const response = yield call(api.custContact, { custNumber, custSor, custId });
+      const response = yield call(api.getCustCotact, { custNumber, custSor, custId });
       yield put({
         type: 'getContactListSuccess',
         payload: {
@@ -326,18 +326,18 @@ export default {
         // 个人客户联系方式
         const custContactPerMatch = pathToRegexp('/custContactPer/:custNumber/:custSor/:custId').exec(pathname);
         if (custContactPerMatch) {
-          const custNumber = custBasicMatch[1];
-          const custSor = custBasicMatch[2];
-          const custId = custBasicMatch[3];
+          const custNumber = custContactPerMatch[1];
+          const custSor = custContactPerMatch[2];
+          const custId = custContactPerMatch[3];
           dispatch({ type: 'getPerContact', payload: { custNumber, custSor, custId } });
           return;
         }
         // 机构客户联系人
         const custContactOrgMatch = pathToRegexp('/custContactOrg/:custNumber/:custSor/:custId').exec(pathname);
         if (custContactOrgMatch) {
-          const custNumber = custBasicMatch[1];
-          const custSor = custBasicMatch[2];
-          const custId = custBasicMatch[3];
+          const custNumber = custContactOrgMatch[1];
+          const custSor = custContactOrgMatch[2];
+          const custId = custContactOrgMatch[3];
           dispatch({ type: 'getOrgContact', payload: { custNumber, custSor, custId } });
           return;
         }

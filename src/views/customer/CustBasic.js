@@ -74,14 +74,17 @@ export default class CustBasic extends PureComponent {
   }
 
   getMapKey(key) {
-    const dataModel = Object.values(this.props.data)[1];
-    const value = dataModel[key];
-    return (!value || value === '--') ? '--' : value;
+    const type = (this.props.params.custSor === 'per') ? 'per' : 'org';
+    const data = this.props.data;
+    const dataModel = (type === 'per') ? data.customerInfoPer : data.customerInfoOrg;
+    const value = (!dataModel[key] || dataModel[key] === '--') ? '--' : dataModel[key];
+    return value;
   }
 
   getCustIcon() {
-    const dataModel = Object.values(this.props.data)[1];
     const type = (this.props.params.custSor === 'per') ? 'per' : 'org';
+    const data = this.props.data;
+    const dataModel = (type === 'per') ? data.customerInfoPer : data.customerInfoOrg;
     let icon = '';
     if (type === 'per') {
       icon = (!dataModel || dataModel.custGender === '男') ? 'touxiang' : 'nvxing';
@@ -92,7 +95,9 @@ export default class CustBasic extends PureComponent {
   }
 
   getDataModel() {
-    return Object.values(this.props.data)[1];
+    const type = (this.props.params.custSor === 'per') ? 'per' : 'org';
+    const data = this.props.data;
+    return (type === 'per') ? data.customerInfoPer : data.customerInfoOrg;
   }
 
   contactData(arr, obj) {
