@@ -118,7 +118,7 @@ export default class CustContactPer extends PureComponent {
     const testItem = dataModel.map((item, index) => (
       <div className={`info ${item.nullstyle}`} key={`sec-${item.label}-${index + 1}`}>
         <h3>
-          <Icon className={item.label} type={item.icon} />
+          <Icon className={item.label} type={`${item.icon}`} />
           {`${item.name}`}
         </h3>
         <ContactList
