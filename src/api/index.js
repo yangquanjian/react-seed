@@ -44,14 +44,6 @@ export default {
    */
   getCustomerDetail: ({ custNumber, custSor, custId }) => api.post('/groovy/cust/custDetail', { custNumber, custSor, custId }),
   /**
-   * 获取客户基本信息
-   */
-  getCustomerBasicInfo: ({ custId }) => api.post('/customer/basic', { custId }),
-  /**
-   * 获取推荐产品列表
-   */
-  getRecommendProductList: ({ custId }) => api.post('/customer/recommend', { custId }),
-  /**
    * 获取服务记录列表
    */
   getServiceList: ({ id }) => api.post('/groovy/cust/custServiceRecord', { id }),
@@ -60,8 +52,4 @@ export default {
    * {}
    */
   logout: query => api.post('/mobile/logout', query),
-  /**
-   * 不适合产品忽略
-   */
-  ignoreProduct: ({ custId }) => api.post('/customer/ignore', { custId }),
 };

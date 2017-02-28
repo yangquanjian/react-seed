@@ -47,16 +47,18 @@ export default class CustomerHome extends PureComponent {
     custQueryType: PropTypes.string,
     location: PropTypes.object,
     replace: PropTypes.func,
+    push: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     info: {},
-    getList: () => {},
-    getInfo: () => {},
+    getList: () => { },
+    getInfo: () => { },
     list: {},
     custQueryType: 'personal',
     location: {},
-    replace: () => {},
+    replace: () => { },
+    push: () => { },
   }
 
   constructor(props) {
@@ -84,7 +86,7 @@ export default class CustomerHome extends PureComponent {
   }
 
   render() {
-    const { info, list, getList, custQueryType, location, replace } = this.props;
+    const { info, list, getList, custQueryType, location, replace, push } = this.props;
     const sidebar = (
       <Filter
         onOpenChange={this.onOpenChange}
@@ -107,6 +109,7 @@ export default class CustomerHome extends PureComponent {
           custQueryType={custQueryType}
           location={location}
           replace={replace}
+          push={push}
         />
         <Drawer
           className="my-drawer"

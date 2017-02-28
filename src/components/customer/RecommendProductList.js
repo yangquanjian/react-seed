@@ -58,7 +58,6 @@ export default class RecommendProductList extends PureComponent {
 
   @autobind
   ignoreProduct() {
-    console.log('不适合');
     const { custId, ignoreProduct } = this.props;
     ignoreProduct(custId);
   }
