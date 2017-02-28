@@ -61,7 +61,7 @@ export default class CustomerDetailHeader extends PureComponent {
           custId: custId || '- -',
           custTotalAsset: AccountFilter(dataSource.totAsset),
         };
-      } else if (dataSource.custType === 'org') {
+      } else if (custSor === 'org') {
         /** 机构客户 */
         detailData = {
           /** 所属行业 */
@@ -121,7 +121,7 @@ export default class CustomerDetailHeader extends PureComponent {
               <div className="nameSection">
                 <span className="custName">{filteredData.custName}</span>
                 <div className="gradeIdSection">
-                  <i alt="" className={grade} />
+                  <i className={grade} />
                   <span className="custId">{filteredData.custId}</span>
                 </div>
               </div>
@@ -145,14 +145,14 @@ export default class CustomerDetailHeader extends PureComponent {
       );
     } else if (filteredData.custType === 'org') {
       return (
-        <div>
+        <div className="detailHeaderSection">
           <div className="basic">
             <div className="headerLeft">
               <i className="orgCustIconSection"><Icon {...orgCust} /></i>
               <div className="nameSection">
                 <span className="custName">机构客户</span>
                 <div className="gradeIdSection">
-                  <img alt="" className={grade} />
+                  <i className={grade} />
                   <span className="custId">{filteredData.custId}</span>
                 </div>
               </div>

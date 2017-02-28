@@ -43,9 +43,6 @@ export default class CustomerDetail extends PureComponent {
     push: () => { },
   };
 
-  componentDidMount() {
-  }
-
   render() {
     const { goBack } = this.props;
     const {
@@ -62,6 +59,7 @@ export default class CustomerDetail extends PureComponent {
     if (!custBaseInfo) {
       return null;
     }
+
     // <RecommendProductList {...this.props} />
     return (
       <div>
