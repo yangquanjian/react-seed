@@ -45,17 +45,20 @@ export default class CustContactOrg extends PureComponent {
     };
   }
 
+  @autobind
   getBaseKey(key) {
     const data = this.props.data;
     const value = data.custBaseInfo[key];
     return (!value) ? '--' : value;
   }
 
+  @autobind
   getContactList() {
     const temp = this.props.data.orgCustomerContactInfoList;
     return (temp instanceof Array && temp.length > 0) ? temp : [];
   }
 
+  @autobind
   getMainContact(arr) {
     if (!arr || arr.length < 1) return null;
     let mainObj = null;
@@ -66,6 +69,7 @@ export default class CustContactOrg extends PureComponent {
     return mainObj;
   }
 
+  @autobind
   getOtherContact(arr) {
     if (!arr || arr.length < 1) return [];
     const otherArr = [];
@@ -84,7 +88,7 @@ export default class CustContactOrg extends PureComponent {
   @autobind
   handleClick(obj) {
     const { push } = this.props;
-    push({ pathname: '/ContactOrgDetail', state: { obj } });
+    push({ pathname: `/ContactOrgDetail/${obj.rowId}` });
   }
 
   render() {
