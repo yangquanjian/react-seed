@@ -45,31 +45,37 @@ export default class ServiceList extends PureComponent {
     this.state = {
       dataSource: prepareDataSource(Object.values(this.props.data)[1]),
       isLoading: false,
-      getValueByKey: (key) => {
-        const dataModel = Object.values(this.props.data)[1];
-        const value = dataModel[key];
-        return (!value || value === '--') ? '--' : value;
-      },
-      getDataModel: () => {
-        const temp = Object.values(this.props.data)[1];
-        return (temp && (temp instanceof Array) && temp.length > 0) ? temp : [];
-      },
-      contactData: (arr, obj) => {
-        const tempArr = arr;
-        arr.map((item, index) => {
-          let value = obj[item.type];
-          if (!value || value === '--') {
-            value = '--';
-          } else if (item.type === 'idValDate' || item.type === 'foundTime' || item.type === 'openTime' || item.type === 'lastCommission') {
-            value = (value.length === 10) ? value.replace(/-/g, '/') : value.slice(0, 10);
-          }
-          tempArr[index].value = value;
-          tempArr[index].key = index + 1;
-          return true;
-        });
-        return tempArr;
-      },
     };
+  }
+
+  @autobind
+  getValueByKey(key) {
+    const dataModel = Object.values(this.props.data)[1];
+    const value = dataModel[key];
+    return (!value || value === '--') ? '--' : value;
+  }
+
+  @autobind
+  getDataModel() {
+    const temp = Object.values(this.props.data)[1];
+    return (temp && (temp instanceof Array) && temp.length > 0) ? temp : [];
+  }
+
+  @autobind
+  contactData(arr, obj) {
+    const tempArr = arr;
+    arr.map((item, index) => {
+      let value = obj[item.type];
+      if (!value || value === '--') {
+        value = '--';
+      } else if (item.type === 'idValDate' || item.type === 'foundTime' || item.type === 'openTime' || item.type === 'lastCommission') {
+        value = (value.length === 10) ? value.replace(/-/g, '/') : value.slice(0, 10);
+      }
+      tempArr[index].value = value;
+      tempArr[index].key = index + 1;
+      return true;
+    });
+    return tempArr;
   }
 
   @autobind
@@ -89,6 +95,7 @@ export default class ServiceList extends PureComponent {
     );
   }
 
+  @autobind
   renderSeparator(sectionID, rowID) {
     return (
       <div
