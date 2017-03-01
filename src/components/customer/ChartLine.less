@@ -1,72 +1,83 @@
 .chart-line-section{
+	  height: 360px;
+    max-height: 360px;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
   .infoNum {
-	display: -webkit-box;
-	padding: 15px;
+		padding-bottom: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 50px;
+    line-height: 1;
+    padding-left: 10px;
+    padding-top: 10px;
   }
   .monthPercent {
-	padding: 0px 15px;
-	border-right: 1px solid #eee;
+		border-right: 0.01333rem solid #eee;
+    font-size: 18px;
+    padding-left: 10px;
   }
   .infoNum .number {
-	height: 18px;
-	line-height: 18px;
-	font-size: 16px;
-	color: #e52416;
-	text-align: right;
+		color: #e52416;
+    text-align: right;
   }
   .infoNum .loss .number {
-	color: #39cf94;
+		color: #39cf94;
   }
   .infoNum .label {
-	height: 14px;
-	line-height: 14px;
-	font-size: 10px;
-	color: #666;
-	text-align: right;
+    color: #666;
+    text-align: right;
+    padding-top: 5px;
   }
   .monthNum {
-	padding-left: 15px;
+		padding-left: 0.2rem;
+    font-size: 18px;
   }
   .label-section {
-	display: flex;
-	justify-content: flex-start;
-	align-items: flex-start;
-	font-size: 15px;
-	position: relative;
-	opacity: 0.5;
+    font-size: 18px;
+    position: relative;
+    opacity: 0.5;
   }
   .left-section {
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: flex-start;
-	position: absolute;
-	top: 60px;
-	padding: 0;
-	margin: 0;
-	left: 60px;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+    position: absolute;
+    top: 50px;
+    padding: 0;
+    margin: 0;
+    left: 10px;
   }
-  .left-section > div {
-	height: 85px;
+  .left-section > div:nth-child(1) {
+		height: 90px;
   }
   .left-section > div:nth-child(2) {
-	height: 85px;
+		height: 90px;
   }
+	.left-section > div:last-child{
+		height: 90px;
+	}
   .right-section {
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: flex-start;
-	position: absolute;
-	top: 60px;
-	padding: 0;
-	margin: 0;
-	right: 70px;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		position: absolute;
+		top: 50px;
+		padding: 0;
+		margin: 0;
+		right: 10px;
   }
-  .right-section > div {
-	height: 85px;
+  .right-section > div:nth-child(1) {
+		height: 90px;
   }
   .right-section > div:nth-child(2) {
-	height: 85px;
+		height: 90px;
   }
+	.right-section > div:last-child{
+		height: 90px;
+	}
 }

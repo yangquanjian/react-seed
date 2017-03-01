@@ -44,7 +44,7 @@ export default class ChartPieWidget extends PureComponent {
           x: 'center',
           y: 'center',
         },
-        height: 300,
+        height: 360,
       };
 
       const series = {
@@ -146,7 +146,7 @@ export default class ChartPieWidget extends PureComponent {
           x: 'center',
           y: 'center',
         },
-        height: 300,
+        height: 360,
       };
 
       const series = {
@@ -209,7 +209,7 @@ export default class ChartPieWidget extends PureComponent {
         text: '资产',
       },
       // width: 400,
-      height: 300,
+      height: 360,
     };
 
     const finalArrData = [];
