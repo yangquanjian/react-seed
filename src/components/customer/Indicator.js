@@ -15,7 +15,7 @@ class Indicator extends PureComponent {
 
   render() {
     const { count, activeIndex } = this.props;
-    const width = 34 * count;
+    const width = `${0.454 * count}rem`;
     const elems = [];
     for (let i = 0; i < count; i++) {
       const classNames = classname({

@@ -41,7 +41,7 @@ export default class CustomerInfo extends PureComponent {
   constructor(props) {
     super(props);
 
-    const { resultList = [] } = props.list;
+    const { resultList = [] } = props.list ? props.list : {};
     const { location: { query } } = this.props;
     this.state = {
       dataSource: prepareDataSource(resultList),
@@ -53,7 +53,7 @@ export default class CustomerInfo extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const { list, location: { query } } = nextProps;
     const { location: { query: oldQuery } } = this.props;
-    const { resultList = [] } = list;
+    const { resultList = [] } = list || {};
     if (list !== this.props.list) {
       this.setState({
         dataSource: prepareDataSource(resultList),
@@ -133,12 +133,15 @@ export default class CustomerInfo extends PureComponent {
 
   @autobind
   refreshMore() {
-    const { custQueryType, list: { page }, location: { query } } = this.props;
-    this.props.getList({
-      ...query,
-      custQueryType,
-      pageNum: page.curPageNum + 1,
-    });
+    const { custQueryType, list, location: { query } } = this.props;
+    const { page = {} } = list || {};
+    if (!_.isEmpty(page) && !page.curPageNum === page.totalPageNum) {
+      this.props.getList({
+        ...query,
+        custQueryType,
+        pageNum: page.curPageNum + 1,
+      });
+    }
   }
 
   @autobind
