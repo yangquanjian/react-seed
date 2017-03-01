@@ -99,7 +99,8 @@ export default class CustomerHome extends PureComponent {
       position: this.state.position,
       onOpenChange: this.onOpenChange,
     };
-    const footerHeight = document.getElementsByClassName('am-tab-bar-bar')[0].offsetHeight;
+    const bar = document.querySelector('.am-tab-bar-bar');
+    const footerHeight = bar ? bar.offsetHeight : 0;
     return (
       <section className="page-customer">
         <CustomerInfo data={info} />
