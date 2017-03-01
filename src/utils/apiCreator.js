@@ -19,7 +19,7 @@ export default function createApi(options = {}) {
 
   // 如果没有前缀，自动补上
   const padPrefix = (url) => {
-    if (!url.startsWith(prefix)) {
+    if (url.indexOf(prefix) === -1) {
       return prefix + url;
     }
     return url;
