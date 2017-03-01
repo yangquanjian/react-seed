@@ -109,7 +109,7 @@ export default class CustContactOrg extends PureComponent {
       }
       return (
         <div className="item" data={mainData} onClick={() => this.handleClick(mainData)}>
-          <p className="left"><Icon className="" type="shenfenzheng" />{mainData.name || '--'}</p>
+          <p className="left"><i className="main-icon" />{mainData.name || '--'}</p>
           <p className="right">{(mainData.custRela) ? mainData.custRela : '--'}</p>
           <Icon className="more" type="more" />
         </div>
