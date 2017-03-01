@@ -1,6 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { autobind } from 'core-decorators';
-import classnames from 'classnames';
+// import classnames from 'classnames';
 import Chart from '../chart';
 import './ChartPie.less';
 
@@ -44,7 +44,8 @@ export default class ChartPieWidget extends PureComponent {
           x: 'center',
           y: 'center',
         },
-        height: 360,
+        height: '4.8rem',
+        width: '100%',
       };
 
       const series = {
@@ -146,7 +147,8 @@ export default class ChartPieWidget extends PureComponent {
           x: 'center',
           y: 'center',
         },
-        height: 360,
+        height: '4.8rem',
+        width: '100%',
       };
 
       const series = {
@@ -209,7 +211,7 @@ export default class ChartPieWidget extends PureComponent {
         text: '资产',
       },
       // width: 400,
-      height: 360,
+      height: '4.8rem',
     };
 
     const finalArrData = [];
@@ -280,22 +282,25 @@ export default class ChartPieWidget extends PureComponent {
       hoverAnimation: false,
       data: pieData,
       color: colorArray,
+      silent: true, // 不响应鼠标事件
     };
 
-    const fuzhai = classnames({
-      fuzhai: fuzhaiData && Object.keys(fuzhaiData).length > 0,
-      noneFuzhai: !fuzhaiData,
-    });
+    const fuzhaiHtml = [];
+    if (fuzhaiData !== null || fuzhaiData !== undefined || fuzhaiData !== '') {
+      fuzhaiHtml.push(<div key="fuzhai" className="fuzhai">
+        <span className="fuzhaiLabel">负债</span>
+        <span className="fuzhaiContent">{`-${fuzhaiData.maketVal}`}</span>
+      </div>);
+    }
 
     return (
       <div className="chart-pie-section">
         <Chart {...options} className="chart-content">
           <Chart.Pie {...series} className="chart-pie" />
         </Chart>
-        <div className={fuzhai}>
-          <span className="fuzhaiLabel">负债</span>
-          <span className="fuzhaiContent">{fuzhaiData && fuzhaiData.maketVal}</span>
-        </div>
+        {
+          fuzhaiHtml
+        }
         <div className="assetDescription">
           {
             finalArrData

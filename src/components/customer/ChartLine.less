@@ -1,9 +1,10 @@
 .chart-line-section{
-	  height: 360px;
-    max-height: 360px;
+	  height: 375px;
+    max-height: 375px;
     width: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
+		min-height: 375px;
   .infoNum {
 		padding-bottom: 0;
     display: flex;
@@ -80,4 +81,7 @@
 	.right-section > div:last-child{
 		height: 90px;
 	}
+}
+.chart-line-section  div:last-child > canvas{
+  transform: scale(1.15);
 }

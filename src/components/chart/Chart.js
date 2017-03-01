@@ -14,8 +14,8 @@ export default class Charts extends PureComponent {
   /* eslint-disable */
   static propTypes = {
     options: PropTypes.object,
-    height: PropTypes.number,
-    width: PropTypes.number,
+    height: PropTypes.string,
+    width: PropTypes.string,
     backgroundColor: PropTypes.string,
     animation: PropTypes.bool,
     calculable: PropTypes.bool,
