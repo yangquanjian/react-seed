@@ -95,7 +95,7 @@ class Frame extends Component {
     let findTabItem = false;
     const tabs = tabConfig.map(
       (item) => {
-        if (pathname.slice(1).startsWith(item.key)) {
+        if (pathname.slice(1).indexOf(item.key) === 0) {
           findTabItem = true;
           return this.renderTabBarItem({ ...item, component: children, isSelected: true });
         }
