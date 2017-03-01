@@ -11,6 +11,7 @@ import { routerRedux } from 'dva/router';
 import NavBar from '../../components/common/NavBar';
 import Icon from '../../components/common/Icon';
 import ContactList from '../../components/customer/ContactList';
+import './CustContactPer.less';
 
 const mapStateToProps = state => ({
   data: state.customer.contact,
@@ -76,13 +77,16 @@ export default class CustContactPer extends PureComponent {
 
   getBaseKey(key) {
     const data = this.props.data;
+    if (!data) return null;
     const value = data.custBaseInfo[key];
     return (!value) ? '--' : value;
   }
 
   getSectionArr(arr) {
-    const resultArr = [];
+    if (!arr) return false;
     let data = this.props.data;
+    if (!data) return null;
+    const resultArr = [];
     data = (this.props.params.custSor === 'per') ? data.perCustomerContactInfo : [];
     arr.map((item) => {
       let temp = (data[item]) ? data[item] : [];
@@ -135,7 +139,7 @@ export default class CustContactPer extends PureComponent {
           iconName={'fanhui'}
           onLeftClick={goBack}
         >
-          {title}
+          <p className="mid-contain">{title}</p>
         </NavBar>
 
         <secttion className="other">

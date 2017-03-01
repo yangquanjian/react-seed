@@ -1,4 +1,13 @@
 .cust-contact-org{
+  min-height: 100%;
+  .am-navbar-title{
+    p{
+      max-width: 250px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
   .main,
   .other{
     margin: 0;
@@ -7,13 +16,20 @@
   }
   .main{
     margin-bottom: 20px;
+    border-top: 2px solid #f2f2f2;
+    border-bottom: 2px solid #f2f2f2;
     .iconfont.more{
       margin-right: -0.25rem;
     }
   }
   .other{
+    border-top: 2px solid #f2f2f2;
+    border-bottom: 2px solid #f2f2f2;
     .iconfont.more{
       margin-right: 0.15rem;
+    }
+    .item:not(:last-child){
+      border-bottom: 2px solid #ebecec;
     }
   }
   .item{
@@ -47,8 +63,17 @@
       vertical-align: middle;
     }
     .left .iconfont{
-      min-width: 75px;
-      color: #d33a31;
+      width: 75px;
+    }
+    .left .main-icon{
+      display: inline-block;
+      vertical-align: middle;
+      width: 75px;
+      height: 45px;
+      margin-right: 10px;
+      border-radius: 5px;
+      background: transparent url(../../../static/img/main-icon.png) no-repeat center center;
+      background-size: 100% auto ;
     }
   }
 }

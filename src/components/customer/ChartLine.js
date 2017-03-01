@@ -153,11 +153,9 @@ export default class ChartLineWidget extends PureComponent {
           show: true,
           textStyle: {
             color: '#999',
+            fontSize: Number.parseInt(document.documentElement.fontSize, 10) * 0.2,
           },
         },
-      },
-      grid: {
-        show: true,
       },
       yAxis: {
         show: false,
@@ -169,7 +167,7 @@ export default class ChartLineWidget extends PureComponent {
         },
         boundaryGap: false,
       },
-      height: 300,
+      height: '4.2rem',
     };
 
     const series = {

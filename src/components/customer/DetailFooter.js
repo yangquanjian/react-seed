@@ -61,21 +61,26 @@ export default class CustomerDetailFooter extends PureComponent {
 
     let lastCommissionHtml = '';
 
-    if (lastCommissionDate.length > 0) {
-      const tempArr = lastCommissionDate.split(/[-/]/);
+    const tempArr = lastCommissionDate.split(/[-/]/);
 
+    if (lastCommissionDate && lastCommissionDate.length > 0) {
       lastCommissionHtml = `最近一次于${tempArr[2]}.${tempArr[0]}.${tempArr[1]}`;
     }
 
     return (
-      <List className="detailFooterSection">
-        <Item className="tel" thumb="../../../static/img/tel.png" arrow="horizontal" multipleLine onClick={() => { this.handleClick('contact'); }}>
-          <div className="telContent">联系方式</div>
-        </Item>
-        <Item className="serRecord" extra={lastCommissionHtml} thumb="../../../static/img/serviceRecord.png" arrow="horizontal" multipleLine onClick={() => { this.handleClick('serviceRecord'); }}>
-          <div className="recordContent">服务记录</div>
-        </Item>
-      </List>
+      <div className="detailFooterSection">
+        <List className="detailFooterList">
+          <Item className="tel" thumb="../../../static/img/tel.png" arrow="horizontal" multipleLine onClick={() => { this.handleClick('contact'); }}>
+            <div className="telContent">联系方式</div>
+          </Item>
+          <Item className="serRecord" extra={lastCommissionHtml} thumb="../../../static/img/serviceRecord.png" arrow="horizontal" multipleLine onClick={() => { this.handleClick('serviceRecord'); }}>
+            <div className="recordContent">服务记录</div>
+          </Item>
+        </List>
+      </div>
     );
+    // }
+
+    // return null;
   }
 }

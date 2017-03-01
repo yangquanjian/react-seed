@@ -290,7 +290,6 @@ export default (ComposedComponent) => {
               className="customer-header-search"
               placeholder="客户姓名/客户号/手机号/证件号码"
               value={value}
-              showCancelButton
               onFocus={this.handleFocus}
               onChange={this.handleChange}
               onCancel={this.handleCancel}

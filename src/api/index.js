@@ -38,7 +38,6 @@ export default {
    * 获取客户列表
    */
   getCustomerList: query => api.post('/groovy/cust/custList', query),
-
   /**
    * 获取客户详细信息
    */
@@ -46,7 +45,7 @@ export default {
   /**
    * 获取服务记录列表
    */
-  getServiceList: ({ id }) => api.post('/groovy/cust/custServiceRecord', { id }),
+  getServiceList: ({ custSor, custId }) => api.post('/groovy/cust/custServiceRecord', { custSor, custId }),
   /**
    * 登出
    * {}

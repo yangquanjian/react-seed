@@ -26,13 +26,14 @@ export default class ContactItem extends PureComponent {
           <li key={`${type}-${index + 1}`}>
             <p className={`info-item ${type}`}>
               <span>{`${(!item.province) ? '' : item.province}${(!item.city || item.city === item.province) ? '' : item.city}${(!item.address) ? '' : item.address}`}</span>
+              <span>{`${(item.mainFlag === true) ? '(主要)' : ''}`}</span>
             </p>
           </li>);
       } else if (this.props.type === 'email') {
         return (
           <li key={`${type}-${index + 1}`}>
             <p className={`info-item ${type}`}>
-              <span>{`${item.contactValue}`}</span>
+              <span>{`${item.contactValue}${(item.mainFlag === true) ? '(主要)' : ''}`}</span>
             </p>
             <span className="btn" onClick={() => { console.log(item.contactValue); }}>发送邮件</span>
           </li>
@@ -41,7 +42,7 @@ export default class ContactItem extends PureComponent {
       return (
         <li key={`${type}-${index + 1}`}>
           <p className={`info-item ${type}`}>
-            <span>{`${item.contactValue}`}</span>
+            <span>{`${item.contactValue}${(item.mainFlag === true) ? '(主要)' : ''}`}</span>
           </p>
         </li>
       );

@@ -48,6 +48,7 @@ export default class CustContactOrg extends PureComponent {
   @autobind
   getBaseKey(key) {
     const data = this.props.data;
+    if (!data) return undefined;
     const value = data.custBaseInfo[key];
     return (!value) ? '--' : value;
   }
@@ -108,14 +109,14 @@ export default class CustContactOrg extends PureComponent {
       }
       return (
         <div className="item" data={mainData} onClick={() => this.handleClick(mainData)}>
-          <p className="left"><Icon className="" type="shenfenzheng" />{mainData.name || '--'}</p>
+          <p className="left"><i className="main-icon" />{mainData.name || '--'}</p>
           <p className="right">{(mainData.custRela) ? mainData.custRela : '--'}</p>
           <Icon className="more" type="more" />
         </div>
       );
     };
     const otherShow = otherData.map(item => (
-      <div className="other item" data={item} key={item.key} onClick={() => { this.handleClick(item); }}>
+      <div className="item" data={item} key={item.key} onClick={() => { this.handleClick(item); }}>
         <p className="left">{item.name}</p>
         <p className="right">{item.custRela}</p>
         <Icon className="more" type="more" />
@@ -128,7 +129,7 @@ export default class CustContactOrg extends PureComponent {
           iconName={'fanhui'}
           onLeftClick={goBack}
         >
-          {title}
+          <p className="mid-contain">{title}</p>
         </NavBar>
         <secttion className="contain">
           <div className="main">
