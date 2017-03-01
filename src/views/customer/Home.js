@@ -99,6 +99,8 @@ export default class CustomerHome extends PureComponent {
       position: this.state.position,
       onOpenChange: this.onOpenChange,
     };
+    const bar = document.querySelector('.am-tab-bar-bar');
+    const footerHeight = bar ? bar.offsetHeight : 0;
     return (
       <section className="page-customer">
         <CustomerInfo data={info} />
@@ -114,7 +116,7 @@ export default class CustomerHome extends PureComponent {
         <Drawer
           className="my-drawer"
           sidebar={sidebar}
-          style={{ maxHeight: document.documentElement.clientHeight - 120 }}
+          style={{ maxHeight: document.documentElement.clientHeight - footerHeight }}
           dragHandleStyle={{ display: 'none' }}
           {...drawerProps}
         >

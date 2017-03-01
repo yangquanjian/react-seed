@@ -96,7 +96,7 @@ class Filter extends PureComponent {
     const prevFilter = this.state.filter;
     const { riskLevel: riskLev } = prevFilter;
     if (riskLev.find(str => str === val)) {
-      riskLev.splice(riskLev.findIndex(str => str === val));
+      riskLev.splice(riskLev.findIndex(str => str === val), 1);
     } else {
       riskLev.push(val);
     }
@@ -232,149 +232,151 @@ class Filter extends PureComponent {
   render() {
     return (
       <div className="filterWrapper">
-        <h3>
-          <div>客户类型</div>
-        </h3>
-        <div className="filterBox">
-          <div className="flexBox">
-            <p
-              className={this.getClass('custType', 'Y')}
-              onClick={() => this.handleCustTypeSel('Y')}
-            >
-              零售客户
-            </p>
-            <p
-              className={this.getClass('custType', 'N')}
-              onClick={() => this.handleCustTypeSel('N')}
-            >
-              高净值客户
-            </p>
+        <div className="filterScroll">
+          <h3>
+            <div>客户类型</div>
+          </h3>
+          <div className="filterBox">
+            <div className="flexBox">
+              <p
+                className={this.getClass('custType', 'Y')}
+                onClick={() => this.handleCustTypeSel('Y')}
+              >
+                零售客户
+              </p>
+              <p
+                className={this.getClass('custType', 'N')}
+                onClick={() => this.handleCustTypeSel('N')}
+              >
+                高净值客户
+              </p>
+            </div>
           </div>
-        </div>
-        <h3>
-          <div>开户时间</div>
-          <p onClick={() => this.handleShowAll('timeAll')}>
-            全部<i className={this.getShowAll('timeAll', 'icon')} />
-          </p>
-        </h3>
-        <div className="filterBox">
-          <div className="flexBox">
-            <p
-              className={this.getClass('time', 'M')}
-              onClick={() => this.handleTimeSel('M')}
-            >
-              1个月以内
+          <h3>
+            <div>开户时间</div>
+            <p onClick={() => this.handleShowAll('timeAll')}>
+              全部<i className={this.getShowAll('timeAll', 'icon')} />
             </p>
-            <p
-              className={this.getClass('time', 'HY')}
-              onClick={() => this.handleTimeSel('HY')}
-            >
-              1-6个月
-            </p>
-            <p
-              className={this.getClass('time', 'TY')}
-              onClick={() => this.handleTimeSel('TY')}
-            >
-              6个月-2年
-            </p>
+          </h3>
+          <div className="filterBox">
+            <div className="flexBox">
+              <p
+                className={this.getClass('time', 'M')}
+                onClick={() => this.handleTimeSel('M')}
+              >
+                1个月以内
+              </p>
+              <p
+                className={this.getClass('time', 'HY')}
+                onClick={() => this.handleTimeSel('HY')}
+              >
+                1-6个月
+              </p>
+              <p
+                className={this.getClass('time', 'TY')}
+                onClick={() => this.handleTimeSel('TY')}
+              >
+                6个月-2年
+              </p>
+            </div>
+            <div className={this.getShowAll('timeAll', 'box')}>
+              <p
+                className={this.getClass('time', 'BTY')}
+                onClick={() => this.handleTimeSel('BTY')}
+              >
+                2年以上
+              </p>
+            </div>
           </div>
-          <div className={this.getShowAll('timeAll', 'box')}>
-            <p
-              className={this.getClass('time', 'BTY')}
-              onClick={() => this.handleTimeSel('BTY')}
-            >
-              2年以上
+          <h3>
+            <div>风险等级</div>
+            <p onClick={() => this.handleShowAll('riskAll')}>
+              全部<i className={this.getShowAll('riskAll', 'icon')} />
             </p>
+          </h3>
+          <div className="filterBox">
+            <div className="flexBox">
+              <p
+                className={this.getClass('riskLevel', '704010')}
+                onClick={() => this.handleRiskSel('704010')}
+              >
+                积极型
+              </p>
+              <p
+                className={this.getClass('riskLevel', '704015')}
+                onClick={() => this.handleRiskSel('704015')}
+              >
+                相对积极型
+              </p>
+              <p
+                className={this.getClass('riskLevel', '704020')}
+                onClick={() => this.handleRiskSel('704020')}
+              >
+                稳健型
+              </p>
+            </div>
+            <div className={this.getShowAll('riskAll', 'box')}>
+              <p
+                className={this.getClass('riskLevel', '704025')}
+                onClick={() => this.handleRiskSel('704025')}
+              >
+                相对保守型
+              </p>
+              <p
+                className={this.getClass('riskLevel', '704030')}
+                onClick={() => this.handleRiskSel('704030')}
+              >
+                保守型
+              </p>
+            </div>
           </div>
-        </div>
-        <h3>
-          <div>风险等级</div>
-          <p onClick={() => this.handleShowAll('riskAll')}>
-            全部<i className={this.getShowAll('riskAll', 'icon')} />
-          </p>
-        </h3>
-        <div className="filterBox">
-          <div className="flexBox">
-            <p
-              className={this.getClass('riskLevel', '704010')}
-              onClick={() => this.handleRiskSel('704010')}
-            >
-              积极型
+          <h3>
+            <div>账户状态</div>
+            <p onClick={() => this.handleShowAll('statusAll')}>
+              全部<i className={this.getShowAll('statusAll', 'icon')} />
             </p>
-            <p
-              className={this.getClass('riskLevel', '704015')}
-              onClick={() => this.handleRiskSel('704015')}
-            >
-              相对积极型
-            </p>
-            <p
-              className={this.getClass('riskLevel', '704020')}
-              onClick={() => this.handleRiskSel('704020')}
-            >
-              稳健型
-            </p>
-          </div>
-          <div className={this.getShowAll('riskAll', 'box')}>
-            <p
-              className={this.getClass('riskLevel', '704025')}
-              onClick={() => this.handleRiskSel('704025')}
-            >
-              相对保守型
-            </p>
-            <p
-              className={this.getClass('riskLevel', '704030')}
-              onClick={() => this.handleRiskSel('704030')}
-            >
-              保守型
-            </p>
-          </div>
-        </div>
-        <h3>
-          <div>账户状态</div>
-          <p onClick={() => this.handleShowAll('statusAll')}>
-            全部<i className={this.getShowAll('statusAll', 'icon')} />
-          </p>
-        </h3>
-        <div className="filterBox">
-          <div className="flexBox">
-            <p
-              className={this.getClass('accountStatus', '118010')}
-              onClick={() => this.handleStatusSel('118010')}
-            >
-              正常
-            </p>
-            <p
-              className={this.getClass('accountStatus', '118040')}
-              onClick={() => this.handleStatusSel('118040')}
-            >
-              销户
-            </p>
-            <p
-              className={this.getClass('accountStatus', '118020')}
-              onClick={() => this.handleStatusSel('118020')}
-            >
-              冻结
-            </p>
-          </div>
-          <div className={this.getShowAll('statusAll', 'box')}>
-            <p
-              className={this.getClass('accountStatus', '118050')}
-              onClick={() => this.handleStatusSel('118050')}
-            >
-              休眠已确认
-            </p>
-            <p
-              className={this.getClass('accountStatus', '118030')}
-              onClick={() => this.handleStatusSel('118030')}
-            >
-              挂失
-            </p>
-            <p
-              className={this.getClass('accountStatus', '118110,118120,118130,118140,118999')}
-              onClick={() => this.handleStatusSel('118110,118120,118130,118140,118999')}
-            >
-              其他
-            </p>
+          </h3>
+          <div className="filterBox">
+            <div className="flexBox">
+              <p
+                className={this.getClass('accountStatus', '118010')}
+                onClick={() => this.handleStatusSel('118010')}
+              >
+                正常
+              </p>
+              <p
+                className={this.getClass('accountStatus', '118040')}
+                onClick={() => this.handleStatusSel('118040')}
+              >
+                销户
+              </p>
+              <p
+                className={this.getClass('accountStatus', '118020')}
+                onClick={() => this.handleStatusSel('118020')}
+              >
+                冻结
+              </p>
+            </div>
+            <div className={this.getShowAll('statusAll', 'box')}>
+              <p
+                className={this.getClass('accountStatus', '118050')}
+                onClick={() => this.handleStatusSel('118050')}
+              >
+                休眠已确认
+              </p>
+              <p
+                className={this.getClass('accountStatus', '118030')}
+                onClick={() => this.handleStatusSel('118030')}
+              >
+                挂失
+              </p>
+              <p
+                className={this.getClass('accountStatus', '118110,118120,118130,118140,118999')}
+                onClick={() => this.handleStatusSel('118110,118120,118130,118140,118999')}
+              >
+                其他
+              </p>
+            </div>
           </div>
         </div>
         <div className="filterBtn">
