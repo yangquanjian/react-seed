@@ -110,6 +110,9 @@ export default {
     },
     searchSuccess(state, { payload: { response, query } }) {// eslint-disable-line
       const { resultData: { page, resultList } } = response;
+      if (_.isEmpty(resultList)) {
+        return state;
+      }
       // 如果page为1表示新刷新，这时候清空之前的列表
       const originList = page.curPageNum === 1 ? [] : state.searchInfo.list;
       return {
