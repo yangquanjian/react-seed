@@ -11,6 +11,7 @@ import { routerRedux } from 'dva/router';
 import NavBar from '../../components/common/NavBar';
 import Icon from '../../components/common/Icon';
 import ContactList from '../../components/customer/ContactList';
+import './CustContactPer.less';
 
 const mapStateToProps = state => ({
   data: state.customer.contact,
@@ -138,7 +139,7 @@ export default class CustContactPer extends PureComponent {
           iconName={'fanhui'}
           onLeftClick={goBack}
         >
-          {title}
+          <p className="mid-contain">{title}</p>
         </NavBar>
 
         <secttion className="other">

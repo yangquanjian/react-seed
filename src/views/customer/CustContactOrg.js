@@ -129,7 +129,7 @@ export default class CustContactOrg extends PureComponent {
           iconName={'fanhui'}
           onLeftClick={goBack}
         >
-          {title}
+          <p className="mid-contain">{title}</p>
         </NavBar>
         <secttion className="contain">
           <div className="main">

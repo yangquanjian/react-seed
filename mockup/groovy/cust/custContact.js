@@ -25,7 +25,7 @@ exports.response = function (req, res) {
 						provinceCd: "DF17",
 						city: "吉林市",
 						cityCd: "DF1702",
-						address: "bsdcfgg",
+						address: "bsdcfgg-bsdcfgg-bsdcfgg-bsdcfgg-bsdcfgg-bsdcfgg-bsdcfgg-bsdcfgg",
 						zip: "123444",
 						rowId: "ADDRI-20170123-03942215278"
 					},
@@ -70,7 +70,7 @@ exports.response = function (req, res) {
 							provinceCd: "DF07",
 							city: "百色市",
 							cityCd: "DF0710",
-							address: "ADDRI-20161230-03942215132ADDRI-20161230-03942215132ADDRI-20161230-03942215132ADDRI-20161230-03942215132ADDRI-20161230-03942215132ADDRI-20161230-03942215132",
+							address: "年十年少代收的耐受的耐受的奶水滴啊都是年水泥地阿森纳带多少奶水的奶水多年实打实大的",
 							zip: "225600",
 							rowId: "ADDRI-20170118-03942215259"
 						},
