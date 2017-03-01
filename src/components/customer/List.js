@@ -47,6 +47,8 @@ export default class CustomerInfo extends PureComponent {
       dataSource: prepareDataSource(resultList),
       isLoading: false,
       orderType: query.orderType ? query.orderType : 'desc',
+      typeClass: 'all',
+      levClass: 'all',
     };
   }
 
@@ -83,15 +85,15 @@ export default class CustomerInfo extends PureComponent {
   }
 
   @autobind
-  handleTypeChange(val) {
-    const { replace, location: { query } } = this.props;
-    replace({
-      pathname: '/customer',
-      query: {
-        ...query,
-        custNature: val,
-      },
-    });
+  getTypeClass() {
+    const { typeClass } = this.state;
+    return typeClass === 'all' ? 'cusType' : 'cusTypeSel';
+  }
+
+  @autobind
+  getLevClass() {
+    const { levClass } = this.state;
+    return levClass === 'all' ? 'cusLev' : 'cusLevSel';
   }
 
   @autobind
@@ -101,8 +103,26 @@ export default class CustomerInfo extends PureComponent {
       pathname: '/customer',
       query: {
         ...query,
-        custLevel: val,
+        custLevel: val === 'all' ? '' : val,
       },
+    });
+    this.setState({
+      levClass: val === 'all' ? 'all' : 'sel',
+    });
+  }
+
+  @autobind
+  handleTypeChange(val) {
+    const { replace, location: { query } } = this.props;
+    replace({
+      pathname: '/customer',
+      query: {
+        ...query,
+        custNature: val === 'all' ? '' : val,
+      },
+    });
+    this.setState({
+      typeClass: val === 'all' ? 'all' : 'sel',
     });
   }
 
@@ -135,11 +155,15 @@ export default class CustomerInfo extends PureComponent {
   refreshMore() {
     const { custQueryType, list, location: { query } } = this.props;
     const { page = {} } = list || {};
-    if (!_.isEmpty(page) && !page.curPageNum === page.totalPageNum) {
+    if (!_.isEmpty(page) && !(page.curPageNum === page.totalPageNum)) {
       this.props.getList({
         ...query,
         custQueryType,
         pageNum: page.curPageNum + 1,
+      });
+    } else {
+      this.setState({
+        isLoading: false,
       });
     }
   }
@@ -160,14 +184,14 @@ export default class CustomerInfo extends PureComponent {
     const { Option } = Select;
     return (
       <div>
-        <Select className="cusType" defaultValue="客户性质" dropdownClassName="filterList" onChange={this.handleTypeChange}>
-          <Option value="" text="客户性质">所有客户<Icon type="selected" /></Option>
+        <Select className={this.getTypeClass()} defaultValue="客户性质" dropdownClassName="filterList" onChange={this.handleTypeChange}>
+          <Option value="all" text="客户性质">所有客户<Icon type="selected" /></Option>
           <Option value="per" text="个人客户">个人客户<Icon type="selected" /></Option>
           <Option value="org" text="机构客户">机构客户<Icon type="selected" /></Option>
           <Option value="prod" text="产品客户">产品客户<Icon type="selected" /></Option>
         </Select>
-        <Select className="cusLev" defaultValue="客户等级" dropdownClassName="filterList" onChange={this.handleLevChange}>
-          <Option value="" text="所有等级">所有等级<Icon type="selected" /></Option>
+        <Select className={this.getLevClass()} defaultValue="客户等级" dropdownClassName="filterList" onChange={this.handleLevChange}>
+          <Option value="all" text="所有等级">所有等级<Icon type="selected" /></Option>
           <Option value="805010" text="钻石卡">钻石卡<Icon type="selected" /></Option>
           <Option value="805015" text="白金卡">白金卡<Icon type="selected" /></Option>
           <Option value="805020" text="金卡">金卡<Icon type="selected" /></Option>
