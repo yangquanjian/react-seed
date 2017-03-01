@@ -15,7 +15,7 @@ class InfoItem extends PureComponent {
   @autobind
   getData(key) {
     if (this.props.data) {
-      return this.props.data[key] ? this.props.data[key] : '--';
+      return (this.props.data[key] || this.props.data[key] === 0) ? this.props.data[key] : '--';
     }
     return '--';
   }
