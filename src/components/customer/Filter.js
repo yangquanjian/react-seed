@@ -1,5 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
+import _ from 'lodash';
 import './filter.less';
 
 class Filter extends PureComponent {
@@ -42,8 +43,10 @@ class Filter extends PureComponent {
       if (filter[key] === val) {
         return 'filtSel';
       }
-    } else if (filter[key].find(str => str === val)) {
-      return 'filtSel';
+    } else if (filter[key] instanceof Array) {
+      if (_.find(filter[key], str => str === val)) {
+        return 'filtSel';
+      }
     }
     return '';
   }
@@ -79,7 +82,7 @@ class Filter extends PureComponent {
     const prevFilter = this.state.filter;
     const { accountStatus: status } = prevFilter;
     if (status.find(str => str === val)) {
-      status.splice(status.findIndex(str => str === val));
+      status.splice(status.findIndex(str => str === val), 1);
     } else {
       status.push(val);
     }
@@ -113,12 +116,21 @@ class Filter extends PureComponent {
     const prevFilter = this.state.filter;
     const { time } = prevFilter;
     if (time !== '') {
-      this.setState({
-        filter: {
-          ...prevFilter,
-          time: '',
-        },
-      });
+      if (time === val) {
+        this.setState({
+          filter: {
+            ...prevFilter,
+            time: '',
+          },
+        });
+      } else {
+        this.setState({
+          filter: {
+            ...prevFilter,
+            time: val,
+          },
+        });
+      }
     } else {
       this.setState({
         filter: {
@@ -134,12 +146,21 @@ class Filter extends PureComponent {
     const prevFilter = this.state.filter;
     const { custType } = prevFilter;
     if (custType !== '') {
-      this.setState({
-        filter: {
-          ...prevFilter,
-          custType: '',
-        },
-      });
+      if (custType === val) {
+        this.setState({
+          filter: {
+            ...prevFilter,
+            custType: '',
+          },
+        });
+      } else {
+        this.setState({
+          filter: {
+            ...prevFilter,
+            custType: val,
+          },
+        });
+      }
     } else {
       this.setState({
         filter: {
