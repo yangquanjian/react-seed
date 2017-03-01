@@ -61,7 +61,6 @@ export default {
       return {
         ...state,
         serviceList: {
-          ...state.data,
           ...response.resultData,
         },
       };
@@ -192,13 +191,14 @@ export default {
         },
       });
     },
-    * getServiceList({ payload: { id = 1 } }, { call, put }) {
-      const response = yield call(api.getServiceList, { id });
+    * getServiceList({ payload: { custSor = 'per', custId = 1 } }, { call, put }) {
+      const response = yield call(api.getServiceList, { custSor, custId });
       yield put({
         type: 'getServiceListSuccess',
         payload: {
           response,
-          id,
+          custSor,
+          custId,
         },
       });
     },
@@ -293,14 +293,14 @@ export default {
           dispatch({ type: 'getOrgContact', payload: { custNumber, custSor, custId } });
           return;
         }
-        // 服务列表
-        const serviceListMatch = pathToRegexp('/serviceList/:custNumber').exec(pathname);
+        // 服务记录列表
+        const serviceListMatch = pathToRegexp('/serviceList/:custSor/:custId').exec(pathname);
         if (serviceListMatch) {
-          const id = serviceListMatch[1];
-          dispatch({ type: 'getServiceList', payload: { id } });
+          const custSor = serviceListMatch[1];
+          const custId = serviceListMatch[1];
+          dispatch({ type: 'getServiceList', payload: { custSor, custId } });
           return;
         }
-
         // 客户详情
         const matchDetail = pathToRegexp('customer/detail').exec(pathname);
         if (matchDetail) {

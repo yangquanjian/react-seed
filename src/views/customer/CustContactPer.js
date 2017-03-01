@@ -76,13 +76,16 @@ export default class CustContactPer extends PureComponent {
 
   getBaseKey(key) {
     const data = this.props.data;
+    if (!data) return null;
     const value = data.custBaseInfo[key];
     return (!value) ? '--' : value;
   }
 
   getSectionArr(arr) {
-    const resultArr = [];
+    if (!arr) return false;
     let data = this.props.data;
+    if (!data) return null;
+    const resultArr = [];
     data = (this.props.params.custSor === 'per') ? data.perCustomerContactInfo : [];
     arr.map((item) => {
       let temp = (data[item]) ? data[item] : [];

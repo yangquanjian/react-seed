@@ -48,6 +48,7 @@ export default class CustContactOrg extends PureComponent {
   @autobind
   getBaseKey(key) {
     const data = this.props.data;
+    if (!data) return undefined;
     const value = data.custBaseInfo[key];
     return (!value) ? '--' : value;
   }

@@ -45,7 +45,7 @@ export default {
   /**
    * 获取服务记录列表
    */
-  getServiceList: ({ id }) => api.post('/groovy/cust/custServiceRecord', { id }),
+  getServiceList: ({ custSor, custId }) => api.post('/groovy/cust/custServiceRecord', { custSor, custId }),
   /**
    * 登出
    * {}
