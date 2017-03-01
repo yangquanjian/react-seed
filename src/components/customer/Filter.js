@@ -96,7 +96,7 @@ class Filter extends PureComponent {
     const prevFilter = this.state.filter;
     const { riskLevel: riskLev } = prevFilter;
     if (riskLev.find(str => str === val)) {
-      riskLev.splice(riskLev.findIndex(str => str === val),1);
+      riskLev.splice(riskLev.findIndex(str => str === val), 1);
     } else {
       riskLev.push(val);
     }
