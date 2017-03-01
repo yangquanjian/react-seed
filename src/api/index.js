@@ -38,7 +38,6 @@ export default {
    * 获取客户列表
    */
   getCustomerList: query => api.post('/groovy/cust/custList', query),
-
   /**
    * 获取客户详细信息
    */
