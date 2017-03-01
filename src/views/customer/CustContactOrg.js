@@ -116,7 +116,7 @@ export default class CustContactOrg extends PureComponent {
       );
     };
     const otherShow = otherData.map(item => (
-      <div className="other item" data={item} key={item.key} onClick={() => { this.handleClick(item); }}>
+      <div className="item" data={item} key={item.key} onClick={() => { this.handleClick(item); }}>
         <p className="left">{item.name}</p>
         <p className="right">{item.custRela}</p>
         <Icon className="more" type="more" />
