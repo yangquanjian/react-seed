@@ -51,7 +51,7 @@ export default class CustomerInfo extends PureComponent {
     const { data: { kpiList = [] }, count, activeIndex } = this.state;
     return (
       <div className="infoTab">
-        <Tabs defaultActiveKey="0" onChange={this.tabChange}>
+        <Tabs defaultActiveKey="0" onChange={this.tabChange} swipeable={false}>
           <TabPane tab="本月" key="0">
             <InfoItem data={kpiList[0]} />
           </TabPane>
