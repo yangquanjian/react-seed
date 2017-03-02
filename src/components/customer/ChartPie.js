@@ -1,6 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { autobind } from 'core-decorators';
 // import classnames from 'classnames';
+import _ from 'lodash';
 import Chart from '../chart';
 import './ChartPie.less';
 
@@ -202,7 +203,7 @@ export default class ChartPieWidget extends PureComponent {
       });
     }
 
-    const fuzhaiData = showData.find(item => (
+    const fuzhaiData = _.find(showData, item => (
       item.categoryName.toString().indexOf('负债') !== -1
     ));
 
@@ -286,7 +287,7 @@ export default class ChartPieWidget extends PureComponent {
     };
 
     const fuzhaiHtml = [];
-    if (fuzhaiData !== null || fuzhaiData !== undefined || fuzhaiData !== '') {
+    if (!_.isEmpty(fuzhaiData)) {
       fuzhaiHtml.push(<div key="fuzhai" className="fuzhai">
         <span className="fuzhaiLabel">负债</span>
         <span className="fuzhaiContent">{`-${fuzhaiData.maketVal}`}</span>
