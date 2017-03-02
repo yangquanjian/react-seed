@@ -26,7 +26,7 @@
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	width: 50%;
+	// width: 50%;
   }
   .basicSplit {
 	display: block;
@@ -55,6 +55,9 @@
 	box-shadow: 0 0 black;
 	font-size: 30px;
 	color: @detail_header_color_1;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
   }
   .sex {
 	width: 33.3%;
@@ -69,6 +72,9 @@
 	border-right: 1px solid #dddddd;
 	font-size: 28px;
 	color: @detail_header_color_1;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
   }
   .moreInfo {
 	width: 33.3%;
@@ -101,7 +107,8 @@
   .custId {
 	font-size: 24px;
 	white-space: nowrap;
-    padding-left: 10px;
+  padding-left: 10px;
+	padding-top: 2px;
   }
   .gradeIdSection {
 	padding-top: 5px;

@@ -47,7 +47,7 @@ class ListItem extends React.Component {
   @autobind
   handleClick() {
     const { brokerNumber, custType, cusId: custId, push } = this.props;
-    push(`customer/detail?custId=${custId}&custNumber=${brokerNumber}&custSor=${custType}`);
+    push(`/customer/detail?custId=${custId}&custNumber=${brokerNumber}&custSor=${custType}`);
   }
 
   render() {

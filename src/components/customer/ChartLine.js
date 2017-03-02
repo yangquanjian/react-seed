@@ -7,6 +7,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { autobind } from 'core-decorators';
 import classnames from 'classnames';
+import _ from 'lodash';
 import Chart from '../chart';
 import AccountFilter from './AccountFilter';
 import './ChartLine.less';
@@ -153,7 +154,7 @@ export default class ChartLineWidget extends PureComponent {
           show: true,
           textStyle: {
             color: '#999',
-            fontSize: Number.parseInt(document.documentElement.fontSize, 10) * 0.2,
+            fontSize: 14,
           },
         },
       },
@@ -203,11 +204,11 @@ export default class ChartLineWidget extends PureComponent {
 
     const assetProfitValue = classnames({
       monthNum: true,
-      loss: assetProfit < 0,
+      loss: !_.isEmpty(assetProfit) && Number.parseFloat(assetProfit.replace('%', '')) < 0,
     });
     const assetProfitPercent = classnames({
       monthPercent: true,
-      loss: assetProfitRate < 0,
+      loss: !_.isEmpty(assetProfitRate) && Number.parseFloat(assetProfitRate.replace('%', '')) < 0,
     });
 
     return (

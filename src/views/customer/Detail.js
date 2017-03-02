@@ -56,8 +56,15 @@ export default class CustomerDetail extends PureComponent {
 
     const { push } = this.props;
 
-    if (!custBaseInfo) {
-      return null;
+    if (!this.props.data) {
+      return (
+        <div>
+          <NavBar
+            iconName={'fanhui'}
+            onLeftClick={goBack}
+          >客户详情</NavBar>
+        </div>
+      );
     }
 
     // <RecommendProductList {...this.props} />
