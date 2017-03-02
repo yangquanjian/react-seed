@@ -19,7 +19,6 @@ export default class CustomerInfo extends PureComponent {
     list: PropTypes.object,
     getList: PropTypes.func.isRequired,
     onOpenChange: PropTypes.func.isRequired,
-    custQueryType: PropTypes.string,
     location: PropTypes.object.isRequired,
     replace: PropTypes.func.isRequired,
     pageNum: PropTypes.number,
@@ -30,7 +29,6 @@ export default class CustomerInfo extends PureComponent {
     list: {},
     getList: () => {},
     onOpenChange: () => {},
-    custQueryType: 'personal',
     location: {},
     replace: () => {},
     pageNum: 1,
@@ -40,7 +38,7 @@ export default class CustomerInfo extends PureComponent {
   constructor(props) {
     super(props);
 
-    const isError = props.list ? false : true;
+    const isError = _.isEmpty(props.list);
     const { resultList = [] } = props.list ? props.list : {};
     const { location: { query } } = this.props;
     this.state = {
@@ -55,19 +53,19 @@ export default class CustomerInfo extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { custQueryType, list, location: { query } } = nextProps;
-    const { custQueryType: oldCustQuery, location: { query: oldQuery } } = this.props;
+    const { list, location: { query } } = nextProps;
+    const { location: { query: oldQuery } } = this.props;
     const { resultList = [] } = list || {};
     if (!_.isEqual(list, this.props.list)) {
       this.setState({
         dataSource: prepareDataSource(resultList),
         isLoading: false,
-        isEnd: _.isEmpty(resultList) ? true : false,
-        isError: list ? false : true,
+        isEnd: _.isEmpty(resultList),
+        isError: _.isEmpty(list),
       });
     }
-    //条件变化
-    if (!_.isEqual(query, oldQuery) || custQueryType !== oldCustQuery) {
+    // 条件变化
+    if (!_.isEqual(query, oldQuery)) {
       const { isLoading } = this.state;
       if (!isLoading) {
         this.setState(
@@ -76,7 +74,7 @@ export default class CustomerInfo extends PureComponent {
             isEnd: false,
             isError: false,
           }, this.refreshList(nextProps));
-      };
+      }
     }
   }
 
@@ -171,12 +169,11 @@ export default class CustomerInfo extends PureComponent {
 
   @autobind
   refreshMore() {
-    const { custQueryType, list, location: { query } } = this.props;
+    const { list, location: { query } } = this.props;
     const { page = {} } = list || {};
     if (!_.isEmpty(page) && !(page.curPageNum >= page.totalPageNum)) {
       this.props.getList({
         ...query,
-        custQueryType,
         pageNum: page.curPageNum + 1,
       });
     } else {
@@ -190,10 +187,9 @@ export default class CustomerInfo extends PureComponent {
 
   @autobind
   refreshList(nextProps) {
-    const { custQueryType, location: { query } } = nextProps;
+    const { location: { query } } = nextProps;
     this.props.getList({
       ...query,
-      custQueryType,
       pageNum: 1,
       refresh: true,
     });
@@ -259,12 +255,11 @@ export default class CustomerInfo extends PureComponent {
       text = '数据获取失败';
     } else if (isEnd) {
       text = '已经到底了';
-    } else if (isLoading){
+    } else if (isLoading) {
       text = '加载中...';
     } else {
-      text = '上拉加载更多'
+      text = '上拉加载更多';
     }
-    console.log(text);
     return (
       <div>
         {text}
