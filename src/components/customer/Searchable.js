@@ -53,6 +53,8 @@ export default (ComposedComponent) => {
 
       // 我的客户、我团队的客户选择组件
       this.select = null;
+      // 首页被切换次数
+      this.loadTimes = 0;
 
       const { location: { query: { keyword, custQueryType } } } = props;
       this.state = {
@@ -272,9 +274,11 @@ export default (ComposedComponent) => {
       const { mode, value, typeValue } = this.state;
       let mainElems;
       if (mode === SHOW_MODE.NORMAL) {
+        this.loadTimes = this.loadTimes + 1;
         mainElems = (<ComposedComponent
           {...this.props}
           custQueryType={typeValue}
+          isFirstLoad={this.loadTimes === 1}
         />);
       } else if (mode === SHOW_MODE.SEARCHING) {
         mainElems = this.renderHistory();

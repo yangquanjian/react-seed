@@ -45,6 +45,7 @@ export default class CustomerHome extends PureComponent {
     location: PropTypes.object,
     replace: PropTypes.func,
     push: PropTypes.func.isRequired,
+    isFirstLoad: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -55,6 +56,7 @@ export default class CustomerHome extends PureComponent {
     location: {},
     replace: () => { },
     push: () => { },
+    isFirstLoad: true,
   }
 
   constructor(props) {
@@ -67,12 +69,14 @@ export default class CustomerHome extends PureComponent {
   }
 
   componentWillMount() {
-    const { location: { query } } = this.props;
-    this.props.getInfo({
-      ...query,
-      pageSize: 10,
-      pageNum: 1,
-    });
+    const { isFirstLoad, location: { query } } = this.props;
+    if (isFirstLoad) {
+      this.props.getInfo({
+        ...query,
+        pageSize: 10,
+        pageNum: 1,
+      });
+    }
   }
 
   @autobind
