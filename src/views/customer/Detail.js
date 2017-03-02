@@ -7,6 +7,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
+import _ from 'lodash';
 
 import NavBar from '../../components/common/NavBar';
 import CustomerDetailHeader from '../../components/customer/DetailHeader';
@@ -56,7 +57,7 @@ export default class CustomerDetail extends PureComponent {
 
     const { push } = this.props;
 
-    if (!this.props.data) {
+    if (_.isEmpty(this.props.data)) {
       return (
         <div>
           <NavBar

@@ -112,7 +112,7 @@ export default class ChartPieWidget extends PureComponent {
         && assetData[i].maketVal.toString().length <= 3) {
         showData.push({
           categoryName: assetData[i].categoryName,
-          maketVal: `${assetData[i].maketVal}元`,
+          maketVal: `${assetData[i].maketVal.toFixed(1)}元`,
           categoryId: assetData[i].categoryId,
           holdRate: Number.parseFloat(assetData[i].holdRate),
         });
@@ -120,14 +120,14 @@ export default class ChartPieWidget extends PureComponent {
         && assetData[i].maketVal.toString().length < 9) {
         showData.push({
           categoryName: assetData[i].categoryName,
-          maketVal: (assetData[i].maketVal / 10000).toString().indexOf('.') !== -1 ? `${(assetData[i].maketVal / 10000).toFixed(1)}万元` : `${(assetData[i].maketVal / 10000)}万元`,
+          maketVal: `${(assetData[i].maketVal / 10000).toFixed(1)}万元`,
           categoryId: assetData[i].categoryId,
           holdRate: Number.parseFloat(assetData[i].holdRate),
         });
       } else if (assetData[i].maketVal.toString().length >= 9) {
         showData.push({
           categoryName: assetData[i].categoryName,
-          maketVal: (assetData[i].maketVal / 100000000).toString().indexOf('.') !== -1 ? `${(assetData[i].maketVal / 100000000).toFixed(1)}亿元` : `${(assetData[i].maketVal / 100000000)}亿元`,
+          maketVal: `${(assetData[i].maketVal / 100000000).toFixed(1)}亿元`,
           categoryId: assetData[i].categoryId,
           holdRate: Number.parseFloat(assetData[i].holdRate),
         });
@@ -216,7 +216,7 @@ export default class ChartPieWidget extends PureComponent {
       title: {
         text: '资产',
       },
-      // width: 400,
+      width: '4rem',
       height: '4.8rem',
     };
 

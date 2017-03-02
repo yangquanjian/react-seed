@@ -212,32 +212,32 @@ export default class ChartLineWidget extends PureComponent {
     });
 
     return (
-      <div className="chart-line-section">
-        <div className="infoNum">
-          <div className={assetProfitPercent}>
-            <div className="number">{assetProfitRate}</div>
-            <div className="label">本月收益率</div>
+      <div>
+        <div className="chart-line-section">
+          <div className="infoNum">
+            <div className={assetProfitPercent}>
+              <div className="number">{assetProfitRate}</div>
+              <div className="label">本月收益率</div>
+            </div>
+            <div className={assetProfitValue}>
+              <div className="number">{assetProfit}</div>
+              <div className="label">本月收益（元）</div>
+            </div>
           </div>
-          <div className={assetProfitValue}>
-            <div className="number">{assetProfit}</div>
-            <div className="label">本月收益（元）</div>
-          </div>
+          <Chart {...options} className="chart-content">
+            <Chart.Line {...series} className="chart-line" />
+          </Chart>
         </div>
-        <div className="label-section">
-          <div className="left-section">
-            <div>{maxAssetProfit}</div>
-            <div>{averageAssetProfit}</div>
-            <div>{minAssetProfit}</div>
-          </div>
-          <div className="right-section">
-            <div>{maxAssetProfitRate}</div>
-            <div>{averageAssetProfitRate}</div>
-            <div>{minAssetProfitRate}</div>
-          </div>
+        <div className="left-section">
+          <div>{maxAssetProfit}</div>
+          <div>{averageAssetProfit}</div>
+          <div>{minAssetProfit}</div>
         </div>
-        <Chart {...options} className="chart-content">
-          <Chart.Line {...series} className="chart-line" />
-        </Chart>
+        <div className="right-section">
+          <div>{maxAssetProfitRate}</div>
+          <div>{averageAssetProfitRate}</div>
+          <div>{minAssetProfitRate}</div>
+        </div>
       </div>
     );
   }
