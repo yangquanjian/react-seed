@@ -1,7 +1,7 @@
 /**
-* @file layouts/Frame.js
-* @author maoquan(maoquan@htsc.com)
-*/
+ * @file layouts/Frame.js
+ * @author maoquan(maoquan@htsc.com)
+ */
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
@@ -53,7 +53,7 @@ class Frame extends Component {
   renderIcon(icon, isSelected = false) {
     const iconMap = {
       mission: 'renwu',
-      product: 'all',
+      product: 'chanpin',
       customer: 'customer',
       profile: 'wode',
     };
@@ -95,7 +95,7 @@ class Frame extends Component {
     let findTabItem = false;
     const tabs = tabConfig.map(
       (item) => {
-        if (pathname.slice(1).startsWith(item.key)) {
+        if (pathname.slice(1).indexOf(item.key) === 0) {
           findTabItem = true;
           return this.renderTabBarItem({ ...item, component: children, isSelected: true });
         }

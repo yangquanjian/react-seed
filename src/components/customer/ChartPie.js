@@ -1,6 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { autobind } from 'core-decorators';
-import classnames from 'classnames';
+// import classnames from 'classnames';
+import _ from 'lodash';
 import Chart from '../chart';
 import './ChartPie.less';
 
@@ -18,9 +19,6 @@ export default class ChartPieWidget extends PureComponent {
     this.state = {
       isLoading: false,
     };
-  }
-
-  componentWillReceiveProps() {
   }
 
   @autobind
@@ -47,7 +45,8 @@ export default class ChartPieWidget extends PureComponent {
           x: 'center',
           y: 'center',
         },
-        height: 300,
+        height: '4.8rem',
+        width: '100%',
       };
 
       const series = {
@@ -149,7 +148,8 @@ export default class ChartPieWidget extends PureComponent {
           x: 'center',
           y: 'center',
         },
-        height: 300,
+        height: '4.8rem',
+        width: '100%',
       };
 
       const series = {
@@ -203,7 +203,7 @@ export default class ChartPieWidget extends PureComponent {
       });
     }
 
-    const fuzhaiData = showData.find(item => (
+    const fuzhaiData = _.find(showData, item => (
       item.categoryName.toString().indexOf('负债') !== -1
     ));
 
@@ -212,7 +212,7 @@ export default class ChartPieWidget extends PureComponent {
         text: '资产',
       },
       // width: 400,
-      height: 300,
+      height: '4.8rem',
     };
 
     const finalArrData = [];
@@ -283,22 +283,25 @@ export default class ChartPieWidget extends PureComponent {
       hoverAnimation: false,
       data: pieData,
       color: colorArray,
+      silent: true, // 不响应鼠标事件
     };
 
-    const fuzhai = classnames({
-      fuzhai: fuzhaiData && Object.keys(fuzhaiData).length > 0,
-      noneFuzhai: !fuzhaiData,
-    });
+    const fuzhaiHtml = [];
+    if (!_.isEmpty(fuzhaiData)) {
+      fuzhaiHtml.push(<div key="fuzhai" className="fuzhai">
+        <span className="fuzhaiLabel">负债</span>
+        <span className="fuzhaiContent">{`-${fuzhaiData.maketVal}`}</span>
+      </div>);
+    }
 
     return (
       <div className="chart-pie-section">
         <Chart {...options} className="chart-content">
           <Chart.Pie {...series} className="chart-pie" />
         </Chart>
-        <div className={fuzhai}>
-          <span className="fuzhaiLabel">负债</span>
-          <span className="fuzhaiContent">{fuzhaiData.maketVal}</span>
-        </div>
+        {
+          fuzhaiHtml
+        }
         <div className="assetDescription">
           {
             finalArrData

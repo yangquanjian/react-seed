@@ -18,11 +18,16 @@ import { getQuery } from './utils/helper';
 import { navToLogin } from './utils/cordova';
 import api from './api';
 
+const extraEnhancers = [];
+if (persistConfig.active) {
+  extraEnhancers.push(autoRehydrate());
+}
+
 // 1. Initialize
 const app = dva({
   history: browserHistory,
   onAction: createLogger(),
-  extraEnhancers: [autoRehydrate()],
+  extraEnhancers,
   onError(e) {
     console.log(e);
     const { message } = e;
@@ -50,6 +55,7 @@ app.use(createLoading());
 app.model(require('./models/product'));
 app.model(require('./models/global'));
 app.model(require('./models/customer'));
+app.model(require('./models/search'));
 
 // 4. Router
 app.router(routerConfig);
@@ -58,7 +64,9 @@ app.router(routerConfig);
 app.start('#app');
 
 // 6. redux-persist
-persistStore(app._store, persistConfig); // eslint-disable-line
+if (persistConfig.active) {
+  persistStore(app._store, persistConfig); // eslint-disable-line
+}
 
 // fastclick
 FastClick.attach(document.body);

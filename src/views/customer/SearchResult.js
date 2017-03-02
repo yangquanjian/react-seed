@@ -11,12 +11,13 @@ import SearchList from '../../components/customer/SearchList';
 import Searchable from '../../components/customer/Searchable';
 
 const mapStateToProps = state => ({
-  searchInfo: state.customer.searchInfo,
+  searchInfo: state.search.customer,
+  loading: state.loading.models.search,
 });
 
 const mapDispatchToProps = {
   doSearch: query => ({
-    type: 'customer/search',
+    type: 'search/customer',
     payload: query,
   }),
   push: routerRedux.push,

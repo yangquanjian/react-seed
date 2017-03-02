@@ -8,6 +8,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
 
+import NavBar from '../../components/common/NavBar';
 import CustomerDetailHeader from '../../components/customer/DetailHeader';
 // import ChartWidget from '../../components/customer/Chart';
 // import RecommendProductList from '../../components/customer/RecommendProductList';
@@ -25,24 +26,25 @@ const mapDispatchToProps = {
     payload: { custId },
   }),
   push: routerRedux.push,
+  goBack: routerRedux.goBack,
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class CustomerDetail extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
+    goBack: PropTypes.func.isRequired,
     // recommendList: PropTypes.array.isRequired,
+    push: PropTypes.func,
   }
 
   static defaultProps = {
     data: {},
-    // recommendList: [],
+    push: () => { },
   };
 
-  componentDidMount() {
-  }
-
   render() {
+    const { goBack } = this.props;
     const {
       custBaseInfo,
       monthlyProfits,
@@ -52,23 +54,37 @@ export default class CustomerDetail extends PureComponent {
       custId,
     } = this.props.data;
 
+    const { push } = this.props;
+
     if (!custBaseInfo) {
       return null;
     }
+
     // <RecommendProductList {...this.props} />
     return (
       <div>
+        <NavBar
+          iconName={'fanhui'}
+          onLeftClick={goBack}
+        >客户详情</NavBar>
         <CustomerDetailHeader
           data={custBaseInfo}
           custSor={custSor}
           custNumber={custNumber}
           custId={custId}
+          push={push}
         />
         <TabBar
           chartData={monthlyProfits}
           assetData={custMoneyDistributionDTOList}
         />
-        <CustomerDetailFooter lastCommission={custBaseInfo.lastCommission} />
+        <CustomerDetailFooter
+          lastCommission={custBaseInfo.lastCommission}
+          push={push}
+          custSor={custSor}
+          custNumber={custNumber}
+          custId={custId}
+        />
       </div>
     );
   }

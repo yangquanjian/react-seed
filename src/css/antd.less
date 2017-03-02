@@ -1,14 +1,29 @@
 /**
  * tabbar
  */
-.@{tabbar-prefix-cls} {
-  .@{tabbar-prefix-cls}-tab {
-    &-title {
-      font-size: 20px;
+ .app {
+
+  .@{tabbar-prefix-cls} {
+    .@{tabbar-prefix-cls}-tab {
+      &-title {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .@{searchPrefixCls} {
+    &.@{searchPrefixCls}-start {
+      .@{searchPrefixCls}-input {
+        input[type="search"] {
+          padding-left: 0;
+        }
+      }
     }
   }
 }
 
+
+// modify by sunweibin ==begin
 /**
  * foot tablit am-tab-bar-bar
  */
@@ -18,9 +33,11 @@
 /**
  * foot tablist tab iconfont
  */
+
 .am-tab-bar-tab-icon {
   & .iconfont {
     font-size: 40px;
   }
-
 }
+
+// modify by sunweibin ==end

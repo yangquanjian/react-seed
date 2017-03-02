@@ -14,7 +14,7 @@ export default class CustomerDetailHeader extends PureComponent {
 
   static propTypes = {
     data: PropTypes.object.isRequired,
-    push: PropTypes.func.isRequired,
+    push: PropTypes.func,
     custSor: PropTypes.string.isRequired,
     custNumber: PropTypes.string.isRequired,
     custId: PropTypes.string.isRequired,
@@ -24,17 +24,25 @@ export default class CustomerDetailHeader extends PureComponent {
     push: () => { },
     data: {},
     custSor: '',
-    custNumber: 0,
-    custId: 0,
+    custNumber: '',
+    custId: '',
   }
 
   /**
-   * 获取基本信息
+   * 跳转基本信息页面
    */
   @autobind
-  goToBasicInfo({ custId, custNumber, custSor }) {
-    const { push } = this.props;
-    push(`customer/custBasic/${custId}/${custNumber}/${custSor}`);
+  handleClick() {
+    const { push, custId, custNumber, custSor } = this.props;
+    // push({
+    //   pathname: '/custBasic',
+    //   query: {
+    //     custId,
+    //     custNumber,
+    //     custSor,
+    //   },
+    // });
+    push(`/custBasic/${custNumber}/${custSor}/${custId}`);
   }
 
   @autobind
@@ -53,7 +61,7 @@ export default class CustomerDetailHeader extends PureComponent {
           custId: custId || '- -',
           custTotalAsset: AccountFilter(dataSource.totAsset),
         };
-      } else if (dataSource.custType === 'org') {
+      } else if (custSor === 'org') {
         /** 机构客户 */
         detailData = {
           /** 所属行业 */
@@ -70,15 +78,6 @@ export default class CustomerDetailHeader extends PureComponent {
     }
 
     return detailData;
-  }
-
-  /**
-   * 处理用户点击事件
-   */
-  @autobind
-  handleClick(custId) {
-    const { push } = this.props;
-    push(`customer/basicInfo?custId=${custId}`);
   }
 
   render() {
@@ -115,14 +114,14 @@ export default class CustomerDetailHeader extends PureComponent {
 
     if (filteredData.custType === 'per') {
       return (
-        <div>
+        <div className="detailHeaderSection">
           <div className="basic">
             <div className="headerLeft">
               <i className="perCustIconSection"><Icon {...personCust} /></i>
               <div className="nameSection">
                 <span className="custName">{filteredData.custName}</span>
                 <div className="gradeIdSection">
-                  <img alt="" className={grade} />
+                  <i className={grade} />
                   <span className="custId">{filteredData.custId}</span>
                 </div>
               </div>
@@ -136,7 +135,7 @@ export default class CustomerDetailHeader extends PureComponent {
           <div className="headerBottom">
             <div className="age">{filteredData.custAge}岁</div>
             <div className="sex">{filteredData.custGender}</div>
-            <div className="moreInfo">
+            <div className="moreInfo" onClick={this.handleClick}>
               <Icon {...more} />
               <div className="">查看更多</div>
             </div>
@@ -146,14 +145,14 @@ export default class CustomerDetailHeader extends PureComponent {
       );
     } else if (filteredData.custType === 'org') {
       return (
-        <div>
+        <div className="detailHeaderSection">
           <div className="basic">
             <div className="headerLeft">
               <i className="orgCustIconSection"><Icon {...orgCust} /></i>
               <div className="nameSection">
                 <span className="custName">机构客户</span>
                 <div className="gradeIdSection">
-                  <img alt="" className={grade} />
+                  <i className={grade} />
                   <span className="custId">{filteredData.custId}</span>
                 </div>
               </div>
@@ -167,7 +166,7 @@ export default class CustomerDetailHeader extends PureComponent {
           <div className="headerBottom">
             <div className="industry">{filteredData.industry}</div>
             <div className="acctType">{filteredData.acctType}</div>
-            <div className="moreInfo">
+            <div className="moreInfo" onClick={this.handleClick}>
               <Icon {...more} />
               <div className="">查看更多</div>
             </div>

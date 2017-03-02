@@ -1,17 +1,18 @@
-@color_1: #959595;
-@color_2: #f4b905;
-@color_3: #c3483b;
-@color_4: #df8d84;
-@background_color_1: #faf6f6;
+@detail_header_color_1: #959595;
+@detail_header_color_2: #f4b905;
+@detail_header_color_3: #c3483b;
+@detail_header_color_4: #df8d84;
+@background_detail_header_color_1: #faf6f6;
 
-.asset {
-	margin-left: 150px;
+.detailHeaderSection{
+  .asset {
+	// margin-left: 150px;
 	text-align: right;
 	width: 50%;
 	font-size: 36px;
 	font-weight: 600;
-}
-.basic {
+  }
+  .basic {
 	padding-bottom: 25px;
 	padding-left: 28px;
 	padding-top: 28px;
@@ -20,56 +21,56 @@
 	background: #ffffff;
 	align-items: center;
 	justify-content: flex-start;
-}
-.headerLeft {
+  }
+  .headerLeft {
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
 	width: 50%;
-}
-.basicSplit {
+  }
+  .basicSplit {
 	display: block;
 	border-bottom: 1px solid #efefef;
-}
-.headerBottom {
-	display: flex;
+  }
+  .headerBottom {
+    display: flex;
 	justify-content: flex-start;
 	align-items: center;
 	padding-top: 15px;
 	padding-bottom: 15px;
 	background: #ffffff;
-}
-.age {
+  }
+  .age {
 	width: 33.3%;
 	text-align: center;
 	border-right: 1px solid #dddddd;
 	box-shadow: 0 0 black;
 	font-size: 30px;
-	color: @color_1;
-}
-.industry {
+	color: @detail_header_color_1;
+  }
+  .industry {
 	width: 33.3%;
 	text-align: center;
 	border-right: 1px solid #dddddd;
 	box-shadow: 0 0 black;
 	font-size: 30px;
-	color: @color_1;
-}
-.sex {
+	color: @detail_header_color_1;
+  }
+  .sex {
 	width: 33.3%;
 	text-align: center;
 	border-right: 1px solid #dddddd;
 	font-size: 28px;
-	color: @color_1;
-}
-.acctType {
-	width: 33.3%;
+	color: @detail_header_color_1;
+  }
+  .acctType {
+    width: 33.3%;
 	text-align: center;
 	border-right: 1px solid #dddddd;
 	font-size: 28px;
-	color: @color_1;
-}
-.moreInfo {
+	color: @detail_header_color_1;
+  }
+  .moreInfo {
 	width: 33.3%;
 	text-align: center;
 	font-size: 24px;
@@ -77,59 +78,89 @@
 	justify-content: flex-start;
 	align-items: center;
 	flex-direction: column;
-}
-.headerSplit {
+  }
+  .headerSplit {
 	display: block;
 	border-bottom: 20px solid #efefef;
-}
-.nameSection {
+  }
+  .nameSection {
 	padding-left: 15px;
-}
-.moneyRight {
+  }
+  .moneyRight {
 	padding-right: 10px;
-	color: @color_2;
+	color: @detail_header_color_2;
 	vertical-align: middle;
-}
-.more {
-	color: @color_3;
+  }
+  .more {
+	color: @detail_header_color_3;
 	font-size: 40px;
-}
-.custName {
+  }
+  .custName {
 	font-size: 32px;
-}
-.custId {
+  }
+  .custId {
 	font-size: 24px;
-}
-.gradeIdSection {
+	white-space: nowrap;
+    padding-left: 10px;
+  }
+  .gradeIdSection {
 	padding-top: 5px;
-}
-.orgIcon {
-	color: @color_4;
+	display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .orgIcon {
+	color: @detail_header_color_4;
 	font-size: 60px;
-}
-.custTitle {
-	color: @color_4;
+  }
+  .custTitle {
+	color: @detail_header_color_4;
 	font-size: 60px;
-}
-.orgCustIconSection {
+  }
+  .orgCustIconSection {
 	width: 100px;
 	height: 100px;
 	border: 1px solid #faf0f0;
 	border-radius: 100px;
-	background-color: @background_color_1;
+	background-color: @background_detail_header_color_1;
 	text-align: center;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
-.perCustIconSection {
+  }
+  .perCustIconSection {
 	width: 100px;
 	height: 100px;
 	border: 1px solid #faf0f0;
 	border-radius: 100px;
-	background-color: @background_color_1;
+	background-color: @background_detail_header_color_1;
 	text-align: center;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+  }
+  .emptyCard{
+	background: url('../../../static/img/emptyCard.png');
+  }
+  .goldCard{
+	background: url('../../../static/img/goldenCard.png');
+  }
+  .silverCard{
+	background: url('../../../static/img/silverCard.png');
+  }
+  .diamondCard{
+	background: url('../../../static/img/diamondCard.png');
+  }
+  .financeCard{
+	background: url('../../../static/img/financeCard.png');
+  }
+  .whiteGoldCard{
+	background: url('../../../static/img/whGoldenCard.png');
+  }
+  .emptyCard,.goldCard,.silverCard,.diamondCard,.financeCard,.whiteGoldCard{
+    width: 90px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-size: 90px 30px;
+  }
 }

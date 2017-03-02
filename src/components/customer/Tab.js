@@ -1,7 +1,7 @@
 
 
 import React, { PropTypes, PureComponent } from 'react';
-import { autobind } from 'core-decorators';
+// import { autobind } from 'core-decorators';
 
 import { Tabs } from 'antd-mobile';
 
@@ -31,39 +31,11 @@ export default class TabBar extends PureComponent {
 
     this.state = {
       isLoading: false,
-      custMoneyDistributionDTOList: [],
-      dataSource: [],
     };
   }
 
-  componentDidMount() {
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { chartData, assetData } = nextProps;
-    if (chartData !== this.props.chartData && assetData !== this.props.assetData) {
-      this.setState({
-        isLoading: false,
-        dataSource: chartData,
-        custMoneyDistributionDTOList: assetData,
-      });
-    }
-  }
-
-  /**
-   * 处理用户点击事件
-   */
-  @autobind
-  handleClick() {
-  }
-
-  @autobind
-  handleChange(key) {
-    console.log(key);
-  }
-
   render() {
-    const { dataSource, custMoneyDistributionDTOList } = this.state;
+    const { chartData: dataSource, assetData: custMoneyDistributionDTOList } = this.props;
     if (!dataSource) {
       return null;
     }
@@ -84,11 +56,10 @@ export default class TabBar extends PureComponent {
       <div className="tab-bar-section">
         <Tabs
           defaultActiveKey="1"
-          onChange={this.handleChange}
           className="tabs-bar"
           underlineColor="none"
           activeUnderlineColor="none"
-          onTabClick={this.handleClick} swipeable={false} animated tabBarPosition="top"
+          swipeable={false} animated tabBarPosition="top"
         >
           <TabPane tab="资产构成" key="1" className="assetTab">
             <div style={pieTabStyle} className="pieTabContent">

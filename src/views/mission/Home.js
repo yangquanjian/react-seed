@@ -22,7 +22,9 @@ export default function MissionHome(props) {
       <br />
       <p><Link to="/custbasic/02004642/org/1">机构客户 -- 基本信息</Link></p>
       <br />
-      <p><Link to="/custContact/02004642">个人客户 -- 联系方式</Link></p>
+      <p><Link to="/custContactPer/02004642/per/1-EX-807">个人客户 -- 联系方式</Link></p>
+      <br />
+      <p><Link to="/custContactOrg/02006619/org/1-8G-4516">机构客户 -- 联系方式</Link></p>
       <br />
       <p><Link to="/serviceList/02004642">客户服务记录</Link></p>
     </div>

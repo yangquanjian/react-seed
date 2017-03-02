@@ -1,5 +1,8 @@
 @import "../../css/util";
 
+body{
+  background-color: #f2f2f2;
+}
 .my-drawer {
   position: relative;
   overflow: auto;
@@ -14,11 +17,12 @@
   padding: 0;
 }
 .my-drawer.am-drawer-open{
-	position: fixed;
+  position: fixed;
+  z-index: 99;
 }
 .my-drawer .am-drawer-open{
-	z-index: 999;
+  z-index: 999;
 }
 .my-drawer .am-drawer-overlay{
-	z-index:199
+  z-index:199
 }
