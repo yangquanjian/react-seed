@@ -75,6 +75,12 @@ export default (ComposedComponent) => {
       this.syncHistoryToState();
     }
 
+    getNavMethod() {
+      const { push, replace } = this.props;
+      const isInResultPage = this.isInResultPage();
+      return isInResultPage ? replace : push;
+    }
+
     async getHistoryList() {
       let historyList = await localforage.getItem(HISTORY_KEY);
       if (!historyList) {
@@ -139,8 +145,14 @@ export default (ComposedComponent) => {
 
     @autobind
     handleSelectChange(value) {
-      this.setState({
-        typeValue: value,
+      const nav = this.getNavMethod();
+      const { location: { pathname, query } } = this.props;
+      nav({
+        pathname,
+        query: {
+          ...query,
+          custQueryType: value,
+        },
       });
     }
 
@@ -179,9 +191,8 @@ export default (ComposedComponent) => {
       if (!keyword) {
         return;
       }
-      const { push, replace, location: { query } } = this.props;
-      const isInResultPage = this.isInResultPage();
-      const nav = isInResultPage ? replace : push;
+      const { location: { query } } = this.props;
+      const nav = this.getNavMethod();
       if (query.keyword !== keyword) {
         await this.saveHistory(keyword);
         nav({
