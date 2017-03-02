@@ -68,11 +68,17 @@ export default (ComposedComponent) => {
     componentWillReceiveProps(nextProps) {
       const { location: { query: { keyword, custQueryType } } } = nextProps;
       this.setState({
-        mode: SHOW_MODE.NORMAL,
+        mode: this.state.mode || SHOW_MODE.NORMAL,
         value: this.isInResultPage() ? decodeURIComponent(keyword) : '',
         typeValue: custQueryType || SELECT_OPTIONS[0].value,
       });
       this.syncHistoryToState();
+    }
+
+    getNavMethod() {
+      const { push, replace } = this.props;
+      const isInResultPage = this.isInResultPage();
+      return isInResultPage ? replace : push;
     }
 
     async getHistoryList() {
@@ -139,8 +145,14 @@ export default (ComposedComponent) => {
 
     @autobind
     handleSelectChange(value) {
-      this.setState({
-        typeValue: value,
+      const nav = this.getNavMethod();
+      const { location: { pathname, query } } = this.props;
+      nav({
+        pathname,
+        query: {
+          ...query,
+          custQueryType: value,
+        },
       });
     }
 
@@ -179,9 +191,8 @@ export default (ComposedComponent) => {
       if (!keyword) {
         return;
       }
-      const { push, replace, location: { query } } = this.props;
-      const isInResultPage = this.isInResultPage();
-      const nav = isInResultPage ? replace : push;
+      const { location: { query } } = this.props;
+      const nav = this.getNavMethod();
       if (query.keyword !== keyword) {
         await this.saveHistory(keyword);
         nav({
