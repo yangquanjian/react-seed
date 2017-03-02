@@ -68,7 +68,7 @@ export default (ComposedComponent) => {
     componentWillReceiveProps(nextProps) {
       const { location: { query: { keyword, custQueryType } } } = nextProps;
       this.setState({
-        mode: SHOW_MODE.NORMAL,
+        mode: this.state.mode || SHOW_MODE.NORMAL,
         value: this.isInResultPage() ? decodeURIComponent(keyword) : '',
         typeValue: custQueryType || SELECT_OPTIONS[0].value,
       });
