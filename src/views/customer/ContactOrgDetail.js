@@ -120,7 +120,7 @@ export default class ContactOrgDetail extends PureComponent {
             <Icon className="" type="favorite" />
             <div className="data">
               <p className="label">是否主要</p>
-              <p className="contain">{(data.mainFlag === true) ? '主要' : '非主要'}</p>
+              <p className="contain">{(data.mainFlag === true) ? '是' : '否'}</p>
             </div>
           </div>
           {renderRow(arr1, '手机号码', 'mobilephone')}
