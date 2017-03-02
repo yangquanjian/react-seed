@@ -8,12 +8,14 @@ const Brief = Item.Brief;
 
 export default class SearchItem extends PureComponent {
   static propTypes = {
+    query: PropTypes.string,
     data: PropTypes.object.isRequired,
     extra: PropTypes.string,
     onClick: PropTypes.func,
   };
 
   static defaultProps = {
+    query: '',
     extra: '',
     onClick: () => {},
   }
@@ -32,13 +34,13 @@ export default class SearchItem extends PureComponent {
   }
 
   render() {
-    const { data: { custName, custType }, extra } = this.props;
+    const { data: { custName, custType }, extra, query } = this.props;
     return (
       <Item
         thumb={this.renderCustomerIcon(custType)}
         onClick={this.handleClick}
       >
-        {custName}
+        <span dangerouslySetInnerHTML={{ __html: custName.replace(new RegExp(query, 'g'), `<i style="font-style:normal;color:#da4e40;">${query}</i>`) }} />
         <Brief>{extra}</Brief>
       </Item>
     );

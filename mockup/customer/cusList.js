@@ -12,7 +12,7 @@ exports.response = function (req, res) {
       "resultList": [
         {
           "cusId": "1-3AB90H2",
-          "custName": "vTQpI",
+          "custName": "孙伟斌孙",
           "brokerNumber": "666600983047",
           "custLevelCode": "805040",
           "custLevelName": "空",
@@ -22,7 +22,7 @@ exports.response = function (req, res) {
         },
         {
           "cusId": "1-3A4L9K0",
-          "custName": "tNVPM",
+          "custName": "孙伟斌孙",
           "brokerNumber": "666600965469",
           "custLevelCode": "805040",
           "custLevelName": "空",
