@@ -29,11 +29,11 @@ export default class CustomerInfo extends PureComponent {
 
   static defaultProps = {
     list: {},
-    getList: () => { },
-    onOpenChange: () => { },
+    getList: () => {},
+    onOpenChange: () => {},
     custQueryType: 'personal',
     location: {},
-    replace: () => { },
+    replace: () => {},
     pageNum: 1,
     push: () => {},
   }
@@ -47,8 +47,8 @@ export default class CustomerInfo extends PureComponent {
       dataSource: prepareDataSource(resultList),
       isLoading: false,
       orderType: query.orderType ? query.orderType : 'desc',
-      typeClass: 'all',
-      levClass: 'all',
+      typeClass: query.custNature ? 'sel' : 'all',
+      levClass: query.custLevel ? 'sel' : 'all',
     };
   }
 
@@ -94,6 +94,46 @@ export default class CustomerInfo extends PureComponent {
   getLevClass() {
     const { levClass } = this.state;
     return levClass === 'all' ? 'cusLev' : 'cusLevSel';
+  }
+
+  @autobind
+  getDefaultType() {
+    const { custNature = '' } = this.props.location.query;
+    switch (custNature) {
+      case '':
+        return '客户性质';
+      case 'per':
+        return '个人客户';
+      case 'org':
+        return '机构客户';
+      case 'prod':
+        return '产品客户';
+      default:
+        return '客户性质';
+    }
+  }
+
+  @autobind
+  getDefaultLev() {
+    const { custLevel = '' } = this.props.location.query;
+    switch (custLevel) {
+      case '':
+        return '所有等级';
+      case '805010':
+        return '钻石卡';
+      case '805015':
+        return '白金卡';
+      case '805020':
+        return '金卡';
+      case '805025':
+        return '银卡';
+      case '805030':
+        return '理财卡';
+      case '805040':
+        return '空';
+      default:
+        return '所有等级';
+    }
   }
 
   @autobind
@@ -184,13 +224,13 @@ export default class CustomerInfo extends PureComponent {
     const { Option } = Select;
     return (
       <div>
-        <Select className={this.getTypeClass()} defaultValue="客户性质" dropdownClassName="filterList" onChange={this.handleTypeChange}>
+        <Select className={this.getTypeClass()} defaultValue={this.getDefaultType()} dropdownClassName="filterList" onChange={this.handleTypeChange}>
           <Option value="all" text="客户性质">所有客户<Icon type="selected" /></Option>
           <Option value="per" text="个人客户">个人客户<Icon type="selected" /></Option>
           <Option value="org" text="机构客户">机构客户<Icon type="selected" /></Option>
           <Option value="prod" text="产品客户">产品客户<Icon type="selected" /></Option>
         </Select>
-        <Select className={this.getLevClass()} defaultValue="客户等级" dropdownClassName="filterList" onChange={this.handleLevChange}>
+        <Select className={this.getLevClass()} defaultValue={this.getDefaultLev()} dropdownClassName="filterList" onChange={this.handleLevChange}>
           <Option value="all" text="所有等级">所有等级<Icon type="selected" /></Option>
           <Option value="805010" text="钻石卡">钻石卡<Icon type="selected" /></Option>
           <Option value="805015" text="白金卡">白金卡<Icon type="selected" /></Option>
