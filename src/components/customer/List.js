@@ -2,7 +2,6 @@
  * @file customer/List.js
  * @author fengwencong
  */
-
 import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
 import { ListView } from 'antd-mobile';
@@ -41,11 +40,14 @@ export default class CustomerInfo extends PureComponent {
   constructor(props) {
     super(props);
 
+    const isError = props.list ? false : true;
     const { resultList = [] } = props.list ? props.list : {};
     const { location: { query } } = this.props;
     this.state = {
       dataSource: prepareDataSource(resultList),
       isLoading: false,
+      isEnd: false,
+      isError,
       orderType: query.orderType ? query.orderType : 'desc',
       typeClass: query.custNature ? 'sel' : 'all',
       levClass: query.custLevel ? 'sel' : 'all',
@@ -53,17 +55,28 @@ export default class CustomerInfo extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { list, location: { query } } = nextProps;
-    const { location: { query: oldQuery } } = this.props;
+    const { custQueryType, list, location: { query } } = nextProps;
+    const { custQueryType: oldCustQuery, location: { query: oldQuery } } = this.props;
     const { resultList = [] } = list || {};
-    if (list !== this.props.list) {
+    if (!_.isEqual(list, this.props.list)) {
       this.setState({
         dataSource: prepareDataSource(resultList),
         isLoading: false,
+        isEnd: _.isEmpty(resultList) ? true : false,
+        isError: list ? false : true,
       });
     }
-    if (!_.isEqual(query, oldQuery)) {
-      this.refreshList(nextProps);
+    //条件变化
+    if (!_.isEqual(query, oldQuery) || custQueryType !== oldCustQuery) {
+      const { isLoading } = this.state;
+      if (!isLoading) {
+        this.setState(
+          {
+            isLoading: true,
+            isEnd: false,
+            isError: false,
+          }, this.refreshList(nextProps));
+      };
     }
   }
 
@@ -71,7 +84,12 @@ export default class CustomerInfo extends PureComponent {
   onEndReached() {
     const { isLoading } = this.state;
     if (!isLoading) {
-      this.setState({ isLoading: true }, this.refreshMore);
+      this.setState(
+        {
+          isLoading: true,
+          isEnd: false,
+          isError: false,
+        }, this.refreshMore);
     }
   }
 
@@ -94,46 +112,6 @@ export default class CustomerInfo extends PureComponent {
   getLevClass() {
     const { levClass } = this.state;
     return levClass === 'all' ? 'cusLev' : 'cusLevSel';
-  }
-
-  @autobind
-  getDefaultType() {
-    const { custNature = '' } = this.props.location.query;
-    switch (custNature) {
-      case '':
-        return '客户性质';
-      case 'per':
-        return '个人客户';
-      case 'org':
-        return '机构客户';
-      case 'prod':
-        return '产品客户';
-      default:
-        return '客户性质';
-    }
-  }
-
-  @autobind
-  getDefaultLev() {
-    const { custLevel = '' } = this.props.location.query;
-    switch (custLevel) {
-      case '':
-        return '所有等级';
-      case '805010':
-        return '钻石卡';
-      case '805015':
-        return '白金卡';
-      case '805020':
-        return '金卡';
-      case '805025':
-        return '银卡';
-      case '805030':
-        return '理财卡';
-      case '805040':
-        return '空';
-      default:
-        return '所有等级';
-    }
   }
 
   @autobind
@@ -195,7 +173,7 @@ export default class CustomerInfo extends PureComponent {
   refreshMore() {
     const { custQueryType, list, location: { query } } = this.props;
     const { page = {} } = list || {};
-    if (!_.isEmpty(page) && !(page.curPageNum === page.totalPageNum)) {
+    if (!_.isEmpty(page) && !(page.curPageNum >= page.totalPageNum)) {
       this.props.getList({
         ...query,
         custQueryType,
@@ -204,6 +182,8 @@ export default class CustomerInfo extends PureComponent {
     } else {
       this.setState({
         isLoading: false,
+        isEnd: true,
+        isError: false,
       });
     }
   }
@@ -222,15 +202,16 @@ export default class CustomerInfo extends PureComponent {
   @autobind
   renderHeader() {
     const { Option } = Select;
+    const { location: { query } } = this.props;
     return (
       <div>
-        <Select className={this.getTypeClass()} defaultValue={this.getDefaultType()} dropdownClassName="filterList" onChange={this.handleTypeChange}>
+        <Select className={this.getTypeClass()} value={query.custNature || 'all'} dropdownClassName="filterList" onChange={this.handleTypeChange}>
           <Option value="all" text="客户性质">所有客户<Icon type="selected" /></Option>
           <Option value="per" text="个人客户">个人客户<Icon type="selected" /></Option>
           <Option value="org" text="机构客户">机构客户<Icon type="selected" /></Option>
           <Option value="prod" text="产品客户">产品客户<Icon type="selected" /></Option>
         </Select>
-        <Select className={this.getLevClass()} defaultValue={this.getDefaultLev()} dropdownClassName="filterList" onChange={this.handleLevChange}>
+        <Select className={this.getLevClass()} value={query.custLevel || 'all'} dropdownClassName="filterList" onChange={this.handleLevChange}>
           <Option value="all" text="所有等级">所有等级<Icon type="selected" /></Option>
           <Option value="805010" text="钻石卡">钻石卡<Icon type="selected" /></Option>
           <Option value="805015" text="白金卡">白金卡<Icon type="selected" /></Option>
@@ -272,10 +253,21 @@ export default class CustomerInfo extends PureComponent {
 
   @autobind
   renderFooter() {
-    const { isLoading } = this.state;
+    const { isLoading, isError, isEnd } = this.state;
+    let text = '';
+    if (isError) {
+      text = '数据获取失败';
+    } else if (isEnd) {
+      text = '已经到底了';
+    } else if (isLoading){
+      text = '加载中...';
+    } else {
+      text = '上拉加载更多'
+    }
+    console.log(text);
     return (
       <div>
-        {isLoading ? '加载中...' : '加载完毕'}
+        {text}
       </div>
     );
   }

@@ -60,7 +60,7 @@ class InfoItem extends PureComponent {
         <div className="customerFund">
           <h3><Icon type="money" />资产量</h3>
           <div className="flexBox cusFundBox">
-            <div className="fundBlank lineBlank cusFund">
+            <div className="fundBlank lineBlank cusFund splitBlank">
               <Icon type="zhuzhuangtulv" />
               <p className="numLabel">{this.numFormat(this.getData('netNewCusAsset'))}</p>
               <p className="txtLabel">净新增客户资产(万)</p>
@@ -72,7 +72,7 @@ class InfoItem extends PureComponent {
             </div>
           </div>
           <div className="flexBox cusFundBox">
-            <div className="fundBlank dealFund">
+            <div className="fundBlank dealFund splitBlank">
               <Icon type="zhuzhuangtulv" />
               <p className="numLabel">{this.numFormat(this.getData('totalZHVolume'))}</p>
               <p className="txtLabel">累计综合交易量(万)</p>
