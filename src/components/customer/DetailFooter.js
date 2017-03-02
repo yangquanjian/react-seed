@@ -61,7 +61,7 @@ export default class CustomerDetailFooter extends PureComponent {
 
     let lastCommissionHtml = '';
 
-    const tempArr = lastCommissionDate.split(/[-/]/);
+    const tempArr = lastCommissionDate.split(/[- /]/);
 
     if (lastCommissionDate && lastCommissionDate.length > 0) {
       lastCommissionHtml = `最近一次于${tempArr[2]}.${tempArr[0]}.${tempArr[1]}`;
