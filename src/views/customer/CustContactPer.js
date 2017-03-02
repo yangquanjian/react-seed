@@ -77,7 +77,7 @@ export default class CustContactPer extends PureComponent {
 
   getBaseKey(key) {
     const data = this.props.data;
-    if (!data) return null;
+    if (!data || !data.custBaseInfo) return null;
     const value = data.custBaseInfo[key];
     return (!value) ? '--' : value;
   }

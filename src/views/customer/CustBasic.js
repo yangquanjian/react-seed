@@ -75,7 +75,7 @@ export default class CustBasic extends PureComponent {
 
   getMapKey(key) {
     const dataModel = this.getDataModel();
-    const value = (!dataModel[key] || dataModel[key] === '--') ? '--' : dataModel[key];
+    const value = (!dataModel || !dataModel[key] || dataModel[key] === '--') ? '--' : dataModel[key];
     return value;
   }
 
@@ -97,13 +97,11 @@ export default class CustBasic extends PureComponent {
     return (type === 'per') ? data.customerInfoPer : data.customerInfoOrg;
   }
 
-  contactData(arr, obj) {
+  contactData(arr, obj = {}) {
     const tempArr = arr;
     arr.map((item, index) => {
-      let value = obj[item.type];
-      if (!value || value === '--') {
-        value = '--';
-      } else if (item.type === 'idValDate' || item.type === 'foundTime' || item.type === 'openTime' || item.type === 'lastCommission') {
+      let value = (!obj || !obj[item.type]) ? '--' : obj[item.type];
+      if (item.type === 'idValDate' || item.type === 'foundTime' || item.type === 'openTime' || item.type === 'lastCommission') {
         value = (value.length === 10) ? value.replace(/-/g, '/') : value.slice(0, 10);
       }
       tempArr[index].value = value;
@@ -117,7 +115,20 @@ export default class CustBasic extends PureComponent {
     const { title, params, goBack } = this.props;
     const dataModel = this.getDataModel();
     if (!dataModel) {
-      return null;
+      return (
+        <div className="custBasic">
+          <NavBar
+            iconName={'fanhui'}
+            onLeftClick={goBack}
+          >
+            {title}
+          </NavBar>
+          <div className="null-msg">
+            <img className="null-icon" alt="空数据" src="../../../static/img/none.png" />
+            <p>暂无数据</p>
+          </div>
+        </div>
+      );
     }
     const labelArr = (this.props.params.custSor === 'per') ? per : org;
     const getCustIcon = this.getCustIcon();

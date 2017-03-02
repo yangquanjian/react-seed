@@ -70,11 +70,10 @@ export default class SearchList extends PureComponent {
     const {
       doSearch,
       searchInfo: { page },
-      location: { query: { keyword, custQueryType } },
+      location: { query },
     } = this.props;
     doSearch({
-      keyword,
-      custQueryType,
+      ...query,
       page: page.curPageNum + 1,
     });
   }
@@ -112,6 +111,7 @@ export default class SearchList extends PureComponent {
         key={`${sectionID}-${rowID}`}
         data={rowData}
         extra={extra}
+        query={keyword}
         onClick={() => this.handleClick(rowData)}
       />
     );
