@@ -127,8 +127,8 @@ export default class CustBasic extends PureComponent {
       <section className="baseHead">
         <div className="headIcon"><Icon type={obj.icon} /></div>
         <div className="headInfo">
-          <p className="custName">{obj.name}</p>
-          <p className="custNum">{obj.number}</p>
+          <p className="custName">{obj.name || '--'}</p>
+          <p className="custNum">{obj.number || '--'}</p>
         </div>
       </section>
     );
