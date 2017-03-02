@@ -101,13 +101,34 @@ export default {
   effects: {
     * getInfo({ payload: {
       custQueryType = 'personal',
+      keywords = '',
+      custNature = '',
+      custType = '',
+      custLevel = '',
+      riskLevel = '',
+      accountStatus = '',
       orderType = 'desc',
       pageSize = 10,
       pageNum = 1,
+      openDateStart = '',
+      openDateEnd = '',
     } }, { call, put }) {
       const [info, list] = yield [
         call(api.getCustomerInfo),
-        call(api.getCustomerList, { custQueryType, orderType, pageSize, pageNum }),
+        call(api.getCustomerList, {
+          custQueryType,
+          keywords,
+          custNature,
+          custType,
+          custLevel,
+          riskLevel,
+          accountStatus,
+          orderType,
+          pageSize,
+          pageNum,
+          openDateStart,
+          openDateEnd,
+        }),
       ];
       yield put({
         type: 'getInfoSuccess',

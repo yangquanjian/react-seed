@@ -58,9 +58,8 @@ export default class ContactOrgDetail extends PureComponent {
   }
 
   @autobind
-  renderRow(arr, label, icon) {
-    if (!arr || !label || !icon) return null;
-    if (!(arr instanceof Array) || (arr instanceof Array && arr.length < 1)) {
+  renderRow(arr, label = '信息', icon = 'viewgallery') {
+    if (!arr || !(arr instanceof Array) || (arr instanceof Array && arr.length < 1)) {
       return (<div className="item">
         <Icon className="" type={icon} />
         <div className="data">
@@ -120,7 +119,7 @@ export default class ContactOrgDetail extends PureComponent {
             <Icon className="" type="favorite" />
             <div className="data">
               <p className="label">是否主要</p>
-              <p className="contain">{(data.mainFlag === true) ? '主要' : '非主要'}</p>
+              <p className="contain">{(data.mainFlag === true) ? '是' : '否'}</p>
             </div>
           </div>
           {renderRow(arr1, '手机号码', 'mobilephone')}
