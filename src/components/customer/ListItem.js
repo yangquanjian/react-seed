@@ -56,7 +56,9 @@ class ListItem extends React.Component {
       <div className="listItem" onClick={this.handleClick}>
         <i className={custType} />
         <div className="listInfo">
-          <div className="listName">{custName || '--'}</div>
+          <div className="listName">
+            <p>{custName || '--'}</p>
+          </div>
           <div className="listElse">
             <i className={this.levelShow(custLevelCode)} />
             <div className="listNum">{brokerNumber || '--'}</div>
