@@ -223,19 +223,21 @@ export default class ChartLineWidget extends PureComponent {
             <div className="label">本月收益（元）</div>
           </div>
         </div>
+        <div className="label-section">
+          <div className="left-section">
+            <div>{maxAssetProfit}</div>
+            <div>{averageAssetProfit}</div>
+            <div>{minAssetProfit}</div>
+          </div>
+          <div className="right-section">
+            <div>{maxAssetProfitRate}</div>
+            <div>{averageAssetProfitRate}</div>
+            <div>{minAssetProfitRate}</div>
+          </div>
+        </div>
         <Chart {...options} className="chart-content">
           <Chart.Line {...series} className="chart-line" />
         </Chart>
-        <div className="left-section">
-          <div>{maxAssetProfit}</div>
-          <div>{averageAssetProfit}</div>
-          <div>{minAssetProfit}</div>
-        </div>
-        <div className="right-section">
-          <div>{maxAssetProfitRate}</div>
-          <div>{averageAssetProfitRate}</div>
-          <div>{minAssetProfitRate}</div>
-        </div>
       </div>
     );
   }
