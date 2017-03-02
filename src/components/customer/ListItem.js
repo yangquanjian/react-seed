@@ -59,7 +59,7 @@ class ListItem extends React.Component {
           <div className="listName">{custName || '--'}</div>
           <div className="listElse">
             <i className={this.levelShow(custLevelCode)} />
-            <div className="listNum">{brokerNumber}</div>
+            <div className="listNum">{brokerNumber || '--'}</div>
             <div className="listTime">开户时间:{custOpenDate}</div>
           </div>
         </div>
