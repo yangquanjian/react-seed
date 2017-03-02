@@ -55,4 +55,22 @@ export default {
    * {}
    */
   logout: query => api.post('/mobile/logout', query),
+
+  /**
+   * 发送验证码
+   */
+  sendSmsCheckCode: ({ empId }) => api.post('/mobile/sendSmsCheckCode', { empId }),
+
+  /**
+   * 登录
+   */
+  login: ({ deviceId, empId }) => api.post(
+    '/mobile/login',
+    {
+      deviceId,
+      empId,
+      checkCode: '123456',
+      password: '123456',
+    },
+  ),
 };
