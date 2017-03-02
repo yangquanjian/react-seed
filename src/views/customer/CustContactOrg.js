@@ -96,6 +96,7 @@ export default class CustContactOrg extends PureComponent {
     const { goBack } = this.props;
     const title = this.getBaseKey('custName');
     const contactArr = this.getContactList();
+    const isNull = (contactArr && contactArr.length > 0) ? 'have-data' : 'no-data';
     const mainData = this.getMainContact(contactArr);
     const otherData = this.getOtherContact(contactArr);
 
@@ -132,10 +133,14 @@ export default class CustContactOrg extends PureComponent {
           <p className="mid-contain">{title}</p>
         </NavBar>
         <secttion className="contain">
-          <div className="main">
+          <div className={`null-msg ${isNull}`}>
+            <img className="null-icon" alt="空数据" src="../../../static/img/none.png" />
+            <p>暂无联系人</p>
+          </div>
+          <div className={`main ${isNull}`}>
             {mainShow()}
           </div>
-          <div className="other">
+          <div className={`other ${isNull}`}>
             {otherShow}
           </div>
         </secttion>
