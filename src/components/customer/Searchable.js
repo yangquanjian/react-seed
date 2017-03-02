@@ -67,9 +67,10 @@ export default (ComposedComponent) => {
 
     componentWillReceiveProps(nextProps) {
       const { location: { query: { keyword, custQueryType } } } = nextProps;
+      const isInResultPage = this.isInResultPage();
       this.setState({
-        mode: this.state.mode || SHOW_MODE.NORMAL,
-        value: this.isInResultPage() ? decodeURIComponent(keyword) : '',
+        mode: isInResultPage ? SHOW_MODE.NORMAL : (this.state.mode || SHOW_MODE.NORMAL),
+        value: isInResultPage ? decodeURIComponent(keyword) : '',
         typeValue: custQueryType || SELECT_OPTIONS[0].value,
       });
       this.syncHistoryToState();

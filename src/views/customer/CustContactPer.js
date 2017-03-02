@@ -77,7 +77,7 @@ export default class CustContactPer extends PureComponent {
 
   getBaseKey(key) {
     const data = this.props.data;
-    if (!data) return null;
+    if (!data || !data.custBaseInfo) return null;
     const value = data.custBaseInfo[key];
     return (!value) ? '--' : value;
   }
@@ -91,8 +91,8 @@ export default class CustContactPer extends PureComponent {
     arr.map((item) => {
       let temp = (data[item]) ? data[item] : [];
       if (item === 'idAddress') {
-        temp = (!temp || Object.keys(temp).length === 0 ) ? [] : new Array(temp);
-			}
+        temp = (!temp || Object.keys(temp).length === 0) ? [] : new Array(temp);
+      }
       resultArr.push(temp);
       return true;
     });
