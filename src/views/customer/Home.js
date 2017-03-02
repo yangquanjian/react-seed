@@ -69,10 +69,10 @@ export default class CustomerHome extends PureComponent {
   }
 
   componentWillMount() {
-    const { custQueryType } = this.props;
+    const { custQueryType, location: { query } } = this.props;
     this.props.getInfo({
+      ...query,
       custQueryType,
-      orderType: 'desc',
       pageSize: 10,
       pageNum: 1,
     });
