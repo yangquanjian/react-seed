@@ -36,6 +36,21 @@ class Filter extends PureComponent {
     };
   }
 
+  componentWillMount() {
+    const { custType = '', time = '', riskLevel = '', accountStatus = '' } = this.props.location.query;
+    const { openDateStart = '', openDateEnd = '' } = this.state.filter;
+    this.setState({
+      filter: {
+        custType,
+        time,
+        openDateStart,
+        openDateEnd,
+        riskLevel: riskLevel.split(','),
+        accountStatus: accountStatus.split(','),
+      },
+    });
+  }
+
   @autobind
   getClass(key, val) {
     const { filter } = this.state;
@@ -190,6 +205,7 @@ class Filter extends PureComponent {
             this.state.filter.accountStatus.reduce(
               (preValue, curValue) => `${preValue},${curValue}`,
             ) : '',
+          time: this.state.filter.time,
         },
       });
     });
