@@ -32,19 +32,13 @@ export default class SearchItem extends PureComponent {
       <Icon type={iconType} />
     );
   }
-
-
-
   render() {
     const { data: { custName, custType }, extra, query } = this.props;
-
     return (
-
       <Item
         thumb={this.renderCustomerIcon(custType)}
         onClick={this.handleClick}
       >
-        {console.log(query)}
         <span dangerouslySetInnerHTML={{ __html: custName.replace(new RegExp(decodeURI(query), 'gu'), `<i style="font-style:normal;color:#da4e40;">${decodeURI(query)}</i>`) }} />
         <Brief>{extra}</Brief>
       </Item>
