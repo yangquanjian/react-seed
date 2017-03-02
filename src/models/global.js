@@ -32,7 +32,7 @@ export default {
       try {
         yield call(api.sendSmsCheckCode, { empId });
       } catch (e) {
-        throw e;
+        console.log(e);
       }
       const response = yield call(api.login, { deviceId, empId });
       if (response.resultData) {
