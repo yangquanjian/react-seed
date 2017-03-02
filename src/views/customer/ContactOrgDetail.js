@@ -66,6 +66,7 @@ export default class ContactOrgDetail extends PureComponent {
           <p className="label">{label}</p>
           <p className="contain">暂无信息</p>
         </div>
+        <hr />
       </div>);
     }
     return arr.map(item => (
@@ -76,6 +77,7 @@ export default class ContactOrgDetail extends PureComponent {
           <p className="contain">{item.contactValue}</p>
         </div>
         <div className="btn" onClick={() => { console.log(item.contactValue); }}>发送邮件</div>
+        <hr />
       </div>
     ));
   }
@@ -107,6 +109,7 @@ export default class ContactOrgDetail extends PureComponent {
               <p className="label">联系人姓名</p>
               <p className="contain">{data.name || '--'}</p>
             </div>
+            <hr />
           </div>
           <div className="item">
             <Icon className="" type="viewgallery" />
@@ -114,6 +117,7 @@ export default class ContactOrgDetail extends PureComponent {
               <p className="label">人员类型</p>
               <p className="contain">{data.custRela || '--'}</p>
             </div>
+            <hr />
           </div>
           <div className="item">
             <Icon className="" type="favorite" />
@@ -121,6 +125,7 @@ export default class ContactOrgDetail extends PureComponent {
               <p className="label">是否主要</p>
               <p className="contain">{(data.mainFlag === true) ? '是' : '否'}</p>
             </div>
+            <hr />
           </div>
           {renderRow(arr1, '手机号码', 'mobilephone')}
           {renderRow(arr2, '单位电话', 'phone')}

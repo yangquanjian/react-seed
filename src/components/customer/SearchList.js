@@ -111,6 +111,7 @@ export default class SearchList extends PureComponent {
         key={`${sectionID}-${rowID}`}
         data={rowData}
         extra={extra}
+        query={keyword}
         onClick={() => this.handleClick(rowData)}
       />
     );
