@@ -3,7 +3,6 @@
  * @author maoquan(maoquan@htsc.com)
  */
 
-import { routerRedux } from 'dva/router';
 import pathToRegexp from 'path-to-regexp';
 import _ from 'lodash';
 
@@ -14,15 +13,10 @@ export default {
   state: {
     data: {},
     detailInfo: {},
-    searchList: [],
     basic: {},
     contact: {},
     contactList: {},
     serviceList: {},
-    searchInfo: {
-      page: {},
-      list: [],
-    },
     info: {},
     list: {
       page: {},
@@ -90,10 +84,6 @@ export default {
         },
       };
     },
-    saveSuccess(state, action) {// eslint-disable-line
-      // 做一些表单保存成功后的处理
-      return state;
-    },
     fetchCustDetailSuccess(state, action) {
       const { payload: { response, custId, custNumber, custSor } } = action;
       return {
@@ -104,21 +94,6 @@ export default {
           custId,
           custNumber,
           custSor,
-        },
-      };
-    },
-    searchSuccess(state, { payload: { response, query } }) {// eslint-disable-line
-      const { resultData: { page, resultList } } = response;
-      if (_.isEmpty(resultList)) {
-        return state;
-      }
-      // 如果page为1表示新刷新，这时候清空之前的列表
-      const originList = page.curPageNum === 1 ? [] : state.searchInfo.list;
-      return {
-        ...state,
-        searchInfo: {
-          page,
-          list: [...originList, ...resultList],
         },
       };
     },
@@ -263,30 +238,10 @@ export default {
         },
       });
     },
-    * save({ payload: { data } }, { call, put }) {
-      const response = yield call(api.saveCustomer, { data });
-      yield put({ type: 'saveSuccess', payload: { response } });
-      yield put(routerRedux.goBack());
-    },
-    // 搜索客户
-    * search({ payload: query }, { call, put }) {
-      const { keyword: keywords, custQueryType, page: pageNum = 1 } = query;
-      const response = yield call(
-        api.searchCustomer,
-        { keywords, custQueryType, pageNum, pageSize: 20 },
-      );
-      yield put({ type: 'searchSuccess', payload: { response, query } });
-    },
   },
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname, query }) => {
-        // 搜索页面
-        if (pathname === '/customer/searchResult') {
-          const { keyword, custQueryType, page = 1 } = query;
-          dispatch({ type: 'search', payload: { keyword, custQueryType, page } });
-          return;
-        }
         // 客户基本信息页面
         const custBasicMatch = pathToRegexp('/custBasic/:custNumber/:custSor/:custId').exec(pathname);
         if (custBasicMatch) {

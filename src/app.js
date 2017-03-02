@@ -55,6 +55,7 @@ app.use(createLoading());
 app.model(require('./models/product'));
 app.model(require('./models/global'));
 app.model(require('./models/customer'));
+app.model(require('./models/search'));
 
 // 4. Router
 app.router(routerConfig);

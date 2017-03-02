@@ -9,20 +9,18 @@ import { withRouter, routerRedux } from 'dva/router';
 import { autobind } from 'core-decorators';
 import { Drawer } from 'antd-mobile';
 
-import Searchable, { queryMethod } from '../../components/customer/Searchable';
+import Searchable from '../../components/customer/Searchable';
 import CustomerInfo from '../../components/customer/Info';
 import CustomerList from '../../components/customer/List';
 import Filter from '../../components/customer/Filter';
 import './home.less';
 
 const mapStateToProps = state => ({
-  searchList: state.customer.searchList,
   info: state.customer.info,
   list: state.customer.list,
 });
 
 const mapDispatchToProps = {
-  getSearchList: queryMethod,
   getList: query => ({
     type: 'customer/getList',
     payload: query,
