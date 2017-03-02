@@ -17,7 +17,7 @@
 
   .baseHead {
     position: relative;
-    height: 90px;
+    min-height: 90px;
     margin: 0;
     padding: 39px 30px 32px 30px;
     border: none;
@@ -58,20 +58,18 @@
     }
     .headInfo {
       margin-left: 135px;
-      height: 90px;
+      min-height: 90px;
       p {
         margin: 0;
         text-align: left;
         text-indent: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
       }
       .custName {
         color: #111111;
         font-size: 32px;
         font-weight: bold;
-        line-height: 56px;
+        line-height: 1.1;
+        margin-bottom: 10px;
       }
       .custNum {
         color: #666666;
