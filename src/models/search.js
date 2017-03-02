@@ -36,10 +36,16 @@ export default {
   effects: {
     // 搜索客户
     * customer({ payload: query }, { call, put }) {
-      const { keyword: keywords, custQueryType, page: pageNum = 1 } = query;
+      const { keyword: keywords, custQueryType, page: pageNum = 1, ...others } = query;
       const response = yield call(
         api.searchCustomer,
-        { keywords, custQueryType, pageNum, pageSize: 20 },
+        {
+          ...others,
+          keywords,
+          custQueryType,
+          pageNum,
+          pageSize: 20,
+        },
       );
       yield put({ type: 'customerSuccess', payload: { response, query } });
     },
@@ -49,8 +55,8 @@ export default {
       return history.listen(({ pathname, query }) => {
         // 搜索页面
         if (pathname === '/customer/searchResult') {
-          const { keyword, custQueryType, page = 1 } = query;
-          dispatch({ type: 'customer', payload: { keyword, custQueryType, page } });
+          const page = query.page || 1;
+          dispatch({ type: 'customer', payload: { ...query, page } });
         }
       });
     },

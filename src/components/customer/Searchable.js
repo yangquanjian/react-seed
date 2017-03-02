@@ -199,6 +199,7 @@ export default (ComposedComponent) => {
         nav({
           pathname: '/customer/searchResult',
           query: {
+            ...query,
             keyword: encodeURIComponent(keyword),
             custQueryType: this.state.typeValue,
           },
