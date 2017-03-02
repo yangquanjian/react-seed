@@ -13,12 +13,20 @@
   }
   .contain{
     .null-msg{
+      text-align: center;
       .null-icon{
-
+        display: inline-block;
+        width: 200px;
+        height: 200px;
+        margin: 180px auto 50px auto;
+        background: transparent url(../../../static/img/none.png);
       }
       p{
-
+        color: #383838;
       }
+    }
+    .null-msg.have-data{
+      display: none;
     }
     .main,
     .other{
@@ -43,6 +51,10 @@
       .item:not(:last-child){
         border-bottom: 1PX solid #ebecec;
       }
+    }
+    .main.no-data,
+    .other.no-data{
+      display: none;
     }
     .item{
       display: flex;
