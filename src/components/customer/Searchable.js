@@ -294,6 +294,7 @@ export default (ComposedComponent) => {
               onChange={this.handleChange}
               onCancel={this.handleCancel}
               onSubmit={this.handleSubmit}
+              showCancelButton={mode !== SHOW_MODE.NORMAL}
             />
           </div>
           {mainElems}

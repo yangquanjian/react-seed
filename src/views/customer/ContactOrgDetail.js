@@ -58,9 +58,9 @@ export default class ContactOrgDetail extends PureComponent {
   }
 
   @autobind
-  renderRow(arr, label, icon) {
-    label = label || "信息";
-		icon = icon || "viewgallery";
+  renderRow(arr, labelType, iconType) {
+    const label = labelType || '信息';
+    const icon = iconType || 'viewgallery';
     if (!arr || !(arr instanceof Array) || (arr instanceof Array && arr.length < 1)) {
       return (<div className="item">
         <Icon className="" type={icon} />
