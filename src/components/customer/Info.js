@@ -15,10 +15,14 @@ const TabPane = Tabs.TabPane;
 export default class CustomerInfo extends PureComponent {
   static propTypes = {
     data: PropTypes.object,
+    tabIndex: PropTypes.number,
+    changeTabIndex: PropTypes.func,
   }
 
   static defaultProps = {
     data: {},
+    tabIndex: 0,
+    changeTabIndex: () => {},
   }
 
   constructor(props) {
@@ -27,7 +31,6 @@ export default class CustomerInfo extends PureComponent {
     this.state = {
       data: props.data,
       count: 3,
-      activeIndex: 0,
     };
   }
 
@@ -42,16 +45,15 @@ export default class CustomerInfo extends PureComponent {
 
   @autobind
   tabChange(key) {
-    this.setState({
-      activeIndex: parseInt(key, 10),
-    });
+    this.props.changeTabIndex(parseInt(key, 10));
   }
 
   render() {
-    const { data: { kpiList = [] }, count, activeIndex } = this.state;
+    const { data: { kpiList = [] }, count } = this.state;
+    const { tabIndex: activeIndex } = this.props;
     return (
       <div className="infoTab">
-        <Tabs defaultActiveKey="0" onChange={this.tabChange} swipeable={false}>
+        <Tabs activeKey={String(activeIndex)} onChange={this.tabChange} swipeable={false}>
           <TabPane tab="本月" key="0">
             <InfoItem data={kpiList[0]} />
           </TabPane>
