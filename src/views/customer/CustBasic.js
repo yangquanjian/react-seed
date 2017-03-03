@@ -8,6 +8,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { autobind } from 'core-decorators';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
+import _ from 'lodash';
 
 import { List } from 'antd-mobile';
 import NavBar from '../../components/common/NavBar';
@@ -71,7 +72,7 @@ export default class CustBasic extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = { isFold: true };
   }
 
   @autobind
@@ -84,7 +85,7 @@ export default class CustBasic extends PureComponent {
   @autobind
   getCustIcon() {
     const dataModel = this.getDataModel();
-    if (Object.keys(dataModel).length < 1) return null;
+    if (_.isEmpty(dataModel)) return null;
     const type = this.props.params.custSor || 'per';
     let icon = '';
     if (type === 'per') {
@@ -101,7 +102,7 @@ export default class CustBasic extends PureComponent {
     const data = this.props.data;
     if (!data) return {};
     const dataModel = (type === 'per') ? data.customerInfoPer : data.customerInfoOrg;
-    return (!dataModel) ? {} : dataModel;
+    return dataModel || {};
   }
 
   @autobind
@@ -120,9 +121,15 @@ export default class CustBasic extends PureComponent {
     return tempArr;
   }
 
+  @autobind
+  checkFold() {
+    this.setState({ isFold: !this.state.isFold });
+  }
+
   render() {
     const { title, goBack } = this.props;
     const dataModel = this.getDataModel();
+    const checkFold = this.checkFold;
     if (!dataModel) {
       return (
         <div className="custBasic">
@@ -140,6 +147,7 @@ export default class CustBasic extends PureComponent {
       );
     }
     const labelArr = (this.props.params.custSor === 'per') ? per : org;
+    const isFold = this.state.isFold ? 'up' : 'down';
     const getCustIcon = this.getCustIcon();
     const custName = this.getMapKey('custName');
     const custNumber = (!this.props.params.custNumber || isNaN(this.props.params.custNumber)) ? '--' : this.props.params.custNumber;
@@ -153,15 +161,27 @@ export default class CustBasic extends PureComponent {
         </div>
       </section>
     );
-    const itemShow = arr.map(item => (
-      <Item
-        className={`${item.type}`}
-        key={`${item.key}`}
-        extra={`${item.value}`}
-      >
-        {item.name}
-      </Item>
-    ));
+    const itemShow = arr.map((item) => {
+      if (item.type === 'job') {
+        return (<Item
+          className={`${item.type} ${isFold}`}
+          key={`${item.key}`}
+          extra={`${item.value}`}
+          onClick={() => { checkFold(); }}
+        >
+          {item.name}
+        </Item>);
+      }
+      return (
+        <Item
+          className={`${item.type}`}
+          key={`${item.key}`}
+          extra={`${item.value}`}
+        >
+          {item.name}
+        </Item>
+      );
+    });
     return (
       <div className="custBasic">
         <NavBar

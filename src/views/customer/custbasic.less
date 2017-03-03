@@ -108,31 +108,34 @@
         min-height: 129px;
         .am-list-line  {
           .am-list-content {
+            font-size: 30px;
             flex: 2;
             color: #333333;
           }
           .am-list-extra {
+            font-size: 26px;
             flex: 3;
             color: #666666;
           }
         }
       }
       .am-list-item.job.up{
-        background-color: #2db7f5;
+        .am-list-line .am-list-extra{
+          font-size: 26px;
+          white-space: nowrap;
+          text-align: right;
+        }
       }
       .am-list-item.job.down{
-        background-color: #39cf94;
+        .am-list-line .am-list-extra{
+          font-size: 24px;
+          height: auto;
+          line-height: 30px;
+          text-overflow: inherit;
+          white-space: normal;
+          text-align: left;
+        }
       }
     }
-  }
-
-
-  .up{
-    background: transparent url(../../../static/img/sortUp.png) no-repeat center center;
-    background-size: auto 100%;
-  }
-  .down{
-    background: transparent url(../../../static/img/sortDown.png) no-repeat center center;
-    background-size: auto 100%;
   }
 }
