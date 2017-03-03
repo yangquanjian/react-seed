@@ -63,7 +63,7 @@ export default class CustomerInfo extends PureComponent {
         isEnd: _.isEmpty(resultList),
         isError: _.isEmpty(list),
       });
-    }else{
+    } else {
       this.setState({
         isLoading: false,
         isEnd: _.isEmpty(resultList),
