@@ -44,7 +44,7 @@
         padding: 15px 0 0 0;
         border-top: 1PX solid #e5e5e5;
       }
-      &>div:last-child {
+      &:not(.email)>div:last-child {
         margin-bottom: 20px;
       }
       ul {
@@ -65,6 +65,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        word-wrap: break-word;
       }
       .null-msg.no-data {
         margin-bottom: 15px;

@@ -7,6 +7,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
+import { autobind } from 'core-decorators';
 
 import NavBar from '../../components/common/NavBar';
 import Icon from '../../components/common/Icon';
@@ -75,19 +76,22 @@ export default class CustContactPer extends PureComponent {
     };
   }
 
+  @autobind
   getBaseKey(key) {
     const data = this.props.data;
-    if (!data || !data.custBaseInfo) return null;
+    if (!data || !data.custBaseInfo) return '--';
     const value = data.custBaseInfo[key];
     return (!value) ? '--' : value;
   }
 
+  @autobind
   getSectionArr(arr) {
-    if (!arr) return false;
+    if (!arr) return [];
     let data = this.props.data;
-    if (!data) return null;
+    if (!data) return [];
     const resultArr = [];
     data = (this.props.params.custSor === 'per') ? data.perCustomerContactInfo : [];
+    if (!data) return [];
     arr.map((item) => {
       let temp = (data[item]) ? data[item] : [];
       if (item === 'idAddress') {
@@ -99,6 +103,7 @@ export default class CustContactPer extends PureComponent {
     return resultArr;
   }
 
+  @autobind
   isNull(arr) {
     if (!arr) return false;
     let bool = 0;
