@@ -71,7 +71,7 @@ export default {
     },
     getListSuccess(state, action) {
       const { payload: { list, refresh } } = action;
-      const { page = {}, resultList: newData } = list.resultData;
+      const { page = {}, resultList: newData = [] } = list.resultData || {};
       const oldResult = refresh ? [] : state.list.resultList;
       if (_.isEmpty(newData) && !refresh) {
         return state;
