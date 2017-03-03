@@ -35,7 +35,7 @@ const helper = {
     return query;
   },
 
-  isSupportLocalStorage() {
+  isLocalStorageSupport() {
     const KEY = 'STORAGE_TEST_KEY';
     try {
       localStorage.setItem(KEY, KEY);

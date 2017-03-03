@@ -1,11 +1,13 @@
 import localForage from 'localforage';
 
+import { isLocalStorageSupport } from '../utils/helper';
+
 localForage.config({
   driver: localForage.LOCALSTORAGE,
 });
 
 const config = {
-  active: true,
+  active: isLocalStorageSupport() && true,
   storeConfig: {
     storage: localForage,
   },
