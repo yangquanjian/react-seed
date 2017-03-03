@@ -63,6 +63,12 @@ export default class CustomerInfo extends PureComponent {
         isEnd: _.isEmpty(resultList),
         isError: _.isEmpty(list),
       });
+    } else {
+      this.setState({
+        isLoading: false,
+        isEnd: _.isEmpty(resultList),
+        isError: _.isEmpty(list),
+      });
     }
     // 条件变化
     if (!_.isEqual(query, oldQuery)) {
