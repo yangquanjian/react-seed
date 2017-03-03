@@ -70,11 +70,10 @@ export default class SearchList extends PureComponent {
     const {
       doSearch,
       searchInfo: { page },
-      location: { query: { keyword, custQueryType } },
+      location: { query },
     } = this.props;
     doSearch({
-      keyword,
-      custQueryType,
+      ...query,
       page: page.curPageNum + 1,
     });
   }

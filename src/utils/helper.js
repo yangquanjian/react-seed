@@ -34,6 +34,17 @@ const helper = {
     }
     return query;
   },
+
+  isLocalStorageSupport() {
+    const KEY = 'STORAGE_TEST_KEY';
+    try {
+      localStorage.setItem(KEY, KEY);
+      localStorage.removeItem(KEY);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
 };
 
 export default helper;

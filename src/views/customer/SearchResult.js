@@ -43,9 +43,12 @@ export default class CustomerHome extends PureComponent {
     const { location: { query } } = nextProps;
     const { location: preLocation, doSearch } = this.props;
     // 如果url上关键词发生变化，则触发新的搜索请求
-    const { keyword, custQueryType } = query;
+    const { keyword } = query;
     if (keyword !== preLocation.query.keyword) {
-      doSearch({ keyword, custQueryType });
+      doSearch({
+        ...query,
+        page: 1,
+      });
     }
   }
 

@@ -100,7 +100,6 @@ export default class CustBasic extends PureComponent {
   contactData(arr, obj = {}) {
     const tempArr = arr;
     arr.map((item, index) => {
-      debugger
       let value = (!obj || !obj[item.type]) ? '--' : obj[item.type];
       if (item.type === 'idValDate' || item.type === 'foundTime' || item.type === 'openTime' || item.type === 'lastCommission') {
         value = (value.length === 10) ? value.replace(/-/g, '/') : value.slice(0, 10);
@@ -122,7 +121,7 @@ export default class CustBasic extends PureComponent {
             iconName={'fanhui'}
             onLeftClick={goBack}
           >
-						{title}
+            {title}
           </NavBar>
           <div className="null-msg">
             <img className="null-icon" alt="空数据" src="../../../static/img/none.png" />
