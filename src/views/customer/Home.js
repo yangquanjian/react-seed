@@ -77,6 +77,11 @@ export default class CustomerHome extends PureComponent {
         pageNum: 1,
       });
     }
+    document.getElementById('app').addEventListener('touchmove', (event) => {
+      if (this.state.open) {
+        event.preventDefault();
+      }
+    }, false);
   }
 
   @autobind
@@ -116,6 +121,7 @@ export default class CustomerHome extends PureComponent {
           sidebar={sidebar}
           style={{ maxHeight: document.documentElement.clientHeight - footerHeight }}
           dragHandleStyle={{ display: 'none' }}
+          touch={false}
           {...drawerProps}
         >
           .
