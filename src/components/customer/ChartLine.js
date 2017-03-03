@@ -29,9 +29,6 @@ export default class ChartLineWidget extends PureComponent {
     };
   }
 
-  componentWillReceiveProps() {
-  }
-
   @autobind
   rateFilter(val) {
     let value = val;
@@ -81,10 +78,10 @@ export default class ChartLineWidget extends PureComponent {
   }
 
   render() {
-    const { chartData } = this.props;
-    if (!chartData) {
-      return null;
-    }
+    let { chartData } = this.props;
+    // if (!chartData) {
+    //   return null;
+    // }
 
     let minAssetProfit = 0;
     let maxAssetProfit = 0;
@@ -121,6 +118,41 @@ export default class ChartLineWidget extends PureComponent {
     minAssetProfit = AccountFilter(minAssetProfit);
     maxAssetProfit = AccountFilter(maxAssetProfit);
     averageAssetProfit = AccountFilter(averageAssetProfit);
+
+    if (_.isEmpty(chartData)) {
+      chartData = [
+        {
+          month: 201606,
+          assetProfit: 0,
+          assetProfitRate: 0,
+        },
+        {
+          month: 201607,
+          assetProfit: 0,
+          assetProfitRate: 0,
+        },
+        {
+          month: 201608,
+          assetProfit: 0,
+          assetProfitRate: 0,
+        },
+        {
+          month: 201609,
+          assetProfit: 0,
+          assetProfitRate: 0,
+        },
+        {
+          month: 201610,
+          assetProfit: 0,
+          assetProfitRate: 0,
+        },
+        {
+          month: 201611,
+          assetProfit: 0,
+          assetProfitRate: 0,
+        },
+      ];
+    }
 
     const options = {
       title: {
