@@ -34,6 +34,14 @@ const SELECT_OPTIONS = [
 
 const HISTORY_KEY = 'CUSTOMER_HISTORY_KEYWORD';
 
+/**
+ * iphone下的safari隐私模式会导致setItem抛出异常
+ * 如果有异常就静默失败
+ */
+const setItem = (key, value) => localforage
+  .setItem(key, value)
+  .catch(() => {});
+
 export default (ComposedComponent) => {
   class SearchableComponent extends PureComponent {
 
@@ -53,6 +61,8 @@ export default (ComposedComponent) => {
 
       // 我的客户、我团队的客户选择组件
       this.select = null;
+      // 首页被切换次数
+      this.loadTimes = 0;
 
       const { location: { query: { keyword, custQueryType } } } = props;
       this.state = {
@@ -67,9 +77,10 @@ export default (ComposedComponent) => {
 
     componentWillReceiveProps(nextProps) {
       const { location: { query: { keyword, custQueryType } } } = nextProps;
+      const isInResultPage = this.isInResultPage();
       this.setState({
-        mode: this.state.mode || SHOW_MODE.NORMAL,
-        value: this.isInResultPage() ? decodeURIComponent(keyword) : '',
+        mode: isInResultPage ? SHOW_MODE.NORMAL : (this.state.mode || SHOW_MODE.NORMAL),
+        value: isInResultPage ? decodeURIComponent(keyword) : '',
         typeValue: custQueryType || SELECT_OPTIONS[0].value,
       });
       this.syncHistoryToState();
@@ -85,7 +96,7 @@ export default (ComposedComponent) => {
       let historyList = await localforage.getItem(HISTORY_KEY);
       if (!historyList) {
         historyList = [];
-        await localforage.setItem(HISTORY_KEY, historyList);
+        await setItem(HISTORY_KEY, historyList);
       }
       return historyList;
     }
@@ -107,7 +118,7 @@ export default (ComposedComponent) => {
       if (historyList.length > 10) {
         historyList.pop();
       }
-      await localforage.setItem(HISTORY_KEY, historyList);
+      await setItem(HISTORY_KEY, historyList);
       this.setState({
         historyList,
       });
@@ -119,7 +130,7 @@ export default (ComposedComponent) => {
       if (historyList.includes(keyword)) {
         historyList = historyList.filter(item => item !== keyword);
       }
-      await localforage.setItem(HISTORY_KEY, historyList);
+      await setItem(HISTORY_KEY, historyList);
       this.setState({
         historyList,
       });
@@ -127,7 +138,7 @@ export default (ComposedComponent) => {
 
     @autobind
     async clearHistory() {
-      await localforage.setItem(HISTORY_KEY, []);
+      await setItem(HISTORY_KEY, []);
       this.setState({
         historyList: [],
       });
@@ -137,11 +148,6 @@ export default (ComposedComponent) => {
       const { location } = this.props;
       return /searchResult/.test(location.pathname);
     }
-
-    @autobind
-    handleClick() {
-    }
-
 
     @autobind
     handleSelectChange(value) {
@@ -198,6 +204,7 @@ export default (ComposedComponent) => {
         nav({
           pathname: '/customer/searchResult',
           query: {
+            ...query,
             keyword: encodeURIComponent(keyword),
             custQueryType: this.state.typeValue,
           },
@@ -270,9 +277,11 @@ export default (ComposedComponent) => {
       const { mode, value, typeValue } = this.state;
       let mainElems;
       if (mode === SHOW_MODE.NORMAL) {
+        this.loadTimes = this.loadTimes + 1;
         mainElems = (<ComposedComponent
           {...this.props}
           custQueryType={typeValue}
+          isFirstLoad={this.loadTimes === 1}
         />);
       } else if (mode === SHOW_MODE.SEARCHING) {
         mainElems = this.renderHistory();

@@ -6,6 +6,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'dva';
 import { withRouter, routerRedux } from 'dva/router';
+import _ from 'lodash';
 
 import SearchList from '../../components/customer/SearchList';
 import Searchable from '../../components/customer/Searchable';
@@ -43,9 +44,11 @@ export default class CustomerHome extends PureComponent {
     const { location: { query } } = nextProps;
     const { location: preLocation, doSearch } = this.props;
     // 如果url上关键词发生变化，则触发新的搜索请求
-    const { keyword, custQueryType } = query;
-    if (keyword !== preLocation.query.keyword) {
-      doSearch({ keyword, custQueryType });
+    if (!_.isEqual(query, preLocation.query)) {
+      doSearch({
+        ...query,
+        page: 1,
+      });
     }
   }
 

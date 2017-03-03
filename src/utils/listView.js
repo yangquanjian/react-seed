@@ -25,14 +25,15 @@ export const dataSource = new ListView.DataSource({
  * 根据列表数据，生成ListView可用的dataSource
  *
  * @param {Array|Object} data 列表数据
+ * @param {string|bool} sectionTitle section标题
  *
  * @return {ListView.DataSource}
  */
-export const prepareDataSource = (data) => {
+export const prepareDataSource = (data, sectionTitle = false) => {
   const sectionIDs = ['s0'];
   const rowIDs = [];
   const dataBlob = {
-    s0: {},
+    s0: sectionTitle ? { title: sectionTitle } : {},
   };
   if (!_.isEmpty(data)) {
     rowIDs.push(
@@ -44,6 +45,9 @@ export const prepareDataSource = (data) => {
         },
       ),
     );
+  } else if (sectionTitle) {
+    // 为了保证头能渲染，这里插入一个空行，然后在renderRow中作一个特殊判断
+    rowIDs.push([{}]);
   } else {
     rowIDs.push([]);
   }

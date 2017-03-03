@@ -6,6 +6,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
 import classnames from 'classnames';
+import _ from 'lodash';
 import './DetailHeader.less';
 import Icon from '../common/Icon';
 import AccountFilter from './AccountFilter';
@@ -60,6 +61,7 @@ export default class CustomerDetailHeader extends PureComponent {
           custName: dataSource ? `${dataSource.custName.slice(0, 1)}**` : '- -',
           custId: custId || '- -',
           custTotalAsset: AccountFilter(dataSource.totAsset),
+          econNum: dataSource.econNum || '- -',
         };
       } else if (custSor === 'org') {
         /** 机构客户 */
@@ -73,6 +75,7 @@ export default class CustomerDetailHeader extends PureComponent {
           custName: '机构客户',
           custId: custId || '- -',
           custTotalAsset: AccountFilter(dataSource.totAsset),
+          econNum: dataSource.econNum || '- -',
         };
       }
     }
@@ -104,12 +107,12 @@ export default class CustomerDetailHeader extends PureComponent {
     };
 
     const grade = classnames({
-      emptyCard: !filteredData.custGrade,
-      goldCard: filteredData.custGrade && filteredData.custGrade.toString().indexOf('金') !== -1,
-      silverCard: filteredData.custGrade && filteredData.custGrade.toString().indexOf('银') !== -1,
-      diamondCard: filteredData.custGrade && filteredData.custGrade.toString().indexOf('钻石') !== -1,
-      financeCard: filteredData.custGrade && filteredData.custGrade.toString().indexOf('理财') !== -1,
-      whiteGoldCard: filteredData.custGrade && filteredData.custGrade.toString().indexOf('白金') !== -1,
+      emptyCard: !_.isEmpty(filteredData.custGrade) && filteredData.custGrade.toString().indexOf('空') !== -1,
+      goldCard: !_.isEmpty(filteredData.custGrade) && filteredData.custGrade.toString().indexOf('金') !== -1,
+      silverCard: !_.isEmpty(filteredData.custGrade) && filteredData.custGrade.toString().indexOf('银') !== -1,
+      diamondCard: !_.isEmpty(filteredData.custGrade) && filteredData.custGrade.toString().indexOf('钻石') !== -1,
+      financeCard: !_.isEmpty(filteredData.custGrade) && filteredData.custGrade.toString().indexOf('理财') !== -1,
+      whiteGoldCard: !_.isEmpty(filteredData.custGrade) && filteredData.custGrade.toString().indexOf('白金') !== -1,
     });
 
     if (filteredData.custType === 'per') {
@@ -122,7 +125,7 @@ export default class CustomerDetailHeader extends PureComponent {
                 <span className="custName">{filteredData.custName}</span>
                 <div className="gradeIdSection">
                   <i className={grade} />
-                  <span className="custId">{filteredData.custId}</span>
+                  <span className="custId">{filteredData.econNum}</span>
                 </div>
               </div>
             </div>
@@ -153,7 +156,7 @@ export default class CustomerDetailHeader extends PureComponent {
                 <span className="custName">机构客户</span>
                 <div className="gradeIdSection">
                   <i className={grade} />
-                  <span className="custId">{filteredData.custId}</span>
+                  <span className="custId">{filteredData.econNum}</span>
                 </div>
               </div>
             </div>

@@ -278,7 +278,7 @@ export default {
           return;
         }
         // 客户详情
-        const matchDetail = pathToRegexp('customer/detail').exec(pathname);
+        const matchDetail = pathToRegexp('/customer/detail').exec(pathname);
         if (matchDetail) {
           const { custId, custNumber, custSor } = query;
           dispatch({ type: 'fetchCustDetail', payload: { custId, custNumber, custSor } });

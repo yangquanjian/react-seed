@@ -90,6 +90,7 @@ export default class ChartPieWidget extends PureComponent {
               categoryName: assetData[i].categoryName,
               maketVal: `${Number.parseFloat(assetData[i].maketVal).toFixed(1)}元`,
               categoryId: assetData[i].categoryId,
+              holdRate: Number.parseFloat(assetData[i].holdRate),
             });
         } else if (temp[0].length > 3 && temp[0].length < 9) {
           showData.push(
@@ -97,33 +98,38 @@ export default class ChartPieWidget extends PureComponent {
               categoryName: assetData[i].categoryName,
               maketVal: `${(Number.parseFloat(temp[0]) / 10000).toFixed(1)}万元`,
               categoryId: assetData[i].categoryId,
+              holdRate: Number.parseFloat(assetData[i].holdRate),
             });
         } else if (temp[0].length > 8) {
           showData.push({
             categoryName: assetData[i].categoryName,
             maketVal: `${(Number.parseFloat(temp[0]) / 100000000).toFixed(1)}亿元`,
             categoryId: assetData[i].categoryId,
+            holdRate: Number.parseFloat(assetData[i].holdRate),
           });
         }
       } else if (assetData[i].maketVal.toString().length >= 0
         && assetData[i].maketVal.toString().length <= 3) {
         showData.push({
           categoryName: assetData[i].categoryName,
-          maketVal: `${assetData[i].maketVal}元`,
+          maketVal: `${assetData[i].maketVal.toFixed(1)}元`,
           categoryId: assetData[i].categoryId,
+          holdRate: Number.parseFloat(assetData[i].holdRate),
         });
       } else if (assetData[i].maketVal.toString().length > 3
         && assetData[i].maketVal.toString().length < 9) {
         showData.push({
           categoryName: assetData[i].categoryName,
-          maketVal: (assetData[i].maketVal / 10000).toString().indexOf('.') !== -1 ? `${(assetData[i].maketVal / 10000).toFixed(1)}万元` : `${(assetData[i].maketVal / 10000)}万元`,
+          maketVal: `${(assetData[i].maketVal / 10000).toFixed(1)}万元`,
           categoryId: assetData[i].categoryId,
+          holdRate: Number.parseFloat(assetData[i].holdRate),
         });
       } else if (assetData[i].maketVal.toString().length >= 9) {
         showData.push({
           categoryName: assetData[i].categoryName,
-          maketVal: (assetData[i].maketVal / 100000000).toString().indexOf('.') !== -1 ? `${(assetData[i].maketVal / 100000000).toFixed(1)}亿元` : `${(assetData[i].maketVal / 100000000)}亿元`,
+          maketVal: `${(assetData[i].maketVal / 100000000).toFixed(1)}亿元`,
           categoryId: assetData[i].categoryId,
+          holdRate: Number.parseFloat(assetData[i].holdRate),
         });
       }
     }
@@ -137,6 +143,7 @@ export default class ChartPieWidget extends PureComponent {
         dataExceptFuzhaiArray.push({
           categoryName: showData[i].categoryName,
           maketVal: showData[i].maketVal,
+          holdRate: showData[i].holdRate,
         });
       }
     }
@@ -184,17 +191,14 @@ export default class ChartPieWidget extends PureComponent {
 
     // 资产百分比
     const percentArray = [];
-    for (let i = 0; i < dataExceptFuzhaiArray.length - 1; i++) {
-      percentArray.push(`${Number.parseInt((this.filterData(dataExceptFuzhaiArray[i].maketVal) / assetTotal) * 100, 10)}%`);
-    }
-
-    let percentTotal = 0;
-    for (let j = 0; j < dataExceptFuzhaiArray.length - 1; j++) {
-      percentTotal = Number.parseInt(percentArray[j].replace('%', ''), 10) + percentTotal;
-    }
-    percentArray.push(`${100 - percentTotal}%`);
-
     const expectFuzhaiLen = dataExceptFuzhaiArray.length;
+    for (let i = 0; i < expectFuzhaiLen; i++) {
+      const rate = dataExceptFuzhaiArray[i].holdRate * 100;
+      if (rate < 1) {
+        percentArray.push(`${Math.round(rate)}%`);
+      }
+      percentArray.push(`${rate.toFixed(1)}%`);
+    }
 
     const pieData = [];
     for (let i = 0; i < expectFuzhaiLen; i++) {
@@ -212,7 +216,7 @@ export default class ChartPieWidget extends PureComponent {
       title: {
         text: '资产',
       },
-      // width: 400,
+      width: '4rem',
       height: '4.8rem',
     };
 
