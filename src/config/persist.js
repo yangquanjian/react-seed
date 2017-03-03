@@ -7,11 +7,12 @@ localForage.config({
 });
 
 const config = {
-  active: isLocalStorageSupport() && true,
+  active: isLocalStorageSupport() && false,
   storeConfig: {
     storage: localForage,
   },
-  blacklist: ['routing', 'loading', '@@dva'],
+  // blacklist: ['routing', 'loading', '@@dva'],
+  whitelist: ['status'],
 };
 
 export default config;
