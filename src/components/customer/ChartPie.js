@@ -34,8 +34,64 @@ export default class ChartPieWidget extends PureComponent {
 
   render() {
     const { assetData } = this.props;
-    if (!assetData) {
-      return null;
+    // if (!assetData) {
+    //   return null;
+    // }
+
+    if (_.isEmpty(assetData)) {
+      const nonePieOptions = {
+        title: {
+          text: '暂无数据',
+          x: 'center',
+          y: 'center',
+        },
+        height: '4.8rem',
+        width: '4rem',
+      };
+
+      const nonePieSeries = {
+        name: '资产构成',
+        type: 'pie',
+        radius: ['40%', '60%'],
+        center: ['50%', '50%'],
+        label: {
+          normal: {
+            show: false,
+          },
+        },
+        hoverAnimation: false,
+        data: [
+          {
+            name: '暂无数据',
+            value: 100,
+          },
+        ],
+        color: ['#e6e5e5'],
+      };
+
+      const nonePieDataClass = classnames({
+        chartPieNoneSection: true,
+        displayBlock: true,
+        displayNone: false,
+      });
+
+      const nonePieArray = [];
+      nonePieArray.push(
+        <div key="noneData" className={nonePieDataClass}>
+          <Chart {...nonePieOptions} className="chart-content">
+            <Chart.Pie {...nonePieSeries} className="chart-pie" />
+          </Chart>
+          <div className="none-pie-data">暂无数据</div>
+        </div>,
+      );
+
+      return (
+        <div>
+          {
+            nonePieArray
+          }
+        </div>
+      );
     }
 
     const len = assetData.length;

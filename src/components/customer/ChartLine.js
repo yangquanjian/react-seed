@@ -90,35 +90,6 @@ export default class ChartLineWidget extends PureComponent {
     let averageAssetProfit = 0;
     let averageAssetProfitRate = 0;
 
-    for (let i = 0; i < chartData.length; i++) {
-      if (chartData[i].assetProfit < minAssetProfit) {
-        minAssetProfit = Number.parseFloat(chartData[i].assetProfit, 10).toFixed(2);
-      }
-      if (chartData[i].assetProfit > maxAssetProfit) {
-        maxAssetProfit = Number.parseFloat(chartData[i].assetProfit, 10).toFixed(2);
-      }
-      if (chartData[i].assetProfitRate < minAssetProfitRate) {
-        minAssetProfitRate = Number.parseFloat(chartData[i].assetProfitRate, 10).toFixed(2);
-      }
-      if (chartData[i].assetProfitRate > maxAssetProfitRate) {
-        maxAssetProfitRate = Number.parseFloat(chartData[i].assetProfitRate, 10).toFixed(2);
-      }
-    }
-
-    averageAssetProfit = ((Number.parseFloat(minAssetProfit, 10) +
-      Number.parseFloat(maxAssetProfit, 10)) / 2).toFixed(2);
-
-    averageAssetProfitRate = ((Number.parseFloat(minAssetProfitRate, 10) +
-      Number.parseFloat(maxAssetProfitRate, 10)) / 2).toFixed(2);
-
-    minAssetProfitRate = this.rateFilter(minAssetProfitRate);
-    maxAssetProfitRate = this.rateFilter(maxAssetProfitRate);
-    averageAssetProfitRate = this.rateFilter(averageAssetProfitRate);
-
-    minAssetProfit = AccountFilter(minAssetProfit);
-    maxAssetProfit = AccountFilter(maxAssetProfit);
-    averageAssetProfit = AccountFilter(averageAssetProfit);
-
     if (_.isEmpty(chartData)) {
       chartData = [
         {
@@ -154,6 +125,35 @@ export default class ChartLineWidget extends PureComponent {
       ];
     }
 
+    for (let i = 0; i < chartData.length; i++) {
+      if (chartData[i].assetProfit < minAssetProfit) {
+        minAssetProfit = Number.parseFloat(chartData[i].assetProfit, 10).toFixed(2);
+      }
+      if (chartData[i].assetProfit > maxAssetProfit) {
+        maxAssetProfit = Number.parseFloat(chartData[i].assetProfit, 10).toFixed(2);
+      }
+      if (chartData[i].assetProfitRate < minAssetProfitRate) {
+        minAssetProfitRate = Number.parseFloat(chartData[i].assetProfitRate, 10).toFixed(2);
+      }
+      if (chartData[i].assetProfitRate > maxAssetProfitRate) {
+        maxAssetProfitRate = Number.parseFloat(chartData[i].assetProfitRate, 10).toFixed(2);
+      }
+    }
+
+    averageAssetProfit = ((Number.parseFloat(minAssetProfit, 10) +
+      Number.parseFloat(maxAssetProfit, 10)) / 2).toFixed(2);
+
+    averageAssetProfitRate = ((Number.parseFloat(minAssetProfitRate, 10) +
+      Number.parseFloat(maxAssetProfitRate, 10)) / 2).toFixed(2);
+
+    minAssetProfitRate = this.rateFilter(minAssetProfitRate);
+    maxAssetProfitRate = this.rateFilter(maxAssetProfitRate);
+    averageAssetProfitRate = this.rateFilter(averageAssetProfitRate);
+
+    minAssetProfit = AccountFilter(minAssetProfit);
+    maxAssetProfit = AccountFilter(maxAssetProfit);
+    averageAssetProfit = AccountFilter(averageAssetProfit);
+
     const options = {
       title: {
         text: '近6个月收益图',
@@ -166,10 +166,10 @@ export default class ChartLineWidget extends PureComponent {
           },
         },
         data: chartData.map((item) => {
-          if (Number.parseInt(item.month.slice(4, 6), 10) >= 10) {
-            return `${item.month.slice(4, 6)}月`;
+          if (Number.parseInt(item.month.toString().slice(4, 6), 10) >= 10) {
+            return `${item.month.toString().slice(4, 6)}月`;
           }
-          return `${item.month.slice(5, 6)}月`;
+          return `${item.month.toString().slice(5, 6)}月`;
         }),
         boundaryGap: false,
         type: 'category',
