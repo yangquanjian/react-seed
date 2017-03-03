@@ -77,15 +77,6 @@ export default class CustomerHome extends PureComponent {
     };
   }
 
-
-  @autobind
-  handleTouch(event) {
-    const { open } = this.state;
-    if (open) {
-      event.preventDefault();
-    }
-  }
-
   componentWillMount() {
     const { isFirstLoad, location: { query } } = this.props;
     if (isFirstLoad) {
@@ -105,6 +96,14 @@ export default class CustomerHome extends PureComponent {
   @autobind
   onOpenChange() {
     this.setState({ open: !this.state.open });
+  }
+
+  @autobind
+  handleTouch(event) {
+    const { open } = this.state;
+    if (open) {
+      event.preventDefault();
+    }
   }
 
   render() {
