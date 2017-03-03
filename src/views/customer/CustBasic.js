@@ -5,6 +5,7 @@
  */
 
 import React, { PureComponent, PropTypes } from 'react';
+import { autobind } from 'core-decorators';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
 
@@ -69,16 +70,16 @@ export default class CustBasic extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {
-    };
   }
 
+	@autobind
   getMapKey(key) {
     const dataModel = this.getDataModel();
     const value = (!dataModel || !dataModel[key] || dataModel[key] === '--') ? '--' : dataModel[key];
     return value;
   }
 
+	@autobind
   getCustIcon() {
     const dataModel = this.getDataModel();
     const type = this.props.params.custSor || 'per';
@@ -91,20 +92,22 @@ export default class CustBasic extends PureComponent {
     return icon;
   }
 
+	@autobind
   getDataModel() {
     const type = this.props.params.custSor || 'per';
     const data = this.props.data;
     return (type === 'per') ? data.customerInfoPer : data.customerInfoOrg;
   }
 
+	@autobind
   contactData(arr, obj = {}) {
     const tempArr = arr;
     arr.map((item, index) => {
-      debugger
       let value = (!obj || !obj[item.type]) ? '--' : obj[item.type];
       if (item.type === 'idValDate' || item.type === 'foundTime' || item.type === 'openTime' || item.type === 'lastCommission') {
         value = (value.length === 10) ? value.replace(/-/g, '/') : value.slice(0, 10);
       }
+      if( item.type === 'regAsset' ) value = (!value || isNaN(Number(value))) ? '0.00' : Number(value).toFixed(2);
       tempArr[index].value = value;
       tempArr[index].key = index + 1;
       return true;
@@ -122,7 +125,7 @@ export default class CustBasic extends PureComponent {
             iconName={'fanhui'}
             onLeftClick={goBack}
           >
-						{title}
+            {title}
           </NavBar>
           <div className="null-msg">
             <img className="null-icon" alt="空数据" src="../../../static/img/none.png" />
@@ -133,14 +136,15 @@ export default class CustBasic extends PureComponent {
     }
     const labelArr = (this.props.params.custSor === 'per') ? per : org;
     const getCustIcon = this.getCustIcon();
+		const isFold = this.state.isFold ? 'up' : 'down';
     const custName = this.getMapKey('custName');
     const arr = this.contactData(labelArr, dataModel);
     const renderHead = obj => (
       <section className="baseHead">
         <div className="headIcon"><Icon type={obj.icon} /></div>
         <div className="headInfo">
-          <p className="custName">{obj.name || '--'}</p>
-          <p className="custNum">{obj.number || '--'}</p>
+          <p className="custName">{(!obj.name) ? obj.name : '--'}</p>
+          <p className="custNum">{(!obj.number) ? obj.number : '--'}</p>
         </div>
       </section>
     );
@@ -163,7 +167,6 @@ export default class CustBasic extends PureComponent {
         </NavBar>
 
         { renderHead({ icon: getCustIcon, name: custName, number: params.custNumber }) }
-
         <List className="cust-basic-list">
           {itemShow}
         </List>
