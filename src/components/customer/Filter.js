@@ -97,7 +97,7 @@ class Filter extends PureComponent {
     const prevFilter = this.state.filter;
     const { accountStatus: status } = prevFilter;
     if (_.find(status, str => str === val)) {
-      status.splice(status.findIndex(str => str === val), 1);
+      status.splice(_.findIndex(status, str => str === val), 1);
     } else {
       status.push(val);
     }
@@ -114,7 +114,7 @@ class Filter extends PureComponent {
     const prevFilter = this.state.filter;
     const { riskLevel: riskLev } = prevFilter;
     if (_.find(riskLev, str => str === val)) {
-      riskLev.splice(riskLev.findIndex(str => str === val), 1);
+      riskLev.splice(_.findIndex(riskLev, str => str === val), 1);
     } else {
       riskLev.push(val);
     }
