@@ -76,7 +76,7 @@ export default class CustContactPer extends PureComponent {
     };
   }
 
-	@autobind
+  @autobind
   getBaseKey(key) {
     const data = this.props.data;
     if (!data || !data.custBaseInfo) return '--';
@@ -84,7 +84,7 @@ export default class CustContactPer extends PureComponent {
     return (!value) ? '--' : value;
   }
 
-	@autobind
+  @autobind
   getSectionArr(arr) {
     if (!arr) return [];
     let data = this.props.data;
@@ -103,7 +103,7 @@ export default class CustContactPer extends PureComponent {
     return resultArr;
   }
 
-	@autobind
+  @autobind
   isNull(arr) {
     if (!arr) return false;
     let bool = 0;

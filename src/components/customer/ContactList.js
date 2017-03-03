@@ -35,7 +35,7 @@ export default class ContactList extends PureComponent {
     };
   }
 
-	@autobind
+  @autobind
   getList() {
     const arr = [];
     if (!this.props.labelArr) return false;
