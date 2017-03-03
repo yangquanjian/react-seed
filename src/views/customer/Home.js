@@ -18,6 +18,7 @@ import './home.less';
 const mapStateToProps = state => ({
   info: state.customer.info,
   list: state.customer.list,
+  tabIndex: state.status.customerTabIndex,
 });
 
 const mapDispatchToProps = {
@@ -28,6 +29,10 @@ const mapDispatchToProps = {
   getInfo: query => ({
     type: 'customer/getInfo',
     payload: query,
+  }),
+  changeTabIndex: index => ({
+    type: 'status/changeCustomerTabIndex',
+    payload: index,
   }),
   push: routerRedux.push,
   replace: routerRedux.replace,
@@ -46,6 +51,8 @@ export default class CustomerHome extends PureComponent {
     replace: PropTypes.func,
     push: PropTypes.func.isRequired,
     isFirstLoad: PropTypes.bool,
+    changeTabIndex: PropTypes.func.isRequired,
+    tabIndex: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
@@ -85,7 +92,16 @@ export default class CustomerHome extends PureComponent {
   }
 
   render() {
-    const { info, list, getList, location, replace, push } = this.props;
+    const {
+      info,
+      list,
+      getList,
+      location,
+      replace,
+      push,
+      tabIndex,
+      changeTabIndex,
+    } = this.props;
     const sidebar = (
       <Filter
         onOpenChange={this.onOpenChange}
@@ -102,7 +118,11 @@ export default class CustomerHome extends PureComponent {
     const footerHeight = bar ? bar.offsetHeight : 0;
     return (
       <section className="page-customer">
-        <CustomerInfo data={info} />
+        <CustomerInfo
+          data={info}
+          tabIndex={tabIndex}
+          changeTabIndex={changeTabIndex}
+        />
         <CustomerList
           list={list}
           getList={getList}
