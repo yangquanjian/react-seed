@@ -56,9 +56,13 @@ export default class SearchList extends PureComponent {
 
   @autobind
   onEndReached() {
+    const { searchInfo: { page } } = this.props;
+    if (page.curPageNum === page.totalPageNum) {
+      return;
+    }
     const { loading } = this.state;
     if (!loading) {
-      this.setState({ loading }, this.refreshMore);
+      this.setState({ loading: true }, this.refreshMore);
     }
   }
 
@@ -128,6 +132,10 @@ export default class SearchList extends PureComponent {
 
   @autobind
   renderFooter() {
+    const { searchInfo: { page } } = this.props;
+    if (page.curPageNum === page.totalPageNum) {
+      return (<div>已经到底了</div>);
+    }
     const { loading } = this.state;
     return loading ? (
       <div>加载中...</div>
