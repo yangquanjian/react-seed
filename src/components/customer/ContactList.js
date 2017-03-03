@@ -4,6 +4,7 @@
  */
 
 import React, { PropTypes, PureComponent } from 'react';
+import { autobind } from 'core-decorators';
 import ContactItem from './ContactItem';
 
 import './contact_list.less';
@@ -30,25 +31,30 @@ export default class ContactList extends PureComponent {
     super(props);
 
     this.state = {
-      getList: () => {
-        const arr = [];
-        this.props.labelArr.map((item, index) => {
-          arr.push({
-            label: this.props.labelArr[index],
-            name: this.props.nameArr[index],
-            data: this.props.dataArr[index],
-          });
-          return true;
-        });
 
-        return arr;
-      },
     };
+  }
+
+	@autobind
+  getList() {
+    const arr = [];
+    if (!this.props.labelArr) return false;
+    this.props.labelArr.map((item, index) => {
+      arr.push({
+        label: this.props.labelArr[index] || '',
+        name: this.props.nameArr[index] || '',
+        data: this.props.dataArr[index] || [],
+      });
+      return true;
+    });
+
+    return arr;
   }
 
   render() {
     const isNull = this.props.isNull;
-    const list = this.state.getList();
+    const list = this.getList();
+    if (!list) return null;
     const listShow = list.map((item, index) => (
       <div className={`data-box len${item.data.length}`} key={`${item.label}-${index + 1}`}>
         <h4 className={`til len${item.data.length}`}>
