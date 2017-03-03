@@ -88,6 +88,7 @@ export default class CustContactPer extends PureComponent {
     if (!data) return null;
     const resultArr = [];
     data = (this.props.params.custSor === 'per') ? data.perCustomerContactInfo : [];
+    if (!data) return [];
     arr.map((item) => {
       let temp = (data[item]) ? data[item] : [];
       if (item === 'idAddress') {
