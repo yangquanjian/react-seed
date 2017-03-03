@@ -29,7 +29,7 @@ export default class SearchList extends PureComponent {
     super(props);
 
     this.state = {
-      dataSource: null,
+      dataSource: prepareDataSource(props.searchInfo.list),
       loading: props.loading,
     };
   }

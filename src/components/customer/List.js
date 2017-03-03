@@ -42,7 +42,7 @@ export default class CustomerInfo extends PureComponent {
     const { resultList = [] } = props.list ? props.list : {};
     const { location: { query } } = this.props;
     this.state = {
-      dataSource: prepareDataSource(resultList),
+      dataSource: prepareDataSource(resultList, true),
       isLoading: false,
       isEnd: false,
       isError,
@@ -58,7 +58,7 @@ export default class CustomerInfo extends PureComponent {
     const { resultList = [] } = list || {};
     if (!_.isEqual(list, this.props.list)) {
       this.setState({
-        dataSource: prepareDataSource(resultList),
+        dataSource: prepareDataSource(resultList, true),
         isLoading: false,
         isEnd: _.isEmpty(resultList),
         isError: _.isEmpty(list),
@@ -228,6 +228,9 @@ export default class CustomerInfo extends PureComponent {
 
   @autobind
   renderRow(rowData, sectionID, rowID) {
+    if (_.isEmpty(rowData)) {
+      return null;
+    }
     const { push } = this.props;
     return (
       <ListItem
