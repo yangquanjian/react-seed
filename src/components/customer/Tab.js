@@ -36,9 +36,9 @@ export default class TabBar extends PureComponent {
 
   render() {
     const { chartData: dataSource, assetData: custMoneyDistributionDTOList } = this.props;
-    if (!dataSource) {
-      return null;
-    }
+    // if (!dataSource) {
+    //   return null;
+    // }
 
     const pieTabStyle = {
       width: '90%',
