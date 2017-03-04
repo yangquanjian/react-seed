@@ -46,9 +46,7 @@ export default class CustomerDetailHeader extends PureComponent {
     push(`/custBasic/${custNumber}/${custSor}/${custId}`);
   }
 
-  @autobind
-  filterDataSource() {
-    const { data: dataSource, custSor, custId } = this.props;
+  filterDataSource({ dataSource = {}, custId, custSor }) {
     let detailData = {};
     if (dataSource) {
       if (custSor === 'per') {
@@ -84,19 +82,48 @@ export default class CustomerDetailHeader extends PureComponent {
   }
 
   render() {
-    const { data: dataSource } = this.props;
-    if (!dataSource) {
-      return null;
+    const { data: dataSource = {}, custId, custSor } = this.props;
+
+    if (_.isEmpty(dataSource)) {
+      const emptyMore = {
+        className: 'empty_more',
+        type: 'empty',
+      };
+      const emptyAsset = {
+        className: 'empty_asset',
+        type: 'empty',
+      };
+      return (
+        <div className="detailHeaderSection">
+          <div className="basic">
+            <div className="headerLeft">
+              <i className="perCustIconSection_empty" />
+              <div className="nameSection">
+                <span className="custName" />
+                <div className="gradeIdSection">
+                  <i />
+                  <span className="custId" />
+                </div>
+              </div>
+            </div>
+            <div className="asset">
+              <Icon {...emptyAsset} />
+            </div>
+          </div>
+          <div className="basicSplit" />
+          <div className="headerBottom">
+            <div className="age" />
+            <div className="sex" />
+            <div className="moreInfo">
+              <Icon {...emptyMore} />
+              <div className="" />
+            </div>
+          </div>
+          <div className="headerSplit" />
+        </div>
+      );
     }
-    const filteredData = this.filterDataSource();
-    const personCust = {
-      className: 'custTitle',
-      type: filteredData.custGender === '男' ? 'touxiang' : 'nvxing',
-    };
-    const orgCust = {
-      className: 'orgIcon',
-      type: 'jigou',
-    };
+
     const custAsset = {
       className: 'moneyRight',
       type: 'jinbi1',
@@ -104,6 +131,16 @@ export default class CustomerDetailHeader extends PureComponent {
     const more = {
       className: 'more',
       type: 'browse',
+    };
+
+    const filteredData = this.filterDataSource({ dataSource, custId, custSor });
+    const personCust = {
+      className: 'custTitle',
+      type: filteredData.custGender === '男' ? 'touxiang' : 'nvxing',
+    };
+    const orgCust = {
+      className: 'orgIcon',
+      type: 'jigou',
     };
 
     const grade = classnames({

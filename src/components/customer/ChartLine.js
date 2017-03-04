@@ -78,10 +78,7 @@ export default class ChartLineWidget extends PureComponent {
   }
 
   render() {
-    let { chartData } = this.props;
-    // if (!chartData) {
-    //   return null;
-    // }
+    let { chartData = [] } = this.props;
 
     let minAssetProfit = 0;
     let maxAssetProfit = 0;

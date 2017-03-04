@@ -31,7 +31,7 @@ export default class ChartPieWidget extends PureComponent {
   }
 
   render() {
-    const { assetData } = this.props;
+    const { assetData = [] } = this.props;
 
     if (_.isEmpty(assetData)) {
       const nonePieOptions = {
