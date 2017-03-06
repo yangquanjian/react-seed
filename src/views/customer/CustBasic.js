@@ -83,7 +83,7 @@ export default class CustBasic extends PureComponent {
     labelArr.map((item) => {
       const node = this[item];
       const nodeW = (node) ? node.clientWidth : 0;
-      const parentHalfW = (node) ? node.parentElement.clientWidth / 2 : 0;
+      const parentHalfW = (node) ? (parseFloat(node.parentElement.clientWidth) / 2) : 0;
       if (nodeW !== 0 && nodeW > parentHalfW) {
         node.className += ' more';
       }
@@ -179,7 +179,7 @@ export default class CustBasic extends PureComponent {
       <Item
         className={item.type}
         key={item.key}
-        extra={<p ref={p => (this[item.type] = p)}>{item.value}</p>}
+        extra={<div className="text" ref={div => (this[item.type] = div)}>{item.value}</div>}
       >
         {item.name}
       </Item>
