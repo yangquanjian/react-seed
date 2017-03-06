@@ -47,22 +47,28 @@ export default class CustContactOrg extends PureComponent {
   }
 
   @autobind
-  getCustBase() {
-    // 获取机构联系人数据列表
-    const { data = {} } = this.props.data;
+  getDataModel() {
+    const { data = {} } = this.props;
     const { custId = '--' } = this.props.params;
-    if (_.isEmpty(data) || _.isEmpty(data[custId])) return {};
-    return data[custId].custBaseInfo || {};
+    const dataModel = data[custId] || {};
+    return dataModel;
+  }
+
+  @autobind
+  getCustName() {
+    // 获取机构联系人数据列表
+    const dataModel = this.getDataModel();
+    if (dataModel === {} || _.isEmpty(dataModel.custBaseInfo)) return '--';
+    const { custName = '--' } = dataModel.custBaseInfo || {};
+    return custName || '--';
   }
 
   @autobind
   getContactList() {
     // 获取机构联系人数据列表
-    const { data = {} } = this.props;
-    const { custId = '--' } = this.props.params;
-    if (_.isEmpty(data) || _.isEmpty(data[custId])) return [];
-    const temp = data[custId].orgCustomerContactInfoList || [];
-    return (temp && temp instanceof Array && temp.length > 0) ? temp : [];
+    const dataModel = this.getDataModel();
+    const contactList = dataModel.orgCustomerContactInfoList || [];
+    return (contactList instanceof Array && contactList.length > 0) ? contactList : [];
   }
 
   @autobind
@@ -98,12 +104,13 @@ export default class CustContactOrg extends PureComponent {
   handleClick(obj) {
     // 跳转联系人详情页
     const { push } = this.props;
-    push({ pathname: `/ContactOrgDetail/${obj.rowId}` });
+    const { custId = '--' } = this.props.params;
+    push({ pathname: `/ContactOrgDetail/${custId}/${obj.rowId}` });
   }
 
   render() {
     const { goBack } = this.props;
-    const { custName = '--' } = this.getCustBase();
+    const custName = this.getCustName();
     const contactArr = this.getContactList();
     const isNull = (contactArr && contactArr.length > 0) ? 'have-data' : 'no-data';
     const mainData = this.getMainContact(contactArr);

@@ -78,14 +78,28 @@ export default class CustContactPer extends PureComponent {
   }
 
   @autobind
+  getDataModel() {
+    const { data = {} } = this.props;
+    const { custId = '--' } = this.props.params;
+    const dataModel = data[custId] || {};
+    return dataModel;
+  }
+
+  @autobind
+  getCustName() {
+    const dataModel = this.getDataModel();
+    if (dataModel === {} || _.isEmpty(dataModel.custBaseInfo)) return '--';
+    const { custName = '--' } = dataModel.custBaseInfo || {};
+    return custName || '--';
+  }
+
+  @autobind
   getSectionArr(childLabelArr) {
     // 依据二级类型标签列表获取某类数据，
     // 如根据二级标签['身份证地址'，'家庭地址'，'单位地址'，'其他地址'],获取地址数据
     if (!childLabelArr) return [];
-    const { data = {} } = this.props;
-    const { custSor = '--', custId = '--' } = this.props.params;
-    let dataModel = data[custId];
-    if (_.isEmpty(dataModel)) return [];
+    const { custSor = '--' } = this.props.params;
+    let dataModel = this.getDataModel();
     dataModel = (custSor === 'per') ? dataModel.perCustomerContactInfo : [];
     if (_.isEmpty(dataModel)) return [];
 
@@ -116,8 +130,7 @@ export default class CustContactPer extends PureComponent {
 
   render() {
     const { goBack = () => {} } = this.props;
-    const { custId = '--' } = this.props.params;
-    const { custName = '--' } = this.props.data[custId] || {};
+    const custName = this.getCustName();
     const dataModel = LIST_KEY_ARR.map(item => ({
       data: this.getSectionArr(item.child),
       nullstyle: this.isNull(this.getSectionArr(item.child)),
