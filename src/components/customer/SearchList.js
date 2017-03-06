@@ -155,7 +155,7 @@ export default class SearchList extends PureComponent {
   render() {
     const { dataSource } = this.state;
     if (!dataSource) {
-      return (<p className="message-layer"><Message /></p>);
+      return null;
     }
     if (dataSource.getRowCount() === 0) {
       return (
