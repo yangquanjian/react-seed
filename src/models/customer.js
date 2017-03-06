@@ -14,9 +14,13 @@ export default {
     data: {},
     // 客户详情
     detailInfo: {},
+    // 客户基本信息
     basic: {},
+    // 个人客户联系方式
     contact: {},
+    // 机构客户联系人列表
     contactList: {},
+    // 服务信息列表
     serviceList: {},
     info: {},
     // 客户首页列表
@@ -28,27 +32,33 @@ export default {
   reducers: {
     getBasicSuccess(state, action) {
       // 客户基本信息
-      const { payload: { response } } = action;
+      const { payload: { response, custId } } = action;
       return {
         ...state,
-        basic: response.resultData,
+        basic: {
+          [custId]: response.resultData,
+        },
       };
     },
     getContactSuccess(state, action) {
       // 个人客户联系方式
-      const { payload: { response } } = action;
+      const { payload: { response, custId } } = action;
       return {
         ...state,
-        contact: response.resultData,
+        contact: {
+          [custId]: response.resultData,
+        },
 
       };
     },
     getContactListSuccess(state, action) {
       // 机构客户联系人
-      const { payload: { response } } = action;
+      const { payload: { response, custId } } = action;
       return {
         ...state,
-        contactList: response.resultData,
+        contactList: {
+          [custId]: response.resultData,
+        },
       };
     },
     getServiceListSuccess(state, action) {
@@ -158,7 +168,6 @@ export default {
     },
     * getCustBasic({ payload: { custNumber = 1, custSor = 'per', custId = 1 } }, { call, put }) {
       const response = yield call(api.getCustBasic, { custNumber, custSor, custId });
-      console.log(response);
       yield put({
         type: 'getBasicSuccess',
         payload: {
