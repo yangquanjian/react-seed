@@ -14,10 +14,14 @@ import AccountFilter from './AccountFilter';
 export default class CustomerDetailHeader extends PureComponent {
 
   static propTypes = {
+    // 基本信息数据
     data: PropTypes.object.isRequired,
     push: PropTypes.func,
+    // 客户类型
     custSor: PropTypes.string.isRequired,
+    // 经济客户号
     custNumber: PropTypes.string.isRequired,
+    // 客户号
     custId: PropTypes.string.isRequired,
   }
 
@@ -182,38 +186,37 @@ export default class CustomerDetailHeader extends PureComponent {
           <div className="headerSplit" />
         </div>
       );
-    } else if (filteredData.custType === 'org') {
-      return (
-        <div className="detailHeaderSection">
-          <div className="basic">
-            <div className="headerLeft">
-              <i className="orgCustIconSection"><Icon {...orgCust} /></i>
-              <div className="nameSection">
-                <span className="custName">机构客户</span>
-                <div className="gradeIdSection">
-                  <i className={grade} />
-                  <span className="custId">{filteredData.econNum}</span>
-                </div>
+    }
+
+    return (
+      <div className="detailHeaderSection">
+        <div className="basic">
+          <div className="headerLeft">
+            <i className="orgCustIconSection"><Icon {...orgCust} /></i>
+            <div className="nameSection">
+              <span className="custName">机构客户</span>
+              <div className="gradeIdSection">
+                <i className={grade} />
+                <span className="custId">{filteredData.econNum}</span>
               </div>
             </div>
-            <div className="asset">
-              <Icon {...custAsset} />
-              {filteredData.custTotalAsset}
-            </div>
           </div>
-          <div className="basicSplit" />
-          <div className="headerBottom">
-            <div className="industry">{filteredData.industry}</div>
-            <div className="acctType">{filteredData.acctType}</div>
-            <div className="moreInfo" onClick={this.handleClick}>
-              <Icon {...more} />
-              <div className="">查看更多</div>
-            </div>
+          <div className="asset">
+            <Icon {...custAsset} />
+            {filteredData.custTotalAsset}
           </div>
-          <div className="headerSplit" />
         </div>
-      );
-    }
-    return null;
+        <div className="basicSplit" />
+        <div className="headerBottom">
+          <div className="industry">{filteredData.industry}</div>
+          <div className="acctType">{filteredData.acctType}</div>
+          <div className="moreInfo" onClick={this.handleClick}>
+            <Icon {...more} />
+            <div className="">查看更多</div>
+          </div>
+        </div>
+        <div className="headerSplit" />
+      </div>
+    );
   }
 }
