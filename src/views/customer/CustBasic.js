@@ -8,6 +8,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { autobind } from 'core-decorators';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
+import _ from 'lodash';
 
 import { List } from 'antd-mobile';
 import NavBar from '../../components/common/NavBar';
@@ -16,7 +17,7 @@ import './custbasic.less';
 
 const Item = List.Item;
 
-const per = [
+const perLabelArr = [
 { type: 'custAge', name: '年龄', value: '', key: 0 },
 { type: 'custGrade', name: '客户等级', value: '', key: 0 },
 { type: 'idType', name: '证件类型', value: '', key: 0 },
@@ -31,7 +32,7 @@ const per = [
 { type: 'priSalesTeam', name: '服务经理', value: '', key: 0 },
 { type: 'lastCommission', name: '最近一次服务时间', value: '', key: 0 },
 ];
-const org = [
+const orgLabelArr = [
 { type: 'acctType', name: '机构类型', value: '', key: 0 },
 { type: 'custGrade', name: '客户等级', value: '', key: 0 },
 { type: 'idType', name: '证件类型', value: '', key: 0 },
@@ -74,8 +75,25 @@ export default class CustBasic extends PureComponent {
     this.state = {};
   }
 
+  componentDidMount() {
+    // 过长内容，展开显示
+    const { custSor } = this.props.params;
+    const type = custSor || 'per';
+    const labelArr = (type === 'per') ? ['job'] : ['industry', 'regAddress', 'busiArea'];
+    labelArr.map((item) => {
+      const node = this[item];
+      const nodeW = (node) ? node.clientWidth : 0;
+      const parentHalfW = (node) ? (parseFloat(node.parentElement.clientWidth) / 2) : 0;
+      if (nodeW !== 0 && nodeW > parentHalfW) {
+        node.className += ' more';
+      }
+      return true;
+    });
+  }
+
   @autobind
   getMapKey(key) {
+    // 获取数据模型key上value
     const dataModel = this.getDataModel();
     const value = (!dataModel || !dataModel[key] || dataModel[key] === '--') ? '--' : dataModel[key];
     return value;
@@ -83,29 +101,32 @@ export default class CustBasic extends PureComponent {
 
   @autobind
   getCustIcon() {
+    // 获取顶部Icon
+    const { custSor } = this.props.params;
     const dataModel = this.getDataModel();
-    if (Object.keys(dataModel).length < 1) return null;
-    const type = this.props.params.custSor || 'per';
-    let icon = '';
+    if (_.isEmpty(dataModel)) return null;
+    const type = custSor || 'per';
+    let icon = 'jigou';
     if (type === 'per') {
       icon = (!dataModel || dataModel.custGender === '男') ? 'touxiang' : 'nvxing';
-    } else {
-      icon = 'jigou';
     }
     return icon;
   }
 
   @autobind
   getDataModel() {
-    const type = this.props.params.custSor || 'per';
-    const data = this.props.data;
+    // 获取数据
+    const { custSor, custId } = this.props.params;
+    const type = custSor || 'per';
+    const data = this.props.data[custId];
     if (!data) return {};
     const dataModel = (type === 'per') ? data.customerInfoPer : data.customerInfoOrg;
-    return (!dataModel) ? {} : dataModel;
+    return dataModel || {};
   }
 
   @autobind
   contactData(arr, obj = {}) {
+    // 合并标签数组及接口数据
     const tempArr = arr;
     arr.map((item, index) => {
       let value = (!obj || !obj[item.type]) ? '--' : obj[item.type];
@@ -122,6 +143,7 @@ export default class CustBasic extends PureComponent {
 
   render() {
     const { title, goBack } = this.props;
+    const { custSor, custNumber } = this.props.params;
     const dataModel = this.getDataModel();
     if (!dataModel) {
       return (
@@ -139,10 +161,10 @@ export default class CustBasic extends PureComponent {
         </div>
       );
     }
-    const labelArr = (this.props.params.custSor === 'per') ? per : org;
-    const getCustIcon = this.getCustIcon();
+    const labelArr = (custSor === 'per') ? perLabelArr : orgLabelArr;
+    const custIcon = this.getCustIcon();
     const custName = this.getMapKey('custName');
-    const custNumber = (!this.props.params.custNumber || isNaN(this.props.params.custNumber)) ? '--' : this.props.params.custNumber;
+    const custNum = (!custNumber) ? '--' : custNumber;
     const arr = this.contactData(labelArr, dataModel);
     const renderHead = obj => (
       <section className="baseHead">
@@ -155,9 +177,9 @@ export default class CustBasic extends PureComponent {
     );
     const itemShow = arr.map(item => (
       <Item
-        className={`${item.type}`}
-        key={`${item.key}`}
-        extra={`${item.value}`}
+        className={item.type}
+        key={item.key}
+        extra={<div className="text" ref={div => (this[item.type] = div)}>{item.value}</div>}
       >
         {item.name}
       </Item>
@@ -171,7 +193,7 @@ export default class CustBasic extends PureComponent {
           {title}
         </NavBar>
 
-        { renderHead({ icon: getCustIcon, name: custName, number: custNumber }) }
+        { renderHead({ icon: custIcon, name: custName, number: custNum }) }
         <List className="cust-basic-list">
           {itemShow}
         </List>
