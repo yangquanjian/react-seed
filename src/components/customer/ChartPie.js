@@ -1,5 +1,4 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { autobind } from 'core-decorators';
 import classnames from 'classnames';
 import _ from 'lodash';
 import Chart from '../chart';
@@ -22,7 +21,6 @@ export default class ChartPieWidget extends PureComponent {
     };
   }
 
-  @autobind
   filterData(assetData) {
     if (assetData.indexOf('万') !== -1) {
       return Number.parseFloat(assetData.replace('万元', '')) * 10000;
@@ -33,10 +31,7 @@ export default class ChartPieWidget extends PureComponent {
   }
 
   render() {
-    const { assetData } = this.props;
-    // if (!assetData) {
-    //   return null;
-    // }
+    const { assetData = [] } = this.props;
 
     if (_.isEmpty(assetData)) {
       const nonePieOptions = {
@@ -81,7 +76,6 @@ export default class ChartPieWidget extends PureComponent {
           <Chart {...nonePieOptions} className="chart-content">
             <Chart.Pie {...nonePieSeries} className="chart-pie" />
           </Chart>
-          <div className="none-pie-data">暂无数据</div>
         </div>,
       );
 
@@ -90,19 +84,19 @@ export default class ChartPieWidget extends PureComponent {
           {
             nonePieArray
           }
+          <div className="none-pie-data">暂无数据</div>
         </div>
       );
     }
 
     const len = assetData.length;
-
-    const showData = [];
+    const filteredData = [];
     for (let i = 0; i < len; i++) {
       if (assetData[i].maketVal.toString().indexOf('.') !== -1) {
         // 小数
         const temp = assetData[i].maketVal.toString().split('.');
         if (temp[0].length >= 1 && temp[0].length <= 3) {
-          showData.push(
+          filteredData.push(
             {
               categoryName: assetData[i].categoryName,
               maketVal: `${Number.parseFloat(assetData[i].maketVal).toFixed(1)}元`,
@@ -110,7 +104,7 @@ export default class ChartPieWidget extends PureComponent {
               holdRate: Number.parseFloat(assetData[i].holdRate),
             });
         } else if (temp[0].length > 3 && temp[0].length < 9) {
-          showData.push(
+          filteredData.push(
             {
               categoryName: assetData[i].categoryName,
               maketVal: `${(Number.parseFloat(temp[0]) / 10000).toFixed(1)}万元`,
@@ -118,7 +112,7 @@ export default class ChartPieWidget extends PureComponent {
               holdRate: Number.parseFloat(assetData[i].holdRate),
             });
         } else if (temp[0].length > 8) {
-          showData.push({
+          filteredData.push({
             categoryName: assetData[i].categoryName,
             maketVal: `${(Number.parseFloat(temp[0]) / 100000000).toFixed(1)}亿元`,
             categoryId: assetData[i].categoryId,
@@ -127,7 +121,7 @@ export default class ChartPieWidget extends PureComponent {
         }
       } else if (assetData[i].maketVal.toString().length >= 0
         && assetData[i].maketVal.toString().length <= 3) {
-        showData.push({
+        filteredData.push({
           categoryName: assetData[i].categoryName,
           maketVal: `${assetData[i].maketVal.toFixed(1)}元`,
           categoryId: assetData[i].categoryId,
@@ -135,14 +129,14 @@ export default class ChartPieWidget extends PureComponent {
         });
       } else if (assetData[i].maketVal.toString().length > 3
         && assetData[i].maketVal.toString().length < 9) {
-        showData.push({
+        filteredData.push({
           categoryName: assetData[i].categoryName,
           maketVal: `${(assetData[i].maketVal / 10000).toFixed(1)}万元`,
           categoryId: assetData[i].categoryId,
           holdRate: Number.parseFloat(assetData[i].holdRate),
         });
       } else if (assetData[i].maketVal.toString().length >= 9) {
-        showData.push({
+        filteredData.push({
           categoryName: assetData[i].categoryName,
           maketVal: `${(assetData[i].maketVal / 100000000).toFixed(1)}亿元`,
           categoryId: assetData[i].categoryId,
@@ -155,12 +149,13 @@ export default class ChartPieWidget extends PureComponent {
     const dataExceptFuzhaiArray = [];
     // 总资产
     for (let i = 0; i < len; i++) {
-      if (showData[i].categoryName.toString().indexOf('负债') === -1) {
-        assetTotal = this.filterData(showData[i].maketVal) + assetTotal;
+      if (filteredData[i].categoryName.toString().indexOf('负债') === -1) {
+        assetTotal = this.filterData(filteredData[i].maketVal) + assetTotal;
         dataExceptFuzhaiArray.push({
-          categoryName: showData[i].categoryName,
-          maketVal: showData[i].maketVal,
-          holdRate: showData[i].holdRate,
+          categoryName: filteredData[i].categoryName,
+          maketVal: filteredData[i].maketVal,
+          holdRate: filteredData[i].holdRate,
+          categoryId: filteredData[i].categoryId,
         });
       }
     }
@@ -180,7 +175,7 @@ export default class ChartPieWidget extends PureComponent {
       });
     }
 
-    const fuzhaiData = _.find(showData, item => (
+    const fuzhaiData = _.find(filteredData, item => (
       item.categoryName.toString().indexOf('负债') !== -1
     ));
 
@@ -195,52 +190,52 @@ export default class ChartPieWidget extends PureComponent {
     const finalArrData = [];
     const colorArray = [];
     for (let i = 0; i < expectFuzhaiLen; i++) {
-      if (showData[i].categoryName.toString().indexOf('现金') !== -1) {
+      if (dataExceptFuzhaiArray[i].categoryName.toString().indexOf('现金') !== -1) {
         colorArray.push('#ec8d85');
-        finalArrData.push(<div key={showData[i].categoryId} className="xianjin">
+        finalArrData.push(<div key={dataExceptFuzhaiArray[i].categoryId} className="xianjin">
           <span className="xianjinCircle" />
-          <span className="assetName">{showData[i].categoryName}</span>
-          <span className="assetValue">{showData[i].maketVal}</span>
+          <span className="assetName">{dataExceptFuzhaiArray[i].categoryName}</span>
+          <span className="assetValue">{dataExceptFuzhaiArray[i].maketVal}</span>
           <span className="xianjinPercent">{percentArray[i]}</span>
         </div>);
-      } else if (showData[i].categoryName.toString().indexOf('股票') !== -1) {
+      } else if (dataExceptFuzhaiArray[i].categoryName.toString().indexOf('股票') !== -1) {
         colorArray.push('#da4e40');
-        finalArrData.push(<div key={showData[i].categoryId} className="gupiao">
+        finalArrData.push(<div key={dataExceptFuzhaiArray[i].categoryId} className="gupiao">
           <span className="gupiaoCircle" />
-          <span className="assetName">{showData[i].categoryName}</span>
-          <span className="assetValue">{showData[i].maketVal}</span>
+          <span className="assetName">{dataExceptFuzhaiArray[i].categoryName}</span>
+          <span className="assetValue">{dataExceptFuzhaiArray[i].maketVal}</span>
           <span className="gupiaoPercent">{percentArray[i]}</span>
         </div>);
-      } else if (showData[i].categoryName.toString().indexOf('理财') !== -1) {
+      } else if (dataExceptFuzhaiArray[i].categoryName.toString().indexOf('理财') !== -1) {
         colorArray.push('#f0b14a');
-        finalArrData.push(<div key={showData[i].categoryId} className="licai">
+        finalArrData.push(<div key={dataExceptFuzhaiArray[i].categoryId} className="licai">
           <span className="licaiCircle" />
-          <span className="assetName">{showData[i].categoryName}</span>
-          <span className="assetValue">{showData[i].maketVal}</span>
+          <span className="assetName">{dataExceptFuzhaiArray[i].categoryName}</span>
+          <span className="assetValue">{dataExceptFuzhaiArray[i].maketVal}</span>
           <span className="licaiPercent">{percentArray[i]}</span>
         </div>);
-      } else if (showData[i].categoryName.toString().indexOf('基金') !== -1) {
+      } else if (dataExceptFuzhaiArray[i].categoryName.toString().indexOf('基金') !== -1) {
         colorArray.push('#a4adec');
-        finalArrData.push(<div key={showData[i].categoryId} className="jijin">
+        finalArrData.push(<div key={dataExceptFuzhaiArray[i].categoryId} className="jijin">
           <span className="jijinCircle" />
-          <span className="assetName">{showData[i].categoryName}</span>
-          <span className="assetValue">{showData[i].maketVal}</span>
+          <span className="assetName">{dataExceptFuzhaiArray[i].categoryName}</span>
+          <span className="assetValue">{dataExceptFuzhaiArray[i].maketVal}</span>
           <span className="jijinPercent">{percentArray[i]}</span>
         </div>);
-      } else if (showData[i].categoryName.toString().indexOf('债券') !== -1) {
+      } else if (dataExceptFuzhaiArray[i].categoryName.toString().indexOf('债券') !== -1) {
         colorArray.push('#7fabe9');
-        finalArrData.push(<div key={showData[i].categoryId} className="zhaiquan">
+        finalArrData.push(<div key={dataExceptFuzhaiArray[i].categoryId} className="zhaiquan">
           <span className="zhaiquanCircle" />
-          <span className="assetName">{showData[i].categoryName}</span>
-          <span className="assetValue">{showData[i].maketVal}</span>
+          <span className="assetName">{dataExceptFuzhaiArray[i].categoryName}</span>
+          <span className="assetValue">{dataExceptFuzhaiArray[i].maketVal}</span>
           <span className="zhaiquanPercent">{percentArray[i]}</span>
         </div>);
-      } else if (showData[i].categoryName.toString().indexOf('衍生品') !== -1) {
+      } else if (dataExceptFuzhaiArray[i].categoryName.toString().indexOf('衍生品') !== -1) {
         colorArray.push('#f3d781');
-        finalArrData.push(<div key={showData[i].categoryId} className="yanshengpin">
+        finalArrData.push(<div key={dataExceptFuzhaiArray[i].categoryId} className="yanshengpin">
           <span className="yanshengpinCircle" />
-          <span className="assetName">{showData[i].categoryName}</span>
-          <span className="assetValue">{showData[i].maketVal}</span>
+          <span className="assetName">{dataExceptFuzhaiArray[i].categoryName}</span>
+          <span className="assetValue">{dataExceptFuzhaiArray[i].maketVal}</span>
           <span className="yanshengpinPercent">{percentArray[i]}</span>
         </div>);
       }
@@ -263,7 +258,7 @@ export default class ChartPieWidget extends PureComponent {
     };
 
     const fuzhaiHtmlArray = [];
-    if (!_.isEmpty(fuzhaiData) && fuzhaiData.maketVal !== 0) {
+    if (!_.isEmpty(fuzhaiData) && Number.parseInt(fuzhaiData.maketVal.toString().replace(/[元万亿]/, ''), 10) !== 0) {
       fuzhaiHtmlArray.push(<div key="fuzhai" className="fuzhai">
         <span className="fuzhaiLabel">负债</span>
         <span className="fuzhaiContent">{`-${fuzhaiData.maketVal}`}</span>
@@ -334,7 +329,6 @@ export default class ChartPieWidget extends PureComponent {
         <Chart {...nonePieOptions} className="chart-content">
           <Chart.Pie {...nonePieSeries} className="chart-pie" />
         </Chart>
-        <div className="none-pie-data">暂无数据</div>
       </div>,
     );
 
@@ -359,6 +353,7 @@ export default class ChartPieWidget extends PureComponent {
       <div>
         {hasDataPieArray}
         {nonePieArray}
+        {this.state.isShowPieData ? '' : <div className="none-pie-data">暂无数据</div>}
       </div>
     );
   }

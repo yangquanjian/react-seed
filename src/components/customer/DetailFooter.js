@@ -14,9 +14,13 @@ export default class CustomerDetailFooter extends PureComponent {
 
   static propTypes = {
     push: PropTypes.func.isRequired,
+    // 最后一次服务时间
     lastCommission: PropTypes.string,
+    // 客户号
     custId: PropTypes.string.isRequired,
+    // 经济客户号
     custNumber: PropTypes.string.isRequired,
+    // 客户类型
     custSor: PropTypes.string.isRequired,
   }
 
@@ -54,16 +58,11 @@ export default class CustomerDetailFooter extends PureComponent {
   }
 
   render() {
-    const { lastCommission: lastCommissionDate } = this.props;
-    // if (!lastCommissionDate) {
-    //   return null;
-    // }
-
+    const { lastCommission: lastCommissionDate = '' } = this.props;
     let lastCommissionHtml = '';
 
-    const tempArr = lastCommissionDate.split(/[- /]/);
-
     if (lastCommissionDate && lastCommissionDate.length > 0) {
+      const tempArr = lastCommissionDate.split(/[- /]/);
       lastCommissionHtml = `最近一次于${tempArr[2]}.${tempArr[0]}.${tempArr[1]}`;
     }
 
@@ -79,8 +78,5 @@ export default class CustomerDetailFooter extends PureComponent {
         </List>
       </div>
     );
-    // }
-
-    // return null;
   }
 }
