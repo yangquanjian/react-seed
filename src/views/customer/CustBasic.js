@@ -72,7 +72,22 @@ export default class CustBasic extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = { isFold: true };
+    this.state = {};
+  }
+
+  componentDidMount() {
+    const { custSor } = this.props.params;
+    const type = custSor || 'per';
+    const labelArr = (type === 'per') ? ['job'] : ['industry', 'regAddress', 'busiArea'];
+    labelArr.map((item) => {
+      const node = this[item];
+      const nodeW = (node) ? node.clientWidth : 0;
+      const parentHalfW = (node) ? node.parentElement.clientWidth / 2 : 0;
+      if (nodeW !== 0 && nodeW > parentHalfW) {
+        node.className += ' more';
+      }
+      return true;
+    });
   }
 
   @autobind
@@ -84,14 +99,13 @@ export default class CustBasic extends PureComponent {
 
   @autobind
   getCustIcon() {
+    const { custSor } = this.props.params;
     const dataModel = this.getDataModel();
     if (_.isEmpty(dataModel)) return null;
-    const type = this.props.params.custSor || 'per';
-    let icon = '';
+    const type = custSor || 'per';
+    let icon = 'jigou';
     if (type === 'per') {
       icon = (!dataModel || dataModel.custGender === '男') ? 'touxiang' : 'nvxing';
-    } else {
-      icon = 'jigou';
     }
     return icon;
   }
@@ -121,15 +135,9 @@ export default class CustBasic extends PureComponent {
     return tempArr;
   }
 
-  @autobind
-  checkFold() {
-    this.setState({ isFold: !this.state.isFold });
-  }
-
   render() {
     const { title, goBack } = this.props;
     const dataModel = this.getDataModel();
-    const checkFold = this.checkFold;
     if (!dataModel) {
       return (
         <div className="custBasic">
@@ -147,7 +155,6 @@ export default class CustBasic extends PureComponent {
       );
     }
     const labelArr = (this.props.params.custSor === 'per') ? per : org;
-    const isFold = this.state.isFold ? 'up' : 'down';
     const getCustIcon = this.getCustIcon();
     const custName = this.getMapKey('custName');
     const custNumber = (!this.props.params.custNumber || isNaN(this.props.params.custNumber)) ? '--' : this.props.params.custNumber;
@@ -161,27 +168,15 @@ export default class CustBasic extends PureComponent {
         </div>
       </section>
     );
-    const itemShow = arr.map((item) => {
-      if (item.type === 'job') {
-        return (<Item
-          className={`${item.type} ${isFold}`}
-          key={`${item.key}`}
-          extra={`${item.value}`}
-          onClick={() => { checkFold(); }}
-        >
-          {item.name}
-        </Item>);
-      }
-      return (
-        <Item
-          className={`${item.type}`}
-          key={`${item.key}`}
-          extra={`${item.value}`}
-        >
-          {item.name}
-        </Item>
-      );
-    });
+    const itemShow = arr.map(item => (
+      <Item
+        className={item.type}
+        key={item.key}
+        extra={<p ref={p => (this[item.type] = p)}>{item.value}</p>}
+      >
+        {item.name}
+      </Item>
+    ));
     return (
       <div className="custBasic">
         <NavBar
