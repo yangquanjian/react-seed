@@ -46,14 +46,6 @@ export default class CustContactOrg extends PureComponent {
   }
 
   @autobind
-  getBaseKey(key) {
-    const data = this.props.data;
-    if (!data) return '--';
-    const value = data.custBaseInfo[key];
-    return (!value) ? '--' : value;
-  }
-
-  @autobind
   getContactList() {
     if (!this.props.data) return [];
     const temp = this.props.data.orgCustomerContactInfoList;
@@ -62,7 +54,7 @@ export default class CustContactOrg extends PureComponent {
 
   @autobind
   getMainContact(arr) {
-    if (!arr || arr.length < 1) return null;
+    if (!arr || arr.length < 1 || !(arr instanceof Array)) return null;
     let mainObj = null;
     arr.map((item) => {
       if (item.mainFlag === true) mainObj = item;
@@ -73,7 +65,7 @@ export default class CustContactOrg extends PureComponent {
 
   @autobind
   getOtherContact(arr) {
-    if (!arr || arr.length < 1) return [];
+    if (!arr || arr.length < 1 || !(arr instanceof Array)) return [];
     const otherArr = [];
     arr.map((item, index) => {
       if (item.mainFlag === false) {
@@ -95,7 +87,7 @@ export default class CustContactOrg extends PureComponent {
 
   render() {
     const { goBack } = this.props;
-    const title = this.getBaseKey('custName');
+    const { custName = '--' } = this.props.data || {};
     const contactArr = this.getContactList();
     const isNull = (contactArr && contactArr.length > 0) ? 'have-data' : 'no-data';
     const mainData = this.getMainContact(contactArr);
@@ -121,8 +113,8 @@ export default class CustContactOrg extends PureComponent {
       if (otherData === null) return null;
       return otherData.map(item => (
         <div className="item" data={item} key={item.key} onClick={() => { this.handleClick(item); }}>
-          <p className="left">{item.name}</p>
-          <p className="right">{item.custRela}</p>
+          <p className="left">{item.name || '--'}</p>
+          <p className="right">{item.custRela || '--'}</p>
           <Icon className="more" type="more" />
         </div>
       ));
@@ -134,7 +126,7 @@ export default class CustContactOrg extends PureComponent {
           iconName={'fanhui'}
           onLeftClick={goBack}
         >
-          <p className="mid-contain">{title}</p>
+          <p className="mid-contain">{custName}</p>
         </NavBar>
         <secttion className="contain">
           <div className={`null-msg ${isNull}`}>

@@ -77,14 +77,6 @@ export default class CustContactPer extends PureComponent {
   }
 
   @autobind
-  getBaseKey(key) {
-    const data = this.props.data;
-    if (!data || !data.custBaseInfo) return '--';
-    const value = data.custBaseInfo[key];
-    return (!value) ? '--' : value;
-  }
-
-  @autobind
   getSectionArr(arr) {
     if (!arr) return [];
     let data = this.props.data;
@@ -116,8 +108,8 @@ export default class CustContactPer extends PureComponent {
   }
 
   render() {
-    const { goBack } = this.props;
-    const title = this.getBaseKey('custName');
+    const { goBack = () => {} } = this.props;
+    const { custName = '--' } = this.props.data || {};
     const dataModel = LIST_KEY_ARR.map(item => ({
       data: this.getSectionArr(item.child),
       nullstyle: this.isNull(this.getSectionArr(item.child)),
@@ -146,7 +138,7 @@ export default class CustContactPer extends PureComponent {
           iconName={'fanhui'}
           onLeftClick={goBack}
         >
-          <p className="mid-contain">{title}</p>
+          <p className="mid-contain">{custName}</p>
         </NavBar>
 
         <secttion className="other">
