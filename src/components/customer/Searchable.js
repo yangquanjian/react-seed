@@ -289,7 +289,7 @@ export default (ComposedComponent) => {
 
       return (
         <div className="customer-search">
-          <div className="customer-header">
+          <div className="customer-header fixed-header">
             <Select
               className="customer-header-select"
               ref={ref => (this.select = ref)}

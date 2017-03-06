@@ -61,7 +61,7 @@ export default class CustomerDetailHeader extends PureComponent {
           custName: dataSource ? `${dataSource.custName.slice(0, 1)}**` : '- -',
           custId: custId || '- -',
           custTotalAsset: AccountFilter(dataSource.totAsset),
-          econNum: dataSource.econNum || '- -',
+          econNum: dataSource.econNum || '',
         };
       } else if (custSor === 'org') {
         /** 机构客户 */
@@ -75,7 +75,7 @@ export default class CustomerDetailHeader extends PureComponent {
           custName: '机构客户',
           custId: custId || '- -',
           custTotalAsset: AccountFilter(dataSource.totAsset),
-          econNum: dataSource.econNum || '- -',
+          econNum: dataSource.econNum || '',
         };
       }
     }

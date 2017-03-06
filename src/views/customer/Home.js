@@ -38,6 +38,8 @@ const mapDispatchToProps = {
   replace: routerRedux.replace,
 };
 
+const appContainer = document.querySelector('#app');
+
 @connect(mapStateToProps, mapDispatchToProps)
 @withRouter
 @Searchable
@@ -84,11 +86,24 @@ export default class CustomerHome extends PureComponent {
         pageNum: 1,
       });
     }
+    appContainer.addEventListener('touchmove', this.handleTouch, false);
+  }
+
+  componentWillUnmount() {
+    appContainer.removeEventListener('touchmove', this.handleTouch, false);
   }
 
   @autobind
   onOpenChange() {
     this.setState({ open: !this.state.open });
+  }
+
+  @autobind
+  handleTouch(event) {
+    const { open } = this.state;
+    if (open) {
+      event.preventDefault();
+    }
   }
 
   render() {
@@ -136,6 +151,7 @@ export default class CustomerHome extends PureComponent {
           sidebar={sidebar}
           style={{ maxHeight: document.documentElement.clientHeight - footerHeight }}
           dragHandleStyle={{ display: 'none' }}
+          touch={false}
           {...drawerProps}
         >
           .

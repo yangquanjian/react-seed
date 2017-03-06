@@ -12,12 +12,14 @@ export default {
   namespace: 'customer',
   state: {
     data: {},
+    // 客户详情
     detailInfo: {},
     basic: {},
     contact: {},
     contactList: {},
     serviceList: {},
     info: {},
+    // 客户首页列表
     list: {
       page: {},
       resultList: [],
@@ -71,7 +73,7 @@ export default {
     },
     getListSuccess(state, action) {
       const { payload: { list, refresh } } = action;
-      const { page = {}, resultList: newData } = list.resultData;
+      const { page = {}, resultList: newData = [] } = list.resultData || {};
       const oldResult = refresh ? [] : state.list.resultList;
       if (_.isEmpty(newData) && !refresh) {
         return state;
@@ -84,16 +86,19 @@ export default {
         },
       };
     },
+    // 获取客户详情
     fetchCustDetailSuccess(state, action) {
       const { payload: { response, custId, custNumber, custSor } } = action;
       return {
         ...state,
         detailInfo: {
           ...state.detailInfo,
-          ...response.resultData,
-          custId,
-          custNumber,
-          custSor,
+          [custId]: {
+            ...response.resultData,
+            custId,
+            custNumber,
+            custSor,
+          },
         },
       };
     },

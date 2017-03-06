@@ -15,9 +15,23 @@
     &.@{searchPrefixCls}-start {
       .@{searchPrefixCls}-input {
         input[type="search"] {
-          padding-left: 0;
+          padding-left: 6px;
+          padding-right: 48px;
         }
       }
+    }
+  }
+
+  .fixed-header, .@{navbarPrefixCls} {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: @navbar-height;
+    z-index: 1;
+
+    & + div, & + section {
+      margin-top: @navbar-height;
     }
   }
 }

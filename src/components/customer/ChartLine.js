@@ -29,9 +29,6 @@ export default class ChartLineWidget extends PureComponent {
     };
   }
 
-  componentWillReceiveProps() {
-  }
-
   @autobind
   rateFilter(val) {
     let value = val;
@@ -81,10 +78,10 @@ export default class ChartLineWidget extends PureComponent {
   }
 
   render() {
-    const { chartData } = this.props;
-    if (!chartData) {
-      return null;
-    }
+    let { chartData } = this.props;
+    // if (!chartData) {
+    //   return null;
+    // }
 
     let minAssetProfit = 0;
     let maxAssetProfit = 0;
@@ -92,6 +89,41 @@ export default class ChartLineWidget extends PureComponent {
     let maxAssetProfitRate = 0;
     let averageAssetProfit = 0;
     let averageAssetProfitRate = 0;
+
+    if (_.isEmpty(chartData)) {
+      chartData = [
+        {
+          month: 201606,
+          assetProfit: 0,
+          assetProfitRate: 0,
+        },
+        {
+          month: 201607,
+          assetProfit: 0,
+          assetProfitRate: 0,
+        },
+        {
+          month: 201608,
+          assetProfit: 0,
+          assetProfitRate: 0,
+        },
+        {
+          month: 201609,
+          assetProfit: 0,
+          assetProfitRate: 0,
+        },
+        {
+          month: 201610,
+          assetProfit: 0,
+          assetProfitRate: 0,
+        },
+        {
+          month: 201611,
+          assetProfit: 0,
+          assetProfitRate: 0,
+        },
+      ];
+    }
 
     for (let i = 0; i < chartData.length; i++) {
       if (chartData[i].assetProfit < minAssetProfit) {
@@ -134,10 +166,10 @@ export default class ChartLineWidget extends PureComponent {
           },
         },
         data: chartData.map((item) => {
-          if (Number.parseInt(item.month.slice(4, 6), 10) >= 10) {
-            return `${item.month.slice(4, 6)}月`;
+          if (Number.parseInt(item.month.toString().slice(4, 6), 10) >= 10) {
+            return `${item.month.toString().slice(4, 6)}月`;
           }
-          return `${item.month.slice(5, 6)}月`;
+          return `${item.month.toString().slice(5, 6)}月`;
         }),
         boundaryGap: false,
         type: 'category',

@@ -84,6 +84,7 @@ export default class CustBasic extends PureComponent {
   @autobind
   getCustIcon() {
     const dataModel = this.getDataModel();
+    if (Object.keys(dataModel).length < 1) return null;
     const type = this.props.params.custSor || 'per';
     let icon = '';
     if (type === 'per') {
@@ -98,7 +99,9 @@ export default class CustBasic extends PureComponent {
   getDataModel() {
     const type = this.props.params.custSor || 'per';
     const data = this.props.data;
-    return (type === 'per') ? data.customerInfoPer : data.customerInfoOrg;
+    if (!data) return {};
+    const dataModel = (type === 'per') ? data.customerInfoPer : data.customerInfoOrg;
+    return (!dataModel) ? {} : dataModel;
   }
 
   @autobind
@@ -118,7 +121,7 @@ export default class CustBasic extends PureComponent {
   }
 
   render() {
-    const { title, params, goBack } = this.props;
+    const { title, goBack } = this.props;
     const dataModel = this.getDataModel();
     if (!dataModel) {
       return (
@@ -139,13 +142,14 @@ export default class CustBasic extends PureComponent {
     const labelArr = (this.props.params.custSor === 'per') ? per : org;
     const getCustIcon = this.getCustIcon();
     const custName = this.getMapKey('custName');
+    const custNumber = (!this.props.params.custNumber || isNaN(this.props.params.custNumber)) ? '--' : this.props.params.custNumber;
     const arr = this.contactData(labelArr, dataModel);
     const renderHead = obj => (
       <section className="baseHead">
         <div className="headIcon"><Icon type={obj.icon} /></div>
         <div className="headInfo">
-          <p className="custName">{(!obj.name) ? obj.name : '--'}</p>
-          <p className="custNum">{(!obj.number) ? obj.number : '--'}</p>
+          <p className="custName">{ obj.name }</p>
+          <p className="custNum">{ obj.number }</p>
         </div>
       </section>
     );
@@ -167,7 +171,7 @@ export default class CustBasic extends PureComponent {
           {title}
         </NavBar>
 
-        { renderHead({ icon: getCustIcon, name: custName, number: params.custNumber }) }
+        { renderHead({ icon: getCustIcon, name: custName, number: custNumber }) }
         <List className="cust-basic-list">
           {itemShow}
         </List>

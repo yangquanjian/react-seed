@@ -48,15 +48,16 @@ export default class CustContactOrg extends PureComponent {
   @autobind
   getBaseKey(key) {
     const data = this.props.data;
-    if (!data) return undefined;
+    if (!data || !data.custBaseInfo) return '--';
     const value = data.custBaseInfo[key];
     return (!value) ? '--' : value;
   }
 
   @autobind
   getContactList() {
+    if (!this.props.data) return [];
     const temp = this.props.data.orgCustomerContactInfoList;
-    return (temp instanceof Array && temp.length > 0) ? temp : [];
+    return (temp && temp instanceof Array && temp.length > 0) ? temp : [];
   }
 
   @autobind
@@ -116,13 +117,16 @@ export default class CustContactOrg extends PureComponent {
         </div>
       );
     };
-    const otherShow = otherData.map(item => (
-      <div className="item" data={item} key={item.key} onClick={() => { this.handleClick(item); }}>
-        <p className="left">{item.name}</p>
-        <p className="right">{item.custRela}</p>
-        <Icon className="more" type="more" />
-      </div>
-    ));
+    const otherShow = () => {
+      if (otherData === null) return null;
+      return otherData.map(item => (
+        <div className="item" data={item} key={item.key} onClick={() => { this.handleClick(item); }}>
+          <p className="left">{item.name}</p>
+          <p className="right">{item.custRela}</p>
+          <Icon className="more" type="more" />
+        </div>
+      ));
+    };
 
     return (
       <div className="cust-contact-org">
