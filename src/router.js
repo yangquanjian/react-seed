@@ -30,7 +30,6 @@ import MissionHome from './views/mission/Home';
 import MissionDetail from './views/mission/Detail';
 import Profile from './views/profile';
 
-
 const routes = ({ history }) => (// eslint-disable-line
   <Router
     history={history}
