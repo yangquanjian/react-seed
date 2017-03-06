@@ -8,6 +8,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
 import { autobind } from 'core-decorators';
+import _ from 'lodash';
 
 import NavBar from '../../components/common/NavBar';
 import Icon from '../../components/common/Icon';
@@ -46,16 +47,29 @@ export default class CustContactOrg extends PureComponent {
   }
 
   @autobind
+  getCustBase() {
+    // 获取机构联系人数据列表
+    const { data = {} } = this.props.data;
+    const { custId = '--' } = this.props.params;
+    if (_.isEmpty(data) || _.isEmpty(data[custId])) return {};
+    return data[custId].custBaseInfo || {};
+  }
+
+  @autobind
   getContactList() {
-    if (!this.props.data) return [];
-    const temp = this.props.data.orgCustomerContactInfoList;
+    // 获取机构联系人数据列表
+    const { data = {} } = this.props;
+    const { custId = '--' } = this.props.params;
+    if (_.isEmpty(data) || _.isEmpty(data[custId])) return [];
+    const temp = data[custId].orgCustomerContactInfoList || [];
     return (temp && temp instanceof Array && temp.length > 0) ? temp : [];
   }
 
   @autobind
   getMainContact(arr) {
-    if (!arr || arr.length < 1 || !(arr instanceof Array)) return null;
-    let mainObj = null;
+    // 获取主要联系人数据，主要联系人唯一
+    if (!(arr.length > 0 && arr instanceof Array)) return {};
+    let mainObj = {};
     arr.map((item) => {
       if (item.mainFlag === true) mainObj = item;
       return true;
@@ -65,7 +79,8 @@ export default class CustContactOrg extends PureComponent {
 
   @autobind
   getOtherContact(arr) {
-    if (!arr || arr.length < 1 || !(arr instanceof Array)) return [];
+    // 获取非主要联系人列表
+    if (!(arr.length > 0 && arr instanceof Array)) return [];
     const otherArr = [];
     arr.map((item, index) => {
       if (item.mainFlag === false) {
@@ -81,20 +96,21 @@ export default class CustContactOrg extends PureComponent {
 
   @autobind
   handleClick(obj) {
+    // 跳转联系人详情页
     const { push } = this.props;
     push({ pathname: `/ContactOrgDetail/${obj.rowId}` });
   }
 
   render() {
     const { goBack } = this.props;
-    const { custName = '--' } = this.props.data || {};
+    const { custName = '--' } = this.getCustBase();
     const contactArr = this.getContactList();
     const isNull = (contactArr && contactArr.length > 0) ? 'have-data' : 'no-data';
     const mainData = this.getMainContact(contactArr);
     const otherData = this.getOtherContact(contactArr);
 
     const mainShow = () => {
-      if (mainData === null) {
+      if (mainData === {}) {
         return (
           <div className="item">
             <p className="left nodata"><Icon className="left" type="shenfenzheng" />暂无信息</p>
@@ -110,7 +126,7 @@ export default class CustContactOrg extends PureComponent {
       );
     };
     const otherShow = () => {
-      if (otherData === null) return null;
+      if (otherData === []) return null;
       return otherData.map(item => (
         <div className="item" data={item} key={item.key} onClick={() => { this.handleClick(item); }}>
           <p className="left">{item.name || '--'}</p>
@@ -128,7 +144,7 @@ export default class CustContactOrg extends PureComponent {
         >
           <p className="mid-contain">{custName}</p>
         </NavBar>
-        <secttion className="contain">
+        <section className="contain">
           <div className={`null-msg ${isNull}`}>
             <img className="null-icon" alt="空数据" src="../../../static/img/none.png" />
             <p>暂无联系人</p>
@@ -136,10 +152,10 @@ export default class CustContactOrg extends PureComponent {
           <div className={`main ${isNull}`}>
             {mainShow()}
           </div>
-          <div className={`other ${isNull}`}>
-            {otherShow}
+          <div className={`other ${isNull} len-${otherData.length}`}>
+            {otherShow()}
           </div>
-        </secttion>
+        </section>
       </div>
     );
   }

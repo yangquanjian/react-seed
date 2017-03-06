@@ -42,19 +42,23 @@ export default {
     },
     getContactSuccess(state, action) {
       // 个人客户联系方式
-      const { payload: { response } } = action;
+      const { payload: { response, custId } } = action;
       return {
         ...state,
-        contact: response.resultData,
+        contact: {
+          [custId]: response.resultData,
+        },
 
       };
     },
     getContactListSuccess(state, action) {
       // 机构客户联系人
-      const { payload: { response } } = action;
+      const { payload: { response, custId } } = action;
       return {
         ...state,
-        contactList: response.resultData,
+        contactList: {
+          [custId]: response.resultData,
+        },
       };
     },
     getServiceListSuccess(state, action) {
@@ -163,7 +167,6 @@ export default {
     },
     * getCustBasic({ payload: { custNumber = 1, custSor = 'per', custId = 1 } }, { call, put }) {
       const response = yield call(api.getCustBasic, { custNumber, custSor, custId });
-      console.log(response);
       yield put({
         type: 'getBasicSuccess',
         payload: {

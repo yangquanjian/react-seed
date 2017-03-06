@@ -8,6 +8,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
 import { autobind } from 'core-decorators';
+import _ from 'lodash';
 
 import NavBar from '../../components/common/NavBar';
 import Icon from '../../components/common/Icon';
@@ -77,15 +78,20 @@ export default class CustContactPer extends PureComponent {
   }
 
   @autobind
-  getSectionArr(arr) {
-    if (!arr) return [];
-    let data = this.props.data;
-    if (!data) return [];
+  getSectionArr(childLabelArr) {
+    // 依据二级类型标签列表获取某类数据，
+    // 如根据二级标签['身份证地址'，'家庭地址'，'单位地址'，'其他地址'],获取地址数据
+    if (!childLabelArr) return [];
+    const { data = {} } = this.props;
+    const { custSor = '--', custId = '--' } = this.props.params;
+    let dataModel = data[custId];
+    if (_.isEmpty(dataModel)) return [];
+    dataModel = (custSor === 'per') ? dataModel.perCustomerContactInfo : [];
+    if (_.isEmpty(dataModel)) return [];
+
     const resultArr = [];
-    data = (this.props.params.custSor === 'per') ? data.perCustomerContactInfo : [];
-    if (!data) return [];
-    arr.map((item) => {
-      let temp = (data[item]) ? data[item] : [];
+    childLabelArr.map((item) => {
+      let temp = (dataModel[item]) ? dataModel[item] : [];
       if (item === 'idAddress') {
         temp = (!temp || Object.keys(temp).length === 0) ? [] : new Array(temp);
       }
@@ -96,10 +102,11 @@ export default class CustContactPer extends PureComponent {
   }
 
   @autobind
-  isNull(arr) {
-    if (!arr) return false;
+  isNull(dataArr) {
+    // 判断某类数据是否为空，如地址数据
+    if (!dataArr) return false;
     let bool = 0;
-    arr.map((item) => {
+    dataArr.map((item) => {
       if (item instanceof Array && item.length > 0) bool++;
       return true;
     });
@@ -109,7 +116,8 @@ export default class CustContactPer extends PureComponent {
 
   render() {
     const { goBack = () => {} } = this.props;
-    const { custName = '--' } = this.props.data || {};
+    const { custId = '--' } = this.props.params;
+    const { custName = '--' } = this.props.data[custId] || {};
     const dataModel = LIST_KEY_ARR.map(item => ({
       data: this.getSectionArr(item.child),
       nullstyle: this.isNull(this.getSectionArr(item.child)),
