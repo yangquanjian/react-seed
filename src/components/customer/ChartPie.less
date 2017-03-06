@@ -1,177 +1,214 @@
 .pieTabContent {
-  .chartPieSection {
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	position: relative;
-	max-height: 375px;
-	min-height: 375px;
-	height: 375px;
-	overflow-x: hidden;
-	overflow-y: hidden;
-}
-.displayNone {
-	display: none;
-}
-.displayBlock {
-	display: flex;
-}
-.assetDescription {
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-	flex-direction: column;
-	padding: 0;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	padding-left: 10px;
-	min-height: 360px;
-	height: 360px;
-	max-height: 450px;
-	position: absolute;
-	width: 62%;
-	right: 0;
-}
-.xianjin,.licai,.gupiao,.jijin, .yanshengpin, .zhaiquan {
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	flex-direction: row;
-	white-space: nowrap;
-	overflow: hidden;
-	border-bottom: 1px solid #dddddd;
-	padding: 16px;
-	color: #808080;
-	width: 100%;
-	padding-left: 0;
-	padding-right: 0;
-}
-.assetDescription div:last-child {
-	border-bottom: 0px;
-}
-.xianjinCircle {
-	background-color: #ec8d85;
-}
-.assetName {
-	padding-left: 20px;
-	font-size: 26px;
-	max-width: 120px;
-	width: 120px;
-}
-.assetValue {
-	font-size: 26px;
-	position: absolute;
-	right: 110px;
-}
-.xianjinPercent, .licaiPercent, .jijinPercent, .gupiaoPercent, .zhaiquanPercent, .yanshengpinPercent {
-	font-size: 24px;
-	position: absolute;
-	right: 10px;
-}
-.gupiaoCircle {
-	background-color: #da4e40;
-}
-.licaiCircle, .jijinCircle, .zhaiquanCircle, .yanshengpinCircle, .xianjinCircle, .gupiaoCircle {
-	border: 12px;
-	border-radius: 12px;
-	width: 12px;
-	height: 12px;
-}
-.licaiCircle {
-	background-color: #f0b14a;
-}
-.jijinCircle {
-	background-color: #a4adec;
-}
-.zhaiquanCircle {
-	background-color: #7fabe9;
-}
-.yanshengpinCircle {
-	background-color: #f3d781;
-}
-.xianjinPercent {
-	color: #ec8d85;
-}
-.licaiPercent {
-	color: #f0b14a;
-}
-.jijinPercent {
-	color: #a4adec;
-}
-.zhaiquanPercent {
-	color: #7fabe9;
-}
-.gupiaoPercent {
-	color: #da4e40;
-}
-.yanshengpinPercent {
-	color: #f3d781;
-}
-.chartPieNoneSection {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 375px;
-	min-height: 375px;
-	height: 375px;
-	max-height: 375px;
-	position: relative;
-	overflow-x: hidden;
-	overflow-y: hidden;
-}
-.chartPieSection, .chartPieNoneSection {
-	width: 100%;
-}
-.chartPieNoneSection > div:nth-child(1),.chartPieSection > div:nth-child(1) {
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin: 0;
-	padding: 0;
-}
-.chartPieNoneSection > div > div canvas {
-	padding: 0px;
-	margin: 0px;
-	border-width: 0px;
-	transform: scale(1.2);
-}
-.chartPieNoneSection > div > div {
-	width: 100%;
-	height: 100%;
-}
-.none-pie-data {
-	position: absolute;
-	color: #bec0c3;
-}
-.chartPieSection > div:nth-child(1) {
-	width: 300px;
-}
-.chartPieSection > div > div canvas {
-	top: -10px !important;
-	transform: scale(1.1);
-	left: -20px !important;
-}
-.fuzhai {
-	position: absolute;
-	left: 5%;
-	top: 82%;
-	text-align: center;
-	color: #69caa9;
-	font-size: 28px;
-	width: 40%;
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-}
-.noneFuzhai {
-	display: none;
-}
-.fuzhaiIcon {
-	color: #c3483b;
-	vertical-align: middle;
-}
-.fuzhaiContent {
-	padding-left: 10px;
-}
+	.chartPieSection {
+		display: flex;
+		display: -webkit-box;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		flex-direction: row;
+		-webkit-box-pack: start;
+		-webkit-box-align: center;
+		justify-content: flex-start;
+		align-items: center;
+		position: relative;
+		max-height: 375px;
+		min-height: 375px;
+		height: 375px;
+		overflow-x: hidden;
+		overflow-y: hidden;
+	}
+	.displayNone {
+		display: none;
+	}
+	.displayBlock {
+		display: -webkit-box;
+		display: flex;
+	}
+	.assetDescription {
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		flex-direction: column;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+		-webkit-box-pack: center;
+		-webkit-box-align: start;
+		padding: 0;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		padding-left: 10px;
+		min-height: 360px;
+		height: 360px;
+		max-height: 450px;
+		position: absolute;
+		width: 62%;
+		right: 0;
+	}
+	.xianjin,.licai,.gupiao,.jijin, .yanshengpin, .zhaiquan {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		flex-direction: row;
+		display: -webkit-box;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		-webkit-box-pack: start;
+		-webkit-box-align: center;
+		white-space: nowrap;
+		overflow: hidden;
+		border-bottom: 1px solid #dddddd;
+		padding: 16px;
+		color: #808080;
+		width: 100%;
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.assetDescription div:last-child {
+		border-bottom: 0px;
+	}
+	.xianjinCircle {
+		background-color: #ec8d85;
+	}
+	.assetName {
+		padding-left: 20px;
+		font-size: 26px;
+		max-width: 120px;
+		width: 120px;
+	}
+	.assetValue {
+		font-size: 26px;
+		position: absolute;
+		right: 110px;
+	}
+	.xianjinPercent, .licaiPercent, .jijinPercent, .gupiaoPercent, .zhaiquanPercent, .yanshengpinPercent {
+		font-size: 24px;
+		position: absolute;
+		right: 10px;
+	}
+	.gupiaoCircle {
+		background-color: #da4e40;
+	}
+	.licaiCircle, .jijinCircle, .zhaiquanCircle, .yanshengpinCircle, .xianjinCircle, .gupiaoCircle {
+		border: 12px;
+		border-radius: 12px;
+		width: 12px;
+		height: 12px;
+	}
+	.licaiCircle {
+		background-color: #f0b14a;
+	}
+	.jijinCircle {
+		background-color: #a4adec;
+	}
+	.zhaiquanCircle {
+		background-color: #7fabe9;
+	}
+	.yanshengpinCircle {
+		background-color: #f3d781;
+	}
+	.xianjinPercent {
+		color: #ec8d85;
+	}
+	.licaiPercent {
+		color: #f0b14a;
+	}
+	.jijinPercent {
+		color: #a4adec;
+	}
+	.zhaiquanPercent {
+		color: #7fabe9;
+	}
+	.gupiaoPercent {
+		color: #da4e40;
+	}
+	.yanshengpinPercent {
+		color: #f3d781;
+	}
+	.chartPieNoneSection {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		display: -webkit-box;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		flex-direction: row;
+		-webkit-box-pack: center;
+		-webkit-box-align: center;
+		height: 375px;
+		min-height: 375px;
+		height: 375px;
+		max-height: 375px;
+		position: relative;
+		overflow-x: hidden;
+		overflow-y: hidden;
+	}
+	.chartPieSection, .chartPieNoneSection {
+		width: 100%;
+	}
+	.chartPieNoneSection > div:nth-child(1),.chartPieSection > div:nth-child(1) {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		display: -webkit-box;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		flex-direction: row;
+		-webkit-box-pack: center;
+		-webkit-box-align: center;
+		margin: 0;
+		padding: 0;
+	}
+	.chartPieNoneSection > div > div canvas {
+		padding: 0px;
+		margin: 0px;
+		border-width: 0px;
+		transform: scale(1.2);
+	}
+	.chartPieNoneSection > div > div {
+		width: 100%;
+		height: 100%;
+	}
+	.none-pie-data {
+		color: #bec0c3;
+		position: absolute;
+    left: 44%;
+    top: 46%;
+	}
+	.chartPieSection > div:nth-child(1) {
+		width: 300px;
+	}
+	.chartPieSection > div > div canvas {
+		top: -10px !important;
+		transform: scale(1.1);
+		left: -20px !important;
+	}
+	.fuzhai {
+	  position: absolute;
+		left: 5%;
+		top: 82%;
+		text-align: center;
+		color: #69caa9;
+		font-size: 28px;
+		width: 40%;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		display: -webkit-box;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		flex-direction: row;
+		-webkit-box-pack: start;
+		-webkit-box-align: center;
+	}
+	.noneFuzhai {
+		display: none;
+	}
+	.fuzhaiIcon {
+		color: #c3483b;
+		vertical-align: middle;
+	}
+	.fuzhaiContent {
+		padding-left: 10px;
+	}
 }
