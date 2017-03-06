@@ -76,7 +76,6 @@ export default class ChartPieWidget extends PureComponent {
           <Chart {...nonePieOptions} className="chart-content">
             <Chart.Pie {...nonePieSeries} className="chart-pie" />
           </Chart>
-          <div className="none-pie-data">暂无数据</div>
         </div>,
       );
 
@@ -85,6 +84,7 @@ export default class ChartPieWidget extends PureComponent {
           {
             nonePieArray
           }
+          <div className="none-pie-data">暂无数据</div>
         </div>
       );
     }
@@ -329,7 +329,6 @@ export default class ChartPieWidget extends PureComponent {
         <Chart {...nonePieOptions} className="chart-content">
           <Chart.Pie {...nonePieSeries} className="chart-pie" />
         </Chart>
-        <div className="none-pie-data">暂无数据</div>
       </div>,
     );
 
@@ -354,6 +353,7 @@ export default class ChartPieWidget extends PureComponent {
       <div>
         {hasDataPieArray}
         {nonePieArray}
+        {this.state.isShowPieData ? '' : <div className="none-pie-data">暂无数据</div>}
       </div>
     );
   }

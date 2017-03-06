@@ -52,11 +52,11 @@ export default class CustomerDetailHeader extends PureComponent {
       if (custSor === 'per') {
         /** 个人客户 */
         detailData = {
-          custGender: dataSource.gender ? dataSource.gender : '- -',
-          custAge: dataSource.age ? dataSource.age : '- -',
-          custGrade: dataSource.custGrade ? dataSource.custGrade : '- -',
+          custGender: dataSource.gender || '- -',
+          custAge: dataSource.age || '- -',
+          custGrade: dataSource.custGrade || '- -',
           custType: 'per',
-          custName: dataSource ? `${dataSource.custName.slice(0, 1)}**` : '- -',
+          custName: dataSource.custName ? `${dataSource.custName.slice(0, 1)}**` : '- -',
           custId: custId || '- -',
           custTotalAsset: AccountFilter(dataSource.totAsset),
           econNum: dataSource.econNum || '',
@@ -65,12 +65,12 @@ export default class CustomerDetailHeader extends PureComponent {
         /** 机构客户 */
         detailData = {
           /** 所属行业 */
-          industry: dataSource.industry ? dataSource.industry : '- -',
+          industry: dataSource.industry || '- -',
           /** 机构类型 */
-          acctType: dataSource.acctType ? dataSource.acctType : '- -',
-          custGrade: dataSource.custGrade ? dataSource.custGrade : '- -',
+          acctType: dataSource.acctType || '- -',
+          custGrade: dataSource.custGrade || '- -',
           custType: 'org',
-          custName: '机构客户',
+          custName: dataSource.custName ? `${dataSource.custName.slice(0, 2)}**` : '- -',
           custId: custId || '- -',
           custTotalAsset: AccountFilter(dataSource.totAsset),
           econNum: dataSource.econNum || '',
@@ -112,11 +112,11 @@ export default class CustomerDetailHeader extends PureComponent {
           </div>
           <div className="basicSplit" />
           <div className="headerBottom">
-            <div className="age" />
-            <div className="sex" />
+            <div className="age">--</div>
+            <div className="sex">--</div>
             <div className="moreInfo">
               <Icon {...emptyMore} />
-              <div className="" />
+              <div className="">--</div>
             </div>
           </div>
           <div className="headerSplit" />
