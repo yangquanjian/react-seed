@@ -295,15 +295,15 @@ export default class CustomerInfo extends PureComponent {
         useBodyScroll
         onEndReached={this.onEndReached}
         onEndReachedThreshold={10}
-        stickyHeader
-        stickyProps={{
-          stickyStyle: { WebkitTransform: 'none', transform: 'none', zIndex: '1' },
+        // stickyHeader
+        // stickyProps={{
+          // stickyStyle: { WebkitTransform: 'none', transform: 'none', zIndex: '1' },
           // topOffset: -43,
           // isActive: false, // 关闭 sticky 效果
-        }}
-        stickyContainerProps={{
-          className: 'for-stickyContainer-demo',
-        }}
+        // }}
+        // stickyContainerProps={{
+          // className: 'for-stickyContainer-demo',
+        // }}
       />
     );
   }
