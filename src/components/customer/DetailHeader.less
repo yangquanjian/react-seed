@@ -1,177 +1,234 @@
 @detail_header_color_1: #959595;
-@detail_header_color_2: #f4b905;
-@detail_header_color_3: #c3483b;
-@detail_header_color_4: #df8d84;
-@background_detail_header_color_1: #faf6f6;
-
-.detailHeaderSection{
-  .asset {
-	// margin-left: 150px;
-	text-align: right;
-	// width: 50%;
-	font-size: 36px;
-	font-weight: 600;
-	position: absolute;
-  right: 0;
-  padding-right: 20px;
-  }
-  .basic {
-	padding-bottom: 25px;
-	padding-left: 28px;
-	padding-top: 28px;
-	padding-right: 30px;
-	display: flex;
-	background: #ffffff;
-	align-items: center;
-	justify-content: flex-start;
-  }
-  .headerLeft {
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	// width: 50%;
-  }
-  .basicSplit {
-	display: block;
-	border-bottom: 1px solid #efefef;
-  }
-  .headerBottom {
-    display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	padding-top: 15px;
-	padding-bottom: 15px;
-	background: #ffffff;
-  }
-  .age {
-	width: 33.3%;
-	text-align: center;
-	border-right: 1px solid #dddddd;
-	box-shadow: 0 0 black;
-	font-size: 30px;
-	color: @detail_header_color_1;
-  }
-  .industry {
-	width: 33.3%;
-	text-align: center;
-	border-right: 1px solid #dddddd;
-	box-shadow: 0 0 black;
-	font-size: 30px;
-	color: @detail_header_color_1;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-  }
-  .sex {
-	width: 33.3%;
-	text-align: center;
-	border-right: 1px solid #dddddd;
-	font-size: 28px;
-	color: @detail_header_color_1;
-  }
-  .acctType {
-    width: 33.3%;
-	text-align: center;
-	border-right: 1px solid #dddddd;
-	font-size: 28px;
-	color: @detail_header_color_1;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-  }
-  .moreInfo {
-	width: 33.3%;
-	text-align: center;
-	font-size: 24px;
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	flex-direction: column;
-  }
-  .headerSplit {
-	display: block;
-	border-bottom: 20px solid #efefef;
-  }
-  .nameSection {
-	padding-left: 15px;
-  }
-  .moneyRight {
-	padding-right: 10px;
-	color: @detail_header_color_2;
-	vertical-align: middle;
-  }
-  .more {
-	color: @detail_header_color_3;
-	font-size: 40px;
-  }
-  .custName {
-	font-size: 32px;
-  }
-  .custId {
-	font-size: 24px;
-	white-space: nowrap;
-  padding-left: 10px;
-	padding-top: 2px;
-  }
-  .gradeIdSection {
-	padding-top: 5px;
-	display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-  }
-  .orgIcon {
-	color: @detail_header_color_4;
-	font-size: 60px;
-  }
-  .custTitle {
-	color: @detail_header_color_4;
-	font-size: 60px;
-  }
-  .orgCustIconSection {
-	width: 100px;
-	height: 100px;
-	border: 1px solid #faf0f0;
-	border-radius: 100px;
-	background-color: @background_detail_header_color_1;
-	text-align: center;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-  }
-  .perCustIconSection {
-	width: 100px;
-	height: 100px;
-	border: 1px solid #faf0f0;
-	border-radius: 100px;
-	background-color: @background_detail_header_color_1;
-	text-align: center;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-  }
-  .emptyCard{
-	background: url('../../../static/img/emptyCard.png');
-  }
-  .goldCard{
-	background: url('../../../static/img/goldenCard.png');
-  }
-  .silverCard{
-	background: url('../../../static/img/silverCard.png');
-  }
-  .diamondCard{
-	background: url('../../../static/img/diamondCard.png');
-  }
-  .financeCard{
-	background: url('../../../static/img/financeCard.png');
-  }
-  .whiteGoldCard{
-	background: url('../../../static/img/whGoldenCard.png');
-  }
-  .emptyCard,.goldCard,.silverCard,.diamondCard,.financeCard,.whiteGoldCard{
-    width: 90px;
-    height: 30px;
-    background-repeat: no-repeat;
-    background-size: 90px 30px;
-		display: block;
-  }
-}
+	@detail_header_color_2: #f4b905;
+	@detail_header_color_3: #c3483b;
+	@detail_header_color_4: #df8d84;
+	@background_detail_header_color_1: #faf6f6;
+	.detailHeaderSection {
+		.asset {
+			text-align: right;
+			font-size: 36px;
+			font-weight: 600;
+			position: absolute;
+			right: 0;
+			padding-right: 20px;
+			width: 40%;
+		}
+		.basic {
+			padding-bottom: 25px;
+			padding-left: 28px;
+			padding-top: 28px;
+			padding-right: 30px;
+			display: flex;
+			background: #ffffff;
+			align-items: center;
+			justify-content: flex-start;
+			// display: -webkit-box;
+			-webkit-box-orient: horizontal;
+			-webkit-box-direction: normal;
+			-webkit-box-pack: start;
+			-webkit-box-align: center;
+		}
+		.headerLeft {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			display: -webkit-box;
+			-webkit-box-orient: horizontal;
+			-webkit-box-direction: normal;
+			-webkit-box-pack: start;
+			-webkit-box-align: center;
+			width: 60%;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		.basicSplit {
+			display: block;
+			border-bottom: 1px solid #efefef;
+		}
+		.headerBottom {
+			display: -webkit-box;
+			-webkit-box-orient: horizontal;
+			-webkit-box-direction: normal;
+			-webkit-box-pack: start;
+			-webkit-box-align: center;
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			padding-top: 15px;
+			padding-bottom: 15px;
+			background: #ffffff;
+		}
+		.age {
+			width: 33.3%;
+			text-align: center;
+			border-right: 1px solid #dddddd;
+			box-shadow: 0 0 black;
+			font-size: 30px;
+			color: @detail_header_color_1;
+		}
+		.industry {
+			width: 33.3%;
+			text-align: center;
+			border-right: 1px solid #dddddd;
+			box-shadow: 0 0 black;
+			font-size: 30px;
+			color: @detail_header_color_1;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		.sex {
+			width: 33.3%;
+			text-align: center;
+			border-right: 1px solid #dddddd;
+			font-size: 28px;
+			color: @detail_header_color_1;
+		}
+		.acctType {
+			width: 33.3%;
+			text-align: center;
+			border-right: 1px solid #dddddd;
+			font-size: 28px;
+			color: @detail_header_color_1;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		.moreInfo {
+			width: 33.3%;
+			text-align: center;
+			font-size: 24px;
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			flex-direction: column;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-box-direction: normal;
+			-webkit-box-pack: start;
+			-webkit-box-align: center;
+		}
+		.headerSplit {
+			display: block;
+			border-bottom: 20px solid #efefef;
+		}
+		.nameSection {
+			padding-left: 15px;
+		}
+		.moneyRight {
+			padding-right: 10px;
+			color: @detail_header_color_2;
+			vertical-align: middle;
+		}
+		.empty_asset {
+			padding-right: 10px;
+			vertical-align: middle;
+		}
+		.more {
+			color: @detail_header_color_3;
+			font-size: 40px;
+		}
+		.empty_more {
+			font-size: 40px;
+			height: 50px;
+		}
+		.custName {
+			font-size: 32px;
+		}
+		.custId {
+			font-size: 24px;
+			white-space: nowrap;
+			padding-left: 10px;
+			padding-top: 2px;
+		}
+		.gradeIdSection {
+			padding-top: 5px;
+			display: flex;
+			justify-content: flex-start;
+			align-items: flex-start;
+			display: -webkit-box;
+			-webkit-box-orient: horizontal;
+			-webkit-box-direction: normal;
+			-webkit-box-pack: start;
+			-webkit-box-align: start;
+		}
+		.orgIcon {
+			color: @detail_header_color_4;
+			font-size: 60px;
+		}
+		.custTitle {
+			color: @detail_header_color_4;
+			font-size: 60px;
+		}
+		.orgCustIconSection {
+			width: 100px;
+			height: 100px;
+			border: 1px solid #faf0f0;
+			border-radius: 100px;
+			background-color: @background_detail_header_color_1;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			display: -webkit-box;
+			-webkit-box-orient: horizontal;
+			-webkit-box-direction: normal;
+			-webkit-box-pack: center;
+			-webkit-box-align: center;
+		}
+		.perCustIconSection {
+			width: 100px;
+			height: 100px;
+			border: 1px solid #faf0f0;
+			border-radius: 100px;
+			background-color: @background_detail_header_color_1;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			display: -webkit-box;
+			-webkit-box-orient: horizontal;
+			-webkit-box-direction: normal;
+			-webkit-box-pack: center;
+			-webkit-box-align: center;
+		}
+		.perCustIconSection_empty {
+			width: 100px;
+			height: 100px;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			display: -webkit-box;
+			-webkit-box-orient: horizontal;
+			-webkit-box-direction: normal;
+			-webkit-box-pack: center;
+			-webkit-box-align: center;
+		}
+		.emptyCard {
+			background: url('../../../static/img/emptyCard.png');
+		}
+		.goldCard {
+			background: url('../../../static/img/goldenCard.png');
+		}
+		.silverCard {
+			background: url('../../../static/img/silverCard.png');
+		}
+		.diamondCard {
+			background: url('../../../static/img/diamondCard.png');
+		}
+		.financeCard {
+			background: url('../../../static/img/financeCard.png');
+		}
+		.whiteGoldCard {
+			background: url('../../../static/img/whGoldenCard.png');
+		}
+		.emptyCard,.goldCard,.silverCard,.diamondCard,.financeCard,.whiteGoldCard {
+			width: 90px;
+			height: 30px;
+			background-repeat: no-repeat;
+			background-size: 90px 30px;
+			display: block;
+		}
+	}

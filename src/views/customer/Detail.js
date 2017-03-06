@@ -7,7 +7,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
-import _ from 'lodash';
 
 import NavBar from '../../components/common/NavBar';
 import CustomerDetailHeader from '../../components/customer/DetailHeader';
@@ -46,7 +45,7 @@ export default class CustomerDetail extends PureComponent {
   };
 
   render() {
-    const { data, goBack, location: { query: { custId } } } = this.props;
+    const { data, goBack, push, location: { query: { custId } } } = this.props;
     const custData = data[custId] || {};
     const {
       custBaseInfo = {},
@@ -56,18 +55,7 @@ export default class CustomerDetail extends PureComponent {
       custNumber,
     } = custData;
 
-    const { push } = this.props;
-
-    if (_.isEmpty(custData)) {
-      return (
-        <div>
-          <NavBar
-            iconName={'fanhui'}
-            onLeftClick={goBack}
-          >客户详情</NavBar>
-        </div>
-      );
-    }
+    const { lastCommission = '' } = custBaseInfo.lastCommission || {};
 
     // <RecommendProductList {...this.props} />
     return (
@@ -88,7 +76,7 @@ export default class CustomerDetail extends PureComponent {
           assetData={custMoneyDistributionDTOList}
         />
         <CustomerDetailFooter
-          lastCommission={custBaseInfo.lastCommission}
+          lastCommission={lastCommission}
           push={push}
           custSor={custSor}
           custNumber={custNumber}

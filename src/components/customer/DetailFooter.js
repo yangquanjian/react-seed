@@ -6,6 +6,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
 import { List } from 'antd-mobile';
+import _ from 'lodash';
 import './DetailFooter.less';
 
 const Item = List.Item;
@@ -54,16 +55,26 @@ export default class CustomerDetailFooter extends PureComponent {
   }
 
   render() {
-    const { lastCommission: lastCommissionDate } = this.props;
-    // if (!lastCommissionDate) {
-    //   return null;
-    // }
-
+    const { lastCommission: lastCommissionDate = '' } = this.props;
     let lastCommissionHtml = '';
 
-    const tempArr = lastCommissionDate.split(/[- /]/);
+    if (_.isEmpty(lastCommissionDate)) {
+      return (
+        <div className="detailFooterSection">
+          <List className="detailFooterList">
+            <Item className="tel" thumb="../../../static/img/tel.png" arrow="horizontal" multipleLine >
+              <div className="telContent">联系方式</div>
+            </Item>
+            <Item className="serRecord" extra={lastCommissionHtml} thumb="../../../static/img/serviceRecord.png" arrow="horizontal" multipleLine >
+              <div className="recordContent">服务记录</div>
+            </Item>
+          </List>
+        </div>
+      );
+    }
 
     if (lastCommissionDate && lastCommissionDate.length > 0) {
+      const tempArr = lastCommissionDate.split(/[- /]/);
       lastCommissionHtml = `最近一次于${tempArr[2]}.${tempArr[0]}.${tempArr[1]}`;
     }
 
@@ -79,8 +90,5 @@ export default class CustomerDetailFooter extends PureComponent {
         </List>
       </div>
     );
-    // }
-
-    // return null;
   }
 }
