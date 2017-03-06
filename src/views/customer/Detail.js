@@ -37,6 +37,7 @@ export default class CustomerDetail extends PureComponent {
     goBack: PropTypes.func.isRequired,
     // recommendList: PropTypes.array.isRequired,
     push: PropTypes.func,
+    location: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -45,19 +46,19 @@ export default class CustomerDetail extends PureComponent {
   };
 
   render() {
-    const { goBack } = this.props;
+    const { data, goBack, location: { query: { custId } } } = this.props;
+    const custData = data[custId] || {};
     const {
-      custBaseInfo,
-      monthlyProfits,
-      custMoneyDistributionDTOList,
+      custBaseInfo = {},
+      monthlyProfits = [],
+      custMoneyDistributionDTOList = [],
       custSor,
       custNumber,
-      custId,
-    } = this.props.data;
+    } = custData;
 
     const { push } = this.props;
 
-    if (_.isEmpty(this.props.data)) {
+    if (_.isEmpty(custData)) {
       return (
         <div>
           <NavBar

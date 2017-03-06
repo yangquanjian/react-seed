@@ -11,6 +11,7 @@ import { persistStore, autoRehydrate } from 'redux-persist';
 import { Modal } from 'antd-mobile';
 import _ from 'lodash';
 
+import createSensorsLogger from './middlewares/sensorsLogger';
 import routerConfig from './router';
 import persistConfig from './config/persist';
 import FastClick from './utils/fastclick';
@@ -26,10 +27,9 @@ if (persistConfig.active) {
 // 1. Initialize
 const app = dva({
   history: browserHistory,
-  onAction: createLogger(),
+  onAction: [createLogger(), createSensorsLogger()],
   extraEnhancers,
   onError(e) {
-    console.log(e);
     const { message } = e;
     if (message === 'MAG0010') {
       Modal.alert(

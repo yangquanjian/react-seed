@@ -141,9 +141,9 @@ export default class CustContactPer extends PureComponent {
           <p className="mid-contain">{custName}</p>
         </NavBar>
 
-        <secttion className="other">
+        <section className="other">
           {dataShow}
-        </secttion>
+        </section>
       </div>
     );
   }

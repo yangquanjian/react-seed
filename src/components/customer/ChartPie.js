@@ -1,6 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { autobind } from 'core-decorators';
-// import classnames from 'classnames';
+import classnames from 'classnames';
 import _ from 'lodash';
 import Chart from '../chart';
 import './ChartPie.less';
@@ -18,6 +18,7 @@ export default class ChartPieWidget extends PureComponent {
     super(props);
     this.state = {
       isLoading: false,
+      isShowPieData: false,
     };
   }
 
@@ -33,23 +34,22 @@ export default class ChartPieWidget extends PureComponent {
 
   render() {
     const { assetData } = this.props;
-    if (!assetData) {
-      return null;
-    }
+    // if (!assetData) {
+    //   return null;
+    // }
 
-    const len = assetData.length;
-    if (len === 0 || (len === 1 && assetData[0].categoryName.toString().indexOf('负债') !== -1)) {
-      const options = {
+    if (_.isEmpty(assetData)) {
+      const nonePieOptions = {
         title: {
           text: '暂无数据',
           x: 'center',
           y: 'center',
         },
         height: '4.8rem',
-        width: '100%',
+        width: '4rem',
       };
 
-      const series = {
+      const nonePieSeries = {
         name: '资产构成',
         type: 'pie',
         radius: ['40%', '60%'],
@@ -69,15 +69,32 @@ export default class ChartPieWidget extends PureComponent {
         color: ['#e6e5e5'],
       };
 
-      return (
-        <div className="chart-pie-none-section">
-          <Chart {...options} className="chart-content">
-            <Chart.Pie {...series} className="chart-pie" />
+      const nonePieDataClass = classnames({
+        chartPieNoneSection: true,
+        displayBlock: true,
+        displayNone: false,
+      });
+
+      const nonePieArray = [];
+      nonePieArray.push(
+        <div key="noneData" className={nonePieDataClass}>
+          <Chart {...nonePieOptions} className="chart-content">
+            <Chart.Pie {...nonePieSeries} className="chart-pie" />
           </Chart>
           <div className="none-pie-data">暂无数据</div>
+        </div>,
+      );
+
+      return (
+        <div>
+          {
+            nonePieArray
+          }
         </div>
       );
     }
+
+    const len = assetData.length;
 
     const showData = [];
     for (let i = 0; i < len; i++) {
@@ -148,56 +165,11 @@ export default class ChartPieWidget extends PureComponent {
       }
     }
 
-    if (assetTotal <= 0) {
-      const options = {
-        title: {
-          text: '暂无数据',
-          x: 'center',
-          y: 'center',
-        },
-        height: '4.8rem',
-        width: '100%',
-      };
-
-      const series = {
-        name: '资产构成',
-        type: 'pie',
-        radius: ['40%', '60%'],
-        center: ['50%', '50%'],
-        label: {
-          normal: {
-            show: false,
-          },
-        },
-        hoverAnimation: false,
-        data: [
-          {
-            name: '暂无数据',
-            value: 100,
-          },
-        ],
-        color: ['#e6e5e5'],
-      };
-
-      return (
-        <div className="chart-pie-none-section">
-          <Chart {...options} className="chart-content">
-            <Chart.Pie {...series} className="chart-pie" />
-          </Chart>
-          <div className="none-pie-data">暂无数据</div>
-        </div>
-      );
-    }
-
     // 资产百分比
     const percentArray = [];
     const expectFuzhaiLen = dataExceptFuzhaiArray.length;
     for (let i = 0; i < expectFuzhaiLen; i++) {
-      const rate = dataExceptFuzhaiArray[i].holdRate * 100;
-      if (rate < 1) {
-        percentArray.push(`${Math.round(rate)}%`);
-      }
-      percentArray.push(`${rate.toFixed(1)}%`);
+      percentArray.push(`${(dataExceptFuzhaiArray[i].holdRate * 100).toFixed(1)}%`);
     }
 
     const pieData = [];
@@ -298,8 +270,77 @@ export default class ChartPieWidget extends PureComponent {
       </div>);
     }
 
-    return (
-      <div className="chart-pie-section">
+    if (len === 0 || (len === 1 && assetData[0].categoryName.toString().indexOf('负债') !== -1) || assetTotal <= 0) {
+      this.state.isShowPieData = false;
+    } else {
+      this.state.isShowPieData = true;
+    }
+
+    let hasPieDataClass = {};
+    let nonePieDataClass = {};
+    if (this.state.isShowPieData === true) {
+      hasPieDataClass = classnames({
+        chartPieSection: true,
+        displayBlock: true,
+        displayNone: false,
+      });
+      nonePieDataClass = classnames({
+        displayNone: true,
+      });
+    } else {
+      nonePieDataClass = classnames({
+        chartPieNoneSection: true,
+        displayBlock: true,
+        displayNone: false,
+      });
+      hasPieDataClass = classnames({
+        displayNone: true,
+      });
+    }
+
+    const nonePieOptions = {
+      title: {
+        text: '暂无数据',
+        x: 'center',
+        y: 'center',
+      },
+      height: '4.8rem',
+      width: '4rem',
+    };
+
+    const nonePieSeries = {
+      name: '资产构成',
+      type: 'pie',
+      radius: ['40%', '60%'],
+      center: ['50%', '50%'],
+      label: {
+        normal: {
+          show: false,
+        },
+      },
+      hoverAnimation: false,
+      data: [
+        {
+          name: '暂无数据',
+          value: 100,
+        },
+      ],
+      color: ['#e6e5e5'],
+    };
+
+    const nonePieArray = [];
+    nonePieArray.push(
+      <div key="noneData" className={nonePieDataClass}>
+        <Chart {...nonePieOptions} className="chart-content">
+          <Chart.Pie {...nonePieSeries} className="chart-pie" />
+        </Chart>
+        <div className="none-pie-data">暂无数据</div>
+      </div>,
+    );
+
+    const hasDataPieArray = [];
+    hasDataPieArray.push(
+      <div key="hasData" className={hasPieDataClass}>
         <Chart {...options} className="chart-content">
           <Chart.Pie {...series} className="chart-pie" />
         </Chart>
@@ -311,6 +352,13 @@ export default class ChartPieWidget extends PureComponent {
             finalArrData
           }
         </div>
+      </div>,
+    );
+
+    return (
+      <div>
+        {hasDataPieArray}
+        {nonePieArray}
       </div>
     );
   }

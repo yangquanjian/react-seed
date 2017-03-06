@@ -1,4 +1,5 @@
-@borderRadius:28px;
+@borderRadius: 28px;
+
 .customer-search {
 
   .customer-header {
@@ -8,15 +9,16 @@
     background-color: #c4483c;
 
     &-select {
-      border-top-left-radius:@borderRadius;
-      border-bottom-left-radius:@borderRadius;
+      border-top-left-radius: @borderRadius;
+      border-bottom-left-radius: @borderRadius;
       width: 200px;
     }
 
     &-search {
-      padding:0;
+      padding: 0;
       flex: 1;
       background-color: #c4483c;
+      margin-left: -6px;
     }
   }
 
@@ -33,8 +35,8 @@
 .am-search-input{
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  border-top-right-radius:@borderRadius;
-  border-bottom-right-radius:@borderRadius;
+  border-top-right-radius: @borderRadius;
+  border-bottom-right-radius: @borderRadius;
   & .am-search-synthetic-ph-icon {
     display: none;
   }
@@ -133,6 +135,7 @@
         font-size: 26px;
         line-height: 1;
       }
+
     }
     & .am-list-thumb {
       width: 60px;
@@ -152,4 +155,7 @@
       }
     }
   }
+}
+.am-list-body div:not(:last-child) .am-list-line:after {
+  bottom:1px;
 }
