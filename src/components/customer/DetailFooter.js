@@ -72,7 +72,7 @@ export default class CustomerDetailFooter extends PureComponent {
           <Item className="tel" thumb="../../../static/img/tel.png" arrow="horizontal" multipleLine onClick={() => { this.handleClick('contact'); }}>
             <div className="telContent">联系方式</div>
           </Item>
-          <Item className="serRecord" extra={lastCommissionHtml} thumb="../../../static/img/serviceRecord.png" arrow="horizontal" multipleLine onClick={() => { this.handleClick('serviceRecord'); }}>
+          <Item className="serRecord" extra={lastCommissionHtml} thumb="../../../static/img/serviceRecord.png" arrow="horizontal" multipleLine>
             <div className="recordContent">服务记录</div>
           </Item>
         </List>
