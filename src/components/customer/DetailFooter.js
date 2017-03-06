@@ -6,7 +6,6 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
 import { List } from 'antd-mobile';
-import _ from 'lodash';
 import './DetailFooter.less';
 
 const Item = List.Item;
@@ -15,9 +14,13 @@ export default class CustomerDetailFooter extends PureComponent {
 
   static propTypes = {
     push: PropTypes.func.isRequired,
+    // 最后一次服务时间
     lastCommission: PropTypes.string,
+    // 客户号
     custId: PropTypes.string.isRequired,
+    // 经济客户号
     custNumber: PropTypes.string.isRequired,
+    // 客户类型
     custSor: PropTypes.string.isRequired,
   }
 
@@ -57,21 +60,6 @@ export default class CustomerDetailFooter extends PureComponent {
   render() {
     const { lastCommission: lastCommissionDate = '' } = this.props;
     let lastCommissionHtml = '';
-
-    if (_.isEmpty(lastCommissionDate)) {
-      return (
-        <div className="detailFooterSection">
-          <List className="detailFooterList">
-            <Item className="tel" thumb="../../../static/img/tel.png" arrow="horizontal" multipleLine >
-              <div className="telContent">联系方式</div>
-            </Item>
-            <Item className="serRecord" extra={lastCommissionHtml} thumb="../../../static/img/serviceRecord.png" arrow="horizontal" multipleLine >
-              <div className="recordContent">服务记录</div>
-            </Item>
-          </List>
-        </div>
-      );
-    }
 
     if (lastCommissionDate && lastCommissionDate.length > 0) {
       const tempArr = lastCommissionDate.split(/[- /]/);

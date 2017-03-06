@@ -86,7 +86,7 @@ export default {
         },
       };
     },
-    // 获取客户详情
+    // 获取客户详情成功
     fetchCustDetailSuccess(state, action) {
       const { payload: { response, custId, custNumber, custSor } } = action;
       return {
@@ -143,6 +143,7 @@ export default {
         },
       });
     },
+    // 获取客户详情
     * fetchCustDetail({ payload: { custId = 1, custNumber = 1, custSor = 'per' } }, { call, put }) {
       const response = yield call(api.getCustomerDetail, { custId, custNumber, custSor });
       yield put({

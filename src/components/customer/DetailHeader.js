@@ -14,10 +14,14 @@ import AccountFilter from './AccountFilter';
 export default class CustomerDetailHeader extends PureComponent {
 
   static propTypes = {
+    // 基本信息数据
     data: PropTypes.object.isRequired,
     push: PropTypes.func,
+    // 客户类型
     custSor: PropTypes.string.isRequired,
+    // 经济客户号
     custNumber: PropTypes.string.isRequired,
+    // 客户号
     custId: PropTypes.string.isRequired,
   }
 
@@ -46,9 +50,9 @@ export default class CustomerDetailHeader extends PureComponent {
     push(`/custBasic/${custNumber}/${custSor}/${custId}`);
   }
 
-  filterDataSource({ dataSource = {}, custId, custSor }) {
+  filterDataSource({ dataSource, custId, custSor }) {
     let detailData = {};
-    if (dataSource) {
+    if (!_.isEmpty(dataSource)) {
       if (custSor === 'per') {
         /** 个人客户 */
         detailData = {
@@ -60,6 +64,8 @@ export default class CustomerDetailHeader extends PureComponent {
           custId: custId || '- -',
           custTotalAsset: AccountFilter(dataSource.totAsset),
           econNum: dataSource.econNum || '',
+          industry: '',
+          acctType: '',
         };
       } else if (custSor === 'org') {
         /** 机构客户 */
@@ -74,6 +80,8 @@ export default class CustomerDetailHeader extends PureComponent {
           custId: custId || '- -',
           custTotalAsset: AccountFilter(dataSource.totAsset),
           econNum: dataSource.econNum || '',
+          custAge: '',
+          custGender: '',
         };
       }
     }
@@ -84,30 +92,33 @@ export default class CustomerDetailHeader extends PureComponent {
   render() {
     const { data: dataSource = {}, custId, custSor } = this.props;
 
+    const more = {
+      className: 'more',
+      type: 'browse',
+    };
+
+    const custAsset = {
+      className: 'moneyRight',
+      type: 'jinbi1',
+    };
+
     if (_.isEmpty(dataSource)) {
-      const emptyMore = {
-        className: 'empty_more',
-        type: 'empty',
-      };
-      const emptyAsset = {
-        className: 'empty_asset',
-        type: 'empty',
-      };
       return (
         <div className="detailHeaderSection">
           <div className="basic">
             <div className="headerLeft">
-              <i className="perCustIconSection_empty" />
+              <i className="perCustIconSection" />
               <div className="nameSection">
-                <span className="custName" />
+                <span className="custName">--</span>
                 <div className="gradeIdSection">
-                  <i />
-                  <span className="custId" />
+                  <i className="emptyCard" />
+                  <span className="custId">--</span>
                 </div>
               </div>
             </div>
             <div className="asset">
-              <Icon {...emptyAsset} />
+              <Icon {...custAsset} />
+              --
             </div>
           </div>
           <div className="basicSplit" />
@@ -115,8 +126,8 @@ export default class CustomerDetailHeader extends PureComponent {
             <div className="age">--</div>
             <div className="sex">--</div>
             <div className="moreInfo">
-              <Icon {...emptyMore} />
-              <div className="">--</div>
+              <Icon {...more} />
+              <div className="">查看更多</div>
             </div>
           </div>
           <div className="headerSplit" />
@@ -124,16 +135,8 @@ export default class CustomerDetailHeader extends PureComponent {
       );
     }
 
-    const custAsset = {
-      className: 'moneyRight',
-      type: 'jinbi1',
-    };
-    const more = {
-      className: 'more',
-      type: 'browse',
-    };
-
     const filteredData = this.filterDataSource({ dataSource, custId, custSor });
+
     const personCust = {
       className: 'custTitle',
       type: filteredData.custGender === '男' ? 'touxiang' : 'nvxing',
@@ -183,38 +186,37 @@ export default class CustomerDetailHeader extends PureComponent {
           <div className="headerSplit" />
         </div>
       );
-    } else if (filteredData.custType === 'org') {
-      return (
-        <div className="detailHeaderSection">
-          <div className="basic">
-            <div className="headerLeft">
-              <i className="orgCustIconSection"><Icon {...orgCust} /></i>
-              <div className="nameSection">
-                <span className="custName">机构客户</span>
-                <div className="gradeIdSection">
-                  <i className={grade} />
-                  <span className="custId">{filteredData.econNum}</span>
-                </div>
+    }
+
+    return (
+      <div className="detailHeaderSection">
+        <div className="basic">
+          <div className="headerLeft">
+            <i className="orgCustIconSection"><Icon {...orgCust} /></i>
+            <div className="nameSection">
+              <span className="custName">机构客户</span>
+              <div className="gradeIdSection">
+                <i className={grade} />
+                <span className="custId">{filteredData.econNum}</span>
               </div>
             </div>
-            <div className="asset">
-              <Icon {...custAsset} />
-              {filteredData.custTotalAsset}
-            </div>
           </div>
-          <div className="basicSplit" />
-          <div className="headerBottom">
-            <div className="industry">{filteredData.industry}</div>
-            <div className="acctType">{filteredData.acctType}</div>
-            <div className="moreInfo" onClick={this.handleClick}>
-              <Icon {...more} />
-              <div className="">查看更多</div>
-            </div>
+          <div className="asset">
+            <Icon {...custAsset} />
+            {filteredData.custTotalAsset}
           </div>
-          <div className="headerSplit" />
         </div>
-      );
-    }
-    return null;
+        <div className="basicSplit" />
+        <div className="headerBottom">
+          <div className="industry">{filteredData.industry}</div>
+          <div className="acctType">{filteredData.acctType}</div>
+          <div className="moreInfo" onClick={this.handleClick}>
+            <Icon {...more} />
+            <div className="">查看更多</div>
+          </div>
+        </div>
+        <div className="headerSplit" />
+      </div>
+    );
   }
 }
