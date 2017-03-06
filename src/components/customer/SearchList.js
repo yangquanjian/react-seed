@@ -9,9 +9,6 @@ import { ListView } from 'antd-mobile';
 
 import SearchItem from './SearchItem';
 import { prepareDataSource } from '../../utils/listView';
-import Message from '../message';
-
-import './search_list.less';
 
 export default class SearchList extends PureComponent {
 
@@ -77,11 +74,10 @@ export default class SearchList extends PureComponent {
     const {
       doSearch,
       searchInfo: { page },
-      location: { query: { keyword, custQueryType } },
+      location: { query },
     } = this.props;
     doSearch({
-      keyword,
-      custQueryType,
+      ...query,
       page: page.curPageNum + 1,
     });
   }
@@ -119,6 +115,7 @@ export default class SearchList extends PureComponent {
         key={`${sectionID}-${rowID}`}
         data={rowData}
         extra={extra}
+        query={keyword}
         onClick={() => this.handleClick(rowData)}
       />
     );
@@ -141,7 +138,7 @@ export default class SearchList extends PureComponent {
     }
     const { loading } = this.state;
     return loading ? (
-      <div><Message text={'努力加载中...'} imgName={'messageLoading.png'} /></div>
+      <div>加载中...</div>
     ) : null;
   }
 
@@ -159,7 +156,7 @@ export default class SearchList extends PureComponent {
     }
     if (dataSource.getRowCount() === 0) {
       return (
-        <p className="message-layer"><Message /></p>
+        <p>没有相关的结果</p>
       );
     }
     return (
