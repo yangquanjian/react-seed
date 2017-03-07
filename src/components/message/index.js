@@ -5,18 +5,47 @@ import './index.less';
 export default class Message extends PureComponent {
 
   static propTypes = {
-    text: PropTypes.string,
-    imgName: PropTypes.string,
+    type: PropTypes.string,
   };
 
   static defaultProps = {
-    text: '没有相关的结果',
-    imgName: 'messageNotfound.png',
+    type: 'notfound',
   };
 
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: '没有相关的结果',
+      imgSrc: '/static/img/messageNotfound.png',
+    };
+  }
+
+  componentWillMount() {
+    const { type } = this.props;
+    switch (type) {
+      case 'notfound':
+        this.setState({
+          text: '没有相关的结果',
+          imgSrc: '/static/img/messageNotfound.png',
+        });
+        break;
+      case 'loading':
+        this.setState({
+          text: '努力加载中...',
+          imgSrc: '/static/img/messageLoading.png',
+        });
+        break;
+      default:
+        this.setState({
+          text: '没有相关的结果',
+          imgSrc: '/static/img/messageNotfound.png',
+        });
+    }
+  }
+
   render() {
-    const { text, imgName } = this.props;
-    const imgSrc = `/static/img/${imgName}`;
+    const { imgSrc, text } = this.state;
     return (
       <div>
         <img className="warning-img" src={imgSrc} alt="" />

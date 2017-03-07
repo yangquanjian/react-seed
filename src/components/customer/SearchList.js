@@ -141,7 +141,7 @@ export default class SearchList extends PureComponent {
     }
     const { loading } = this.state;
     return loading ? (
-      <div><Message text={'努力加载中...'} imgName={'messageLoading.png'} /></div>
+      <div><Message type={'loading'} /></div>
     ) : null;
   }
 
