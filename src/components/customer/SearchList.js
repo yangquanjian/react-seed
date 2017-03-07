@@ -136,7 +136,7 @@ export default class SearchList extends PureComponent {
   @autobind
   renderFooter() {
     const { searchInfo: { page } } = this.props;
-    if (page.curPageNum === page.totalPageNum) {
+    if (page.curPageNum === page.totalPageNum && page.curPageNum > 1) {
       return (<div>已经到底了</div>);
     }
     const { loading } = this.state;
