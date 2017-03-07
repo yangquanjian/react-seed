@@ -11,11 +11,6 @@
  // device
 
 // $app_version 字符串 应用的版本
-// $country  字符串 国家
-// $city 字符串 城市
-// $province 字符串 省份
-// $lib  字符串 SDK类型，例如python、iOS等
-// $lib_version  字符串 SDK版本
 // $manufacturer 字符串 设备制造商，例如Apple
 // $model  字符串 设备型号，例如iphone6
 // $os 字符串 操作系统，例如iOS

@@ -30,9 +30,7 @@ export default class ContactList extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-
-    };
+    this.state = {};
   }
 
   @autobind

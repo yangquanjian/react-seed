@@ -8,6 +8,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
 import { autobind } from 'core-decorators';
+import _ from 'lodash';
 
 import NavBar from '../../components/common/NavBar';
 import Icon from '../../components/common/Icon';
@@ -77,23 +78,34 @@ export default class CustContactPer extends PureComponent {
   }
 
   @autobind
-  getBaseKey(key) {
-    const data = this.props.data;
-    if (!data || !data.custBaseInfo) return '--';
-    const value = data.custBaseInfo[key];
-    return (!value) ? '--' : value;
+  getDataModel() {
+    const { data = {} } = this.props;
+    const { custId = '--' } = this.props.params;
+    const dataModel = data[custId] || {};
+    return dataModel;
   }
 
   @autobind
-  getSectionArr(arr) {
-    if (!arr) return [];
-    let data = this.props.data;
-    if (!data) return [];
+  getCustName() {
+    const dataModel = this.getDataModel();
+    if (dataModel === {} || _.isEmpty(dataModel.custBaseInfo)) return '--';
+    const { custName = '--' } = dataModel.custBaseInfo || {};
+    return custName || '--';
+  }
+
+  @autobind
+  getSectionArr(childLabelArr) {
+    // 依据二级类型标签列表获取某类数据，
+    // 如根据二级标签['身份证地址'，'家庭地址'，'单位地址'，'其他地址'],获取地址数据
+    if (!childLabelArr) return [];
+    const { custSor = '--' } = this.props.params;
+    let dataModel = this.getDataModel();
+    dataModel = (custSor === 'per') ? dataModel.perCustomerContactInfo : [];
+    if (_.isEmpty(dataModel)) return [];
+
     const resultArr = [];
-    data = (this.props.params.custSor === 'per') ? data.perCustomerContactInfo : [];
-    if (!data) return [];
-    arr.map((item) => {
-      let temp = (data[item]) ? data[item] : [];
+    childLabelArr.map((item) => {
+      let temp = (dataModel[item]) ? dataModel[item] : [];
       if (item === 'idAddress') {
         temp = (!temp || Object.keys(temp).length === 0) ? [] : new Array(temp);
       }
@@ -104,10 +116,11 @@ export default class CustContactPer extends PureComponent {
   }
 
   @autobind
-  isNull(arr) {
-    if (!arr) return false;
+  isNull(dataArr) {
+    // 判断某类数据是否为空，如地址数据
+    if (!dataArr) return false;
     let bool = 0;
-    arr.map((item) => {
+    dataArr.map((item) => {
       if (item instanceof Array && item.length > 0) bool++;
       return true;
     });
@@ -116,8 +129,8 @@ export default class CustContactPer extends PureComponent {
   }
 
   render() {
-    const { goBack } = this.props;
-    const title = this.getBaseKey('custName');
+    const { goBack = () => {} } = this.props;
+    const custName = this.getCustName();
     const dataModel = LIST_KEY_ARR.map(item => ({
       data: this.getSectionArr(item.child),
       nullstyle: this.isNull(this.getSectionArr(item.child)),
@@ -146,7 +159,7 @@ export default class CustContactPer extends PureComponent {
           iconName={'fanhui'}
           onLeftClick={goBack}
         >
-          <p className="mid-contain">{title}</p>
+          <p className="mid-contain">{custName}</p>
         </NavBar>
 
         <section className="other">

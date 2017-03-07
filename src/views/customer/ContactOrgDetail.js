@@ -8,6 +8,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
 import { autobind } from 'core-decorators';
+import _ from 'lodash';
 
 import NavBar from '../../components/common/NavBar';
 import Icon from '../../components/common/Icon';
@@ -43,12 +44,15 @@ export default class ContactOrgDetail extends PureComponent {
 
   @autobind
   getData(rowId) {
-    const data = this.props.data.orgCustomerContactInfoList;
-    if (!data || !(data instanceof Array) || (data instanceof Array && data.length < 1)) {
+    const { data = {} } = this.props;
+    const { custId = '--' } = this.props.params;
+    if (_.isEmpty(data[custId])) return null;
+    const dataModel = data[custId].orgCustomerContactInfoList || [];
+    if (!(dataModel instanceof Array) || (dataModel instanceof Array && dataModel.length < 1)) {
       return null;
     }
     let result = null;
-    data.map((item) => {
+    dataModel.map((item) => {
       if (item.rowId === rowId) {
         result = item;
       }
@@ -69,8 +73,8 @@ export default class ContactOrgDetail extends PureComponent {
         <hr />
       </div>);
     }
-    return arr.map(item => (
-      <div className={`item ${icon}`}>
+    return arr.map((item, index) => (
+      <div className={`item ${icon}`} key={`${icon}-${index + 1}`}>
         <Icon className="" type={icon} />
         <div className="data">
           <p className="label">{label}</p>
@@ -102,7 +106,7 @@ export default class ContactOrgDetail extends PureComponent {
           {title}
         </NavBar>
 
-        <secttion className="contain">
+        <section className="contain">
           <div className="item">
             <Icon className="" type="account" />
             <div className="data">
@@ -131,7 +135,7 @@ export default class ContactOrgDetail extends PureComponent {
           {renderRow(arr2, '单位电话', 'phone')}
           {renderRow(arr3, '住宅电话', 'phone')}
           {renderRow(arr4, '电子邮件', 'email')}
-        </secttion>
+        </section>
       </div>
     );
   }

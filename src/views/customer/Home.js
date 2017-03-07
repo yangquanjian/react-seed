@@ -10,6 +10,7 @@ import { autobind } from 'core-decorators';
 import { Drawer } from 'antd-mobile';
 
 import Searchable from '../../components/customer/Searchable';
+// import PullToRefreshable from '../../components/common/PullToRefreshable';
 import CustomerInfo from '../../components/customer/Info';
 import CustomerList from '../../components/customer/List';
 import Filter from '../../components/customer/Filter';
@@ -19,13 +20,18 @@ const mapStateToProps = state => ({
   info: state.customer.info,
   list: state.customer.list,
   tabIndex: state.status.customerTabIndex,
+  isLoading: state.loading.models.customer,
+});
+
+const getListFunction = query => ({
+  type: 'customer/getList',
+  payload: query || {},
 });
 
 const mapDispatchToProps = {
-  getList: query => ({
-    type: 'customer/getList',
-    payload: query,
-  }),
+  getList: getListFunction,
+  // 提供给下拉刷新组件
+  refresh: getListFunction,
   getInfo: query => ({
     type: 'customer/getInfo',
     payload: query,
