@@ -75,7 +75,7 @@ export default class CustBasic extends PureComponent {
     this.state = {};
   }
 
-  componentDidMount() {
+	componentDidUpdate() {
     // 过长内容，展开显示
     const { custSor } = this.props.params;
     const type = custSor || 'per';
@@ -164,11 +164,11 @@ export default class CustBasic extends PureComponent {
     const labelArr = (custSor === 'per') ? perLabelArr : orgLabelArr;
     const custIcon = this.getCustIcon();
     const custName = this.getMapKey('custName');
-    const custNum = (!custNumber) ? '--' : custNumber;
+    const custNum = (!custNumber || custNumber === 'null') ? '--' : custNumber;
     const arr = this.contactData(labelArr, dataModel);
     const renderHead = obj => (
       <section className="baseHead">
-        <div className="headIcon"><Icon type={obj.icon} /></div>
+        <div className="headIcon"><Icon type={obj.icon || 'jigou'} /></div>
         <div className="headInfo">
           <p className="custName">{ obj.name }</p>
           <p className="custNum">{ obj.number }</p>
