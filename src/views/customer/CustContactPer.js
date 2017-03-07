@@ -10,20 +10,30 @@ import { routerRedux } from 'dva/router';
 import { autobind } from 'core-decorators';
 import _ from 'lodash';
 
-import NavBar from '../../components/common/NavBar';
+import withNavBar from '../../components/common/withNavBar';
+import PullToRefreshable from '../../components/common/PullToRefreshable';
 import Icon from '../../components/common/Icon';
 import ContactList from '../../components/customer/ContactList';
 import './CustContactPer.less';
 
+// 获取个人客户联系方式
+const getDataFunction = query => ({
+  type: 'customer/getPerContact',
+  payload: query || {},
+});
+
 const mapStateToProps = state => ({
   data: state.customer.contact,
+  isLoading: state.loading.models.customer,
 });
 
 const mapDispatchToProps = {
+  refresh: getDataFunction,
   push: routerRedux.push,
   goBack: routerRedux.goBack,
 };
 
+// 数据标签列表
 const LIST_KEY_ARR = [
   { label: 'tel',
     name: '电话',
@@ -58,39 +68,31 @@ const LIST_KEY_ARR = [
 ];
 
 @connect(mapStateToProps, mapDispatchToProps)
+@withNavBar({ title: '联系方式', hasBack: true })
+@PullToRefreshable
 export default class CustContactPer extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    title: PropTypes.string.isRequired,
     goBack: PropTypes.func.isRequired,
+    refresh: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-    title: '联系方式',
     goBack: () => {},
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
+  componentWillMount() {
+    const { refresh } = this.props;
+    const { custNumber, custSor = 'per', custId } = this.props.params;
+    refresh({ custNumber, custSor, custId });
   }
 
   @autobind
   getDataModel() {
-    const { data = {} } = this.props;
-    const { custId = '--' } = this.props.params;
+    const { data = {}, params: { custId = '--' } } = this.props;
     const dataModel = data[custId] || {};
     return dataModel;
-  }
-
-  @autobind
-  getCustName() {
-    const dataModel = this.getDataModel();
-    if (dataModel === {} || _.isEmpty(dataModel.custBaseInfo)) return '--';
-    const { custName = '--' } = dataModel.custBaseInfo || {};
-    return custName || '--';
   }
 
   @autobind
@@ -129,8 +131,6 @@ export default class CustContactPer extends PureComponent {
   }
 
   render() {
-    const { goBack = () => {} } = this.props;
-    const custName = this.getCustName();
     const dataModel = LIST_KEY_ARR.map(item => ({
       data: this.getSectionArr(item.child),
       nullstyle: this.isNull(this.getSectionArr(item.child)),
@@ -155,13 +155,6 @@ export default class CustContactPer extends PureComponent {
 
     return (
       <div className="cust-contact">
-        <NavBar
-          iconName={'fanhui'}
-          onLeftClick={goBack}
-        >
-          <p className="mid-contain">{custName}</p>
-        </NavBar>
-
         <section className="other">
           {dataShow}
         </section>

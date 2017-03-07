@@ -15,7 +15,8 @@ exports.response = function (req, res) {
 				  industry: null
 				},
 				perCustomerContactInfo: {
-					idAddress: {
+					idAddress: {},
+					idAddress2: {
 						mainFlag: false,
 						validFlag: true,
 						contactType: "117119",
@@ -151,10 +152,10 @@ exports.response = function (req, res) {
 						{
 							mainFlag: false,
 							contactType: "104124",
-							contactValue: "vvvvvvvvvvvvvvvvhuhjuvhhh@139.com",
-							rowId: "COMMI-20170217-04837984313",
+							contactValue: "rbhxhvccccchfbfbbrjjxbnehdjdjdjjxccchsh@139.comlljll",
+							rowId: "COMMI-20170217-04837984314",
 							validFlag: true
-						}
+						},
 					],
 					qqNumbers: null,
 					// qqNumbers: [
@@ -205,6 +206,8 @@ exports.response = function (req, res) {
 					// qqNumbers: [],
 					// wechatNumbers: [],
 				},
+				perCustomerContactInfo2: {},
+				orgCustomerContactInfoList2: [],
 				orgCustomerContactInfoList: [
 					{
 					  custId: null,

@@ -1,6 +1,6 @@
 /**
- * @file mission/Detail.js
- * @author maoquan(maoquan@htsc.com)
+ * @file mission/TaskDetail.js
+ * @author liutingting(3171214926@qq.com)
  */
 
 import React, { PropTypes, PureComponent } from 'react';
@@ -11,7 +11,8 @@ import { routerRedux } from 'dva/router';
 import NavBar from '../../components/common/NavBar';
 
 const mapStateToProps = state => ({
-  test: state.test,
+  desc: state.mission.taskDesc,
+  list: state.mission.taskCustList,
 });
 
 const mapDispatchToProps = {
@@ -19,7 +20,7 @@ const mapDispatchToProps = {
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class MissonDetail extends PureComponent {
+export default class TaskDetail extends PureComponent {
 
   static propTypes = {
     title: PropTypes.string,
@@ -38,9 +39,13 @@ export default class MissonDetail extends PureComponent {
   render() {
     const { title } = this.props;
     return (
-      <div className="mission-detail">
-        <NavBar iconName={false} leftContent={false}>{title}</NavBar>
-        <a onClick={this.handleClick}>返回</a>
+      <div className="task-detail">
+        <div className="mission-detail">
+          <NavBar iconName={false} leftContent={false}>{title}</NavBar>
+          <a onClick={this.handleClick}>返回</a>
+        </div>
+
+        <section />
       </div>
     );
   }
