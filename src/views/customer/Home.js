@@ -10,7 +10,7 @@ import { autobind } from 'core-decorators';
 import { Drawer } from 'antd-mobile';
 
 import Searchable from '../../components/customer/Searchable';
-import PullToRefreshable from '../../components/common/PullToRefreshable';
+// import PullToRefreshable from '../../components/common/PullToRefreshable';
 import CustomerInfo from '../../components/customer/Info';
 import CustomerList from '../../components/customer/List';
 import Filter from '../../components/customer/Filter';
@@ -49,7 +49,6 @@ const appContainer = document.querySelector('#app');
 @connect(mapStateToProps, mapDispatchToProps)
 @withRouter
 @Searchable
-@PullToRefreshable
 export default class CustomerHome extends PureComponent {
   static propTypes = {
     info: PropTypes.object,
