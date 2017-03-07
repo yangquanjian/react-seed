@@ -51,11 +51,6 @@ export default {
   getServiceList: ({ custSor, custId }) => api.post('/groovy/cust/custServiceRecord', { custSor, custId }),
 
   /**
-   * 获取任务详情
-   */
-  getTaskDetail: ({ motTaskId }) => api.post('/groovy/mission/taskDesc', { motTaskId }),
-
-  /**
    * 登出
    * {}
    */

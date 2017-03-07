@@ -166,7 +166,6 @@ export default {
         },
       });
     },
-    // 获取客户基本信息
     * getCustBasic({ payload: { custNumber = 1, custSor = 'per', custId = 1 } }, { call, put }) {
       const response = yield call(api.getCustBasic, { custNumber, custSor, custId });
       yield put({
@@ -179,7 +178,6 @@ export default {
         },
       });
     },
-    // 获取个人客户联系方式
     * getPerContact({ payload: { custNumber = 1, custSor = 'per', custId = 1 } }, { call, put }) {
       const response = yield call(api.getCustCotact, { custNumber, custSor, custId });
       yield put({
@@ -192,7 +190,6 @@ export default {
         },
       });
     },
-    // 获取机构客户联系人列表
     * getOrgContact({ payload: { custNumber = 1, custSor = 'org', custId = 1 } }, { call, put }) {
       const response = yield call(api.getCustCotact, { custNumber, custSor, custId });
       yield put({

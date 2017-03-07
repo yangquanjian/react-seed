@@ -197,11 +197,6 @@ export default (ComposedComponent) => {
       if (!keyword) {
         return;
       }
-      // blur以收回键盘
-      const searchElem = document.querySelector('input[type=search]');
-      if (searchElem) {
-        searchElem.blur();
-      }
       const { location: { query } } = this.props;
       const nav = this.getNavMethod();
       if (query.keyword !== keyword) {

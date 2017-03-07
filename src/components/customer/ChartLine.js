@@ -183,7 +183,7 @@ export default class ChartLineWidget extends PureComponent {
           show: true,
           textStyle: {
             color: '#999',
-            fontSize: Number.parseInt(document.documentElement.style.fontSize, 10) * 0.2,
+            fontSize: 14,
           },
         },
       },
