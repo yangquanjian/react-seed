@@ -51,7 +51,16 @@ module.exports = {
         loader: 'json'
       },
       {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        test: /\.(svg)$/i,
+        loader: 'svg-sprite',
+        include: [
+          // antd-mobile svg
+          require.resolve('antd-mobile').replace(/warn\.js$/, ''),
+          // path.resolve(__dirname, 'static/svg'),
+        ]
+      },
+      {
+        test: /\.(png|jpe?g|gif)(\?.*)?$/,
         loader: 'url',
         query: {
           limit: 10000,

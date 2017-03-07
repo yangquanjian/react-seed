@@ -58,7 +58,17 @@ function checkStatus(response) {
  * @return {object}           The response data
  */
 export default function request(url, options) {
-  return fetch(url, options)
-    .then(checkStatus)
-    .then(parseJSON);
+  return Promise.race([
+    fetch(url, options)
+      .then(checkStatus)
+      .then(parseJSON),
+    new Promise(
+      (rosolve, reject) => {// eslint-disable-line
+        setTimeout(
+          () => reject('请求超时'),
+          15000,
+        );
+      },
+    ),
+  ]);
 }

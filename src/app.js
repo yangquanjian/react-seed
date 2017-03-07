@@ -8,7 +8,7 @@ import { browserHistory } from 'dva/router';
 import createLoading from 'dva-loading';
 import createLogger from 'redux-logger';
 import { persistStore, autoRehydrate } from 'redux-persist';
-import { Modal } from 'antd-mobile';
+import { Toast } from 'antd-mobile';
 import _ from 'lodash';
 
 import createSensorsLogger from './middlewares/sensorsLogger';
@@ -24,6 +24,13 @@ if (persistConfig.active) {
   extraEnhancers.push(autoRehydrate());
 }
 
+const getMessage = (message) => {
+  if (message === 'Failed to fetch') {
+    return '网络异常';
+  }
+  return message;
+};
+
 // 1. Initialize
 const app = dva({
   history: browserHistory,
@@ -32,18 +39,13 @@ const app = dva({
   onError(e) {
     const { message } = e;
     if (message === 'MAG0010') {
-      Modal.alert(
-        '错误',
+      Toast.fail(
         '登录超时，请重新登录！',
-        [
-          {
-            text: '确定',
-            onPress: navToLogin,
-          },
-        ],
+        2,
+        navToLogin,
       );
     } else {
-      Modal.alert(message);
+      Toast.fail(getMessage(message));
     }
   },
 });
