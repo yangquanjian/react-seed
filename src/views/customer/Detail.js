@@ -8,15 +8,21 @@ import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
 
-import NavBar from '../../components/common/NavBar';
+import withNavBar from '../../components/common/withNavBar';
+import PullToRefreshable from '../../components/common/PullToRefreshable';
 import CustomerDetailHeader from '../../components/customer/DetailHeader';
-// import ChartWidget from '../../components/customer/Chart';
 // import RecommendProductList from '../../components/customer/RecommendProductList';
 import CustomerDetailFooter from '../../components/customer/DetailFooter';
 import TabBar from '../../components/customer/Tab';
 
+const getDataFunction = query => ({
+  type: 'customer/fetchCustDetail',
+  payload: query || {},
+});
+
 const mapStateToProps = state => ({
   data: state.customer.detailInfo,
+  isLoading: state.loading.models.customer,
   // recommendList: state.customer.recommendList,
 });
 
@@ -25,14 +31,19 @@ const mapDispatchToProps = {
     type: 'customer/ignoreProduct',
     payload: { custId },
   }),
+  // 提供给下拉刷新组件
+  refresh: getDataFunction,
   push: routerRedux.push,
   goBack: routerRedux.goBack,
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
+@withNavBar({ title: '客户详情', hasBack: true })
+@PullToRefreshable
 export default class CustomerDetail extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
+    refresh: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
     // recommendList: PropTypes.array.isRequired,
     push: PropTypes.func,
@@ -44,8 +55,14 @@ export default class CustomerDetail extends PureComponent {
     push: () => { },
   };
 
+  componentWillMount() {
+    const { location: { query }, refresh } = this.props;
+    const { custId, custNumber, custSor } = query;
+    refresh({ custId, custNumber, custSor });
+  }
+
   render() {
-    const { data, goBack, push, location: { query: { custId } } } = this.props;
+    const { data, push, location: { query: { custId } } } = this.props;
     const custData = data[custId] || {};
     const {
       custBaseInfo = {},
@@ -60,10 +77,6 @@ export default class CustomerDetail extends PureComponent {
     // <RecommendProductList {...this.props} />
     return (
       <div>
-        <NavBar
-          iconName={'fanhui'}
-          onLeftClick={goBack}
-        >客户详情</NavBar>
         <CustomerDetailHeader
           data={custBaseInfo}
           custSor={custSor}

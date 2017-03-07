@@ -5,7 +5,6 @@
 
 import pathToRegexp from 'path-to-regexp';
 import _ from 'lodash';
-import { delay } from '../utils/sagaEffects';
 
 import api from '../api';
 
@@ -229,7 +228,6 @@ export default {
         openDateEnd = '',
         refresh = false,
       } }, { call, put }) {
-      yield delay(1000);
       const list = yield call(
         api.getCustomerList,
         {
@@ -258,7 +256,7 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
+      return history.listen(({ pathname }) => {
         // 客户基本信息页面
         const custBasicMatch = pathToRegexp('/custBasic/:custNumber/:custSor/:custId').exec(pathname);
         if (custBasicMatch) {
@@ -292,14 +290,6 @@ export default {
           const custSor = serviceListMatch[1];
           const custId = serviceListMatch[1];
           dispatch({ type: 'getServiceList', payload: { custSor, custId } });
-          return;
-        }
-        // 客户详情
-        const matchDetail = pathToRegexp('/customer/detail').exec(pathname);
-        if (matchDetail) {
-          const { custId, custNumber, custSor } = query;
-          dispatch({ type: 'fetchCustDetail', payload: { custId, custNumber, custSor } });
-          // dispatch({ type: 'fetchRecommendProductList', payload: { custId } });
         }
       });
     },
