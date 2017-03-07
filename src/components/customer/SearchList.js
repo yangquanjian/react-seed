@@ -136,12 +136,12 @@ export default class SearchList extends PureComponent {
   @autobind
   renderFooter() {
     const { searchInfo: { page } } = this.props;
-    if (page.curPageNum === page.totalPageNum) {
+    if (page.curPageNum === page.totalPageNum && page.curPageNum > 1) {
       return (<div>已经到底了</div>);
     }
     const { loading } = this.state;
     return loading ? (
-      <div><Message text={'努力加载中...'} imgName={'messageLoading.png'} /></div>
+      <div><Message type={'loading'} /></div>
     ) : null;
   }
 
