@@ -9,6 +9,9 @@ import { ListView } from 'antd-mobile';
 
 import SearchItem from './SearchItem';
 import { prepareDataSource } from '../../utils/listView';
+import Message from '../message';
+
+import './search_list.less';
 
 export default class SearchList extends PureComponent {
 
@@ -138,7 +141,7 @@ export default class SearchList extends PureComponent {
     }
     const { loading } = this.state;
     return loading ? (
-      <div>加载中...</div>
+      <div><Message text={'努力加载中...'} imgName={'messageLoading.png'} /></div>
     ) : null;
   }
 
@@ -156,7 +159,7 @@ export default class SearchList extends PureComponent {
     }
     if (dataSource.getRowCount() === 0) {
       return (
-        <p>没有相关的结果</p>
+        <p className="message-layer"><Message /></p>
       );
     }
     return (

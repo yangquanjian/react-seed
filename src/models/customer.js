@@ -5,6 +5,7 @@
 
 import pathToRegexp from 'path-to-regexp';
 import _ from 'lodash';
+import { delay } from '../utils/sagaEffects';
 
 import api from '../api';
 
@@ -228,6 +229,7 @@ export default {
         openDateEnd = '',
         refresh = false,
       } }, { call, put }) {
+      yield delay(1000);
       const list = yield call(
         api.getCustomerList,
         {
