@@ -68,7 +68,7 @@ const flushLog = _.throttle(
   () => {
     const data = [...QUEUE];
     QUEUE = [];
-    api.sendLog(url, data);
+    // api.sendLog(url, data);
   },
   interval,
 );
