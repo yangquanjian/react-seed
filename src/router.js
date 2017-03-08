@@ -29,6 +29,7 @@ import CustomerSearchResult from './views/customer/SearchResult';
 import MissionHome from './views/mission/Home';
 import TaskDetail from './views/mission/TaskDetail';
 import Profile from './views/profile';
+import ServiceImplement from './views/mission/ServiceImplement';
 
 
 const routes = ({ history }) => (// eslint-disable-line
@@ -44,6 +45,7 @@ const routes = ({ history }) => (// eslint-disable-line
       <Route path="mission" component={TabPane}>
         <IndexRoute component={MissionHome} />
         <Route path="taskDetail" component={TaskDetail} />
+        <Route path="ServiceImplement" component={ServiceImplement} />
       </Route>
       <Route path="product" components={TabPane}>
         <IndexRoute component={ProductHome} />

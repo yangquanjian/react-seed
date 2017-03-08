@@ -18,16 +18,21 @@ export default (ComposedComponent) => {
       refresh: PropTypes.func,
       // 控制loading状态显示
       isLoading: PropTypes.bool,
+      location: PropTypes.object,
+      refreshData: PropTypes.object,
     }
 
     static defaultProps = {
       isLoading: false,
+      location: {},
       refresh: () => {},
+      refreshData: undefined,
     }
 
     @autobind
     loadingFunction() {
-      this.props.refresh();
+      const { location: { query }, refresh, refreshData } = this.props;
+      refresh(refreshData || query);
     }
 
     renderIcon() {
