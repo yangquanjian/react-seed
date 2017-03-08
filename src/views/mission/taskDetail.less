@@ -45,6 +45,31 @@
     margin: 0 0 20px 0;
     padding: 0 0 0 20px;
     background-color: @contain-bg;
+    .card{
+      display: inline-block;
+      width: 90px;
+      height: 30px;
+      background-repeat: no-repeat;
+      background-size: 90px 30px;
+    }
+    .card.emptyCard {
+      background: url('../../../static/img/emptyCard.png');
+    }
+    .card.goldCard {
+      background: url('../../../static/img/goldenCard.png');
+    }
+    .card.silverCard {
+      background: url('../../../static/img/silverCard.png');
+    }
+    .card.diamondCard {
+      background: url('../../../static/img/diamondCard.png');
+    }
+    .card.financeCard {
+      background: url('../../../static/img/financeCard.png');
+    }
+    .card.whiteGoldCard {
+      background: url('../../../static/img/whGoldenCard.png');
+    }
   }
   .task-list .item .top{
     position: relative;
@@ -62,7 +87,8 @@
       line-height: 80px;
       font-size: 50px;
       border-radius: 50%;
-      background-color: #da4e40;
+      background: transparent url('../../../static/img/perHeadLogo.png') no-repeat center center;
+      background-size: 100% 100%;
     }
     .more{
       position: absolute;
@@ -78,13 +104,35 @@
       color: #c3c2c2;
     }
     .info{
-      margin: 0 90px 0 97px;
+      height: 126px;
+      margin: 0 70px 0 97px;
       line-height: 1;
-      background-color: RGBA(255,0,0,.3);
+      background-color: RGBA(255,0,0,.1);
+      overflow: hidden;
+    }
+    .cust-name{
+      margin: 8px 0 0 0;
+      line-height: 70px;
+      font-size: 32px;
+      color: #1d1d26;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .btn{
+      display: inline-block;
+      height: 36px;
+      padding: 0 10px;
+      line-height: 36px;
+      font-size: 20px;
+      border: 1PX solid #ca4c40;
+      border-radius: 5px;
+      color: #ca4c40;
     }
   }
   .task-list .item .bot{
     margin: 0 0 0 9px;
+    padding: 0 55px 0 0;
     height: 70px;
     font-size: 28px;
     border-top: 1PX dashed #000000;
