@@ -34,6 +34,10 @@ export default function createApi(options = {}) {
       authInfo = info;
     },
 
+    getAuthInfo() {
+      return authInfo;
+    },
+
     /**
      * @param {string} url API url
      * @param {Object} query 请求参数
@@ -68,6 +72,25 @@ export default function createApi(options = {}) {
           method: 'POST',
           headers: {
             ...authInfo,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(query),
+        },
+      );
+    },
+
+    /**
+     * @param {string} url 神策日志接收服务器url
+     * @param {Object} query 日志参数
+     *
+     * @return {Promise}
+     */
+    sendLog(url, query) {
+      return request(
+        url,
+        {
+          method: 'POST',
+          headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(query),

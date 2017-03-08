@@ -63,7 +63,7 @@ export default class CustomerDetail extends PureComponent {
 
   static defaultProps = {
     data: {},
-    push: () => { },
+    push: () => {},
   };
 
   componentWillMount() {

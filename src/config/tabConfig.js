@@ -1,3 +1,9 @@
+/**
+ * @file config/tabConfi.js
+ *  底部tabBar配置
+ * @author maoquan(maoquan@htsc.com)
+ */
+
 const tabConfig = [
   {
     key: 'mission',

@@ -10,6 +10,7 @@ export default {
   namespace: 'global',
   state: {
     token: '',
+    empInfo: {},
   },
   reducers: {
     getTokenSuccess(state, action) {
@@ -18,6 +19,14 @@ export default {
       return {
         ...state,
         token,
+      };
+    },
+    getEmpInfoSuccess(state, action) {
+      // 用户信息
+      const { payload: { empInfo } } = action;
+      return {
+        ...state,
+        empInfo,
       };
     },
   },
@@ -41,6 +50,19 @@ export default {
           type: 'getTokenSuccess',
           payload: {
             token,
+          },
+        });
+      }
+    },
+    // 获取员工信息
+    * getEmpInfo({ payload }, { call, put }) {
+      const response = yield call(api.getEmpInfo);
+      if (response.resultData) {
+        const empInfo = response.resultData;
+        yield put({
+          type: 'getEmpInfoSuccess',
+          payload: {
+            empInfo,
           },
         });
       }
