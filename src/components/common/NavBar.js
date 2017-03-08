@@ -23,28 +23,29 @@ export default class NavBar extends PureComponent {
   }
 
   static defaultProps = {
-    leftContent: '返回',
-    iconName: 'left',
+    leftContent: '',
+    iconName: false,
     mode: 'light',
     onLeftClick: () => undefined,
     rightContent: null,
   }
 
-  renderIcon(iconName) {
-    if (!iconName) {
-      return null;
+  renderLeft() {
+    const { iconName, leftContent } = this.props;
+    if (iconName) {
+      return <Icon type={iconName} />;
     }
-    return <Icon type={iconName} />;
+    return leftContent || null;
   }
 
   render() {
-    const { iconName, ...others } = this.props;
+    const { ...others } = this.props;
     return (
       <AMNavBar
         className="navbar"
         {...others}
         iconName={false}
-        leftContent={this.renderIcon(iconName)}
+        leftContent={this.renderLeft()}
       />
     );
   }
