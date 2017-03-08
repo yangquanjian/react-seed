@@ -83,7 +83,7 @@ export default class CustBasic extends PureComponent {
     const labelArr = (type === 'per') ? ['job'] : ['industry', 'regAddress', 'busiArea'];
     labelArr.map((item) => {
       const node = this[item];
-      const nodeW = (node) ? node.clientWidth : 0;
+      const nodeW = (node) ? node.offsetHeight : 0;
       const parentHalfW = (node) ? (parseFloat(node.parentElement.clientWidth) / 2) : 0;
       if (nodeW !== 0 && nodeW > parentHalfW) {
         node.className += ' more';

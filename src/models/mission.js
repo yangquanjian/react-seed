@@ -11,7 +11,7 @@ export default {
   namespace: 'mission',
   state: {
     // 任务详情
-    motDetail: [],
+    motDetail: {},
   },
   reducers: {
     // 获取任务详情成功
@@ -20,7 +20,7 @@ export default {
       return {
         ...state,
         motDetail: {
-          [motTaskId]: response,
+          [motTaskId]: response.resultData,
         },
       };
     },
@@ -42,11 +42,11 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      return history.listen(({ pathname }) => {
+      return history.listen(({ pathname, query }) => {
         // 任务详情
-        const motDetailMatch = pathToRegexp('/taskDetail/:motTaskId').exec(pathname);
+        const motDetailMatch = pathToRegexp('/mission/taskDetail').exec(pathname);
         if (motDetailMatch) {
-          const motTaskId = motDetailMatch[1];
+          const { motTaskId = 1 } = query;
           dispatch({ type: 'fetchMotDetail', payload: { motTaskId } });
         }
       });

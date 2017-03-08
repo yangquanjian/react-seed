@@ -1,0 +1,93 @@
+@contain-bg: #ffffff;
+@red-01: #c3483b;
+.task-detail {
+  position: relative;
+  overflow: hidden;
+  .task-desc {
+    padding: 0 30px;
+    margin: 0 0 20px 0;
+    background-color: @contain-bg;
+    border-bottom: 1px solid transparent;
+  }
+  .task-desc .til {
+    padding: 15px 0;
+    line-height: 1.2;
+    text-indent: 70px;
+    font-size: 34px;
+    font-weight: 700;
+    border-bottom: 1PX solid #efefef;
+    background: transparent url(../../../static/img/task-icon.png) no-repeat 0 30px;
+    background-size: 40px 40px;
+  }
+  .task-desc .contain{
+    position: relative;
+    overflow: visible;
+    margin: 13px 0 24px 0;
+    padding: 0;
+  }
+  .task-desc .contain.hid{
+    display: none;
+  }
+  .task-desc .contain.down{
+    margin: 13px 0 40px 0;
+  }
+  .task-desc .contain:after{
+    content: "";
+    clear: both;
+  }
+  .task-desc .desc {
+    margin: 0;
+    padding: 0;
+    height: auto;
+  }
+  .btn{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px 0 50px;
+    line-height: 40px;
+    color: @red-01;
+    background-image: -webkit-linear-gradient(left, transparent 0%, rgba(255, 255, 255, 0.8) 2%,rgba(255, 255, 255, 0.8) 10%, rgba(255, 255, 255, 0.9) 20%, #ffffff 100%);
+  }
+  .btn.hid{
+    display: none;
+  }
+  .btn.up{
+    bottom: 0;
+  }
+  .btn.down{
+    bottom: -35px;
+  }
+  .btn .icon{
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-left: 5px;
+    vertical-align: middle;
+  }
+  .btn.up .icon{
+    background: transparent url(../../../static/img/down-icon.png) no-repeat center center;
+    background-size: 100% auto;
+  }
+  .btn.down .icon{
+    background: transparent url(../../../static/img/up-icon.png) no-repeat center center;
+    background-size: 100% auto;
+  }
+  .task-desc .desc.up {
+    max-height: 80px;
+    overflow: hidden;
+  }
+  .task-desc .desc.down {
+    max-height: 300px;
+    overflow-y: scroll;
+  }
+  .task-desc .desc p {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 300;
+    text-indent: 0;
+    line-height: 40px;
+  }
+}

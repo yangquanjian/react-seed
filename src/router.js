@@ -43,7 +43,7 @@ const routes = ({ history }) => (// eslint-disable-line
       <IndexRedirect to="/mission" />
       <Route path="mission" component={TabPane}>
         <IndexRoute component={MissionHome} />
-        <Route path="/taskDetail/:motTaskId" component={TaskDetail} />
+        <Route path="taskDetail" component={TaskDetail} />
       </Route>
       <Route path="product" components={TabPane}>
         <IndexRoute component={ProductHome} />

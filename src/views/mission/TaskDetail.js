@@ -1,23 +1,33 @@
 /**
  * @file mission/TaskDetail.js
- * @author liutingting(3171214926@qq.com)
+ * @author liutingting
  */
 
 import React, { PropTypes, PureComponent } from 'react';
-import { autobind } from 'core-decorators';
+// import { autobind } from 'core-decorators';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 
 import withNavBar from '../../components/common/withNavBar';
-import Icon from '../../components/common/Icon';
-import './taskDetail.less';
+import MotDetailDesc from '../../components/mission/MotDesc';
+import MotCustList from '../../components/mission/MotCustList';
+
+const getDataFunction = query => ({
+  type: 'mission/fetchMotDetail',
+  payload: query || {},
+});
 
 const mapStateToProps = state => ({
-  test: state.test,
+  // 获取任务详情
+  getData: getDataFunction,
+  // 下拉刷新
+  refresh: getDataFunction,
+  push: routerRedux.push,
+  data: state.mission.motDetail,
 });
 
 const mapDispatchToProps = {
-  pop: routerRedux.goBack,
+  push: routerRedux.push,
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -25,79 +35,45 @@ const mapDispatchToProps = {
 export default class TaskDetail extends PureComponent {
 
   static propTypes = {
-    pop: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired,
+    list: PropTypes.array,
+    location: PropTypes.object.isRequired,
+    getData: PropTypes.func.isRequired,
+    push: PropTypes.func,
   };
 
   static defaultProps = {
+    data: {},
+    list: [],
+    location: {},
+    getData: () => {},
+    push: () => { },
   };
 
-  @autobind
-  handleClick() {
-    this.props.pop();
-  }
+  componentWillMount() {}
 
   render() {
+    const { data,
+      getData,
+      push,
+      location: { query: { motTaskId } },
+    } = this.props;
+    const motData = data[motTaskId] || {};
+    const {
+      summary = '--',
+      taskCustList = [],
+    } = motData;
     return (
       <section className="task-detail">
-
-        <div className="task-desc">
-          <h2 className="til"><Icon type="task" />新股中签余额不足新股中签余额不足新股中签余额不足新股中签余额不足新股中签</h2>
-          <div className="desc down">
-            <p>樊芸代表发言说，互联网给百姓生活提供了很大便利，但网约车等业务也出现了一些新的问题。总书记当场要求有关部门予以落实</p>
-          </div>
-        </div>
-
-        <div className="task-list">
-          <div className="item per">
-            <div className="top">
-              <i className="photo" />
-              <div className="info">
-                <p className="cust-name">张三</p>
-                <i className="card goldCard" />
-                <span className="cust-num">666600123456</span>
-                <span className="sex">男</span> |
-                <span className="age">52</span>岁
-                <span className="btn">高净值客户</span>
-              </div>
-              <Icon className="more" type="more" />
-            </div>
-            <div className="bot">
-              <p><Icon type="information" />樊芸代表发言说，互联网给百姓生活提供了很大便利</p>
-            </div>
-          </div>
-          <div className="item per">
-            <div className="top">
-              <i className="photo" />
-              <div className="info">
-                <p className="cust-name">伊莉萨白.奥斯特洛夫斯基.奥斯特洛夫斯基</p>
-                <i className="card goldCard" />
-                <span className="cust-num">02004567</span>
-                <span className="sex">男</span> |
-                <span className="age">52</span>岁
-                <span className="btn">高净值客户</span>
-              </div>
-              <Icon className="more" type="more" />
-            </div>
-            <div className="bot">
-              <p><Icon type="information" />樊芸代表发言说，互联网给百姓生活提供了很大便利</p>
-            </div>
-          </div>
-          <div className="item org">
-            <div className="top">
-              <i className="photo" />
-              <div className="info">
-                <p className="cust-name">有限公司</p>
-                <i className="card emptyCard" />
-                <span className="cust-num">02004567</span>
-                <span className="btn">高净值客户</span>
-              </div>
-              <Icon className="more" type="more" />
-            </div>
-            <div className="bot">
-              <p><Icon type="information" />樊芸代表发言说，互联网给百姓生活提供了很大便利，但网约车等业务也出现了一些新的问题。总书记当场要求有关部门予以落实</p>
-            </div>
-          </div>
-        </div>
+        <MotDetailDesc
+          data={summary}
+        />
+        <MotCustList
+          list={taskCustList}
+          getList={getData}
+          motTaskId={motTaskId}
+          push={push}
+        />
       </section>
     );
   }
