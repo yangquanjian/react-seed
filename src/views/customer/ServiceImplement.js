@@ -5,9 +5,8 @@
  */
 
 import React, { PureComponent, PropTypes } from 'react';
-import { autobind } from 'core-decorators';
 import { connect } from 'react-redux';
-import { routerRedux } from 'dva/router'
+import { routerRedux } from 'dva/router';
 import NavBar from '../../components/common/NavBar';
 
 import './ServiceImplement.less';
@@ -34,9 +33,9 @@ export default class ServiceImplement extends PureComponent {
     const { title, goBack } = this.props;
     return (
       <div className="custBasic">
-        <NavBar 
-        iconName={'fanhui'}
-        onLeftClick={goBack}
+        <NavBar
+          iconName={'fanhui'}
+          onLeftClick={goBack}
         >
           {title}
         </NavBar>
