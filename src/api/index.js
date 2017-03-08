@@ -33,7 +33,7 @@ export default {
   /**
    * 获取客户信息
    */
-  getCustomerInfo: () => api.post('/groovy/emp/home'),
+  getCustomerInfo: () => api.post('/groovy/cust/home'),
 
   /**
    * 获取客户列表
@@ -53,7 +53,7 @@ export default {
   /**
    * 获取任务详情
    */
-  getTaskDetail: ({ motTaskId }) => api.post('/groovy/mission/taskDesc', { motTaskId }),
+  getMotDetail: ({ motTaskId, pageNum, pageSize }) => api.post('/groovy/emp/motDetail', { motTaskId, pageNum, pageSize }),
 
   /**
    * 登出
