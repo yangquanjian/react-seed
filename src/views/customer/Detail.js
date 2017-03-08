@@ -37,7 +37,17 @@ const mapDispatchToProps = {
   goBack: routerRedux.goBack,
 };
 
-@connect(mapStateToProps, mapDispatchToProps)
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { location: { query } } = ownProps;
+  return {
+    refreshData: query,
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+  };
+};
+
+@connect(mapStateToProps, mapDispatchToProps, mergeProps)
 @withNavBar({ title: '客户详情', hasBack: true })
 @PullToRefreshable
 export default class CustomerDetail extends PureComponent {
@@ -45,6 +55,7 @@ export default class CustomerDetail extends PureComponent {
     data: PropTypes.object.isRequired,
     refresh: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
+    refreshData: PropTypes.object.isRequired,
     // recommendList: PropTypes.array.isRequired,
     push: PropTypes.func,
     location: PropTypes.object.isRequired,
@@ -56,9 +67,8 @@ export default class CustomerDetail extends PureComponent {
   };
 
   componentWillMount() {
-    const { location: { query }, refresh } = this.props;
-    const { custId, custNumber, custSor } = query;
-    refresh({ custId, custNumber, custSor });
+    const { refresh, refreshData } = this.props;
+    refresh(refreshData);
   }
 
   render() {

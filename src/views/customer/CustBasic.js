@@ -16,37 +16,38 @@ import Icon from '../../components/common/Icon';
 import './custbasic.less';
 
 const Item = List.Item;
-
+// 个人客户标签列表
 const perLabelArr = [
-{ type: 'custAge', name: '年龄', value: '', key: 0 },
-{ type: 'custGrade', name: '客户等级', value: '', key: 0 },
-{ type: 'idType', name: '证件类型', value: '', key: 0 },
-{ type: 'idNum', name: '证件号码', value: '', key: 0 },
-{ type: 'idValDate', name: '证件有效期', value: '', key: 0 },
-{ type: 'job', name: '职业', value: '', key: 0 },
-{ type: 'degree', name: '学历', value: '', key: 0 },
-{ type: 'merriage', name: '婚姻状况', value: '', key: 0 },
-{ type: 'hobits', name: '爱好', value: '', key: 0 },
-{ type: 'acctStatus', name: '账户状态', value: '', key: 0 },
-{ type: 'openTime', name: '开户时间', value: '', key: 0 },
-{ type: 'priSalesTeam', name: '服务经理', value: '', key: 0 },
-{ type: 'lastCommission', name: '最近一次服务时间', value: '', key: 0 },
+  { type: 'custAge', name: '年龄', value: '', key: 0 },
+  { type: 'custGrade', name: '客户等级', value: '', key: 0 },
+  { type: 'idType', name: '证件类型', value: '', key: 0 },
+  { type: 'idNum', name: '证件号码', value: '', key: 0 },
+  { type: 'idValDate', name: '证件有效期', value: '', key: 0 },
+  { type: 'job', name: '职业', value: '', key: 0 },
+  { type: 'degree', name: '学历', value: '', key: 0 },
+  { type: 'merriage', name: '婚姻状况', value: '', key: 0 },
+  { type: 'hobits', name: '爱好', value: '', key: 0 },
+  { type: 'acctStatus', name: '账户状态', value: '', key: 0 },
+  { type: 'openTime', name: '开户时间', value: '', key: 0 },
+  { type: 'priSalesTeam', name: '服务经理', value: '', key: 0 },
+  { type: 'lastCommission', name: '最近一次服务时间', value: '', key: 0 },
 ];
+// 机构客户标签列表
 const orgLabelArr = [
-{ type: 'acctType', name: '机构类型', value: '', key: 0 },
-{ type: 'custGrade', name: '客户等级', value: '', key: 0 },
-{ type: 'idType', name: '证件类型', value: '', key: 0 },
-{ type: 'idNum', name: '证件号码', value: '', key: 0 },
-{ type: 'idValDate', name: '证件有效期', value: '', key: 0 },
-{ type: 'industry', name: '所属行业', value: '', key: 0 },
-{ type: 'regAsset', name: '注册资金（万元）', value: '', key: 0 },
-{ type: 'regAddress', name: '注册地点', value: '', key: 0 },
-{ type: 'foundTime', name: '成立时间', value: '', key: 0 },
-{ type: 'busiArea', name: '经营范围', value: '', key: 0 },
-{ type: 'acctStatus', name: '账户状态', value: '', key: 0 },
-{ type: 'openTime', name: '开户时间', value: '', key: 0 },
-{ type: 'priSalesTeam', name: '服务经理', value: '', key: 0 },
-{ type: 'lastCommission', name: '最近一次服务时间', value: '', key: 0 },
+  { type: 'acctType', name: '机构类型', value: '', key: 0 },
+  { type: 'custGrade', name: '客户等级', value: '', key: 0 },
+  { type: 'idType', name: '证件类型', value: '', key: 0 },
+  { type: 'idNum', name: '证件号码', value: '', key: 0 },
+  { type: 'idValDate', name: '证件有效期', value: '', key: 0 },
+  { type: 'industry', name: '所属行业', value: '', key: 0 },
+  { type: 'regAsset', name: '注册资金（万元）', value: '', key: 0 },
+  { type: 'regAddress', name: '注册地点', value: '', key: 0 },
+  { type: 'foundTime', name: '成立时间', value: '', key: 0 },
+  { type: 'busiArea', name: '经营范围', value: '', key: 0 },
+  { type: 'acctStatus', name: '账户状态', value: '', key: 0 },
+  { type: 'openTime', name: '开户时间', value: '', key: 0 },
+  { type: 'priSalesTeam', name: '服务经理', value: '', key: 0 },
+  { type: 'lastCommission', name: '最近一次服务时间', value: '', key: 0 },
 ];
 
 const mapStateToProps = state => ({
@@ -75,7 +76,7 @@ export default class CustBasic extends PureComponent {
     this.state = {};
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     // 过长内容，展开显示
     const { custSor } = this.props.params;
     const type = custSor || 'per';
@@ -164,11 +165,11 @@ export default class CustBasic extends PureComponent {
     const labelArr = (custSor === 'per') ? perLabelArr : orgLabelArr;
     const custIcon = this.getCustIcon();
     const custName = this.getMapKey('custName');
-    const custNum = (!custNumber) ? '--' : custNumber;
+    const custNum = (!custNumber || custNumber === 'null') ? '--' : custNumber;
     const arr = this.contactData(labelArr, dataModel);
     const renderHead = obj => (
       <section className="baseHead">
-        <div className="headIcon"><Icon type={obj.icon} /></div>
+        <div className="headIcon"><Icon type={obj.icon || 'jigou'} /></div>
         <div className="headInfo">
           <p className="custName">{ obj.name }</p>
           <p className="custNum">{ obj.number }</p>
