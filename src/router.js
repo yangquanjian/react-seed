@@ -29,6 +29,7 @@ import CustomerSearchResult from './views/customer/SearchResult';
 import MissionHome from './views/mission/Home';
 import MissionDetail from './views/mission/Detail';
 import Profile from './views/profile';
+import ServiceImplement from './views/customer/ServiceImplement';
 
 
 const routes = ({ history }) => (// eslint-disable-line
@@ -52,6 +53,7 @@ const routes = ({ history }) => (// eslint-disable-line
       <Route path="customer" component={TabPane}>
         <IndexRoute component={CustomerHome} />
         <Route path="searchResult" component={CustomerSearchResult} />
+        <Route path="ServiceImplement" component={ServiceImplement} />
         <Route path=":id" component={CustomerDetail} />
         <Route path="/custBasic/:custNumber/:custSor/:custId" component={CustBasic} />
         <Route path="/custContactPer/:custNumber/:custSor/:custId" component={CustContactPer} />
