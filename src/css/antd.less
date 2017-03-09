@@ -34,6 +34,14 @@
       margin-top: @navbar-height;
     }
   }
+
+  /** Loading不遮挡导航栏 */
+  .@{activityIndicatorPrefixCls}.@{activityIndicatorPrefixCls}-toast {
+    top: @navbar-height;
+    .@{activityIndicatorPrefixCls}-content {
+      transform: translateY(-@navbar-height);
+    }
+  }
 }
 
 
@@ -42,7 +50,7 @@
  * foot tablit am-tab-bar-bar
  */
 .am-tab-bar-bar {
-  height: 100px;
+  height: @tabbar-height;
 }
 /**
  * foot tablist tab iconfont
