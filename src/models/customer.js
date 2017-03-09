@@ -63,11 +63,16 @@ export default {
     },
     getServiceListSuccess(state, action) {
       // 服务记录列表
-      const { payload: { response } } = action;
+      const { payload: { response, custId, custSor } } = action;
       return {
         ...state,
         serviceList: {
-          ...response.resultData,
+          ...state.serviceList,
+          [custId]: {
+            ...response.resultData,
+            custId,
+            custSor,
+          },
         },
       };
     },
@@ -218,18 +223,18 @@ export default {
     },
     * getList({ payload: {
         custQueryType = 'personal',
-        keywords = '',
-        custNature = '',
-        custType = '',
-        custLevel = '',
-        riskLevel = '',
-        accountStatus = '',
-        orderType = 'desc',
-        pageSize = 10,
-        pageNum = 1,
-        openDateStart = '',
-        openDateEnd = '',
-        refresh = false,
+      keywords = '',
+      custNature = '',
+      custType = '',
+      custLevel = '',
+      riskLevel = '',
+      accountStatus = '',
+      orderType = 'desc',
+      pageSize = 10,
+      pageNum = 1,
+      openDateStart = '',
+      openDateEnd = '',
+      refresh = false,
       } }, { call, put }) {
       const list = yield call(
         api.getCustomerList,
@@ -285,15 +290,14 @@ export default {
           const custSor = custContactOrgMatch[2];
           const custId = custContactOrgMatch[3];
           dispatch({ type: 'getOrgContact', payload: { custNumber, custSor, custId } });
-          return;
         }
-        // 服务记录列表
-        const serviceListMatch = pathToRegexp('/serviceList/:custSor/:custId').exec(pathname);
-        if (serviceListMatch) {
-          const custSor = serviceListMatch[1];
-          const custId = serviceListMatch[1];
-          dispatch({ type: 'getServiceList', payload: { custSor, custId } });
-        }
+        // // 服务记录列表
+        // const serviceListMatch = pathToRegexp('/serviceList').exec(pathname);
+        // if (serviceListMatch) {
+        //   const custSor = serviceListMatch[1];
+        //   const custId = serviceListMatch[1];
+        //   dispatch({ type: 'getServiceList', payload: { custSor, custId } });
+        // }
       });
     },
   },

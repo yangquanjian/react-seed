@@ -27,6 +27,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  // 不推荐产品
   ignoreProduct: custId => ({
     type: 'customer/ignoreProduct',
     payload: { custId },

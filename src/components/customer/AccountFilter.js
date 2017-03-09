@@ -1,3 +1,9 @@
+/**
+ * @file customer/AccountFilter.js
+ *
+ * @author xuxiaoqin
+ */
+
 export default function AccountFilter(val) {
   let value = val;
   if (value && value !== undefined) {

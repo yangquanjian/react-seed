@@ -47,7 +47,7 @@ export default class CustomerDetailFooter extends PureComponent {
   handleClick(type) {
     const { push, custId, custNumber, custSor } = this.props;
     if (type === 'serviceRecord') {
-      push('/serviceRecord');
+      push(`/customer/serviceList?custId=${custId}&custSor=${custSor}`);
     } else if (type === 'contact') {
       if (custSor === 'per') {
         push(`/custContactPer/${custNumber}/${custSor}/${custId}`);
@@ -72,7 +72,7 @@ export default class CustomerDetailFooter extends PureComponent {
           <Item className="tel" thumb="../../../static/img/tel.png" arrow="horizontal" multipleLine onClick={() => { this.handleClick('contact'); }}>
             <div className="telContent">联系方式</div>
           </Item>
-          <Item className="serRecord" extra={lastCommissionHtml} thumb="../../../static/img/serviceRecord.png" arrow="horizontal" multipleLine>
+          <Item className="serRecord" extra={lastCommissionHtml} thumb="../../../static/img/serviceRecord.png" arrow="horizontal" multipleLine onClick={() => { this.handleClick('serviceRecord'); }}>
             <div className="recordContent">服务记录</div>
           </Item>
         </List>

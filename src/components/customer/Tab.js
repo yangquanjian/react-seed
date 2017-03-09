@@ -25,7 +25,6 @@ export default class TabBar extends PureComponent {
     assetData: [],
   }
 
-
   constructor(props) {
     super(props);
 

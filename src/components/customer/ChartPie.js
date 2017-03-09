@@ -1,3 +1,9 @@
+/**
+ * @file customer/ChartPie.js
+ *
+ * @author xuxiaoqin
+ */
+
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash';
@@ -62,6 +68,7 @@ export default class ChartPieWidget extends PureComponent {
           },
         ],
         color: ['#e6e5e5'],
+        animation: false,
       };
 
       const nonePieDataClass = classnames({
@@ -321,6 +328,7 @@ export default class ChartPieWidget extends PureComponent {
         },
       ],
       color: ['#e6e5e5'],
+      animation: false,
     };
 
     const nonePieArray = [];
