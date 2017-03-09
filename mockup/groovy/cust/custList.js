@@ -30,6 +30,76 @@ exports.response = function (req, res) {
           "custType": "per",
           "custOpenDate": "2015/03/25"
         },
+				{
+					"cusId": "1-3R9W-5",
+					"custName": "IwQhY",
+					"brokerNumber": "02078072",
+					"custLevelCode": "805020",
+					"custLevelName": "金",
+					"custTotalAsset": 90745.09,
+					"custType": "org",
+					"custOpenDate": "2009/06/22"
+				},
+				{
+					"cusId": "1-3R9W-4",
+					"custName": "lcTps",
+					"brokerNumber": "02078071",
+					"custLevelCode": "805020",
+					"custLevelName": "金",
+					"custTotalAsset": 21825.97,
+					"custType": "org",
+					"custOpenDate": "2009/06/22"
+				},
+				{
+					"cusId": "1-30A0-10",
+					"custName": "PLwmv",
+					"brokerNumber": "10072706",
+					"custLevelCode": "805020",
+					"custLevelName": "金",
+					"custTotalAsset": 0,
+					"custType": "org",
+					"custOpenDate": "2009/03/30"
+				},
+				{
+					"cusId": "1-2973-4",
+					"custName": "mqSIW",
+					"brokerNumber": "02076666",
+					"custLevelCode": "805020",
+					"custLevelName": "金",
+					"custTotalAsset": 0,
+					"custType": "org",
+					"custOpenDate": "2008/11/20"
+				},
+				{
+					"cusId": "1-8G-3181",
+					"custName": "ffoBT",
+					"brokerNumber": "02075268",
+					"custLevelCode": "805010",
+					"custLevelName": "钻石",
+					"custTotalAsset": 11116875.44,
+					"custType": "org",
+					"custOpenDate": "2008/05/05"
+				},
+				{
+					"cusId": "1-W3O-4",
+					"custName": "otOaZ",
+					"brokerNumber": "02074348",
+					"custLevelCode": "805020",
+					"custLevelName": "金",
+					"custTotalAsset": 0,
+					"custType": "org",
+					"custOpenDate": "2008/04/02"
+				},
+				{
+					"cusId": "1-LPP-8",
+					"custName": "lulus",
+					"brokerNumber": "20095988",
+					"custLevelCode": "805020",
+					"custLevelName": "金",
+					"custTotalAsset": 0,
+					"custType": "org",
+					"custOpenDate": "2008/01/29"
+				},
         {
           "cusId": "1-39IFGUQ",
           "custName": "AeAQE",

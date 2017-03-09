@@ -3,7 +3,6 @@
  * @author maoquan(maoquan@htsc.com)
  */
 
-import pathToRegexp from 'path-to-regexp';
 import _ from 'lodash';
 
 import api from '../api';
@@ -254,44 +253,5 @@ export default {
       });
     },
   },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      return history.listen(({ pathname }) => {
-        // 客户基本信息页面
-        const custBasicMatch = pathToRegexp('/custBasic/:custNumber/:custSor/:custId').exec(pathname);
-        if (custBasicMatch) {
-          const custNumber = custBasicMatch[1];
-          const custSor = custBasicMatch[2];
-          const custId = custBasicMatch[3];
-          dispatch({ type: 'getCustBasic', payload: { custNumber, custSor, custId } });
-          return;
-        }
-        // 个人客户联系方式
-        const custContactPerMatch = pathToRegexp('/custContactPer/:custNumber/:custSor/:custId').exec(pathname);
-        if (custContactPerMatch) {
-          const custNumber = custContactPerMatch[1];
-          const custSor = custContactPerMatch[2];
-          const custId = custContactPerMatch[3];
-          dispatch({ type: 'getPerContact', payload: { custNumber, custSor, custId } });
-          return;
-        }
-        // 机构客户联系人
-        const custContactOrgMatch = pathToRegexp('/custContactOrg/:custNumber/:custSor/:custId').exec(pathname);
-        if (custContactOrgMatch) {
-          const custNumber = custContactOrgMatch[1];
-          const custSor = custContactOrgMatch[2];
-          const custId = custContactOrgMatch[3];
-          dispatch({ type: 'getOrgContact', payload: { custNumber, custSor, custId } });
-          return;
-        }
-        // 服务记录列表
-        const serviceListMatch = pathToRegexp('/serviceList/:custSor/:custId').exec(pathname);
-        if (serviceListMatch) {
-          const custSor = serviceListMatch[1];
-          const custId = serviceListMatch[1];
-          dispatch({ type: 'getServiceList', payload: { custSor, custId } });
-        }
-      });
-    },
-  },
+  subscriptions: {},
 };

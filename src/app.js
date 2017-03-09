@@ -19,6 +19,11 @@ import { getQuery } from './utils/helper';
 import { navToLogin } from './utils/cordova';
 import api from './api';
 
+// 存储empId, deviceId, token等授权信息
+const query = getQuery(location.search);
+const authInfo = _.pick(query, 'empId', 'deviceId', 'token');
+api.setAuthInfo(authInfo);
+
 const extraEnhancers = [];
 if (persistConfig.active) {
   extraEnhancers.push(autoRehydrate());
@@ -31,23 +36,26 @@ const getMessage = (message) => {
   return message;
 };
 
+// 错误处理
+const onError = (e) => {
+  const { message } = e;
+  if (message === 'MAG0010') {
+    Toast.fail(
+      '登录超时，请重新登录！',
+      2,
+      navToLogin,
+    );
+  } else {
+    Toast.fail(getMessage(message));
+  }
+};
+
 // 1. Initialize
 const app = dva({
   history: browserHistory,
   onAction: [createLogger(), createSensorsLogger()],
   extraEnhancers,
-  onError(e) {
-    const { message } = e;
-    if (message === 'MAG0010') {
-      Toast.fail(
-        '登录超时，请重新登录！',
-        2,
-        navToLogin,
-      );
-    } else {
-      Toast.fail(getMessage(message));
-    }
-  },
+  onError,
 });
 
 // 2. Plugins
@@ -72,13 +80,11 @@ if (persistConfig.active) {
   persistStore(app._store, persistConfig); // eslint-disable-line
 }
 
+// 获取客户信息
+app._store.dispatch({ type: 'global/getEmpInfo' }); // eslint-disable-line
+
 // fastclick
 FastClick.attach(document.body);
 
 // cordova
 document.addEventListener('deviceready', () => {}, false);
-
-// 存储empId, deviceId, token等授权信息
-const query = getQuery(location.search);
-const authInfo = _.pick(query, 'empId', 'deviceId', 'token');
-api.setAuthInfo(authInfo);

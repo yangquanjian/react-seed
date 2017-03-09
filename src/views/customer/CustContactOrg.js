@@ -10,46 +10,65 @@ import { routerRedux } from 'dva/router';
 import { autobind } from 'core-decorators';
 import _ from 'lodash';
 
-import NavBar from '../../components/common/NavBar';
+import withNavBar from '../../components/common/withNavBar';
+import PullToRefreshable from '../../components/common/PullToRefreshable';
 import Icon from '../../components/common/Icon';
 import './CustContactOrg.less';
 
+const getDataFunction = query => ({
+  type: 'customer/getOrgContact',
+  payload: query || {},
+});
+
 const mapStateToProps = state => ({
   data: state.customer.contactList,
+  isLoading: state.loading.models.customer,
 });
 
 const mapDispatchToProps = {
   push: routerRedux.push,
+  // 下拉刷新组件
+  refresh: getDataFunction,
   goBack: routerRedux.goBack,
 };
 
-@connect(mapStateToProps, mapDispatchToProps)
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { location: { query } } = ownProps;
+  return {
+    refreshData: query,
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+  };
+};
+
+@connect(mapStateToProps, mapDispatchToProps, mergeProps)
+@withNavBar({ title: '机构联系人', hasBack: true })
+@PullToRefreshable
 export default class CustContactOrg extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
-    title: PropTypes.string.isRequired,
-    push: PropTypes.func.isRequired,
+    refresh: PropTypes.func.isRequired,
+    refreshData: PropTypes.object.isRequired,
     goBack: PropTypes.func.isRequired,
+    push: PropTypes.func,
+    location: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
-    title: '',
+    data: {},
+    refresh: () => {},
     push: () => {},
-    goBack: () => {},
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    };
+  componentWillMount() {
+    const { refresh, refreshData } = this.props;
+    refresh(refreshData);
   }
 
   @autobind
   getDataModel() {
-    const { data = {} } = this.props;
-    const { custId = '--' } = this.props.params;
+    const { data = {}, location: { query: { custId = '--' } } } = this.props;
     const dataModel = data[custId] || {};
     return dataModel;
   }
@@ -60,7 +79,7 @@ export default class CustContactOrg extends PureComponent {
     const dataModel = this.getDataModel();
     if (dataModel === {} || _.isEmpty(dataModel.custBaseInfo)) return '--';
     const { custName = '--' } = dataModel.custBaseInfo || {};
-    return custName || '--';
+    return custName;
   }
 
   @autobind
@@ -103,14 +122,12 @@ export default class CustContactOrg extends PureComponent {
   @autobind
   handleClick(obj) {
     // 跳转联系人详情页
-    const { push } = this.props;
-    const { custId = '--' } = this.props.params;
-    push({ pathname: `/ContactOrgDetail/${custId}/${obj.rowId}` });
+    const { rowId = '' } = obj;
+    const { push = () => {}, location: { query: { custId = '--' } } } = this.props;
+    push(`/contactOrgDetail?custId=${custId}&rowId=${rowId}`);
   }
 
   render() {
-    const { goBack } = this.props;
-    const custName = this.getCustName();
     const contactArr = this.getContactList();
     const isNull = (contactArr && contactArr.length > 0) ? 'have-data' : 'no-data';
     const mainData = this.getMainContact(contactArr);
@@ -145,12 +162,6 @@ export default class CustContactOrg extends PureComponent {
 
     return (
       <div className="cust-contact-org">
-        <NavBar
-          iconName={'fanhui'}
-          onLeftClick={goBack}
-        >
-          <p className="mid-contain">{custName}</p>
-        </NavBar>
         <section className="contain">
           <div className={`null-msg ${isNull}`}>
             <img className="null-icon" alt="空数据" src="../../../static/img/none.png" />

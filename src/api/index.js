@@ -10,6 +10,11 @@ export default {
   ...api,
 
   /**
+   * 获取用户信息
+   */
+  getEmpInfo: () => api.post('/groovy/emp/empInfo'),
+
+  /**
    * 获取产品列表
    */
   getProductList: ({ categoryId }) => api.post('/product/list', { categoryId }),

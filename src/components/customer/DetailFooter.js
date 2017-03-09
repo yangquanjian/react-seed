@@ -50,9 +50,9 @@ export default class CustomerDetailFooter extends PureComponent {
       push('/serviceRecord');
     } else if (type === 'contact') {
       if (custSor === 'per') {
-        push(`/custContactPer/${custNumber}/${custSor}/${custId}`);
+        push(`/custContactPer?custNumber=${custNumber}&custSor=${custSor}&custId=${custId}`);
       } else {
-        push(`/custContactOrg/${custNumber}/${custSor}/${custId}`);
+        push(`/custContactOrg?custNumber=${custNumber}&custSor=${custSor}&custId=${custId}`);
       }
     }
   }

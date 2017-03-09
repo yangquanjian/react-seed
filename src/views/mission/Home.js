@@ -17,8 +17,6 @@ export default function MissionHome(props) {
       <p>{ props.title }</p>
       <br />
       <p><Link to="/mission/taskDetail?motTaskId=1">任务中心 -- 任务详情</Link></p>
-      <p><Link to="/taskDetail/:1">任务中心 -- 任务详情</Link></p>
-
     </div>
   );
 }

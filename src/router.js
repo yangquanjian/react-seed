@@ -55,10 +55,10 @@ const routes = ({ history }) => (// eslint-disable-line
         <IndexRoute component={CustomerHome} />
         <Route path="searchResult" component={CustomerSearchResult} />
         <Route path=":id" component={CustomerDetail} />
-        <Route path="/custBasic/:custNumber/:custSor/:custId" component={CustBasic} />
-        <Route path="/custContactPer/:custNumber/:custSor/:custId" component={CustContactPer} />
-        <Route path="/custContactOrg/:custNumber/:custSor/:custId" component={CustContactOrg} />
-        <Route path="/ContactOrgDetail/:custId/:rowId" component={ContactOrgDetail} />
+        <Route path="/custBasic" component={CustBasic} />
+        <Route path="/custContactPer" component={CustContactPer} />
+        <Route path="/custContactOrg" component={CustContactOrg} />
+        <Route path="/contactOrgDetail" component={ContactOrgDetail} />
         <Route path="/serviceList/:custSor/:custId" component={ServiceList} />
         <Route path="detail" components={CustomerDetail} />
       </Route>
