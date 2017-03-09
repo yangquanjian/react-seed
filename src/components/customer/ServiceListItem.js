@@ -5,12 +5,10 @@ import Icon from '../common/Icon';
 
 export default class ServiceItem extends React.Component {
 
-  /* eslint-disable */
   static propTypes = {
     push: PropTypes.func,
     data: React.PropTypes.object,
   };
-  /* eslint-enable */
 
   // "custId": "1-VS-4517", // 客户rowId
   // "custType": "per", // 客户类型per 个人， org 机构
@@ -54,9 +52,9 @@ export default class ServiceItem extends React.Component {
       category = '--',
       type = '--',
       actionChannel = '--',
-      status,
-      startTime = '--',
-      endTime = '--',
+      status = '--',
+      startTime = '1990/01/01 00:00:00',
+      endTime = '1990/01/01 00:00:00',
     } = this.props.data;
 
     const more = {

@@ -50,14 +50,10 @@ export default class ServiceList extends PureComponent {
   @autobind
   onRefresh() {
     this.setState({ refreshing: true });
-    const { location: { query } } = this.props;
-    this.props.refresh({
+    const { location: { query }, refresh } = this.props;
+    refresh({
       ...query,
     });
-  }
-
-  onScroll() {
-    console.log('aa');
   }
 
   renderSeparator(sectionID, rowID) {
@@ -97,7 +93,6 @@ export default class ServiceList extends PureComponent {
           scrollEventThrottle={20}
           useBodyScroll
           initialListSize={20}
-          onScroll={this.onScroll}
           refreshControl={<RefreshControl
             refreshing={this.state.refreshing}
             onRefresh={this.onRefresh}

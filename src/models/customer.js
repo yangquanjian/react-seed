@@ -291,13 +291,6 @@ export default {
           const custId = custContactOrgMatch[3];
           dispatch({ type: 'getOrgContact', payload: { custNumber, custSor, custId } });
         }
-        // // 服务记录列表
-        // const serviceListMatch = pathToRegexp('/serviceList').exec(pathname);
-        // if (serviceListMatch) {
-        //   const custSor = serviceListMatch[1];
-        //   const custId = serviceListMatch[1];
-        //   dispatch({ type: 'getServiceList', payload: { custSor, custId } });
-        // }
       });
     },
   },

@@ -6,7 +6,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
 import { List } from 'antd-mobile';
-import './DetailFooter.less';
+import './detailFooter.less';
 
 const Item = List.Item;
 
@@ -48,6 +48,7 @@ export default class CustomerDetailFooter extends PureComponent {
     const { push, custId, custNumber, custSor } = this.props;
     if (type === 'serviceRecord') {
       push(`/customer/serviceList?custId=${custId}&custSor=${custSor}`);
+      // push('/customer/serviceList?custId=1-DU-5288&custSor=per');
     } else if (type === 'contact') {
       if (custSor === 'per') {
         push(`/custContactPer/${custNumber}/${custSor}/${custId}`);

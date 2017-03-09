@@ -58,4 +58,10 @@ export default {
       carrier: 'unknown',
     };
   },
+  sendEmail(args) {
+    exec('sendEmail', args);
+  },
+  processMotTask(args) {
+    exec('processMotTask', args);
+  },
 };

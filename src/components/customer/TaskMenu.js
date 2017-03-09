@@ -2,7 +2,8 @@ import React, { PropTypes, PureComponent } from 'react';
 import { Flex } from 'antd-mobile';
 // import _ from 'lodash';
 import { autobind } from 'core-decorators';
-import './TaskMenu.less';
+import { sendEmail, processMotTask } from '../../utils/cordova';
+import './taskMenu.less';
 
 const Item = Flex.Item;
 
@@ -29,14 +30,16 @@ export default class TaskMenu extends PureComponent {
 
   @autobind
   onLeftClick() {
-    const { push, custId, custNumber, custSor } = this.props;
-    push(`/custBasic/${custNumber}/${custSor}/${custId}`);
+    const { custId, custNumber, custSor } = this.props;
+    // push(`/custBasic/${custNumber}/${custSor}/${custId}`);
+    sendEmail([custId, custNumber, custSor]);
   }
 
   @autobind
   onRightClick() {
-    const { push, custId, custNumber, custSor } = this.props;
-    push(`/custBasic/${custNumber}/${custSor}/${custId}`);
+    const { custId, custNumber, custSor } = this.props;
+    // push(`/custBasic/${custNumber}/${custSor}/${custId}`);
+    processMotTask([custId, custNumber, custSor]);
   }
 
   render() {

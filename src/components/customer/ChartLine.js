@@ -10,7 +10,7 @@ import classnames from 'classnames';
 import _ from 'lodash';
 import Chart from '../chart';
 import AccountFilter from './AccountFilter';
-import './ChartLine.less';
+import './chartLine.less';
 
 export default class ChartLineWidget extends PureComponent {
 
