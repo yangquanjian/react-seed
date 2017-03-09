@@ -58,7 +58,7 @@ export default {
   /**
    * 获取任务详情
    */
-  getMotDetail: ({ motTaskId, pageNum, pageSize }) => api.post('/groovy/emp/motDetail', { motTaskId, pageNum, pageSize }),
+  getMotDetail: ({ motTaskId }) => api.post('/groovy/emp/motDetail', { motTaskId }),
 
   /**
    * 登出

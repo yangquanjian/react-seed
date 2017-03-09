@@ -1,11 +1,16 @@
 @contain-bg: #ffffff;
-.mot-task-list{
+.mot-cust-list{
   background-color: #efefef;
   .item{
     height: 196px;
     margin: 0 0 20px 0;
     padding: 0 0 0 20px;
-    background-color: @contain-bg;
+    &.wait{
+      background-color: @contain-bg;
+    }
+    &.over{
+      background: @contain-bg url('../../../static/img/stamp-icon.png') no-repeat 85% 0%;
+    }
     .card.emptyCard {
       background: url('../../../static/img/emptyCard.png') no-repeat center center;
     }

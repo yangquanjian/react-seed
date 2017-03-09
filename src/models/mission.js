@@ -3,8 +3,6 @@
  * @author maoquan(maoquan@htsc.com)
  */
 
-import pathToRegexp from 'path-to-regexp';
-
 import api from '../api';
 
 export default {
@@ -27,29 +25,16 @@ export default {
   },
   effects: {
     // 获取任务详情
-    * fetchMotDetail({ payload: { motTaskId = 1, pageNum = 1, pageSize = 10 } }, { call, put }) {
-      const response = yield call(api.getMotDetail, { motTaskId, pageNum, pageSize });
+    * fetchMotDetail({ payload: { motTaskId = 1 } }, { call, put }) {
+      const response = yield call(api.getMotDetail, { motTaskId });
       yield put({
         type: 'getMotDetailSuccess',
         payload: {
           response,
           motTaskId,
-          pageNum,
-          pageSize,
         },
       });
     },
   },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
-        // 任务详情
-        const motDetailMatch = pathToRegexp('/mission/taskDetail').exec(pathname);
-        if (motDetailMatch) {
-          const { motTaskId = 1 } = query;
-          dispatch({ type: 'fetchMotDetail', payload: { motTaskId } });
-        }
-      });
-    },
-  },
+  subscriptions: {},
 };

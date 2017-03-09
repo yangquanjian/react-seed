@@ -32,10 +32,10 @@ export default class MotDetailDesc extends PureComponent {
   }
 
   componentDidUpdate() {
+  // componentDidMount() {
     const node = this.contain;
     const nodeScrollH = (node) ? node.scrollHeight : 0;
     const nodeOffsetH = (node) ? node.offsetHeight : 0;
-
     if (nodeScrollH >= nodeOffsetH && nodeScrollH > 80) {
       // this.setState({ isShown: true });
     } else {
