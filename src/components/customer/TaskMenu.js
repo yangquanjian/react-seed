@@ -32,14 +32,14 @@ export default class TaskMenu extends PureComponent {
   onLeftClick() {
     const { custId, custNumber, custSor } = this.props;
     // push(`/custBasic/${custNumber}/${custSor}/${custId}`);
-    sendEmail([custId, custNumber, custSor]);
+    sendEmail({ custId, custNumber, custSor });
   }
 
   @autobind
   onRightClick() {
     const { custId, custNumber, custSor } = this.props;
     // push(`/custBasic/${custNumber}/${custSor}/${custId}`);
-    processMotTask([custId, custNumber, custSor]);
+    processMotTask({ custId, custNumber, custSor });
   }
 
   render() {
