@@ -10,9 +10,9 @@
 		justify-content: flex-start;
 		align-items: center;
 		position: relative;
-		max-height: 375px;
-		min-height: 375px;
-		height: 375px;
+		// max-height: 500px;
+		// min-height: 375px;
+		// height: 375px;
 		overflow-x: hidden;
 		overflow-y: hidden;
 	}
@@ -37,14 +37,14 @@
 		padding-top: 20px;
 		padding-bottom: 20px;
 		padding-left: 10px;
-		min-height: 360px;
-		height: 360px;
-		max-height: 450px;
+		// min-height: 360px;
+		// height: 360px;
+		// max-height: 500px;
 		position: absolute;
 		width: 62%;
 		right: 0;
 	}
-	.xianjin,.licai,.gupiao,.jijin, .yanshengpin, .zhaiquan {
+	.xianjin,.licai,.gupiao,.kaifangjijin, .yanshengpin, .zhaiquan, .otc, .simu, .quanzheng {
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
@@ -66,9 +66,6 @@
 	.assetDescription div:last-child {
 		border-bottom: 0px;
 	}
-	.xianjinCircle {
-		background-color: #ec8d85;
-	}
 	.assetName {
 		padding-left: 20px;
 		font-size: 26px;
@@ -80,49 +77,70 @@
 		position: absolute;
 		right: 110px;
 	}
-	.xianjinPercent, .licaiPercent, .jijinPercent, .gupiaoPercent, .zhaiquanPercent, .yanshengpinPercent {
+	.xianjinPercent, .licaiPercent, .kaifangjijinPercent, .gupiaoPercent, .zhaiquanPercent, .yanshengpinPercent,.otcPercent,.quanzhengPercent,.simuPercent {
 		font-size: 24px;
 		position: absolute;
 		right: 10px;
 	}
-	.gupiaoCircle {
-		background-color: #da4e40;
-	}
-	.licaiCircle, .jijinCircle, .zhaiquanCircle, .yanshengpinCircle, .xianjinCircle, .gupiaoCircle {
+	.licaiCircle, .kaifangjijinCircle, .zhaiquanCircle, .yanshengpinCircle, .xianjinCircle, .gupiaoCircle, .otcCircle,.quanzhengCircle, .simuCircle {
 		border: 12px;
 		border-radius: 12px;
 		width: 12px;
 		height: 12px;
 	}
-	.licaiCircle {
-		background-color: #f0b14a;
-	}
-	.jijinCircle {
-		background-color: #a4adec;
-	}
-	.zhaiquanCircle {
+	.xianjinCircle {
 		background-color: #7fabe9;
 	}
-	.yanshengpinCircle {
+	.gupiaoCircle {
+		background-color: #7ed8c6;
+	}
+	.licaiCircle {
+		background-color: #ea9790;
+	}
+	.kaifangjijinCircle {
+		background-color: #f0b14a;
+	}
+	.zhaiquanCircle {
 		background-color: #f3d781;
 	}
+	.yanshengpinCircle {
+		background-color: #dfe4e8;
+	}
+	.simuCircle{
+		background-color: #b3aee5;
+	}
+	.otcCircle{
+		background-color: #b0d3f3;
+	}
+	.quanzhengCircle{
+		background-color: #d75e49;
+	}
 	.xianjinPercent {
-		color: #ec8d85;
-	}
-	.licaiPercent {
-		color: #f0b14a;
-	}
-	.jijinPercent {
-		color: #a4adec;
-	}
-	.zhaiquanPercent {
 		color: #7fabe9;
 	}
+	.licaiPercent {
+		color: #ea9790;
+	}
+	.kaifangjijinPercent {
+		color: #f0b14a;
+	}
+	.zhaiquanPercent {
+		color: #f3d781;
+	}
 	.gupiaoPercent {
-		color: #da4e40;
+		color: #7ed8c6;
 	}
 	.yanshengpinPercent {
-		color: #f3d781;
+		color: #dfe4e8;
+	}
+	.quanzhengPercent{
+		color: #d75e49;
+	}
+	.simuPercent{
+		color: #b3aee5;
+	}
+	.otcPercent{
+		color: #b0d3f3;
 	}
 	.chartPieNoneSection {
 		display: flex;

@@ -24,12 +24,18 @@ const mapStateToProps = state => ({
   data: state.customer.detailInfo,
   isLoading: state.loading.models.customer,
   // recommendList: state.customer.recommendList,
+  tabIndex: state.status.customerDetailTabIndex,
 });
 
 const mapDispatchToProps = {
+  // 不推荐产品
   ignoreProduct: custId => ({
     type: 'customer/ignoreProduct',
     payload: { custId },
+  }),
+  changeCustomerDetailTabIndex: index => ({
+    type: 'status/changeCustomerDetailTabIndex',
+    payload: index,
   }),
   // 提供给下拉刷新组件
   refresh: getDataFunction,
@@ -59,11 +65,14 @@ export default class CustomerDetail extends PureComponent {
     // recommendList: PropTypes.array.isRequired,
     push: PropTypes.func,
     location: PropTypes.object.isRequired,
+    tabIndex: PropTypes.number.isRequired,
+    changeCustomerDetailTabIndex: PropTypes.func,
   }
 
   static defaultProps = {
     data: {},
-    push: () => {},
+    push: () => { },
+    changeCustomerDetailTabIndex: () => { },
   };
 
   componentWillMount() {
@@ -72,7 +81,12 @@ export default class CustomerDetail extends PureComponent {
   }
 
   render() {
-    const { data, push, location: { query: { custId } } } = this.props;
+    const { data,
+      push,
+      location: { query: { custId } },
+      tabIndex,
+      changeCustomerDetailTabIndex,
+    } = this.props;
     const custData = data[custId] || {};
     const {
       custBaseInfo = {},
@@ -97,6 +111,8 @@ export default class CustomerDetail extends PureComponent {
         <TabBar
           chartData={monthlyProfits}
           assetData={custMoneyDistributionDTOList}
+          detailTabIndex={tabIndex}
+          changeCustomerDetailTabIndex={changeCustomerDetailTabIndex}
         />
         <CustomerDetailFooter
           lastCommission={lastCommission}

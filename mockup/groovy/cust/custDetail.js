@@ -61,7 +61,7 @@ exports.response = function (req, res) {
           "categoryId": "PA040000",
           "categoryName": "股票",
           "maketVal": 400,
-          "holdRate": 0.25,
+          "holdRate": 0.125,
           "pftVal": 0,
           "dataDate": "20160331"
         },
@@ -71,7 +71,7 @@ exports.response = function (req, res) {
           "categoryId": "PA030000",
           "categoryName": "债券",
           "maketVal": 400,
-          "holdRate": 0.25,
+          "holdRate": 0.125,
           "pftVal": 0,
           "dataDate": "20160331"
         },
@@ -82,6 +82,36 @@ exports.response = function (req, res) {
           "categoryName": "负债",
           "maketVal": 200,
           "holdRate": 0,
+          "pftVal": 0,
+          "dataDate": "20160331"
+        },
+        {
+          "custId": "02007829",
+          "custAcrmSystemId": "A000000000677016",
+          "categoryId": "PA090000",
+          "categoryName": "OTC产品",
+          "maketVal": 200,
+          "holdRate": 0.0625,
+          "pftVal": 0,
+          "dataDate": "20160331"
+        },
+        {
+          "custId": "02007829",
+          "custAcrmSystemId": "A000000000677016",
+          "categoryId": "PA100000",
+          "categoryName": "私募产品",
+          "maketVal": 200,
+          "holdRate": 0.125,
+          "pftVal": 0,
+          "dataDate": "20160331"
+        },
+        {
+          "custId": "02007829",
+          "custAcrmSystemId": "A000000000677016",
+          "categoryId": "PA020000",
+          "categoryName": "权证产品",
+          "maketVal": 200,
+          "holdRate": 0.0625,
           "pftVal": 0,
           "dataDate": "20160331"
         }

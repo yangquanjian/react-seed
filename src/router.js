@@ -20,11 +20,13 @@ import ProductHome from './views/product/Home';
 import ProductDetail from './views/product/Detail';
 import CustomerHome from './views/customer/Home';
 import CustomerDetail from './views/customer/Detail';
+import CustomerDetailWithMenu from './views/customer/DetailWithMenu';
 import CustBasic from './views/customer/CustBasic';
 import CustContactPer from './views/customer/CustContactPer';
 import CustContactOrg from './views/customer/CustContactOrg';
 import ContactOrgDetail from './views/customer/ContactOrgDetail';
-import ServiceList from './views/customer/ServiceList';
+import ServiceList from './views/customer/ServiceRecord';
+import ServiceListDetail from './views/customer/ServiceRecordDetail';
 import CustomerSearchResult from './views/customer/SearchResult';
 import MissionHome from './views/mission/Home';
 import MissionDetail from './views/mission/Detail';
@@ -54,12 +56,13 @@ const routes = ({ history }) => (// eslint-disable-line
       <Route path="customer" component={TabPane}>
         <IndexRoute component={CustomerHome} />
         <Route path="searchResult" component={CustomerSearchResult} />
-        <Route path=":id" component={CustomerDetail} />
         <Route path="/custBasic/:custNumber/:custSor/:custId" component={CustBasic} />
         <Route path="/custContactPer/:custNumber/:custSor/:custId" component={CustContactPer} />
         <Route path="/custContactOrg/:custNumber/:custSor/:custId" component={CustContactOrg} />
         <Route path="/ContactOrgDetail/:custId/:rowId" component={ContactOrgDetail} />
-        <Route path="/serviceList/:custSor/:custId" component={ServiceList} />
+        <Route path="serviceListDetail" component={ServiceListDetail} />
+        <Route path="serviceList" component={ServiceList} />
+        <Route path="detailWithMenu" components={CustomerDetailWithMenu} />
         <Route path="detail" components={CustomerDetail} />
       </Route>
       <Route path="profile" components={Profile} />

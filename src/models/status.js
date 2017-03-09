@@ -9,12 +9,19 @@ export default {
   namespace: 'status',
   state: {
     customerTabIndex: 0,
+    customerDetailTabIndex: 0,
   },
   reducers: {
     changeCustomerTabIndex(state, { payload }) {
       return {
         ...state,
         customerTabIndex: payload,
+      };
+    },
+    changeCustomerDetailTabIndex(state, { payload }) {
+      return {
+        ...state,
+        customerDetailTabIndex: payload,
       };
     },
   },

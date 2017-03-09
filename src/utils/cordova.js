@@ -8,7 +8,7 @@ const AppVersion = window.AppVersion || {};
 const device = window.device || {};
 const connection = navigator.connection || { type: 'unknown' };
 
-function exec(method, args) {
+function exec(method, ...args) {
   try {
     MCRMCordovaPlugin[method].apply(null, args);
   } catch (e) {
@@ -57,5 +57,11 @@ export default {
       uuid: device.uuid,
       carrier: 'unknown',
     };
+  },
+  sendEmail(args) {
+    exec('sendEmail', args);
+  },
+  processMotTask(args) {
+    exec('processMotTask', args);
   },
 };
