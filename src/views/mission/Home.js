@@ -11,7 +11,10 @@ import { Drawer } from 'antd-mobile';
 
 import NavBar from '../../components/common/NavBar';
 import CenterList from '../../components/mission/CenterList';
-import Filter from '../../components/customer/Filter';
+import Filter from '../../components/mission/Filter';
+import Icon from '../../components/common/Icon';
+import './home.less';
+import '../../components/common/pullToRefresh.less';
 
 const mapStateToProps = state => ({
   missionCenter: state.mission.missionCenter,
@@ -111,6 +114,11 @@ export default class MissionHome extends PureComponent {
         <NavBar
           iconName={false}
           leftContent={false}
+          rightContent={
+            <div className="missionFilter" onClick={this.onOpenChange}>
+              <Icon type="filter" />筛选
+            </div>
+          }
         >{title}</NavBar>
         <CenterList
           data={missionCenter}
@@ -120,7 +128,7 @@ export default class MissionHome extends PureComponent {
           push={push}
         />
         <Drawer
-          className="my-drawer"
+          className="missionDrawer"
           sidebar={sidebar}
           style={{ maxHeight: document.documentElement.clientHeight - footerHeight }}
           dragHandleStyle={{ display: 'none' }}

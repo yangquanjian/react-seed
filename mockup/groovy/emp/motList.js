@@ -4,8 +4,8 @@ exports.response = function (req, res) {
     "msg": "OK",
     "resultData": {
       "head":{
-        expired: 26,
-        today: 10
+        totalCount: 26,
+        endTodayCount: 10
       },
       "motTaskList": [
         {
@@ -15,98 +15,10 @@ exports.response = function (req, res) {
           "motTaskExecuteType": "Mission",
           "motTaskExecuteTypeName": "必做",
           "motTaskExpireTime": "2017-02-21",
-          "motTaskProcessingItems": 1,
-          "motTaskTotalItems": 3
-        },
-        {
-          "motTaskId": "119160908081",
-          "motTaskCreatedTime": "2016-09-08 12:00:00",
-          "motTaskName": "转账后账户余额不足一万元(实时)",
-          "motTaskExecuteType": "Mission",
-          "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-02-21",
-          "motTaskProcessingItems": 2,
-          "motTaskTotalItems": 3
-        },
-        {
-          "motTaskId": "119160908081",
-          "motTaskCreatedTime": "2016-09-08 12:00:00",
-          "motTaskName": "新规新股上市提醒",
-          "motTaskExecuteType": "Mission",
-          "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-02-21",
-          "motTaskProcessingItems": 1,
-          "motTaskTotalItems": 3
-        },
-        {
-          "motTaskId": "119160908081",
-          "motTaskCreatedTime": "2016-09-08 12:00:00",
-          "motTaskName": "新开户(高净值)客户提醒",
-          "motTaskExecuteType": "Mission",
-          "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-03-21",
-          "motTaskProcessingItems": 1,
-          "motTaskTotalItems": 3
-        },
-        {
-          "motTaskId": "119160908081",
-          "motTaskCreatedTime": "2016-09-08 12:00:00",
-          "motTaskName": "转账后账户余额不足一万元(实时)",
-          "motTaskExecuteType": "Mission",
-          "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-04-21",
-          "motTaskProcessingItems": 2,
-          "motTaskTotalItems": 3
-        },
-        {
-          "motTaskId": "119160908081",
-          "motTaskCreatedTime": "2016-09-08 12:00:00",
-          "motTaskName": "新开户(高净值)客户提醒",
-          "motTaskExecuteType": "Mission",
-          "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-01-21",
-          "motTaskProcessingItems": 1,
-          "motTaskTotalItems": 3
-        },
-        {
-          "motTaskId": "119160908081",
-          "motTaskCreatedTime": "2016-09-08 12:00:00",
-          "motTaskName": "转账后账户余额不足一万元(实时)",
-          "motTaskExecuteType": "Mission",
-          "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-01-21",
-          "motTaskProcessingItems": 2,
-          "motTaskTotalItems": 3
-        },
-        {
-          "motTaskId": "119160908081",
-          "motTaskCreatedTime": "2016-09-08 12:00:00",
-          "motTaskName": "新规新股上市提醒",
-          "motTaskExecuteType": "Mission",
-          "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-02-21",
-          "motTaskProcessingItems": 1,
-          "motTaskTotalItems": 3
-        },
-        {
-          "motTaskId": "119160908081",
-          "motTaskCreatedTime": "2016-09-08 12:00:00",
-          "motTaskName": "新开户(高净值)客户提醒",
-          "motTaskExecuteType": "Mission",
-          "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-03-21",
-          "motTaskProcessingItems": 1,
-          "motTaskTotalItems": 3
-        },
-        {
-          "motTaskId": "119160908081",
-          "motTaskCreatedTime": "2016-09-08 12:00:00",
-          "motTaskName": "转账后账户余额不足一万元(实时)",
-          "motTaskExecuteType": "Mission",
-          "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-02-21",
-          "motTaskProcessingItems": 2,
-          "motTaskTotalItems": 3
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
         },
         {
           "motTaskId": "119160908081",
@@ -115,28 +27,10 @@ exports.response = function (req, res) {
           "motTaskExecuteType": "Mission",
           "motTaskExecuteTypeName": "必做",
           "motTaskExpireTime": "2017-02-21",
-          "motTaskProcessingItems": 1,
-          "motTaskTotalItems": 3
-        },
-        {
-          "motTaskId": "119160908081",
-          "motTaskCreatedTime": "2016-09-08 12:00:00",
-          "motTaskName": "转账后账户余额不足一万元(实时)",
-          "motTaskExecuteType": "Mission",
-          "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-02-21",
-          "motTaskProcessingItems": 2,
-          "motTaskTotalItems": 3
-        },
-        {
-          "motTaskId": "119160908081",
-          "motTaskCreatedTime": "2016-09-08 12:00:00",
-          "motTaskName": "新规新股上市提醒",
-          "motTaskExecuteType": "Mission",
-          "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-02-21",
-          "motTaskProcessingItems": 1,
-          "motTaskTotalItems": 3
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
         },
         {
           "motTaskId": "119160908081",
@@ -144,19 +38,11 @@ exports.response = function (req, res) {
           "motTaskName": "新开户(高净值)客户提醒",
           "motTaskExecuteType": "Mission",
           "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-03-21",
-          "motTaskProcessingItems": 1,
-          "motTaskTotalItems": 3
-        },
-        {
-          "motTaskId": "119160908081",
-          "motTaskCreatedTime": "2016-09-08 12:00:00",
-          "motTaskName": "转账后账户余额不足一万元(实时)",
-          "motTaskExecuteType": "Mission",
-          "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-04-21",
-          "motTaskProcessingItems": 2,
-          "motTaskTotalItems": 3
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
         },
         {
           "motTaskId": "119160908081",
@@ -164,29 +50,11 @@ exports.response = function (req, res) {
           "motTaskName": "新开户(高净值)客户提醒",
           "motTaskExecuteType": "Mission",
           "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-01-21",
-          "motTaskProcessingItems": 1,
-          "motTaskTotalItems": 3
-        },
-        {
-          "motTaskId": "119160908081",
-          "motTaskCreatedTime": "2016-09-08 12:00:00",
-          "motTaskName": "转账后账户余额不足一万元(实时)",
-          "motTaskExecuteType": "Mission",
-          "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-01-21",
-          "motTaskProcessingItems": 2,
-          "motTaskTotalItems": 3
-        },
-        {
-          "motTaskId": "119160908081",
-          "motTaskCreatedTime": "2016-09-08 12:00:00",
-          "motTaskName": "新规新股上市提醒",
-          "motTaskExecuteType": "Mission",
-          "motTaskExecuteTypeName": "必做",
           "motTaskExpireTime": "2017-02-21",
-          "motTaskProcessingItems": 1,
-          "motTaskTotalItems": 3
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
         },
         {
           "motTaskId": "119160908081",
@@ -194,19 +62,191 @@ exports.response = function (req, res) {
           "motTaskName": "新开户(高净值)客户提醒",
           "motTaskExecuteType": "Mission",
           "motTaskExecuteTypeName": "必做",
-          "motTaskExpireTime": "2017-03-21",
-          "motTaskProcessingItems": 1,
-          "motTaskTotalItems": 3
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
         },
         {
           "motTaskId": "119160908081",
           "motTaskCreatedTime": "2016-09-08 12:00:00",
-          "motTaskName": "转账后账户余额不足一万元(实时)",
+          "motTaskName": "新开户(高净值)客户提醒",
           "motTaskExecuteType": "Mission",
           "motTaskExecuteTypeName": "必做",
           "motTaskExpireTime": "2017-02-21",
-          "motTaskProcessingItems": 2,
-          "motTaskTotalItems": 3
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
+        },
+        {
+          "motTaskId": "119160908081",
+          "motTaskCreatedTime": "2016-09-08 12:00:00",
+          "motTaskName": "新开户(高净值)客户提醒",
+          "motTaskExecuteType": "Mission",
+          "motTaskExecuteTypeName": "必做",
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
+        },
+        {
+          "motTaskId": "119160908081",
+          "motTaskCreatedTime": "2016-09-08 12:00:00",
+          "motTaskName": "新开户(高净值)客户提醒",
+          "motTaskExecuteType": "Mission",
+          "motTaskExecuteTypeName": "必做",
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
+        },
+        {
+          "motTaskId": "119160908081",
+          "motTaskCreatedTime": "2016-09-08 12:00:00",
+          "motTaskName": "新开户(高净值)客户提醒",
+          "motTaskExecuteType": "Mission",
+          "motTaskExecuteTypeName": "必做",
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
+        },
+        {
+          "motTaskId": "119160908081",
+          "motTaskCreatedTime": "2016-09-08 12:00:00",
+          "motTaskName": "新开户(高净值)客户提醒",
+          "motTaskExecuteType": "Mission",
+          "motTaskExecuteTypeName": "必做",
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
+        },
+        {
+          "motTaskId": "119160908081",
+          "motTaskCreatedTime": "2016-09-08 12:00:00",
+          "motTaskName": "新开户(高净值)客户提醒",
+          "motTaskExecuteType": "Mission",
+          "motTaskExecuteTypeName": "必做",
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
+        },
+        {
+          "motTaskId": "119160908081",
+          "motTaskCreatedTime": "2016-09-08 12:00:00",
+          "motTaskName": "新开户(高净值)客户提醒",
+          "motTaskExecuteType": "Mission",
+          "motTaskExecuteTypeName": "必做",
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
+        },
+        {
+          "motTaskId": "119160908081",
+          "motTaskCreatedTime": "2016-09-08 12:00:00",
+          "motTaskName": "新开户(高净值)客户提醒",
+          "motTaskExecuteType": "Mission",
+          "motTaskExecuteTypeName": "必做",
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
+        },
+        {
+          "motTaskId": "119160908081",
+          "motTaskCreatedTime": "2016-09-08 12:00:00",
+          "motTaskName": "新开户(高净值)客户提醒",
+          "motTaskExecuteType": "Mission",
+          "motTaskExecuteTypeName": "必做",
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
+        },
+        {
+          "motTaskId": "119160908081",
+          "motTaskCreatedTime": "2016-09-08 12:00:00",
+          "motTaskName": "新开户(高净值)客户提醒",
+          "motTaskExecuteType": "Mission",
+          "motTaskExecuteTypeName": "必做",
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
+        },
+        {
+          "motTaskId": "119160908081",
+          "motTaskCreatedTime": "2016-09-08 12:00:00",
+          "motTaskName": "新开户(高净值)客户提醒",
+          "motTaskExecuteType": "Mission",
+          "motTaskExecuteTypeName": "必做",
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
+        },
+        {
+          "motTaskId": "119160908081",
+          "motTaskCreatedTime": "2016-09-08 12:00:00",
+          "motTaskName": "新开户(高净值)客户提醒",
+          "motTaskExecuteType": "Mission",
+          "motTaskExecuteTypeName": "必做",
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
+        },
+        {
+          "motTaskId": "119160908081",
+          "motTaskCreatedTime": "2016-09-08 12:00:00",
+          "motTaskName": "新开户(高净值)客户提醒",
+          "motTaskExecuteType": "Mission",
+          "motTaskExecuteTypeName": "必做",
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
+        },
+        {
+          "motTaskId": "119160908081",
+          "motTaskCreatedTime": "2016-09-08 12:00:00",
+          "motTaskName": "新开户(高净值)客户提醒",
+          "motTaskExecuteType": "Mission",
+          "motTaskExecuteTypeName": "必做",
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
+        },
+        {
+          "motTaskId": "119160908081",
+          "motTaskCreatedTime": "2016-09-08 12:00:00",
+          "motTaskName": "新开户(高净值)客户提醒",
+          "motTaskExecuteType": "Mission",
+          "motTaskExecuteTypeName": "必做",
+          "motTaskExpireTime": "2017-02-21",
+          "motTaskAccRate": 0,
+          "processedCusts": 0,
+          "totalCusts": 1,
+          "motTaskProcessingItems": 1
         }
       ]
     }

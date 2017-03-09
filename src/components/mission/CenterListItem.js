@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Progress } from 'antd-mobile';
 import { autobind } from 'core-decorators';
-import './CenterListItem.less';
+import './centerListItem.less';
 
 class CenterListItem extends React.Component {
   static propTypes = {
@@ -12,7 +12,9 @@ class CenterListItem extends React.Component {
     motTaskExecuteTypeName: PropTypes.string,
     motTaskExpireTime: PropTypes.string,
     motTaskProcessingItems: PropTypes.number,
-    motTaskTotalItems: PropTypes.number,
+    totalCusts: PropTypes.number,
+    motTaskAccRate: PropTypes.number,
+    processedCusts: PropTypes.number,
     push: PropTypes.func.isRequired,
   };
 
@@ -24,23 +26,10 @@ class CenterListItem extends React.Component {
     motTaskExecuteTypeName: '--',
     motTaskExpireTime: '--',
     motTaskProcessingItems: 0,
-    motTaskTotalItems: 0,
+    totalCusts: 0,
+    motTaskAccRate: 0,
+    processedCusts: 0,
     push: () => {},
-  }
-
-  @autobind
-  getPercent() {
-    const {
-      motTaskProcessingItems = 0,
-      motTaskTotalItems = 0,
-    } = this.props;
-    if ((motTaskTotalItems || 0) === 0) {
-      return 0;
-    }
-    return parseInt(
-      (motTaskTotalItems - motTaskProcessingItems) * 100 / motTaskTotalItems, // eslint-disable-line
-      10,
-    );
   }
 
   @autobind
@@ -53,8 +42,9 @@ class CenterListItem extends React.Component {
       motTaskName,
       motTaskExecuteTypeName,
       motTaskExpireTime,
-      motTaskProcessingItems,
-      motTaskTotalItems,
+      processedCusts,
+      motTaskAccRate,
+      totalCusts,
     } = this.props;
     return (
       <div className="centerListItem" onClick={this.handleClick}>
@@ -65,11 +55,11 @@ class CenterListItem extends React.Component {
         <div className="listTime">完成时间{motTaskExpireTime}</div>
         <div className="listProgress">
           <div className="progress">
-            <Progress percent={this.getPercent()} position="normal" appearTransition />
+            <Progress percent={motTaskAccRate || 0} position="normal" appearTransition />
           </div>
           <p>
             已完成
-            {(motTaskTotalItems || 0) - (motTaskProcessingItems || 0)}/{motTaskTotalItems || 0}
+            {processedCusts || 0}/{totalCusts || 0}
           </p>
         </div>
       </div>
