@@ -65,6 +65,7 @@ app.use(createLoading());
 app.model(require('./models/product'));
 app.model(require('./models/global'));
 app.model(require('./models/customer'));
+app.model(require('./models/mission'));
 app.model(require('./models/search'));
 app.model(require('./models/status'));
 

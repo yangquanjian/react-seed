@@ -61,6 +61,11 @@ export default {
   getTaskDetail: ({ motTaskId }) => api.post('/groovy/mission/taskDesc', { motTaskId }),
 
   /**
+   * 获取客户信息
+   */
+  getMissionCenter: () => api.post('/groovy/emp/motList'),
+
+  /**
    * 登出
    * {}
    */
