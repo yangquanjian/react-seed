@@ -1,82 +1,66 @@
-@pull-to-refresh: rmc-pull-to-refresh;
+@pull-to-refresh: am-refresh-control;
 @pull-to-refresh-height: 100px;
-@pull-refresh: am-refresh-control;
-@pull-refresh-height: 100px;
 
-.@{pull-to-refresh},div.@{pull-refresh} {
-  position: relative;
-  overflow: hidden;
-  user-select: none;
-
-  &-content {
-    transform-origin: left top;
-    transform: translateZ(0);
-  }
-
-  &-ptr {
-    color: grey;
-    text-align: center;
-    height: @pull-to-refresh-height;
-    margin-top: -@pull-to-refresh-height;
+.app {
+  .@{pull-to-refresh} {
+    position: relative;
     overflow: hidden;
-    line-height: @pull-to-refresh-height;
-    &-icon {
-      display: block;
-    }
-    &-loading {
-      display: none;
-    }
-    .anticon {
-      display: inline-block;
-      vertical-align: middle;
+    user-select: none;
 
-      & + span {
-        margin-left: 10px;
-      }
-      font-family: "iconfont" !important;
-      font-size: 50px;
-      font-style: normal;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+    &-content {
+      transform-origin: left top;
+      transform: translateZ(0);
     }
-    .anticon-arrow-down:before { content: "\e633"; }
-    .anticon-arrow-up:before { content: "\e616"; }
-  }
-  &-loading {
-    .@{pull-to-refresh}-ptr {
+
+    &-ptr {
+      color: grey;
+      text-align: center;
+      height: @pull-to-refresh-height;
+      margin-top: -@pull-to-refresh-height;
+      overflow: hidden;
+      line-height: @pull-to-refresh-height;
+
       &-icon {
+        display: block;
+      }
+
+      &-loading {
         display: none;
       }
-      &-loading {
+      
+      .iconfont {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+    }
+
+    &-active {
+      .@{pull-to-refresh}-pull {
+        display: none;
+      }
+      .@{pull-to-refresh}-release {
         display: block;
       }
     }
-  }
 
-  .pull,&-pull {
-    display: block;
-  }
-
-  .release,&-release {
-    display: none;
-  }
-
-  &.@{pull-to-refresh}-active,&.@{pull-refresh}-active {
-    .pull,&-pull {
-      display: none;
+    &-loading {
+      .@{pull-to-refresh}-ptr {
+        &-icon {
+          display: none;
+        }
+        &-loading {
+          display: block;
+        }
+      }
     }
-    .release,&-release {
+
+    &-pull {
       display: block;
     }
-  }
 
-  .iconfont {
-    display: inline-block;
-    vertical-align: middle;
-
-    & + span {
-      margin-left: 10px;
+    &-release {
+      display: none;
     }
   }
 }
-

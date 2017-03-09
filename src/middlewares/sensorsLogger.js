@@ -7,7 +7,7 @@
 import _ from 'lodash';
 
 import api from '../api';
-import { url, interval, whitelist, blacklist } from '../config/log';
+import { interval, whitelist, blacklist } from '../config/log';
 import { getEnvVars } from '../utils/cordova';
 
 const envVars = getEnvVars();
@@ -66,9 +66,9 @@ function getLogData(action) {
 
 const flushLog = _.throttle(
   () => {
-    const data = [...QUEUE];
+    // const data = [...QUEUE];
     QUEUE = [];
-    api.sendLog(url, data);
+    // api.sendLog(url, data);
   },
   interval,
 );

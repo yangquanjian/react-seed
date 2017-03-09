@@ -13,12 +13,13 @@ import NavBar from '../../components/common/NavBar';
 import CenterList from '../../components/mission/CenterList';
 import Filter from '../../components/mission/Filter';
 import Icon from '../../components/common/Icon';
+
 import './home.less';
 import '../../components/common/pullToRefresh.less';
 
 const mapStateToProps = state => ({
   missionCenter: state.mission.missionCenter,
-  isLoading: state.loading.models.customer,
+  isLoading: state.loading.models.mission,
 });
 
 const getCenterFunction = query => ({

@@ -7,8 +7,11 @@ import { autobind } from 'core-decorators';
 import { RefreshControl, ListView } from 'antd-mobile';
 import _ from 'lodash';
 
+import { renderIcon, renderLoading } from '../common/PullToRefreshable';
 import { prepareDataSource } from '../../utils/listView';
 import CenterListItem from './CenterListItem';
+import helper from '../../utils/helper';
+
 import './centerList.less';
 
 export default class CenterList extends PureComponent {
@@ -170,7 +173,7 @@ export default class CenterList extends PureComponent {
     }
     return (
       <ListView
-        className="list-over-tabbar mission-list"
+        className="mission-list"
         dataSource={dataSource}
         renderSectionHeader={this.renderHeader}
         renderFooter={this.renderFooter}
@@ -179,11 +182,14 @@ export default class CenterList extends PureComponent {
         pageSize={10}
         scrollRenderAheadDistance={400}
         scrollEventThrottle={20}
-        style={{ height: document.documentElement.clientHeight }}
+        style={{ height: helper.getAvailableHeight() }}
         scrollerOptions={{ scrollbars: true }}
         refreshControl={<RefreshControl
           refreshing={this.state.refreshing}
           onRefresh={this.onRefresh}
+          distanceToRefresh={100}
+          icon={renderIcon()}
+          loading={renderLoading()}
         />}
       />
     );
