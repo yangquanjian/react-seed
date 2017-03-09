@@ -9,7 +9,7 @@ import _ from 'lodash';
 
 import { prepareDataSource } from '../../utils/listView';
 import CenterListItem from './CenterListItem';
-import './CenterList.less';
+import './centerList.less';
 
 export default class CenterList extends PureComponent {
 
@@ -76,18 +76,13 @@ export default class CenterList extends PureComponent {
 
   @autobind
   onRefresh() {
-    console.log('refreshing');
-    this.setState({ refreshing: true });
+    this.setState({
+      refreshing: true,
+      isLoading: true,
+      isError: false,
+    });
     setTimeout(() => {
-      const { isLoading } = this.state;
-      if (!isLoading) {
-        this.setState(
-          {
-            isLoading: true,
-            isError: false,
-            refreshing: false,
-          }, this.refreshList(this.props));
-      }
+      this.refreshList(this.props);
     }, 1000);
   }
 
@@ -101,17 +96,19 @@ export default class CenterList extends PureComponent {
 
   @autobind
   renderHeader() {
-    const { head = {} } = this.props.data ? this.props.data : {};
-    const { expired = 0, today = 0 } = head;
+    const {
+      endTodayCount = 0,
+      totalCount = 0,
+    } = this.props.data ? this.props.data : {};
     return (
       <div className="centerHead">
         <div className="missionHead">
           <div className="headPart">
-            <p className="headNum">{expired}</p>
+            <p className="headNum">{endTodayCount}</p>
             <p className="headLabel">今日到期</p>
           </div>
           <div className="headPart">
-            <p className="headNum">{today}</p>
+            <p className="headNum">{totalCount}</p>
             <p className="headLabel">今日可做</p>
           </div>
         </div>
@@ -182,7 +179,7 @@ export default class CenterList extends PureComponent {
         pageSize={10}
         scrollRenderAheadDistance={400}
         scrollEventThrottle={20}
-        useBodyScroll
+        style={{ height: document.documentElement.clientHeight }}
         scrollerOptions={{ scrollbars: true }}
         refreshControl={<RefreshControl
           refreshing={this.state.refreshing}

@@ -1,7 +1,9 @@
 @pull-to-refresh: rmc-pull-to-refresh;
 @pull-to-refresh-height: 100px;
+@pull-refresh: am-refresh-control;
+@pull-refresh-height: 100px;
 
-.@{pull-to-refresh} {
+.@{pull-to-refresh},div.@{pull-refresh} {
   position: relative;
   overflow: hidden;
   user-select: none;
@@ -24,6 +26,21 @@
     &-loading {
       display: none;
     }
+    .anticon {
+      display: inline-block;
+      vertical-align: middle;
+
+      & + span {
+        margin-left: 10px;
+      }
+      font-family: "iconfont" !important;
+      font-size: 50px;
+      font-style: normal;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .anticon-arrow-down:before { content: "\e633"; }
+    .anticon-arrow-up:before { content: "\e616"; }
   }
   &-loading {
     .@{pull-to-refresh}-ptr {
@@ -36,19 +53,19 @@
     }
   }
 
-  .pull {
+  .pull,&-pull {
     display: block;
   }
 
-  .release {
+  .release,&-release {
     display: none;
   }
 
-  &.@{pull-to-refresh}-active {
-    .pull {
+  &.@{pull-to-refresh}-active,&.@{pull-refresh}-active {
+    .pull,&-pull {
       display: none;
     }
-    .release {
+    .release,&-release {
       display: block;
     }
   }
