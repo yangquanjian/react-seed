@@ -9,9 +9,9 @@ import api from '../api';
 export default {
   namespace: 'mission',
   state: {
-
     // 任务详情
     motDetail: {},
+    missionCenter: {},
   },
   reducers: {
     // 获取任务详情成功

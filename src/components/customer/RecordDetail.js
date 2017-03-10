@@ -7,6 +7,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Flex } from 'antd-mobile';
 import _ from 'lodash';
+
 import './recordDetail.less';
 
 const Item = Flex.Item;
