@@ -62,11 +62,16 @@ export default {
     },
     getServiceListSuccess(state, action) {
       // 服务记录列表
-      const { payload: { response } } = action;
+      const { payload: { response, custId, custSor } } = action;
       return {
         ...state,
         serviceList: {
-          ...response.resultData,
+          ...state.serviceList,
+          [custId]: {
+            ...response.resultData,
+            custId,
+            custSor,
+          },
         },
       };
     },
@@ -214,18 +219,18 @@ export default {
     },
     * getList({ payload: {
         custQueryType = 'personal',
-        keywords = '',
-        custNature = '',
-        custType = '',
-        custLevel = '',
-        riskLevel = '',
-        accountStatus = '',
-        orderType = 'desc',
-        pageSize = 10,
-        pageNum = 1,
-        openDateStart = '',
-        openDateEnd = '',
-        refresh = false,
+      keywords = '',
+      custNature = '',
+      custType = '',
+      custLevel = '',
+      riskLevel = '',
+      accountStatus = '',
+      orderType = 'desc',
+      pageSize = 10,
+      pageNum = 1,
+      openDateStart = '',
+      openDateEnd = '',
+      refresh = false,
       } }, { call, put }) {
       const list = yield call(
         api.getCustomerList,

@@ -2,10 +2,16 @@
 // 在app中运行时，由native拦截
 
 var MCRMCordovaPlugin = {
-  nav2Login: function() {
+  nav2Login: function () {
     console.log('nav2Login');
   },
-  downloadLatestVersion: function() {
+  downloadLatestVersion: function () {
     console.log('downloadLatestVersion');
-  }
+  },
+  sendEmail: function () {
+    console.log('sendEmail');
+  },
+  processMotTask: function () {
+    console.log('processMotTask');
+  },
 };

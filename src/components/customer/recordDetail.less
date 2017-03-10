@@ -1,0 +1,62 @@
+.recordDetailList {
+  background: white;
+  .recordPanel {
+    background-color: none;
+  }
+  .flex-container{
+    padding-bottom: 0.4rem;
+    padding-top: 0.4rem;
+    padding-left: 0.213333rem;
+    padding-right: 0.213333rem;
+    border-bottom: 1px solid #efefef;
+    background: white;
+    & .am-flexbox-item{
+      max-height: 80px;
+      overflow-y: scroll;
+      height: 50px;
+    }
+  }
+  .detailItem {
+    display: block;
+    padding-bottom: 0.4rem;
+    padding-top: 0.4rem;
+    padding-left: 0.213333rem;
+    padding-right: 0.213333rem;
+    // width: 100%;
+    border-bottom: 1px solid #efefef;
+    background: white;
+  }
+  .detailItem:nth-child(1),
+  .detailItem:nth-child(9),
+  .detailItem:last-child {
+    display: flex;
+    align-items: center;
+  }
+  .scroll-bar-indicator {
+    display: none;
+  }
+  ::-webkit-scrollbar,
+  *::-webkit-scrollbar {
+    display: none;
+  }
+  .detailItemTitle {
+    display: inline-block;
+    font-size: 0.373333rem;
+    text-align: left;
+    width: 50%;
+  }
+  .detailItemContent {
+    display: block;
+    // float: right;
+    font-size: 0.373333rem;
+    // max-width: 50%;
+    max-height: 1.6rem;
+    text-align: right;
+    // width: 50%;
+  }
+  .detailItem:last-child::after {
+    border-bottom: 0px;
+    padding-bottom: 0px;
+    margin-bottom: 0rem;
+  }
+}

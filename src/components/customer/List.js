@@ -37,7 +37,6 @@ export default class CustomerInfo extends PureComponent {
 
   constructor(props) {
     super(props);
-
     const isError = _.isEmpty(props.list);
     const { resultList = [] } = props.list ? props.list : {};
     const { location: { query } } = this.props;
