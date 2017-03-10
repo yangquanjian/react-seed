@@ -24,12 +24,18 @@ const mapStateToProps = state => ({
   data: state.customer.detailInfo,
   isLoading: state.loading.models.customer,
   // recommendList: state.customer.recommendList,
+  tabIndex: state.status.customerDetailTabIndex,
 });
 
 const mapDispatchToProps = {
+  // 不推荐产品
   ignoreProduct: custId => ({
     type: 'customer/ignoreProduct',
     payload: { custId },
+  }),
+  changeCustomerDetailTabIndex: index => ({
+    type: 'status/changeCustomerDetailTabIndex',
+    payload: index,
   }),
   // 提供给下拉刷新组件
   refresh: getDataFunction,
@@ -37,7 +43,17 @@ const mapDispatchToProps = {
   goBack: routerRedux.goBack,
 };
 
-@connect(mapStateToProps, mapDispatchToProps)
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { location: { query } } = ownProps;
+  return {
+    refreshData: query,
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+  };
+};
+
+@connect(mapStateToProps, mapDispatchToProps, mergeProps)
 @withNavBar({ title: '客户详情', hasBack: true })
 @PullToRefreshable
 export default class CustomerDetail extends PureComponent {
@@ -45,24 +61,32 @@ export default class CustomerDetail extends PureComponent {
     data: PropTypes.object.isRequired,
     refresh: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
+    refreshData: PropTypes.object.isRequired,
     // recommendList: PropTypes.array.isRequired,
     push: PropTypes.func,
     location: PropTypes.object.isRequired,
+    tabIndex: PropTypes.number.isRequired,
+    changeCustomerDetailTabIndex: PropTypes.func,
   }
 
   static defaultProps = {
     data: {},
     push: () => { },
+    changeCustomerDetailTabIndex: () => { },
   };
 
   componentWillMount() {
-    const { location: { query }, refresh } = this.props;
-    const { custId, custNumber, custSor } = query;
-    refresh({ custId, custNumber, custSor });
+    const { refresh, refreshData } = this.props;
+    refresh(refreshData);
   }
 
   render() {
-    const { data, push, location: { query: { custId } } } = this.props;
+    const { data,
+      push,
+      location: { query: { custId } },
+      tabIndex,
+      changeCustomerDetailTabIndex,
+    } = this.props;
     const custData = data[custId] || {};
     const {
       custBaseInfo = {},
@@ -87,6 +111,8 @@ export default class CustomerDetail extends PureComponent {
         <TabBar
           chartData={monthlyProfits}
           assetData={custMoneyDistributionDTOList}
+          detailTabIndex={tabIndex}
+          changeCustomerDetailTabIndex={changeCustomerDetailTabIndex}
         />
         <CustomerDetailFooter
           lastCommission={lastCommission}

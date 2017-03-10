@@ -1,11 +1,13 @@
 
 
 import React, { PropTypes, PureComponent } from 'react';
-// import { autobind } from 'core-decorators';
+import { autobind } from 'core-decorators';
 
 import { Tabs } from 'antd-mobile';
 
-import './Tab.less';
+// import _ from 'lodash';
+
+import './tab.less';
 
 import ChartLineWidget from '../../components/customer/ChartLine';
 
@@ -18,13 +20,16 @@ export default class TabBar extends PureComponent {
   static propTypes = {
     chartData: PropTypes.array,
     assetData: PropTypes.array,
+    detailTabIndex: PropTypes.number,
+    changeCustomerDetailTabIndex: PropTypes.func,
   }
 
   static defaultProps = {
     chartData: [],
     assetData: [],
+    detailTabIndex: 0,
+    changeCustomerDetailTabIndex: () => { },
   }
-
 
   constructor(props) {
     super(props);
@@ -34,8 +39,17 @@ export default class TabBar extends PureComponent {
     };
   }
 
+  @autobind
+  tabChange(key) {
+    this.props.changeCustomerDetailTabIndex(Number.parseInt(key, 10));
+  }
+
   render() {
-    const { chartData: dataSource, assetData: custMoneyDistributionDTOList } = this.props;
+    const {
+      chartData: dataSource,
+      assetData: custMoneyDistributionDTOList,
+      detailTabIndex: activeIndex,
+    } = this.props;
     // if (!dataSource) {
     //   return null;
     // }
@@ -55,18 +69,19 @@ export default class TabBar extends PureComponent {
     return (
       <div className="tab-bar-section">
         <Tabs
-          defaultActiveKey="1"
+          activeKey={String(activeIndex)}
+          onChange={this.tabChange}
           className="tabs-bar"
           underlineColor="none"
           activeUnderlineColor="none"
           swipeable={false} animated tabBarPosition="top"
         >
-          <TabPane tab="资产构成" key="1" className="assetTab">
+          <TabPane tab="资产构成" key="0" className="assetTab">
             <div style={pieTabStyle} className="pieTabContent">
               <ChartPieWidget assetData={custMoneyDistributionDTOList} />
             </div>
           </TabPane>
-          <TabPane tab="月收益率" key="2" className="rateTab">
+          <TabPane tab="月收益率" key="1" className="rateTab">
             <div style={lineTabStyle} className="lineTabContent">
               <ChartLineWidget chartData={dataSource} />
             </div>

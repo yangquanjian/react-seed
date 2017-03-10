@@ -10,18 +10,37 @@ import { routerRedux } from 'dva/router';
 import { autobind } from 'core-decorators';
 import _ from 'lodash';
 
-import NavBar from '../../components/common/NavBar';
+import withNavBar from '../../components/common/withNavBar';
+import PullToRefreshable from '../../components/common/PullToRefreshable';
 import Icon from '../../components/common/Icon';
 import ContactList from '../../components/customer/ContactList';
 import './CustContactPer.less';
 
+const getDataFunction = query => ({
+  type: 'customer/getPerContact',
+  payload: query || {},
+});
+
 const mapStateToProps = state => ({
   data: state.customer.contact,
+  isLoading: state.loading.models.customer,
 });
 
 const mapDispatchToProps = {
+  // 下拉刷新组件
+  refresh: getDataFunction,
   push: routerRedux.push,
   goBack: routerRedux.goBack,
+};
+
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { location: { query } } = ownProps;
+  return {
+    refreshData: query,
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+  };
 };
 
 const LIST_KEY_ARR = [
@@ -57,30 +76,31 @@ const LIST_KEY_ARR = [
   },
 ];
 
-@connect(mapStateToProps, mapDispatchToProps)
+@connect(mapStateToProps, mapDispatchToProps, mergeProps)
+@withNavBar({ title: '联系方式', hasBack: true })
+@PullToRefreshable
 export default class CustContactPer extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
-    title: PropTypes.string.isRequired,
-    goBack: PropTypes.func.isRequired,
+    refresh: PropTypes.func.isRequired,
+    refreshData: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
-    title: '联系方式',
-    goBack: () => {},
+    data: {},
+    refreshData: {},
+    refresh: () => {},
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
+  componentWillMount() {
+    const { refresh, refreshData } = this.props;
+    refresh(refreshData);
   }
 
   @autobind
   getDataModel() {
-    const { data = {} } = this.props;
-    const { custId = '--' } = this.props.params;
+    const { data = {}, location: { query: { custId } } } = this.props;
     const dataModel = data[custId] || {};
     return dataModel;
   }
@@ -90,7 +110,7 @@ export default class CustContactPer extends PureComponent {
     const dataModel = this.getDataModel();
     if (dataModel === {} || _.isEmpty(dataModel.custBaseInfo)) return '--';
     const { custName = '--' } = dataModel.custBaseInfo || {};
-    return custName || '--';
+    return custName;
   }
 
   @autobind
@@ -98,7 +118,7 @@ export default class CustContactPer extends PureComponent {
     // 依据二级类型标签列表获取某类数据，
     // 如根据二级标签['身份证地址'，'家庭地址'，'单位地址'，'其他地址'],获取地址数据
     if (!childLabelArr) return [];
-    const { custSor = '--' } = this.props.params;
+    const { location: { query: { custSor = '--' } } } = this.props;
     let dataModel = this.getDataModel();
     dataModel = (custSor === 'per') ? dataModel.perCustomerContactInfo : [];
     if (_.isEmpty(dataModel)) return [];
@@ -129,8 +149,6 @@ export default class CustContactPer extends PureComponent {
   }
 
   render() {
-    const { goBack = () => {} } = this.props;
-    const custName = this.getCustName();
     const dataModel = LIST_KEY_ARR.map(item => ({
       data: this.getSectionArr(item.child),
       nullstyle: this.isNull(this.getSectionArr(item.child)),
@@ -155,13 +173,6 @@ export default class CustContactPer extends PureComponent {
 
     return (
       <div className="cust-contact">
-        <NavBar
-          iconName={'fanhui'}
-          onLeftClick={goBack}
-        >
-          <p className="mid-contain">{custName}</p>
-        </NavBar>
-
         <section className="other">
           {dataShow}
         </section>

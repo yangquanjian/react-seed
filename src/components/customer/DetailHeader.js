@@ -7,7 +7,7 @@ import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
 import classnames from 'classnames';
 import _ from 'lodash';
-import './DetailHeader.less';
+import './detailHeader.less';
 import Icon from '../common/Icon';
 import AccountFilter from './AccountFilter';
 
@@ -47,7 +47,7 @@ export default class CustomerDetailHeader extends PureComponent {
     //     custSor,
     //   },
     // });
-    push(`/custBasic/${custNumber}/${custSor}/${custId}`);
+    push(`/custBasic?custNumber=${custNumber}&custSor=${custSor}&custId=${custId}`);
   }
 
   filterDataSource({ dataSource, custId, custSor }) {
@@ -194,7 +194,7 @@ export default class CustomerDetailHeader extends PureComponent {
           <div className="headerLeft">
             <i className="orgCustIconSection"><Icon {...orgCust} /></i>
             <div className="nameSection">
-              <span className="custName">机构客户</span>
+              <span className="custName">{filteredData.custName}</span>
               <div className="gradeIdSection">
                 <i className={grade} />
                 <span className="custId">{filteredData.econNum}</span>

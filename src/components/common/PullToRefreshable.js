@@ -10,6 +10,27 @@ import PullToRefresh from './PullToRefresh';
 
 import Icon from '../common/Icon';
 
+const PREFIX_CLS = 'am-refresh-control';
+
+export const renderIcon = () => (
+  <div>
+    <div className={`${PREFIX_CLS}-pull`}>
+      <Icon type="xiajiantou" /> 下拉刷新
+    </div>
+    <div className={`${PREFIX_CLS}-release`}>
+      <Icon type="shangjiantou" /> 释放更新
+    </div>
+  </div>
+);
+
+export const renderLoading = () => (
+  <div>
+    <Icon type="loading" />
+    <span>加载中...</span>
+  </div>
+);
+
+
 export default (ComposedComponent) => {
   class RefreshableComponent extends PureComponent {
 
@@ -18,51 +39,33 @@ export default (ComposedComponent) => {
       refresh: PropTypes.func,
       // 控制loading状态显示
       isLoading: PropTypes.bool,
+      location: PropTypes.object,
+      refreshData: PropTypes.object,
     }
 
     static defaultProps = {
       isLoading: false,
+      location: {},
       refresh: () => {},
+      refreshData: undefined,
     }
 
     @autobind
     loadingFunction() {
-      this.props.refresh();
-    }
-
-    renderIcon() {
-      return (
-        <div>
-          <div className="pull">
-            <Icon type="xiajiantou" />
-            <span>下拉刷新</span>
-          </div>
-          <div className="release">
-            <Icon type="shangjiantou" />
-            <span>释放更新</span>
-          </div>
-        </div>
-      );
-    }
-
-    renderLoading() {
-      return (
-        <div>
-          <Icon type="loading" />
-          <span>加载中...</span>
-        </div>
-      );
+      const { location: { query }, refresh, refreshData } = this.props;
+      refresh(refreshData || query);
     }
 
     render() {
       const { isLoading } = this.props;
       return (
         <PullToRefresh
+          prefixCls={PREFIX_CLS}
           loadingFunction={this.loadingFunction}
           isLoading={isLoading}
-          icon={this.renderIcon()}
-          loading={this.renderLoading()}
-          distanceToRefresh={50}
+          icon={renderIcon()}
+          loading={renderLoading()}
+          distanceToRefresh={100}
           className="freshable-container"
           contentClassName="freshable"
         >

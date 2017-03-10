@@ -10,6 +10,11 @@ export default {
   ...api,
 
   /**
+   * 获取用户信息
+   */
+  getEmpInfo: () => api.post('/groovy/emp/empInfo'),
+
+  /**
    * 获取产品列表
    */
   getProductList: ({ categoryId }) => api.post('/product/list', { categoryId }),
@@ -53,7 +58,12 @@ export default {
   /**
    * 获取任务详情
    */
-  getMotDetail: ({ motTaskId, pageNum, pageSize }) => api.post('/groovy/emp/motDetail', { motTaskId, pageNum, pageSize }),
+  getMotDetail: ({ motTaskId }) => api.post('/groovy/emp/motDetail', { motTaskId }),
+
+  /**
+   * 获取客户信息
+   */
+  getMissionCenter: () => api.post('/groovy/emp/motList'),
 
   /**
    * 登出

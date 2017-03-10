@@ -5,7 +5,7 @@
 
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { routerRedux } from 'dva/router';
+import { routerRedux, Link } from 'dva/router';
 import { autobind } from 'core-decorators';
 
 import './home.less';
@@ -49,6 +49,7 @@ export default class ProductHome extends PureComponent {
     return (
       <div className="page-product-home">
         <a onClick={this.handleClick}>退出登录</a>
+        <Link to="/customer/detailWithMenu?custId=1-39J8D2S&custNumber=666600857378&custSor=per&status=true">未完成任务</Link>
       </div>
     );
   }

@@ -7,7 +7,7 @@ import React, { PropTypes, PureComponent } from 'react';
 import { SwipeAction, List } from 'antd-mobile';
 import { autobind } from 'core-decorators';
 import Icon from '../common/Icon';
-import './RecommendProduct.less';
+import './recommendProduct.less';
 
 const Item = List.Item;
 

@@ -10,7 +10,7 @@ import { routerRedux } from 'dva/router';
 import { autobind } from 'core-decorators';
 import _ from 'lodash';
 
-import NavBar from '../../components/common/NavBar';
+import withNavBar from '../../components/common/withNavBar';
 import Icon from '../../components/common/Icon';
 import './ContactOrgDetail.less';
 
@@ -23,16 +23,17 @@ const mapDispatchToProps = {
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
+@withNavBar({ title: '联系人详情', hasBack: true })
 export default class ContactOrgDetail extends PureComponent {
   static propTypes = {
-    title: PropTypes.string,
     data: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
     goBack: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-    title: '联系人详情',
+    data: {},
+    goBack: () => {},
   }
 
   constructor(props) {
@@ -44,9 +45,8 @@ export default class ContactOrgDetail extends PureComponent {
 
   @autobind
   getData(rowId) {
-    const { data = {} } = this.props;
-    const { custId = '--' } = this.props.params;
-    if (_.isEmpty(data[custId])) return null;
+    const { data = {}, location: { query: { custId = '--' } } } = this.props;
+    if (data === {} || _.isEmpty(data[custId])) return null;
     const dataModel = data[custId].orgCustomerContactInfoList || [];
     if (!(dataModel instanceof Array) || (dataModel instanceof Array && dataModel.length < 1)) {
       return null;
@@ -87,31 +87,24 @@ export default class ContactOrgDetail extends PureComponent {
   }
 
   render() {
-    const { title, goBack } = this.props;
-    const rowId = this.props.params.rowId;
-    const data = this.getData(rowId);
-    if (!data) return null;
+    const { location: { query: { rowId = '--' } } } = this.props;
+    const dataModel = this.getData(rowId);
+    if (!dataModel) return null;
+    const { name = '--', custRela = '--', mainFlag } = dataModel;
     const renderRow = this.renderRow;
-    const arr1 = data.cellPhones;
-    const arr2 = data.workTels;
-    const arr3 = data.homeTels;
-    const arr4 = data.emailAddresses;
+    const arr1 = dataModel.cellPhones;
+    const arr2 = dataModel.workTels;
+    const arr3 = dataModel.homeTels;
+    const arr4 = dataModel.emailAddresses;
 
     return (
       <div className="contact-org-detail">
-        <NavBar
-          iconName={'fanhui'}
-          onLeftClick={goBack}
-        >
-          {title}
-        </NavBar>
-
         <section className="contain">
           <div className="item">
             <Icon className="" type="account" />
             <div className="data">
               <p className="label">联系人姓名</p>
-              <p className="contain">{data.name || '--'}</p>
+              <p className="contain">{name}</p>
             </div>
             <hr />
           </div>
@@ -119,7 +112,7 @@ export default class ContactOrgDetail extends PureComponent {
             <Icon className="" type="viewgallery" />
             <div className="data">
               <p className="label">人员类型</p>
-              <p className="contain">{data.custRela || '--'}</p>
+              <p className="contain">{custRela}</p>
             </div>
             <hr />
           </div>
@@ -127,7 +120,7 @@ export default class ContactOrgDetail extends PureComponent {
             <Icon className="" type="favorite" />
             <div className="data">
               <p className="label">是否主要</p>
-              <p className="contain">{(data.mainFlag === true) ? '是' : '否'}</p>
+              <p className="contain">{(mainFlag === true) ? '是' : '否'}</p>
             </div>
             <hr />
           </div>

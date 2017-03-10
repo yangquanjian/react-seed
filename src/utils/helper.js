@@ -45,6 +45,14 @@ const helper = {
       return false;
     }
   },
+
+  getAvailableHeight() {
+    const navBarElem = document.querySelector('.navbar');
+    const tabBarElem = document.querySelector('.am-tab-bar-bar');
+    const navBarHeight = navBarElem ? navBarElem.offsetHeight : 0;
+    const tabBarHeight = tabBarElem ? tabBarElem.offsetHeight : 0;
+    return document.documentElement.clientHeight - navBarHeight - tabBarHeight;
+  },
 };
 
 export default helper;

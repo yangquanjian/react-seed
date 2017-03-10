@@ -1,17 +1,17 @@
 /**
- * @file models/product.js
- * @author maoquan(maoquan@htsc.com)
+ * @file models/mission.js
+ * @author fengwencong
  */
 
 import pathToRegexp from 'path-to-regexp';
-
 import api from '../api';
 
 export default {
   namespace: 'mission',
   state: {
     // 任务详情
-    motDetail: [],
+    motDetail: {},
+    missionCenter: {},
   },
   reducers: {
     // 获取任务详情成功
@@ -20,22 +20,36 @@ export default {
       return {
         ...state,
         motDetail: {
-          [motTaskId]: response,
+          [motTaskId]: response.resultData,
         },
+      };
+    },
+    getCenterSuccess(state, action) {
+      const { payload: { missionCenter } } = action;
+      return {
+        ...state,
+        missionCenter: missionCenter.resultData,
       };
     },
   },
   effects: {
     // 获取任务详情
-    * fetchMotDetail({ payload: { motTaskId = 1, pageNum = 1, pageSize = 10 } }, { call, put }) {
-      const response = yield call(api.getMotDetail, { motTaskId, pageNum, pageSize });
+    * fetchMotDetail({ payload: { motTaskId = 1 } }, { call, put }) {
+      const response = yield call(api.getMotDetail, { motTaskId });
       yield put({
         type: 'getMotDetailSuccess',
         payload: {
           response,
           motTaskId,
-          pageNum,
-          pageSize,
+        },
+      });
+    },
+    * getCenter({ payload }, { call, put }) {
+      const missionCenter = yield call(api.getMissionCenter);
+      yield put({
+        type: 'getCenterSuccess',
+        payload: {
+          missionCenter,
         },
       });
     },
@@ -43,11 +57,10 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname }) => {
-        // 任务详情
-        const motDetailMatch = pathToRegexp('/taskDetail/:motTaskId').exec(pathname);
-        if (motDetailMatch) {
-          const motTaskId = motDetailMatch[1];
-          dispatch({ type: 'fetchMotDetail', payload: { motTaskId } });
+        // 任务中心
+        const centerMatch = pathToRegexp('/mission').exec(pathname);
+        if (centerMatch) {
+          dispatch({ type: 'getCenter' });
         }
       });
     },
