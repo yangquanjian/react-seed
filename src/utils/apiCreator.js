@@ -90,9 +90,6 @@ export default function createApi(options = {}) {
         url,
         {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
           body: JSON.stringify(query),
         },
       );

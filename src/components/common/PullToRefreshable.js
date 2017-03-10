@@ -6,11 +6,14 @@
 
 import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
+
+import helper from '../../utils/helper';
 import PullToRefresh from './PullToRefresh';
 
 import Icon from '../common/Icon';
 
 const PREFIX_CLS = 'am-refresh-control';
+const DISTANCE_TO_REFRESH = helper.getRealSize(100);
 
 export const renderIcon = () => (
   <div>
@@ -65,7 +68,7 @@ export default (ComposedComponent) => {
           isLoading={isLoading}
           icon={renderIcon()}
           loading={renderLoading()}
-          distanceToRefresh={100}
+          distanceToRefresh={DISTANCE_TO_REFRESH}
           className="freshable-container"
           contentClassName="freshable"
         >

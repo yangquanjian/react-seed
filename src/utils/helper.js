@@ -46,11 +46,37 @@ const helper = {
     }
   },
 
-  getAvailableHeight() {
+  /**
+   * 根据css中设定的尺寸，得到真实展现时缩放后的尺寸
+   */
+  getRealSize(origin) {
+    const rootSize = parseInt(document.documentElement.style.fontSize, 10) || 75;
+    return (origin / 75) * rootSize;
+  },
+
+  hasClass(elem, className) {
+    return elem.className.indexOf(className) > -1;
+  },
+
+  /**
+   * 计算页面内可用高度
+   * @param {object} option 选项
+   * @param {boolean} option.includeBar 是否包括导航栏高度
+   */
+  getAvailableHeight(options = {}) {
+    const { includeNavBar = false } = options;
     const navBarElem = document.querySelector('.navbar');
+    let navBarHeight = navBarElem ? navBarElem.offsetHeight : 0;
+    if (includeNavBar) {
+      // 设成0就不用减掉了
+      navBarHeight = 0;
+    }
     const tabBarElem = document.querySelector('.am-tab-bar-bar');
-    const navBarHeight = navBarElem ? navBarElem.offsetHeight : 0;
-    const tabBarHeight = tabBarElem ? tabBarElem.offsetHeight : 0;
+    let tabBarHeight = 0;
+    if (tabBarElem) {
+      tabBarHeight = helper.hasClass(tabBarElem, 'am-tab-bar-bar-hidden')
+        ? 0 : tabBarElem.offsetHeight;
+    }
     return document.documentElement.clientHeight - navBarHeight - tabBarHeight;
   },
 };

@@ -7,6 +7,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import DOMScroller from 'zscroller';
 
+import helper from '../../utils/helper';
 import './pullToRefresh.less';
 
 const defaultScrollerOptions = {
@@ -100,7 +101,11 @@ export default class PullToRefresh extends PureComponent {
       style, contentStyle, contentClassName = '',
     } = this.props;
     return (
-      <div className={`${className} ${prefixCls}`} style={style} ref={ref => (this.container = ref)}>
+      <div
+        className={`${className} ${prefixCls}`}
+        style={{ ...style, height: helper.getAvailableHeight({ includeNavBar: true }) }}
+        ref={ref => (this.container = ref)}
+      >
         <div
           ref={ref => (this.content = ref)}
           className={`${prefixCls}-content ${contentClassName}`}

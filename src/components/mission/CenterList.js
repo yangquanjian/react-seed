@@ -14,6 +14,8 @@ import helper from '../../utils/helper';
 
 import './centerList.less';
 
+const distanceToRefresh = helper.getRealSize(100);
+
 export default class CenterList extends PureComponent {
 
   static propTypes = {
@@ -187,7 +189,7 @@ export default class CenterList extends PureComponent {
         refreshControl={<RefreshControl
           refreshing={this.state.refreshing}
           onRefresh={this.onRefresh}
-          distanceToRefresh={100}
+          distanceToRefresh={distanceToRefresh}
           icon={renderIcon()}
           loading={renderLoading()}
         />}
