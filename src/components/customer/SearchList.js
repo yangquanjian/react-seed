@@ -11,7 +11,7 @@ import SearchItem from './SearchItem';
 import { prepareDataSource } from '../../utils/listView';
 import Message from '../message';
 
-import './search_list.less';
+import './searchList.less';
 
 export default class SearchList extends PureComponent {
 

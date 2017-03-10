@@ -34,7 +34,8 @@ class CenterListItem extends React.Component {
 
   @autobind
   handleClick() {
-
+    const { motTaskName, motTaskId, push } = this.props;
+    push(`/mission/taskDetail?motTaskName=${motTaskName}&motTaskId=${motTaskId}`);
   }
 
   render() {

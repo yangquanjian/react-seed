@@ -4,15 +4,26 @@
  */
 
 import pathToRegexp from 'path-to-regexp';
-
 import api from '../api';
 
 export default {
   namespace: 'mission',
   state: {
+    // 任务详情
+    motDetail: {},
     missionCenter: {},
   },
   reducers: {
+    // 获取任务详情成功
+    getMotDetailSuccess(state, action) {
+      const { payload: { response, motTaskId } } = action;
+      return {
+        ...state,
+        motDetail: {
+          [motTaskId]: response.resultData,
+        },
+      };
+    },
     getCenterSuccess(state, action) {
       const { payload: { missionCenter } } = action;
       return {
@@ -22,6 +33,17 @@ export default {
     },
   },
   effects: {
+    // 获取任务详情
+    * fetchMotDetail({ payload: { motTaskId = 1 } }, { call, put }) {
+      const response = yield call(api.getMotDetail, { motTaskId });
+      yield put({
+        type: 'getMotDetailSuccess',
+        payload: {
+          response,
+          motTaskId,
+        },
+      });
+    },
     * getCenter({ payload }, { call, put }) {
       const missionCenter = yield call(api.getMissionCenter);
       yield put({

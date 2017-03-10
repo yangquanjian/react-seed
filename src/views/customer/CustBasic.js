@@ -8,10 +8,11 @@ import React, { PureComponent, PropTypes } from 'react';
 import { autobind } from 'core-decorators';
 import { connect } from 'react-redux';
 import { routerRedux } from 'dva/router';
+import { List } from 'antd-mobile';
 import _ from 'lodash';
 
-import { List } from 'antd-mobile';
-import NavBar from '../../components/common/NavBar';
+import withNavBar from '../../components/common/withNavBar';
+import PullToRefreshable from '../../components/common/PullToRefreshable';
 import Icon from '../../components/common/Icon';
 import './custbasic.less';
 
@@ -50,30 +51,52 @@ const orgLabelArr = [
   { type: 'lastCommission', name: '最近一次服务时间', value: '', key: 0 },
 ];
 
+const getDataFunction = query => ({
+  type: 'customer/getCustBasic',
+  payload: query || {},
+});
+
 const mapStateToProps = state => ({
   data: state.customer.basic,
+  isLoading: state.loading.models.customer,
 });
 const mapDispatchToProps = {
+  // 下拉刷新组件
+  refresh: getDataFunction,
   goBack: routerRedux.goBack,
 };
 
-@connect(mapStateToProps, mapDispatchToProps)
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { location: { query } } = ownProps;
+  return {
+    refreshData: query,
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+  };
+};
+
+@connect(mapStateToProps, mapDispatchToProps, mergeProps)
+@withNavBar({ title: '基本信息', hasBack: true })
+@PullToRefreshable
 export default class CustBasic extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    title: PropTypes.string.isRequired,
+    location: PropTypes.object.isRequired,
+    refresh: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
+    refreshData: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
-    title: '基本信息',
+    data: {},
+    push: () => { },
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {};
+  componentWillMount() {
+    const { refresh, refreshData } = this.props;
+    refresh(refreshData);
   }
 
   componentDidUpdate() {
@@ -83,7 +106,7 @@ export default class CustBasic extends PureComponent {
     const labelArr = (type === 'per') ? ['job'] : ['industry', 'regAddress', 'busiArea'];
     labelArr.map((item) => {
       const node = this[item];
-      const nodeW = (node) ? node.clientWidth : 0;
+      const nodeW = (node) ? node.offsetHeight : 0;
       const parentHalfW = (node) ? (parseFloat(node.parentElement.clientWidth) / 2) : 0;
       if (nodeW !== 0 && nodeW > parentHalfW) {
         node.className += ' more';
@@ -117,11 +140,11 @@ export default class CustBasic extends PureComponent {
   @autobind
   getDataModel() {
     // 获取数据
-    const { custSor, custId } = this.props.params;
+    const { data, location: { query: { custSor, custId } } } = this.props;
     const type = custSor || 'per';
-    const data = this.props.data[custId];
-    if (!data) return {};
-    const dataModel = (type === 'per') ? data.customerInfoPer : data.customerInfoOrg;
+    const temp = data[custId] || {};
+    if (temp === {}) return {};
+    const dataModel = (type === 'per') ? temp.customerInfoPer : temp.customerInfoOrg;
     return dataModel || {};
   }
 
@@ -143,25 +166,8 @@ export default class CustBasic extends PureComponent {
   }
 
   render() {
-    const { title, goBack } = this.props;
-    const { custSor, custNumber } = this.props.params;
+    const { location: { query: { custSor, custNumber } } } = this.props;
     const dataModel = this.getDataModel();
-    if (!dataModel) {
-      return (
-        <div className="custBasic">
-          <NavBar
-            iconName={'fanhui'}
-            onLeftClick={goBack}
-          >
-            {title}
-          </NavBar>
-          <div className="null-msg">
-            <img className="null-icon" alt="空数据" src="../../../static/img/none.png" />
-            <p>暂无数据</p>
-          </div>
-        </div>
-      );
-    }
     const labelArr = (custSor === 'per') ? perLabelArr : orgLabelArr;
     const custIcon = this.getCustIcon();
     const custName = this.getMapKey('custName');
@@ -187,12 +193,6 @@ export default class CustBasic extends PureComponent {
     ));
     return (
       <div className="custBasic">
-        <NavBar
-          iconName={'fanhui'}
-          onLeftClick={goBack}
-        >
-          {title}
-        </NavBar>
 
         { renderHead({ icon: custIcon, name: custName, number: custNum }) }
         <List className="cust-basic-list">
