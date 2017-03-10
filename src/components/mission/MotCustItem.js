@@ -5,6 +5,8 @@
 
 import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
+import classnames from 'classnames';
+import _ from 'lodash';
 
 import Icon from '../common/Icon';
 import './motCustItem.less';
@@ -13,6 +15,7 @@ export default class MotCustItem extends PureComponent {
 
   static propTypes = {
     motTaskId: PropTypes.string,
+    flowId: PropTypes.string,
     custType: PropTypes.string,
     custName: PropTypes.string,
     custNumber: PropTypes.string,
@@ -28,6 +31,7 @@ export default class MotCustItem extends PureComponent {
 
   static defaultProps = {
     motTaskId: '--',
+    flowId: '--',
     custType: 'per',
     custName: '--',
     custNumber: '--',
@@ -43,8 +47,8 @@ export default class MotCustItem extends PureComponent {
 
   @autobind
   goCust() {
-    const { custNumber, custRowId, custType, motTaskId, push } = this.props;
-    push(`/customer/detail?custId=${custRowId}&custNumber=${custNumber}&custSor=${custType}&motTaskId=${motTaskId}`);
+    const { custNumber, custType, taskReqStatus, custRowId, flowId, push } = this.props;
+    push(`/customer/detail?&custNumber=${custNumber}&custSor=${custType}&taskStatus=${taskReqStatus}&custRowId=${custRowId}&flowId=${flowId}`);
   }
 
   @autobind
@@ -75,6 +79,14 @@ export default class MotCustItem extends PureComponent {
             custLevelName,
             taskSeqDetailInfo,
     } = this.props;
+    const grade = classnames({
+      emptyCard: !_.isEmpty(custGrade) && custGrade.toString().indexOf('空') !== -1,
+      goldCard: !_.isEmpty(custGrade) && custGrade.toString().indexOf('金') !== -1,
+      silverCard: !_.isEmpty(custGrade) && custGrade.toString().indexOf('银') !== -1,
+      diamondCard: !_.isEmpty(custGrade) && custGrade.toString().indexOf('钻石') !== -1,
+      financeCard: !_.isEmpty(custGrade) && custGrade.toString().indexOf('理财') !== -1,
+      whiteGoldCard: !_.isEmpty(custGrade) && custGrade.toString().indexOf('白金') !== -1,
+    });
     return (
       <div className={`item ${custType} ${this.motStatus(taskReqStatus)}`}>
         <div className="top" onClick={this.goCust}>
@@ -82,7 +94,7 @@ export default class MotCustItem extends PureComponent {
           <div className="info">
             <p className="cust-name">{custName}</p>
             <div>
-              <i className={`card ${custGrade}`} />
+              <i className={`card ${grade}`} />
               <span className="cust-num">{custNumber}</span>
               <span className="sex">{custGender} | {custAge} 岁</span>
               <span className="btn">{custLevelName}</span>

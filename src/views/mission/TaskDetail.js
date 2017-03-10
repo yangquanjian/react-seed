@@ -103,10 +103,12 @@ export default class TaskDetail extends PureComponent {
   }
 
   render() {
+    const { location: { query: { motTaskName } } } = this.props;
     const summary = this.getDataModel('summary');
     return (
       <section className="task-detail">
         <MotDetailDesc
+          title={motTaskName}
           data={summary}
         />
         <div className="mot-cust-list">

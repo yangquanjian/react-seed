@@ -8,17 +8,18 @@ import { autobind } from 'core-decorators';
 // import classnames from 'classnames';
 import _ from 'lodash';
 import './motDesc.less';
-import Icon from '../common/Icon';
 
 export default class MotDetailDesc extends PureComponent {
 
   static propTypes = {
     // 基本信息数据
     data: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     push: PropTypes.func,
   }
 
   static defaultProps = {
+    title: '--',
     data: '--',
     push: () => { },
   }
@@ -31,15 +32,14 @@ export default class MotDetailDesc extends PureComponent {
     };
   }
 
-  componentDidUpdate() {
-  // componentDidMount() {
+  componentWillReceiveProps() {
     const node = this.contain;
     const nodeScrollH = (node) ? node.scrollHeight : 0;
     const nodeOffsetH = (node) ? node.offsetHeight : 0;
     if (nodeScrollH >= nodeOffsetH && nodeScrollH > 80) {
-      // this.setState({ isShown: true });
+      this.setState({ isShown: true });
     } else {
-      // this.setState({ isShown: false });
+      this.setState({ isShown: false });
     }
   }
 
@@ -55,7 +55,7 @@ export default class MotDetailDesc extends PureComponent {
   }
 
   render() {
-    const { data = '--' } = this.props || {};
+    const { title = '--', data = '--' } = this.props || {};
     let containNull = '';
     const { isFold, isShown } = this.state || {};
     if (_.isEmpty(data) || !data) {
@@ -66,7 +66,7 @@ export default class MotDetailDesc extends PureComponent {
 
     return (
       <div className="task-desc">
-        <h2 className="til"><Icon type="task" />新股中签余额不足新股中签余额不足新股中签余额不足新股中签余额不足新股中签</h2>
+        <h2 className="til">{title}</h2>
         <div className={`contain ${foldStyle} ${containNull}`}>
           <div className={`desc ${foldStyle}`} onClick={() => { this.handleClick(); }} ref={div => (this.contain = div)} >
             <p>{data}</p>
