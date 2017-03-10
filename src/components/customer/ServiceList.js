@@ -8,7 +8,7 @@ import { RefreshControl, ListView } from 'antd-mobile';
 // import _ from 'lodash';
 import { prepareDataSource } from '../../utils/listView';
 import ServiceListItem from './ServiceListItem';
-import './ServiceList.less';
+import './serviceList.less';
 
 export default class ServiceList extends PureComponent {
 

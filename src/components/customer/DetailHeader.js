@@ -47,7 +47,7 @@ export default class CustomerDetailHeader extends PureComponent {
     //     custSor,
     //   },
     // });
-    push(`/custBasic/${custNumber}/${custSor}/${custId}`);
+    push(`/custBasic?custNumber=${custNumber}&custSor=${custSor}&custId=${custId}`);
   }
 
   filterDataSource({ dataSource, custId, custSor }) {

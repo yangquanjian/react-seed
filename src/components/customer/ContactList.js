@@ -7,7 +7,7 @@ import React, { PropTypes, PureComponent } from 'react';
 import { autobind } from 'core-decorators';
 import ContactItem from './ContactItem';
 
-import './contact_list.less';
+import './contactList.less';
 
 export default class ContactList extends PureComponent {
 

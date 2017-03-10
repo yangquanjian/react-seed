@@ -51,9 +51,9 @@ export default class CustomerDetailFooter extends PureComponent {
       // push('/customer/serviceList?custId=1-DU-5288&custSor=per');
     } else if (type === 'contact') {
       if (custSor === 'per') {
-        push(`/custContactPer/${custNumber}/${custSor}/${custId}`);
+        push(`/custContactPer?custNumber=${custNumber}&custSor=${custSor}&custId=${custId}`);
       } else {
-        push(`/custContactOrg/${custNumber}/${custSor}/${custId}`);
+        push(`/custContactOrg?custNumber=${custNumber}&custSor=${custSor}&custId=${custId}`);
       }
     }
   }

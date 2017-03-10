@@ -1,0 +1,103 @@
+@contain-bg: #ffffff;
+.task-detail{
+  .task-desc{
+    padding: 0 30px;
+    margin: 0 0 20px 0;
+    background-color: @contain-bg;
+  }
+  .task-desc .til{
+    padding: 15px 0;
+    line-height: 1.2;
+    text-indent: 70px;
+    font-size: 34px;
+    font-weight: 700;
+    border-bottom: 1PX solid #efefef;
+    background: transparent url(../../../static/img/task-icon.png) no-repeat 0 30px;
+    background-size: 40px 40px;
+  }
+  .task-desc .desc{
+    margin: 0;
+    padding: 0;
+    border-style: solid;
+    border-color: #ffffff;
+    border-width: 13px 0 24px 0;
+  }
+  .task-desc .desc.up{
+    max-height: 80px;
+    overflow: hidden;
+  }
+  .task-desc .desc.down{
+    max-height: 300px;
+    overflow-y: scroll;
+  }
+  .task-desc .desc p{
+    margin: 0;
+    font-size: 28px;
+    font-weight: 300;
+    text-indent: 0;
+    line-height: 40px;
+  }
+  .task-list{
+    background-color: #efefef;
+  }
+  .task-list .item{
+    height: 196px;
+    margin: 0 0 20px 0;
+    padding: 0 0 0 20px;
+    background-color: @contain-bg;
+  }
+  .task-list .item .top{
+    position: relative;
+    overflow: hidden;
+    height: 125px;
+    line-height: 0;
+    text-indent: 0;
+    .photo{
+      position: absolute;
+      top: 23px;
+      left: 0;
+      width: 80px;
+      height: 80px;
+      text-align: center;
+      line-height: 80px;
+      font-size: 50px;
+      border-radius: 50%;
+      background-color: #da4e40;
+    }
+    .more{
+      position: absolute;
+      top: 23px;
+      right: 30px;
+      line-height: 80px;
+      height: 28px;
+    }
+    .iconfont.icon-kehu01:before{
+      color: #ffffff;
+    }
+    .iconfont.icon-more:before{
+      color: #c3c2c2;
+    }
+    .info{
+      margin: 0 90px 0 97px;
+      line-height: 1;
+      background-color: RGBA(255,0,0,.3);
+    }
+  }
+  .task-list .item .bot{
+    margin: 0 0 0 9px;
+    height: 70px;
+    font-size: 28px;
+    border-top: 1PX dashed #000000;
+  }
+  .task-list .item .bot p{
+    color: #999999;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .task-list .item .bot .iconfont{
+    font-size: 30px;
+    margin-right: 15px;
+  }
+
+}

@@ -29,7 +29,7 @@ import ServiceList from './views/customer/ServiceRecord';
 import ServiceListDetail from './views/customer/ServiceRecordDetail';
 import CustomerSearchResult from './views/customer/SearchResult';
 import MissionHome from './views/mission/Home';
-import MissionDetail from './views/mission/Detail';
+import TaskDetail from './views/mission/TaskDetail';
 import Profile from './views/profile';
 import ServiceImplement from './views/mission/ServiceImplement';
 
@@ -46,8 +46,8 @@ const routes = ({ history }) => (// eslint-disable-line
       <IndexRedirect to="/mission" />
       <Route path="mission" component={TabPane}>
         <IndexRoute component={MissionHome} />
+        <Route path="taskDetail" component={TaskDetail} />
         <Route path="ServiceImplement" component={ServiceImplement} />
-        <Route path=":id" component={MissionDetail} />
       </Route>
       <Route path="product" components={TabPane}>
         <IndexRoute component={ProductHome} />
@@ -56,10 +56,11 @@ const routes = ({ history }) => (// eslint-disable-line
       <Route path="customer" component={TabPane}>
         <IndexRoute component={CustomerHome} />
         <Route path="searchResult" component={CustomerSearchResult} />
-        <Route path="/custBasic/:custNumber/:custSor/:custId" component={CustBasic} />
-        <Route path="/custContactPer/:custNumber/:custSor/:custId" component={CustContactPer} />
-        <Route path="/custContactOrg/:custNumber/:custSor/:custId" component={CustContactOrg} />
-        <Route path="/ContactOrgDetail/:custId/:rowId" component={ContactOrgDetail} />
+        <Route path=":id" component={CustomerDetail} />
+        <Route path="/custBasic" component={CustBasic} />
+        <Route path="/custContactPer" component={CustContactPer} />
+        <Route path="/custContactOrg" component={CustContactOrg} />
+        <Route path="/contactOrgDetail" component={ContactOrgDetail} />
         <Route path="serviceListDetail" component={ServiceListDetail} />
         <Route path="serviceList" component={ServiceList} />
         <Route path="detailWithMenu" components={CustomerDetailWithMenu} />
