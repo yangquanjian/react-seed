@@ -38,7 +38,7 @@ export default {
   /**
    * 获取客户信息
    */
-  getCustomerInfo: () => api.post('/groovy/cust/home'),
+  getCustomerInfo: () => api.post('/groovy/emp/home'),
 
   /**
    * 获取客户列表

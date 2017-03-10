@@ -8,6 +8,7 @@ import { connect } from 'dva';
 import { withRouter, routerRedux } from 'dva/router';
 import { autobind } from 'core-decorators';
 import { Drawer } from 'antd-mobile';
+import _ from 'lodash';
 
 import Searchable from '../../components/customer/Searchable';
 // import PullToRefreshable from '../../components/common/PullToRefreshable';
@@ -58,7 +59,6 @@ export default class CustomerHome extends PureComponent {
     location: PropTypes.object,
     replace: PropTypes.func,
     push: PropTypes.func.isRequired,
-    isFirstLoad: PropTypes.bool,
     changeTabIndex: PropTypes.func.isRequired,
     tabIndex: PropTypes.number.isRequired,
   }
@@ -71,7 +71,6 @@ export default class CustomerHome extends PureComponent {
     location: {},
     replace: () => { },
     push: () => { },
-    isFirstLoad: true,
   }
 
   constructor(props) {
@@ -84,11 +83,11 @@ export default class CustomerHome extends PureComponent {
   }
 
   componentWillMount() {
-    const { isFirstLoad, location: { query } } = this.props;
-    if (isFirstLoad) {
+    const { list: { resultList }, location: { query } } = this.props;
+    if (_.isEmpty(resultList)) {
       this.props.getInfo({
         ...query,
-        pageSize: 10,
+        pageSize: 100,
         pageNum: 1,
       });
     }
