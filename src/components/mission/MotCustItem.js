@@ -48,7 +48,7 @@ export default class MotCustItem extends PureComponent {
   @autobind
   goCust() {
     const { custNumber, custType, taskReqStatus, custRowId, flowId, push } = this.props;
-    push(`/customer/detail?&custNumber=${custNumber}&custSor=${custType}&taskStatus=${taskReqStatus}&custRowId=${custRowId}&flowId=${flowId}`);
+    push(`/customer/detail?&custId=${custRowId}&custNumber=${custNumber}&custSor=${custType}&taskStatus=${taskReqStatus}&custRowId=${custRowId}&flowId=${flowId}`);
   }
 
   @autobind
